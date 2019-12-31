@@ -10,10 +10,11 @@
         }
     ],
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^7.1",
-        "league/pipeline": "dev-master",
-        "box/spout": "^3.1@dev"
+        "league/pipeline": "^1.0",
+        "box/spout": "^3.1"
     },
     "autoload": {
         "psr-4": {
@@ -26,21 +27,21 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "phpunit --colors=always",
+        "phpstan": "phpstan analyse"
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Jwhulette\\Pipes\\PipesServiceProvider"
             ]
         }
     },
     "require-dev": {
-        "codedungeon/phpunit-result-printer": "dev-master",
-        "friendsofphp/php-cs-fixer": "^2.16@dev",
-        "phpunit/phpunit": "^8.4@dev",
-        "phpstan/phpstan": "^0.12.0@dev",
-        "ramsey/uuid": "^3.0",
-        "orchestra/testbench": "^4.0"
+        "codedungeon/phpunit-result-printer": "^0.26.2",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpunit/phpunit": "^8.5",
+        "phpstan/phpstan": "^0.12.3",
+        "ramsey/uuid": "^3.9",
+        "orchestra/testbench": "^4.4"
     }
 }

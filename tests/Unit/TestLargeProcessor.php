@@ -14,28 +14,32 @@ use jwhulette\pipes\Transformers\CaseTransformer;
 use jwhulette\pipes\Transformers\TrimTransformer;
 use jwhulette\pipes\Transformers\DateTimeTransformer;
 
-class ProcessorTest extends TestCase
+/**
+ * This is excluded from the regular tests
+ */
+class TestLargeProcessor extends TestCase
 {
+    protected $testCsv = 'tests/files/large/50000_Sales_Records.csv';
+    protected $testOutputCsv = 'tests/files/large/50000_Sales_Records_OUTPUT.csv';
+    protected $testXlsx = 'tests/files/large/50000_Sales_Records.xlsx';
+    protected $testOutputXlsx = 'tests/files/large/50000_Sales_Records_OUTPUT_XLSX.csv';
+
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->markTestIncomplete();
     }
 
     public function testCsvProcessorLargeFile()
     {
         $etl = new Etl();
-        $etl->extract(new CsvExtractor('tests/files/large files/50000 Sales Records.csv'));
-        // $etl->extract(new CsvExtractor('tests/files/large files/1000000 Sales Records.csv'));
-
+        $etl->extract(new CsvExtractor($this->testCsv));
         $etl->transforms([
             (new CaseTransformer(['Sales Channel'], 'lower')),
             (new TrimTransformer([])),
             (new DateTimeTransformer(['Order Date', 'Ship Date'])),
         ]);
-        // $etl->load(new CsvLoader('tests/files/large files/test_loader_50000.csv'));
-        $etl->load(new SqlLoader('test'));
-
+        $etl->load(new CsvLoader($this->testOutputCsv));
         $etl->run();
 
         $this->assertTrue(true);
@@ -44,13 +48,13 @@ class ProcessorTest extends TestCase
     public function testXlsxProcessorLargeFile()
     {
         $etl = new Etl();
-        $etl->extract(new XlsxExtractor('tests/files/large files/50000 Sales Records.xlsx'));
+        $etl->extract(new XlsxExtractor($this->testXlsx));
         $etl->transforms([
             (new CaseTransformer(['Sales Channel'], 'lower')),
             (new TrimTransformer([])),
             (new DateTimeTransformer(['Order Date', 'Ship Date'])),
         ]);
-        $etl->load(new CsvLoader('tests/files/large files/test_loader_50000_xlsx.csv'));
+        $etl->load(new CsvLoader($this->testOutputXlsx));
         $etl->run();
 
         $this->assertTrue(true);

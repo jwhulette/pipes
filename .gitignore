@@ -2,4 +2,5 @@
 .php_cs.cache
 .DS_Store
 .phpunit.result.cache
-/tests/files/large files/*
+/tests/files/large
+/report
