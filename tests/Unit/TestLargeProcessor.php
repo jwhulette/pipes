@@ -32,30 +32,30 @@ class TestLargeProcessor extends TestCase
 
     public function testCsvProcessorLargeFile()
     {
-        $etl = new Etl();
-        $etl->extract(new CsvExtractor($this->testCsv));
-        $etl->transforms([
-            (new CaseTransformer(['Sales Channel'], 'lower')),
-            (new TrimTransformer([])),
-            (new DateTimeTransformer(['Order Date', 'Ship Date'])),
-        ]);
-        $etl->load(new CsvLoader($this->testOutputCsv));
-        $etl->run();
+        (new Etl())
+            ->extract(new CsvExtractor($this->testCsv))
+            ->transforms([
+                (new CaseTransformer(['Sales Channel'], 'lower')),
+                (new TrimTransformer([])),
+                (new DateTimeTransformer(['Order Date', 'Ship Date'])),
+            ])
+            ->load(new CsvLoader($this->testOutputCsv))
+            ->run();
 
         $this->assertTrue(true);
     }
 
     public function testXlsxProcessorLargeFile()
     {
-        $etl = new Etl();
-        $etl->extract(new XlsxExtractor($this->testXlsx));
-        $etl->transforms([
-            (new CaseTransformer(['Sales Channel'], 'lower')),
-            (new TrimTransformer([])),
-            (new DateTimeTransformer(['Order Date', 'Ship Date'])),
-        ]);
-        $etl->load(new CsvLoader($this->testOutputXlsx));
-        $etl->run();
+        (new Etl())
+            ->extract(new XlsxExtractor($this->testXlsx))
+            ->transforms([
+                (new CaseTransformer(['Sales Channel'], 'lower')),
+                (new TrimTransformer([])),
+                (new DateTimeTransformer(['OrPder Date', 'Ship Date'])),
+            ])
+            ->load(new CsvLoader($this->testOutputXlsx))
+            ->run();
 
         $this->assertTrue(true);
     }

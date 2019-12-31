@@ -75,7 +75,6 @@ class CsvExtractor implements ExtractorInterface
             if (!is_null($line)) {
                 yield $this->frame->setData($line);
             }
-
         }
         
         $this->end();

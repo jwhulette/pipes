@@ -75,7 +75,6 @@ class FixedWithExtractor implements ExtractorInterface
         $file->rewind();
 
         while (!$file->eof()) {
-
             if ($skip < $this->skipHeaderLines) {
                 ++$skip;
 
@@ -85,7 +84,7 @@ class FixedWithExtractor implements ExtractorInterface
             yield $this->frame->setData(
                 $this->makeFrame(
                     trim($file->fgets())
-                )            
+                )
             );
         }
 
@@ -102,7 +101,7 @@ class FixedWithExtractor implements ExtractorInterface
     public function end(): void
     {
         $this->frame->setEnd();
-    }    
+    }
 
     /**
      * Convert the data to an array
