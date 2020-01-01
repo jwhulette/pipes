@@ -29,15 +29,10 @@ class XlsxExtractor implements ExtractorInterface
     public function __construct(string $file, int $skipHeaderLines = 1)
     {
         $this->skipHeaderLines = $skipHeaderLines;
-
         $this->reader = ReaderEntityFactory::createXLSXReader();
-
         $this->reader->open($file);
-
         $this->reader->setShouldFormatDates(true);
-
         $this->reader->open($file);
-
         $this->frame = new Frame();
     }
 
@@ -49,9 +44,7 @@ class XlsxExtractor implements ExtractorInterface
     public function extract(): Generator
     {
         $skip = 0;
-
         $sheet = $this->reader->getSheetIterator();
-
         $this->setHeader($sheet);
 
         foreach ($this->reader->getSheetIterator() as $sheet) {
@@ -74,18 +67,9 @@ class XlsxExtractor implements ExtractorInterface
             }
         }
 
-        $this->end();
-        yield $this->frame;
+        $this->frame->setEnd();
 
         $this->reader->close();
-    }
-
-    /**
-     * Set the extractor end flag.
-     */
-    public function end(): void
-    {
-        $this->frame->setEnd();
     }
 
     /**
@@ -100,15 +84,10 @@ class XlsxExtractor implements ExtractorInterface
     private function setHeader($sheet): void
     {
         $sheet->rewind();
-
         $currentSheet = $sheet->current();
-
         $readerIterator = $currentSheet->getRowIterator();
-
         $readerIterator->rewind();
-
         $row = $readerIterator->current();
-
         $this->frame->setHeader(
             $this->makeRow(
                 $row->getCells()
@@ -116,7 +95,6 @@ class XlsxExtractor implements ExtractorInterface
         );
 
         $sheet->rewind();
-
         $readerIterator->rewind();
     }
 

@@ -22,7 +22,6 @@ class PhoneTransformer implements TransformerInterface
     public function __construct(array $columns, int $limit = 10)
     {
         $this->columns = $columns;
-
         $this->limit = $limit;
     }
 
@@ -36,7 +35,7 @@ class PhoneTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
-            if (in_array(($key), $this->columns, true)) {
+            if (\in_array(($key), $this->columns, true)) {
                 return $this->tranformPhone($item);
             }
 
@@ -56,10 +55,10 @@ class PhoneTransformer implements TransformerInterface
     private function tranformPhone(string $phone): string
     {
         // Remove all non numeric characters
-        $transformed = preg_replace('/\D+/', '', $phone);
+        $transformed = \preg_replace('/\D+/', '', $phone);
 
         if ($this->limit > 0) {
-            $transformed = substr($transformed, 0, $this->limit);
+            $transformed = \substr($transformed, 0, $this->limit);
         }
 
         return $transformed;

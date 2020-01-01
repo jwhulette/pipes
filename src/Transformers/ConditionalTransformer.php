@@ -19,7 +19,7 @@ class ConditionalTransformer implements TransformerInterface
     public function __construct(array $conditionals)
     {
         $this->conditionals = $conditionals;
-;    }
+    }
 
     /**
      * Invoke the transformer.
@@ -32,7 +32,7 @@ class ConditionalTransformer implements TransformerInterface
     {
         foreach ($this->conditionals as $conditional) {
             $check = array_diff_assoc($conditional['match'], $frame->data->toArray());
-            if(count($check) === 0) {
+            if (count($check) === 0) {
                 $replaced = array_replace($frame->data->toArray(), $conditional['replace']);
                 $frame->data = collect($replaced);
             }

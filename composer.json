@@ -13,7 +13,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.1",
-        "league/pipeline": "^1.0",
+        "league/pipeline": "dev-master",
         "box/spout": "^3.1"
     },
     "autoload": {

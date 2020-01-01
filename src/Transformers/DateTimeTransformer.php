@@ -44,7 +44,7 @@ class DateTimeTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
-            if (in_array(($key), $this->columns, true)) {
+            if (\in_array(($key), $this->columns, true)) {
                 return $this->transformDateTime($item);
             }
 

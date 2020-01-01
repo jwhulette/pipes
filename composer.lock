@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3e87c0fcb53c57afb75169dbe47708d",
+    "content-hash": "102e324ab2a772acaa3e597744bf04fe",
     "packages": [
         {
             "name": "box/spout",
@@ -77,16 +77,16 @@
         },
         {
             "name": "league/pipeline",
-            "version": "1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/pipeline.git",
-                "reference": "aa14b0e3133121f8be39e9a3b6ddd011fc5bb9a8"
+                "reference": "866ae32cfe9561776bd8f1e2d9e770aaca78cbd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/pipeline/zipball/aa14b0e3133121f8be39e9a3b6ddd011fc5bb9a8",
-                "reference": "aa14b0e3133121f8be39e9a3b6ddd011fc5bb9a8",
+                "url": "https://api.github.com/repos/thephpleague/pipeline/zipball/866ae32cfe9561776bd8f1e2d9e770aaca78cbd8",
+                "reference": "866ae32cfe9561776bd8f1e2d9e770aaca78cbd8",
                 "shasum": ""
             },
             "require": {
@@ -126,7 +126,7 @@
                 "pipeline",
                 "sequential"
             ],
-            "time": "2018-06-05T21:06:51+00:00"
+            "time": "2019-10-01T13:29:20+00:00"
         }
     ],
     "packages-dev": [
@@ -5341,7 +5341,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "league/pipeline": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

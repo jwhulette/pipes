@@ -52,7 +52,7 @@ class SqlLoaderTest extends TestCase
                 '02/11/1969',
             ]);
 
-            if($x === 4) {
+            if ($x === 4) {
                 $this->frame->setEnd();
             }
 

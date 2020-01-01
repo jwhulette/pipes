@@ -67,7 +67,6 @@ class SqlLoader implements LoaderInterface
     public function setColumns(array $columns = []): SqlLoader
     {
         $this->columns = collect($columns);
-
         $this->useColumns = count($this->columns) > 0 ? true : false;
 
         return $this;
@@ -88,7 +87,6 @@ class SqlLoader implements LoaderInterface
             $this->bulkInsert();
 
             $this->count = 0;
-
             $this->insert = [];
         }
     }

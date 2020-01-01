@@ -16,7 +16,7 @@ class Processor
     /** @var \jwhulette\pipes\Loaders\LoaderInterface */
     protected $loader;
 
-    /** @var mixed [PipelineInterface] */
+    /** @var \League\Pipeline\PipelineInterface */
     protected $pipline;
 
     /**

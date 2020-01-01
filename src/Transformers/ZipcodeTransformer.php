@@ -29,7 +29,6 @@ class ZipcodeTransformer implements TransformerInterface
     public function __construct(array $columns, int $limit = 5)
     {
         $this->columns = $columns;
-
         $this->limit = $limit;
     }
 
@@ -55,7 +54,7 @@ class ZipcodeTransformer implements TransformerInterface
     public function padRight(): void
     {
         $this->pad = STR_PAD_RIGHT;
-    }    
+    }
 
     /**
      * Invoke the transformer.
@@ -86,19 +85,19 @@ class ZipcodeTransformer implements TransformerInterface
      */
     private function transformZipcode(string $zipcode): ?string
     {
-        $transformed = preg_replace('/\D+/', '', $zipcode);
+        $transformed = \preg_replace('/\D+/', '', $zipcode);
 
-        if (strlen($transformed) > $this->limit) {
-            return substr($transformed, 0, $this->limit);
+        if (\strlen($transformed) > $this->limit) {
+            return \substr($transformed, 0, $this->limit);
         }
 
-        if (strlen($transformed) < $this->limit) {
+        if (\strlen($transformed) < $this->limit) {
             if (isset($this->zero)) {
-                return str_pad($transformed, $this->limit, '0', STR_PAD_RIGHT);
+                return \str_pad($transformed, $this->limit, '0', STR_PAD_RIGHT);
             }
 
             if (isset($this->pad)) {
-                return str_pad($transformed, $this->limit, '0', $this->pad);
+                return \str_pad($transformed, $this->limit, '0', $this->pad);
             }
         }
 

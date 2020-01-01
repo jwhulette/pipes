@@ -9,6 +9,4 @@ use Generator;
 interface ExtractorInterface
 {
     public function extract(): Generator;
-
-    public function end(): void;
 }

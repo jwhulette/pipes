@@ -29,9 +29,7 @@ class XmlExtractor
     public function __construct(string $file, string $nodename)
     {
         $this->file = $file;
-
         $this->nodename = $nodename;
-
         $this->frame = new Frame();
     }
 
@@ -54,17 +52,8 @@ class XmlExtractor
             }
         }
 
-        $this->end();
-        yield $this->frame;
+        $this->frame->setEnd();
 
         $reader->close();
-    }
-
-    /**
-     * Set the extractor end flag.
-     */
-    public function end(): void
-    {
-        $this->frame->setEnd();
     }
 }

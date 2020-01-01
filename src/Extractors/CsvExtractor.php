@@ -34,13 +34,9 @@ class CsvExtractor implements ExtractorInterface
     public function __construct(string $file, int $skipHeaderLines = 1, string $delimiter = ',', string $enclosure = '\'')
     {
         $this->file = $file;
-
         $this->delimiter = $delimiter;
-
         $this->enclosure = $enclosure;
-
         $this->skipHeaderLines = $skipHeaderLines;
-
         $this->frame = new Frame();
     }
 
@@ -52,10 +48,8 @@ class CsvExtractor implements ExtractorInterface
     public function extract(): Generator
     {
         $skip = 0;
-
         $file = new SplFileObject($this->file);
-
-        $file->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY);
+        $file->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
 
         $this->frame->setHeader(
             $file->fgetcsv($this->delimiter, $this->enclosure)
@@ -71,23 +65,14 @@ class CsvExtractor implements ExtractorInterface
             }
 
             $line = $file->fgetcsv($this->delimiter, $this->enclosure);
-
+  
             if (!is_null($line)) {
                 yield $this->frame->setData($line);
             }
         }
-        
-        $this->end();
-        yield $this->frame;
+
+        $this->frame->setEnd();
 
         $file = null;
-    }
-
-    /**
-     * Set the extractor end flag
-     */
-    public function end(): void
-    {
-        $this->frame->setEnd();
     }
 }

@@ -31,11 +31,8 @@ class CsvLoader implements LoaderInterface
     public function __construct(string $ouputfile, string $delimiter = ',', string $enclosure = '"', $escapeChar = '\\')
     {
         $this->file = new SplFileObject($ouputfile, 'w');
-
         $this->delimiter = $delimiter;
-
         $this->enclosure = $enclosure;
-
         $this->escapeChar = $escapeChar;
     }
 
@@ -47,9 +44,9 @@ class CsvLoader implements LoaderInterface
     public function load(Frame $frame): void
     {
         $this->file->fputcsv(
-            $frame->data->values()->toArray(), 
-            $this->delimiter, 
-            $this->enclosure, 
+            $frame->data->values()->toArray(),
+            $this->delimiter,
+            $this->enclosure,
             $this->escapeChar
         );
     }

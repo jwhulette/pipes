@@ -88,19 +88,9 @@ class FixedWithExtractor implements ExtractorInterface
             );
         }
 
-        $this->end();
-        yield $this->frame;
+        $this->frame->setEnd();
 
         $file = null;
-    }
-
-
-    /**
-     * Set the extractor end flag
-     */
-    public function end(): void
-    {
-        $this->frame->setEnd();
     }
 
     /**

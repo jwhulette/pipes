@@ -27,9 +27,7 @@ class CaseTransformer implements TransformerInterface
     public function __construct(array $columns, string $mode, string $encoding = 'utf-8')
     {
         $this->columns = $columns;
-
         $this->mode = $this->getMode($mode);
-
         $this->encoding = $encoding;
     }
 

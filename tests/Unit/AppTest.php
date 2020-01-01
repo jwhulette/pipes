@@ -12,7 +12,7 @@ class AppTest extends TestCase
 {
     /**
      * Test the ETl object gets created
-     * 
+     *
      * @return void
      */
     public function testAppBoots()

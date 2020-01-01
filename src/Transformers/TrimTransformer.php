@@ -29,7 +29,7 @@ class TrimTransformer implements TransformerInterface
     {
         $this->columns = $columns;
 
-        if(count($this->columns) === 0){
+        if (\count($this->columns) === 0) {
             $this->allcolumns = true;
         }
 
@@ -50,14 +50,14 @@ class TrimTransformer implements TransformerInterface
         // Apply to all columns
         if ($this->allcolumns) {
             $frame->data->transform(function ($item) {
-                return call_user_func($this->type, $item, $this->mask);
+                return \call_user_func($this->type, $item, $this->mask);
             });
         }
 
         // Apply to only selected columns
         $frame->data->transform(function ($item, $key) {
-            if (in_array(($key), $this->columns, true)) {
-                return call_user_func($this->type, $item, $this->mask);
+            if (\in_array(($key), $this->columns, true)) {
+                return \call_user_func($this->type, $item, $this->mask);
             }
 
             return $item;
