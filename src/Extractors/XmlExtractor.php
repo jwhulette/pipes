@@ -6,10 +6,10 @@ namespace jwhulette\pipes\Extractors;
 
 use Generator;
 use XMLReader;
-use DOMDocument;
+use SimpleXMLElement;
 use jwhulette\pipes\Frame;
 
-class XmlExtractor
+class XmlExtractor implements ExtractorInterface
 {
     /** @var string */
     protected $file;
@@ -20,16 +20,21 @@ class XmlExtractor
     /** @var \jwhulette\pipes\Frame */
     protected $frame;
 
+    /** @var bool */
+    protected $isZipped;
+
     /**
      * XmlExtractor.
      *
      * @param string $file
      * @param string $nodename
+     * @param bool $isZipped
      */
-    public function __construct(string $file, string $nodename)
+    public function __construct(string $file, string $nodename, bool $isZipped = false)
     {
         $this->file = $file;
         $this->nodename = $nodename;
+        $this->isZipped = $isZipped;
         $this->frame = new Frame();
     }
 
@@ -41,13 +46,17 @@ class XmlExtractor
     public function extract(): Generator
     {
         $reader = new XMLReader();
-        $reader->open($this->file);
+        if ($this->isZipped) {
+            $reader->open('compress.zlib://'.$this->file);
+        } else {
+            $reader->open($this->file);
+        }
 
         while ($reader->read()) {
             if ($reader->nodeType == XMLReader::ELEMENT and $reader->name === $this->nodename) {
-                $doc = new DOMDocument('1.0', 'UTF-8');
-                // Create simple xml object for convinient access to subelements
-                $record = (array) simplexml_import_dom($doc->importNode($reader->expand(), true));
+                $element = new SimpleXMLElement($reader->readOuterXML());
+                $xmlRecord = $this->loopXml($element);
+                $record = $this->arrayFlatten($xmlRecord);
                 yield $this->frame->setData($record);
             }
         }
@@ -55,5 +64,42 @@ class XmlExtractor
         $this->frame->setEnd();
 
         $reader->close();
+    }
+
+    /**
+     * Flatten the multidimentional array
+     *
+     * @param array $array
+     */
+    private function arrayFlatten(array $array): array
+    {
+        $return = array();
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $return = array_merge($return, $this->arrayFlatten($value));
+            } else {
+                $return[$key] = $value;
+            }
+        }
+        return $return;
+    }
+
+    /**
+     * Get all the xml nodes as an array
+     *
+     * @param SimpleXMLElement $element
+     * @param array $record
+     */
+    private function loopXml($element, $record = []): array
+    {
+        foreach ($element->children() as $node) {
+            if ($node->count() > 0) {
+                $record[$node->getName()][] = $this->loopXml($node);
+            } else {
+                $record[$node->getName()] = (string) $node;
+            }
+        }
+
+        return $record;
     }
 }

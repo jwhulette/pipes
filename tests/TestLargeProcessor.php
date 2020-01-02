@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit;
+namespace jwhulette\pipes\Tests;
 
 use Tests\TestCase;
 use jwhulette\pipes\Etl;
@@ -14,6 +14,7 @@ use jwhulette\pipes\Extractors\XlsxExtractor;
 use jwhulette\pipes\Transformers\CaseTransformer;
 use jwhulette\pipes\Transformers\TrimTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use jwhulette\pipes\Extractors\XmlExtractor;
 use jwhulette\pipes\Transformers\DateTimeTransformer;
 
 /**
@@ -27,6 +28,8 @@ class TestLargeProcessor extends TestCase
     protected $testOutputCsv = 'tests/files/large/50000_Sales_Records_OUTPUT.csv';
     protected $testXlsx = 'tests/files/large/50000_Sales_Records.xlsx';
     protected $testOutputXlsx = 'tests/files/large/50000_Sales_Records_OUTPUT_XLSX.csv';
+    protected $testXML = 'tests/files/large/feed_big.xml.gz';
+    protected $testOutputXml = 'tests/files/large/feed_big_OUTPUT.csv';
 
 
     protected function setUp(): void
@@ -77,6 +80,21 @@ class TestLargeProcessor extends TestCase
                 (new DateTimeTransformer(['OrPder Date', 'Ship Date'])),
             ])
             ->load(new CsvLoader($this->testOutputXlsx))
+            ->run();
+
+        $this->assertTrue(true);
+    }
+
+    public function testXmlProcessorLargeFile()
+    {
+        (new Etl())
+            ->extract(new XmlExtractor($this->testXML, 'prod', true))
+            ->transforms([
+                (new CaseTransformer(['brandName'], 'lower')),
+                (new TrimTransformer([])),
+                (new DateTimeTransformer(['lastUpdated'])),
+            ])
+            ->load(new CsvLoader($this->testOutputXml))
             ->run();
 
         $this->assertTrue(true);
