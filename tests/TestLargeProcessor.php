@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace jwhulette\pipes\Tests;
 
 use Tests\TestCase;
-use jwhulette\pipes\Etl;
+use jwhulette\pipes\EtlPipe;
 use Illuminate\Support\Facades\DB;
 use jwhulette\pipes\Loaders\CsvLoader;
 use jwhulette\pipes\Loaders\SqlLoader;
@@ -39,7 +39,7 @@ class TestLargeProcessor extends TestCase
 
     public function testCsvProcessorLargeFile()
     {
-        (new Etl())
+        (new EtlPipe())
             ->extract(new CsvExtractor($this->testCsv))
             ->transforms([
                 (new CaseTransformer(['Sales Channel'], 'lower')),
@@ -56,7 +56,7 @@ class TestLargeProcessor extends TestCase
     {
         $columns = ['region','country','item_type','sales_channel','order_priority','order_date', 'order_id','ship_date','units_sold','unit_price','unit_cost', 'total_revenue', 'total_cost', 'total_profit'];
 
-        (new Etl())
+        (new EtlPipe())
             ->extract(new CsvExtractor($this->testCsv))
             ->transforms([
                 (new CaseTransformer(['Sales Channel'], 'lower')),
@@ -72,7 +72,7 @@ class TestLargeProcessor extends TestCase
 
     public function testXlsxProcessorLargeFile()
     {
-        (new Etl())
+        (new EtlPipe())
             ->extract(new XlsxExtractor($this->testXlsx))
             ->transforms([
                 (new CaseTransformer(['Sales Channel'], 'lower')),
@@ -87,7 +87,7 @@ class TestLargeProcessor extends TestCase
 
     public function testXmlProcessorLargeFile()
     {
-        (new Etl())
+        (new EtlPipe())
             ->extract(new XmlExtractor($this->testXML, 'prod', true))
             ->transforms([
                 (new CaseTransformer(['brandName'], 'lower')),

@@ -7,7 +7,7 @@ namespace jwhulette\pipes;
 use jwhulette\pipes\Loaders\LoaderInterface;
 use jwhulette\pipes\Extractors\ExtractorInterface;
 
-class Etl
+class EtlPipe
 {
     /** @var \jwhulette\pipes\Extractors\ExtractorInterface */
     protected $extractor;
@@ -21,9 +21,9 @@ class Etl
     /**
      * Set the type of extractor to use.
      *
-     * @return \jwhulette\pipes\Etl
+     * @return \jwhulette\pipes\EtlPipe
      */
-    public function extract(ExtractorInterface $extractor): Etl
+    public function extract(ExtractorInterface $extractor): EtlPipe
     {
         $this->extractor = $extractor;
 
@@ -33,9 +33,9 @@ class Etl
     /**
      * Set the transforms to use.
      *
-     * @return \jwhulette\pipes\Etl
+     * @return \jwhulette\pipes\EtlPipe
      */
-    public function transforms(array $transformers): Etl
+    public function transforms(array $transformers): EtlPipe
     {
         $this->transformers = $transformers;
 
@@ -45,9 +45,9 @@ class Etl
     /**
      * Set the loader to use.
      *
-     * @return \jwhulette\pipes\Etl
+     * @return \jwhulette\pipes\EtlPipe
      */
-    public function load(LoaderInterface $loader): Etl
+    public function load(LoaderInterface $loader): EtlPipe
     {
         $this->loader = $loader;
 
@@ -55,7 +55,7 @@ class Etl
     }
 
     /**
-     * Run the etl process.
+     * Run the EtlPipe process.
      */
     public function run(): void
     {

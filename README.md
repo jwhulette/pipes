@@ -20,9 +20,9 @@ Add the following to your composer.json file.
 
 ## Usage
 
-Create a new Etl object.  
+Create a new EtlPipe object.  
 
-Add an extractor to the object
+Add an extractor to the object to read the file
 
 You can add as many transformers as you want.
 
@@ -35,7 +35,7 @@ Data is passed line by line from the loader using the generator function `yeild`
 Data is passed to the transfomers in the order they are defined 
 
 ```php
-$etl = new Etl;
+$etl = new EtlPipe();
 $etl->extract(new CsvExtractor($this->csvFile));
 $etl->transforms([
     new CaseTransformer([], 'lower'),

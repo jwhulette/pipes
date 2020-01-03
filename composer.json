@@ -1,6 +1,6 @@
 {
     "name": "jwhulette/pipes",
-    "description": "An ETL'ish Processing Library",
+    "description": "An ETL Processing Library",
     "type": "library",
     "license": "MIT",
     "authors": [
