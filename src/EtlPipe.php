@@ -21,6 +21,8 @@ class EtlPipe
     /**
      * Set the type of extractor to use.
      *
+     * @param ExtractorInterface $extractor
+     *
      * @return \jwhulette\pipes\EtlPipe
      */
     public function extract(ExtractorInterface $extractor): EtlPipe
@@ -33,6 +35,8 @@ class EtlPipe
     /**
      * Set the transforms to use.
      *
+     * @param array $transformers
+     *
      * @return \jwhulette\pipes\EtlPipe
      */
     public function transforms(array $transformers): EtlPipe
@@ -44,6 +48,8 @@ class EtlPipe
 
     /**
      * Set the loader to use.
+     *
+     * @param LoaderInterface $loader
      *
      * @return \jwhulette\pipes\EtlPipe
      */
