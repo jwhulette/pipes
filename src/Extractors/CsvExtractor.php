@@ -10,34 +10,55 @@ use jwhulette\pipes\Frame;
 
 class CsvExtractor implements ExtractorInterface
 {
-    /** @var string */
-    protected $delimiter;
-
-    /** @var string */
-    protected $enclosure;
-
-    /** @var string */
-    protected $file;
-
-    /** @var int */
-    protected $skipHeaderLines;
-
-    /** @var \jwhulette\pipes\Frame */
-    protected $frame;
+    protected Frame $frame;
+    protected string $file;
+    protected string $delimiter = ',';
+    protected string $enclosure = '\'';
+    protected int $skipHeaderLines = 1;
 
     /**
      * @param string $file
-     * @param int    $skipHeaderLines
-     * @param string $delimiter
-     * @param string $enclosure
      */
-    public function __construct(string $file, int $skipHeaderLines = 1, string $delimiter = ',', string $enclosure = '\'')
+    public function __construct(string $file)
     {
         $this->file = $file;
-        $this->delimiter = $delimiter;
-        $this->enclosure = $enclosure;
-        $this->skipHeaderLines = $skipHeaderLines;
         $this->frame = new Frame();
+    }
+
+    /**
+     * Set the value of delimiter
+     *
+     * @return  CsvExtractor
+     */
+    public function setDelimiter(string $delimiter): CsvExtractor
+    {
+        $this->delimiter = $delimiter;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of enclosure
+     *
+     * @return  CsvExtractor
+     */
+    public function setEnclosure(string $enclosure): CsvExtractor
+    {
+        $this->enclosure = $enclosure;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of skipHeaderLines
+     *
+     * @return  CsvExtractor
+     */
+    public function setSkipHeaderLines(int $skipHeaderLines): CsvExtractor
+    {
+        $this->skipHeaderLines = $skipHeaderLines;
+
+        return $this;
     }
 
     /**

@@ -7,35 +7,40 @@ namespace jwhulette\pipes\Extractors;
 use Iterator;
 use Generator;
 use jwhulette\pipes\Frame;
+use Box\Spout\Reader\ReaderInterface;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 class XlsxExtractor implements ExtractorInterface
 {
-    /** @var \Box\Spout\Reader\ReaderInterface */
-    protected $reader;
-
-    /** @var int */
-    protected $skipHeaderLines;
-
-    /** @var \jwhulette\pipes\Frame */
-    protected $frame;
+    protected ReaderInterface $reader;
+    protected int $skipHeaderLines = 1;
+    protected Frame $frame;
 
     /**
      * XlsxExtrator.
      *
      * @param string $file
-     * @param int    $skipHeaderLines
      */
-    public function __construct(string $file, int $skipHeaderLines = 1)
+    public function __construct(string $file)
     {
-        $this->skipHeaderLines = $skipHeaderLines;
         $this->reader = ReaderEntityFactory::createXLSXReader();
-        $this->reader->open($file);
         $this->reader->setShouldFormatDates(true);
         $this->reader->open($file);
         $this->frame = new Frame();
     }
 
+    /**
+     * Set the value of skipHeaderLines
+     *
+     * @return  XlsxExtractor
+     */
+    public function setSkipHeaderLines(int $skipHeaderLines): XlsxExtractor
+    {
+        $this->skipHeaderLines = $skipHeaderLines;
+
+        return $this;
+    }
+    
     /**
      * Get a file line.
      *
@@ -108,7 +113,6 @@ class XlsxExtractor implements ExtractorInterface
     public function makeRow(array $cells): array
     {
         $collection = [];
-
         foreach ($cells as $cell) {
             $collection[] = (string) $cell->getValue();
         }

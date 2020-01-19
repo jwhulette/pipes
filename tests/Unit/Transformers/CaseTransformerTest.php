@@ -16,13 +16,11 @@ class CaseTransformerTest extends TestCase
     protected function setUp(): void
     {
         $this->frame = new Frame();
-
         $this->frame->setHeader([
             'FIRSTNAME',
             'LASTNAME',
             'DOB',
         ]);
-
         $this->frame->setData([
             'BOB',
             'SMITH',
@@ -30,17 +28,43 @@ class CaseTransformerTest extends TestCase
         ]);
     }
 
-    public function testConvertColumns()
+    public function testConvertColumnsLower()
     {
-        $transformer = new CaseTransformer(['LASTNAME'], 'lower');
-
+        $transformer = new CaseTransformer();
+        $transformer->transformColumn('LASTNAME', 'lower');
+        $transformer->transformColumn('FIRSTNAME', 'lower');
         $result = $transformer->__invoke($this->frame);
+        $expected = [
+            'FIRSTNAME' => 'bob',
+            'LASTNAME'  => 'smith',
+            'DOB'       => '02/11/1969',
+        ];
 
-        $this->assertInstanceOf(Frame::class, $result);
+        $this->assertEquals($expected, $result->data->toArray());
+    }
 
+    public function testConvertColumnsUpper()
+    {
+        $transformer = new CaseTransformer();
+        $transformer->transformColumn('LASTNAME', 'Upper');
+        $result = $transformer->__invoke($this->frame);
         $expected = [
             'FIRSTNAME' => 'BOB',
-            'LASTNAME'  => 'smith',
+            'LASTNAME'  => 'SMITH',
+            'DOB'       => '02/11/1969',
+        ];
+
+        $this->assertEquals($expected, $result->data->toArray());
+    }
+
+    public function testConvertColumnsTitle()
+    {
+        $transformer = new CaseTransformer();
+        $transformer->transformColumn('LASTNAME', 'TITLE');
+        $result = $transformer->__invoke($this->frame);
+        $expected = [
+            'FIRSTNAME' => 'BOB',
+            'LASTNAME'  => 'Smith',
             'DOB'       => '02/11/1969',
         ];
 

@@ -11,17 +11,10 @@ use jwhulette\pipes\Frame;
 
 class XmlExtractor implements ExtractorInterface
 {
-    /** @var string */
-    protected $file;
-
-    /** @var string */
-    protected $nodename;
-
-    /** @var \jwhulette\pipes\Frame */
-    protected $frame;
-
-    /** @var bool */
-    protected $isZipped;
+    protected string $file;
+    protected string $nodename;
+    protected Frame $frame;
+    protected bool $isZipped;
 
     /**
      * XmlExtractor.
@@ -70,6 +63,8 @@ class XmlExtractor implements ExtractorInterface
      * Flatten the multidimentional array
      *
      * @param array $array
+     *
+     * @return array
      */
     private function arrayFlatten(array $array): array
     {
@@ -89,6 +84,8 @@ class XmlExtractor implements ExtractorInterface
      *
      * @param SimpleXMLElement $element
      * @param array $record
+     *
+     * @return array
      */
     private function loopXml($element, $record = []): array
     {

@@ -9,33 +9,63 @@ use jwhulette\pipes\Frame;
 
 class CsvLoader implements LoaderInterface
 {
-    /** @var string */
-    protected $delimiter;
-
-    /** @var string */
-    protected $enclosure;
-
-    /** @var SplFileObject */
-    protected $file;
-
-    /** @var string */
-    protected $escapeChar;
+    protected string $delimiter = ',';
+    protected string $enclosure = '"';
+    protected string $escapeCharacter = '\\';
+    protected SplFileObject $file;
 
     /**
      * CsvLoader.
      *
      * @param string $ouputfile
-     * @param string $delimiter
-     * @param string $enclosure
      */
-    public function __construct(string $ouputfile, string $delimiter = ',', string $enclosure = '"', $escapeChar = '\\')
+    public function __construct(string $ouputfile)
     {
         $this->file = new SplFileObject($ouputfile, 'w');
-        $this->delimiter = $delimiter;
-        $this->enclosure = $enclosure;
-        $this->escapeChar = $escapeChar;
     }
 
+    /**
+     * Set the value of delimiter
+     *
+     * @param string $delimiter
+     *
+     * @return CsvLoader
+     */
+    public function setDelimiter(string $delimiter): CsvLoader
+    {
+        $this->delimiter = $delimiter;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of enclosure
+     *
+     * @param string $enclosure
+     *
+     * @return CsvLoader
+     */
+    public function setEnclosure(string $enclosure): CsvLoader
+    {
+        $this->enclosure = $enclosure;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of escapeCharacter
+     *
+     * @param string $escapeCharacter
+     *
+     * @return CsvLoader
+     */
+    public function setEscapeCharacter(string $escapeCharacter): CsvLoader
+    {
+        $this->escapeCharacter = $escapeCharacter;
+
+        return $this;
+    }
+    
     /**
      * Write the data to the file.
      *
@@ -47,7 +77,7 @@ class CsvLoader implements LoaderInterface
             $frame->data->values()->toArray(),
             $this->delimiter,
             $this->enclosure,
-            $this->escapeChar
+            $this->escapeCharacter
         );
     }
 }

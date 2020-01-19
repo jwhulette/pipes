@@ -7,21 +7,20 @@ namespace jwhulette\pipes\Tests\Unit\Extractors;
 use Generator;
 use Tests\TestCase;
 use jwhulette\pipes\Frame;
-use Illuminate\Support\Collection;
 use jwhulette\pipes\Extractors\FixedWithExtractor;
 
 class FixedWithExtractorTest extends TestCase
 {
     public function testExtractorfixedWidthInstance()
     {
-        $fixedWidth = new FixedWithExtractor($this->fixedWidthExtract, ['*' => 10]);
+        $fixedWidth = new FixedWithExtractor($this->fixedWidthExtract, [10]);
 
         $this->assertInstanceOf(FixedWithExtractor::class, $fixedWidth);
     }
 
     public function testHasGenerator()
     {
-        $fixedWidth = new FixedWithExtractor($this->fixedWidthExtract, ['*' => 10]);
+        $fixedWidth = new FixedWithExtractor($this->fixedWidthExtract, [10]);
 
         $frame = $fixedWidth->extract();
 
@@ -30,7 +29,7 @@ class FixedWithExtractorTest extends TestCase
 
     public function testHasCollection()
     {
-        $fixedWidth = new FixedWithExtractor($this->fixedWidthExtract, ['*' => 10]);
+        $fixedWidth = new FixedWithExtractor($this->fixedWidthExtract, [10]);
 
         $frameData = $fixedWidth->extract();
 
@@ -41,9 +40,9 @@ class FixedWithExtractorTest extends TestCase
 
     public function testHasHeader()
     {
-        $fixedWidth = new FixedWithExtractor($this->fixedWidthExtract, ['*' => 10], 0);
+        $fixedWidth = new FixedWithExtractor($this->fixedWidthExtract);
 
-        $frameData = $fixedWidth->extract();
+        $frameData = $fixedWidth->setAllColumns(10)->extract();
 
         $frame = $frameData->current();
 
@@ -53,14 +52,14 @@ class FixedWithExtractorTest extends TestCase
             'DOB',
             'AMOUNT',
         ];
-        $this->assertEquals($expected, $frame->data->values()->toArray());
+        $this->assertEquals($expected, $frame->data->keys()->toArray());
     }
 
     public function testHasNoHeaderAllColumns()
     {
-        $fixedWidth = new FixedWithExtractor($this->fixedWidthExtract, ['*' => 10]);
+        $fixedWidth = new FixedWithExtractor($this->fixedWidthExtract);
 
-        $frameData = $fixedWidth->extract();
+        $frameData = $fixedWidth->setAllColumns(10)->extract();
 
         $frame = $frameData->current();
         $expected = [

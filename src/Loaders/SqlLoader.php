@@ -7,26 +7,16 @@ namespace jwhulette\pipes\Loaders;
 use jwhulette\pipes\Frame;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
 
 class SqlLoader implements LoaderInterface
 {
-    /** @var int */
-    protected $count = 0;
-
-    /** @var int */
-    protected $batchSize = 100;
-
-    /** @var array */
-    protected $insert = [];
-
-    /** @var Collection */
-    protected $columns;
-
-    /** @var bool */
-    protected $useColumns;
-
-    /** @var \Illuminate\Database\Query\Builder */
-    protected $db;
+    protected Builder $db;
+    protected Collection $columns;
+    protected int $count = 0;
+    protected int $batchSize = 100;
+    protected array $insert = [];
+    protected bool $useColumns = false;
 
     /**
      * __construct.

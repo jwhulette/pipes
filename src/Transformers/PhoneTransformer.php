@@ -8,21 +8,24 @@ use jwhulette\pipes\Frame;
 
 class PhoneTransformer implements TransformerInterface
 {
-    /** @var array */
-    protected $columns;
-
-    /** @var int */
-    protected $limit;
+    protected array $columns = [];
 
     /**
-     * PhoneTransformer.
+     * Undocumented function
      *
-     * @param array $columns
+     * @param string|int $column
+     * @param int $limit
+     *
+     * @return PhoneTransformer
      */
-    public function __construct(array $columns, int $limit = 10)
+    public function transformColumn($column, int $limit = 10): PhoneTransformer
     {
-        $this->columns = $columns;
-        $this->limit = $limit;
+        $this->columns[] = [
+            'column' => (is_numeric($column) ? (int) $column : $column),
+            'limit' => $limit
+        ];
+
+        return $this;
     }
 
     /**
@@ -35,8 +38,10 @@ class PhoneTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
-            if (\in_array(($key), $this->columns, true)) {
-                return $this->tranformPhone($item);
+            foreach ($this->columns as $column) {
+                if ($column['column'] === $key) {
+                    return $this->tranformPhone($item, $column);
+                }
             }
 
             return $item;
@@ -48,17 +53,17 @@ class PhoneTransformer implements TransformerInterface
     /**
      * Transform the phone.
      *
-     * @param string $phone
+     * @param string $item
      *
      * @return string
      */
-    private function tranformPhone(string $phone): string
+    private function tranformPhone(string $item, array $transform): string
     {
         // Remove all non numeric characters
-        $transformed = \preg_replace('/\D+/', '', $phone);
+        $transformed = \preg_replace('/\D+/', '', $item);
 
-        if ($this->limit > 0) {
-            $transformed = \substr($transformed, 0, $this->limit);
+        if ($transform['limit'] > 0) {
+            $transformed = \substr($transformed, 0, $transform['limit']);
         }
 
         return $transformed;

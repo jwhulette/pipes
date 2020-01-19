@@ -9,51 +9,49 @@ use jwhulette\pipes\Frame;
 
 class ZipcodeTransformer implements TransformerInterface
 {
-    /** @var array */
-    protected $columns;
-
-    protected $limit;
-
-    /** @var bool */
-    protected $zero;
-
-    /** @var int */
-    protected $pad;
+    protected array $columns = [];
+    protected int $limit = 5;
 
     /**
-     * ZipcodeTranformer.
+     * Tansfrom column
      *
-     * @param array $columns
-     * @param int $limit
+     * @param string $column
+     * @param string|null $option padleft|padright
+     * @param int|null $limit
+     *
+     * @return ZipcodeTransformer
      */
-    public function __construct(array $columns, int $limit = 5)
+    public function tranformColumn(string $column, ?string $option = null, ?int $limit = null): ZipcodeTransformer
     {
-        $this->columns = $columns;
-        $this->limit = $limit;
+        $this->columns[] = [
+            'column' => (is_numeric($column) ? (int) $column : $column),
+            'limit' => $limit ? $limit : $this->limit,
+            'option' => $this->setOption($option)
+        ];
+        
+        return $this;
     }
 
     /**
-     * Set the zip code to all zeros if empty.
+     * Set the column option
+     *
+     * @param string|null $option
+     *
+     * @return int|null
      */
-    public function setToZero(): void
+    private function setOption(?string $option): ?int
     {
-        $this->zero = true;
-    }
+        if (!\is_null($option)) {
+            if (strtolower($option) === 'padleft') {
+                return STR_PAD_LEFT;
+            }
 
-    /**
-     * Pad the zip code with zero's on the left of any numbers
-     */
-    public function padLeft(): void
-    {
-        $this->pad = STR_PAD_LEFT;
-    }
+            if (strtolower($option) === 'padright') {
+                return STR_PAD_RIGHT;
+            }
+        }
 
-    /**
-     * Pad the zip code with zero's on the right of any numbers
-     */
-    public function padRight(): void
-    {
-        $this->pad = STR_PAD_RIGHT;
+        return null;
     }
 
     /**
@@ -66,39 +64,35 @@ class ZipcodeTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
-            if (in_array(($key), $this->columns, true)) {
-                return $this->transformZipcode($item);
+            foreach ($this->columns as $column) {
+                if ($column['column'] === $key) {
+                    return $this->transformZipcode($item, $column['option'], $column['limit']);
+                }
             }
-
             return $item;
         });
 
         return $frame;
     }
 
-    /**
-     * Transform the phone.
+    /*
+     * Transform the zipcode.
      *
      * @param string $zipcode
      *
      * @return string|null
      */
-    private function transformZipcode(string $zipcode): ?string
+    private function transformZipcode(string $zipcode, ?int $type, $limit): string
     {
         $transformed = \preg_replace('/\D+/', '', $zipcode);
+        $zipLength = \strlen($transformed);
 
-        if (\strlen($transformed) > $this->limit) {
-            return \substr($transformed, 0, $this->limit);
+        if ($zipLength > $limit) {
+            return \substr($transformed, 0, $limit);
         }
 
-        if (\strlen($transformed) < $this->limit) {
-            if (isset($this->zero)) {
-                return \str_pad($transformed, $this->limit, '0', STR_PAD_RIGHT);
-            }
-
-            if (isset($this->pad)) {
-                return \str_pad($transformed, $this->limit, '0', $this->pad);
-            }
+        if (!\is_null($type) && $zipLength < $limit) {
+            return \str_pad($transformed, $limit, '0', $type);
         }
 
         return $transformed;

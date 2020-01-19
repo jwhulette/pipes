@@ -10,51 +10,53 @@ use jwhulette\pipes\Frame;
 
 class FixedWithExtractor implements ExtractorInterface
 {
-    /** @var string */
-    protected $file;
-
-    /** @var int */
-    protected $skipHeaderLines = 1;
-
-    /** @var array */
-    protected $columnWidths;
-
-    /** @var bool */
-    protected $allColumns = false;
-
-    /** @var int */
-    protected $width;
-
-    /** @var \jwhulette\pipes\Frame */
-    protected $frame;
+    protected string $file;
+    protected int $skipHeaderLines = 1;
+    protected array $columnWidths = [];
+    protected bool $allColumns = false;
+    protected int $width;
+    protected Frame $frame;
 
     /**
-     * Construct.
+     * FixedWithExtractor.
      *
      * @param string $file
      * @param array  $columnWidths
-     * @param int    $skipHeaderLines
      */
-    public function __construct(string $file, array $columnWidths, int $skipHeaderLines = null)
+    public function __construct(string $file, array $columnWidths = [])
     {
         $this->file = $file;
-
         $this->frame = new Frame;
-
         $this->columnWidths = $columnWidths;
-
-        if (!is_null($skipHeaderLines)) {
-            $this->skipHeaderLines = $skipHeaderLines;
-        }
-
-        // Apply to all columns
-        if (key($this->columnWidths) === '*') {
-            $this->allColumns = true;
-
-            $this->width = $this->columnWidths['*'];
-        }
     }
 
+    /**
+     * Set the value of skipHeaderLines
+     *
+     * @param int $skipHeaderLines
+     *
+     * @return  FixedWithExtractor
+     */
+    public function setSkipHeaderLines(int $skipHeaderLines): FixedWithExtractor
+    {
+        $this->skipHeaderLines = $skipHeaderLines;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of allColumns
+     *
+     * @return  FixedWithExtractor
+     */
+    public function setAllColumns(int $width): FixedWithExtractor
+    {
+        $this->allColumns = true;
+        $this->width = $width;
+
+        return $this;
+    }
+    
     /**
      * Extract the data from the source file.
      *
@@ -63,7 +65,6 @@ class FixedWithExtractor implements ExtractorInterface
     public function extract(): Generator
     {
         $skip = 0;
-
         $file = new SplFileObject($this->file);
 
         $this->frame->setHeader(
@@ -121,16 +122,12 @@ class FixedWithExtractor implements ExtractorInterface
     private function columnSizes(string $row): array
     {
         $data = [];
-
         $rangeStart = 0;
-
         $widths = $this->columnWidths;
 
         foreach ($widths as $width) {
             $item = substr($row, $rangeStart, $width);
-
             $data[] = trim($item);
-
             // Reset the ranges
             $rangeStart += $width;
         }
@@ -148,16 +145,12 @@ class FixedWithExtractor implements ExtractorInterface
     private function allColumnsEqual(string $row): array
     {
         $data = [];
-
         $length = strlen($row);
-
         $rangeStart = 0;
 
         while ($length >= $rangeStart) {
             $item = substr($row, $rangeStart, $this->width);
-
             $data[] = trim($item);
-
             // Reset the ranges
             $rangeStart += $this->width;
         }

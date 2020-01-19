@@ -8,13 +8,12 @@ use jwhulette\pipes\Frame;
 
 class ConditionalTransformer implements TransformerInterface
 {
-    /** @var array */
-    protected $conditionals;
+    protected array $conditionals;
  
     /**
      * ConditionalTransformer.
      *
-     * @param array $conditionals
+     * @param array<array> $conditionals
      */
     public function __construct(array $conditionals)
     {
@@ -31,9 +30,10 @@ class ConditionalTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         foreach ($this->conditionals as $conditional) {
-            $check = \array_diff_assoc($conditional['match'], $frame->data->toArray());
+            $frameArray = $frame->data->toArray();
+            $check = \array_diff_assoc($conditional['match'], $frameArray);
             if (\count($check) === 0) {
-                $replaced = \array_replace($frame->data->toArray(), $conditional['replace']);
+                $replaced = \array_replace($frameArray, $conditional['replace']);
                 $frame->data = collect($replaced);
             }
         }

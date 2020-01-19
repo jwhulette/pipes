@@ -4,16 +4,14 @@ namespace jwhulette\pipes\Tests\Unit\Loaders;
 
 use Tests\TestCase;
 use jwhulette\pipes\Frame;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use jwhulette\pipes\Loaders\SqlLoader;
 
 class SqlLoaderTest extends TestCase
 {
-    /** @var Frame */
-    protected $frame;
-
-    /** @var Collection */
-    protected $data;
+    protected Frame $frame;
+    protected Collection $data;
 
     protected function setUp(): void
     {

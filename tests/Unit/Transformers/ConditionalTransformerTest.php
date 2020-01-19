@@ -35,8 +35,8 @@ class ConditionalTransformerTest extends TestCase
         $cond = [
             [
                 'match' => [
-                'FIRSTNAME' => 'BOB'
-            ],
+                    'FIRSTNAME' => 'BOB'
+                ],
                 'replace' => [
                     'LASTNAME' => 'Smithers'
                 ]
@@ -55,9 +55,9 @@ class ConditionalTransformerTest extends TestCase
         $cond = [
             [
                 'match' => [
-                'FIRSTNAME' => 'BOB',
-                'LASTNAME' => 'SMITH'
-            ],
+                    'FIRSTNAME' => 'BOB',
+                    'LASTNAME' => 'SMITH'
+                ],
                 'replace' => [
                     'LASTNAME' => 'Smithers',
                     'DOB' => '10/13/71'

@@ -8,27 +8,26 @@ use jwhulette\pipes\Frame;
 
 class CaseTransformer implements TransformerInterface
 {
-    /** @var array */
-    protected $columns;
-
-    /** @var int */
-    protected $mode;
-
-    /** @var string */
-    protected $encoding;
+    protected array $columns = [];
 
     /**
-     * CaseTransformer.
+     * Set the column to transform
      *
-     * @param array  $columns
-     * @param string $mode
+     * @param string  $column
+     * @param string $mode upper|lower|title
      * @param string $encoding
+     *
+     * @return CaseTransformer
      */
-    public function __construct(array $columns, string $mode, string $encoding = 'utf-8')
+    public function transformColumn(string $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
     {
-        $this->columns = $columns;
-        $this->mode = $this->getMode($mode);
-        $this->encoding = $encoding;
+        $this->columns[] = [
+            'column' => (is_numeric($column) ? (int) $column : $column),
+            'mode' => $this->getMode($mode),
+            'encoding' => $encoding
+        ];
+
+        return $this;
     }
 
     /**
@@ -41,10 +40,11 @@ class CaseTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
-            if (in_array(($key), $this->columns, true)) {
-                return mb_convert_case($item, $this->mode, $this->encoding);
+            foreach ($this->columns as $column) {
+                if ($column['column'] === $key) {
+                    return \mb_convert_case($item, $column['mode'], $column['encoding']);
+                }
             }
-
 
             return $item;
         });
@@ -61,7 +61,7 @@ class CaseTransformer implements TransformerInterface
      */
     private function getMode($mode): int
     {
-        switch ($mode) {
+        switch (strtolower($mode)) {
             case 'upper':
                 return MB_CASE_UPPER;
             case 'lower':

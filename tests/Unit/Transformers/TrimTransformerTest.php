@@ -16,7 +16,6 @@ class TrimTransformerTest extends TestCase
     protected function setUp(): void
     {
         $this->frame = new Frame();
-
         $this->frame->setHeader([
                 'FIRSTNAME',
                 'LASTNAME',
@@ -26,171 +25,131 @@ class TrimTransformerTest extends TestCase
 
     public function testTrimAllColumns()
     {
-        $transformer = new TrimTransformer();
-
+        $transformer = (new TrimTransformer())->transformAllColumns();
         $this->frame->setData([
             '  BOB   ',
             '  SMITH   ',
             '  02/11/1969   ',
         ]);
-
         $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
     public function testLtrimAllColumns()
     {
-        $transformer = new TrimTransformer([], 'ltrim');
-
+        $transformer = (new TrimTransformer())->transformAllColumns('ltrim');
         $this->frame->setData([
             '  BOB',
             '  SMITH',
             '  02/11/1969',
         ]);
-
         $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
     public function testRtrimAllColumns()
     {
-        $transformer = new TrimTransformer([], 'rtrim');
-
+        $transformer = (new TrimTransformer())->transformAllColumns('rtrim');
         $this->frame->setData([
             'BOB   ',
             'SMITH   ',
             '02/11/1969',
         ]);
-
         $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
     public function testTrimColumns()
     {
-        $transformer = new TrimTransformer(['LASTNAME'], 'trim');
-
+        $transformer = (new TrimTransformer())->transformColumn('LASTNAME');
         $this->frame->setData([
-            'BOB',
+            'BOB  ',
             '  SMITH   ',
             '02/11/1969',
         ]);
-
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertInstanceOf(Frame::class, $result);
-
-        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB  ', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
     public function testLtrimColumns()
     {
-        $transformer = new TrimTransformer(['LASTNAME'], 'ltrim');
-
+        $transformer = (new TrimTransformer())->transformColumn('LASTNAME', 'ltrim');
         $this->frame->setData([
             'BOB',
             '  SMITH',
             '02/11/1969',
         ]);
-
         $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
     public function testRtrimColumns()
     {
-        $transformer = new TrimTransformer([], 'rtrim');
-
+        $transformer = (new TrimTransformer())->transformAllColumns('rtrim');
         $this->frame->setData([
-            'BOB',
+            'BOB ',
             'SMITH   ',
             '02/11/1969',
         ]);
-
         $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
     public function testTrimAllColumnsWithMask()
     {
-        $transformer = new TrimTransformer([], 'trim', '$');
-
+        $transformer = (new TrimTransformer())->transformAllColumns('trim', '$');
         $this->frame->setData([
             '$$$BOB$',
-            'SMITH',
-            '02/11/1969',
+            '$SMITH',
+            '02/11/1969$',
         ]);
-
         $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
     public function testTrimColumnsWithMask()
     {
-        $transformer = new TrimTransformer(['FIRSTNAME'], 'trim', '$');
-
+        $transformer = (new TrimTransformer())->transformColumn('FIRSTNAME', 'trim', '$');
         $this->frame->setData([
             '$$$BOB$',
             'SMITH',
             '02/11/1969',
         ]);
-
         $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
     public function testLtrimColumnsWithMask()
     {
-        $transformer = new TrimTransformer(['FIRSTNAME'], 'ltrim', '$');
-
+        $transformer = (new TrimTransformer())->transformColumn('FIRSTNAME', 'ltrim', '$');
         $this->frame->setData([
             '$$$BOB$',
-            'SMITH',
-            '02/11/1969',
+            '$SMITH',
+            '$02/11/1969',
         ]);
-
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertInstanceOf(Frame::class, $result);
-
-        $this->assertEquals(['BOB$', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB$', '$SMITH', '$02/11/1969'], $result->data->values()->toArray());
     }
 
     public function testRtrimColumnsWithMask()
     {
-        $transformer = new TrimTransformer(['FIRSTNAME'], 'rtrim', '$');
-
+        $transformer = (new TrimTransformer())->transformColumn('FIRSTNAME', 'rtrim', '$');
         $this->frame->setData([
             '$$$BOB$',
-            'SMITH',
-            '02/11/1969',
+            'SMITH$',
+            '02/11/1969$',
         ]);
-
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertInstanceOf(Frame::class, $result);
-
-        $this->assertEquals(['$$$BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['$$$BOB', 'SMITH$', '02/11/1969$'], $result->data->values()->toArray());
     }
 }

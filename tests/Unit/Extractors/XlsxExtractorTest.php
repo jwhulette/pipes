@@ -20,18 +20,15 @@ class XlsxExtractorTest extends TestCase
     public function testHasCollection()
     {
         $csv = new XlsxExtractor($this->xlsxExtract);
-
         $frameData = $csv->extract();
-
-        $frame = $frameData->current(); 
+        $frame = $frameData->current();
 
         $this->assertInstanceOf(Frame::class, $frame);
-    }   
+    }
 
     public function testFrameHasHeader()
     {
         $excel = new XlsxExtractor($this->xlsxExtract);
-
         $frameData = $excel->extract();
         $frame = $frameData->current();
         $expected = [
@@ -41,13 +38,13 @@ class XlsxExtractorTest extends TestCase
             'COST',
             'test2'
         ];
+
         $this->assertEquals($expected, $frame->header->values()->toArray());
     }
 
     public function testHasNoHeader()
     {
         $excel = new XlsxExtractor($this->xlsxExtract);
-
         $frameData = $excel->extract();
         $frame = $frameData->current();
         $expected = [
@@ -57,6 +54,7 @@ class XlsxExtractorTest extends TestCase
             'COST' => 22,
             'test2' => 'test'
         ];
+
         $this->assertEquals($expected, $frame->data->toArray());
     }
 }

@@ -17,16 +17,10 @@ class PhoneTransformerTest extends TestCase
     public function testPhoneTransfromation($phone, $expected)
     {
         $frame = new Frame();
-
         $frame->setHeader(['PHONE']);
-
         $frame->setData([$phone]);
-
-        $transformer = new PhoneTransformer(['PHONE']);
-
+        $transformer = (new PhoneTransformer())->transformColumn('PHONE');
         $result = $transformer->__invoke($frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertSame($expected, $result->data->first());
     }

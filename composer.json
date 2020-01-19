@@ -12,7 +12,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.1",
+        "php": "^7.4",
         "league/pipeline": "dev-master",
         "box/spout": "^3.1"
     },
@@ -28,7 +28,12 @@
     },
     "scripts": {
         "test": "phpunit --colors=always",
-        "phpstan": "phpstan analyse"
+        "paratest": "paratest",
+        "phpstan": "phpstan analyse",
+        "test-all": [
+            "phpstan analyse",
+            "phpunit --colors=always"
+        ]
     },
     "extra": {
         "laravel": {
@@ -42,6 +47,7 @@
         "phpunit/phpunit": "^8.5",
         "phpstan/phpstan": "^0.12.3",
         "ramsey/uuid": "^3.9",
-        "orchestra/testbench": "^4.4"
+        "orchestra/testbench": "^4.4",
+        "brianium/paratest": "^3.1"
     }
 }

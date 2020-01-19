@@ -8,17 +8,10 @@ use Illuminate\Support\Collection;
 
 class Frame
 {
-    /** @var Collection */
-    public $header;
-
-    /** @var Collection */
-    public $data;
-
-    /** @var array */
-    public $attribute;
-
-    /** @var bool */
-    public $end = false;
+    public Collection $header;
+    public Collection $data;
+    public array $attribute = [];
+    public bool $end = false;
 
     /**
      * Set the frame data.
@@ -29,7 +22,7 @@ class Frame
     {
         $this->data = collect($data);
 
-        if ($this->header !== null && $this->header->isNotEmpty()) {
+        if (isset($this->header) && $this->header->isNotEmpty()) {
             $this->data = $this->header->combine($this->data);
         }
 

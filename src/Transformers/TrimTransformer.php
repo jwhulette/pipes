@@ -8,34 +8,47 @@ use jwhulette\pipes\Frame;
 
 class TrimTransformer implements TransformerInterface
 {
-    /** @var array */
-    protected $columns;
+    protected array $columns = [];
+    protected bool $allcolumns = false;
+    protected string $type;
+    protected string $mask;
 
-    /** @var bool */
-    protected $allcolumns = false;
-
-    /** @var string */
-    protected $mask;
-
-    /** @var string */
-    protected $type;
 
     /**
-     * @param array  $columns
+     * Transfrom the column
+     *
+     * @param string $column
      * @param string $type
      * @param string $mask
+     *
+     * @return TrimTransformer
      */
-    public function __construct(array $columns = [], string $type = 'trim', string $mask = " \t\n\r\0\x0B")
+    public function transformColumn(string $column, string $type = 'trim', string $mask = " \t\n\r\0\x0B"): TrimTransformer
     {
-        $this->columns = $columns;
+        $this->columns[] = [
+            'column' => (is_numeric($column) ? (int) $column : $column),
+            'type' => $type,
+            'mask' => $mask
+        ];
 
-        if (\count($this->columns) === 0) {
-            $this->allcolumns = true;
-        }
+        return $this;
+    }
 
-        $this->mask = $mask;
-
+    /**
+     * Transfrom all columns
+     *
+     * @param string $type
+     * @param string $mask
+     *
+     * @return TrimTransformer
+     */
+    public function transformAllColumns(string $type = 'trim', string $mask = " \t\n\r\0\x0B"): TrimTransformer
+    {
         $this->type = $type;
+        $this->mask = $mask;
+        $this->allcolumns = true;
+
+        return $this;
     }
 
     /**
@@ -50,19 +63,33 @@ class TrimTransformer implements TransformerInterface
         // Apply to all columns
         if ($this->allcolumns) {
             $frame->data->transform(function ($item) {
-                return \call_user_func($this->type, $item, $this->mask);
+                return $this->trimColumnValue($item, $this->type, $this->mask);
             });
         }
 
         // Apply to only selected columns
         $frame->data->transform(function ($item, $key) {
-            if (\in_array(($key), $this->columns, true)) {
-                return \call_user_func($this->type, $item, $this->mask);
+            foreach ($this->columns as $column) {
+                if ($column['column'] === $key) {
+                    return $this->trimColumnValue($item, $column['type'], $column['mask']);
+                }
             }
-
             return $item;
         });
 
         return $frame;
+    }
+
+    /**
+     *
+     * @param string $value
+     * @param string $type
+     * @param string $mask
+     *
+     * @return string
+     */
+    public function trimColumnValue(string $value, string $type, string $mask): string
+    {
+        return \call_user_func($type, $value, $mask);
     }
 }

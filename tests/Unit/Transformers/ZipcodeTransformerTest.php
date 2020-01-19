@@ -13,9 +13,7 @@ class ZipcodeTransformerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->frame = new Frame();
-
         $this->frame->setHeader(['zip']);
     }
 
@@ -28,12 +26,8 @@ class ZipcodeTransformerTest extends TestCase
     public function testZipcodeTransfromation($zip, $expected)
     {
         $this->frame->setData([$zip]);
-
-        $transformer = new ZipcodeTransformer(['zip']);
-
+        $transformer = (new ZipcodeTransformer())->tranformColumn('zip');
         $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertSame($expected, $result->data->first());
     }
@@ -41,13 +35,8 @@ class ZipcodeTransformerTest extends TestCase
     public function testZipcodeTransfromationWithFillLimit5()
     {
         $this->frame->setData(['']);
-
-        $transformer = new ZipcodeTransformer(['zip']);
-        $transformer->setToZero();
-
+        $transformer = (new ZipcodeTransformer())->tranformColumn('zip', 'padleft');
         $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertSame('00000', $result->data->first());
     }
@@ -55,13 +44,8 @@ class ZipcodeTransformerTest extends TestCase
     public function testZipcodeTransfromationWithFillLimitOther()
     {
         $this->frame->setData(['']);
-
-        $transformer = new ZipcodeTransformer(['zip'], 10);
-        $transformer->setToZero();
-
+        $transformer = (new ZipcodeTransformer())->tranformColumn('zip', 'padleft', 10);
         $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertSame('0000000000', $result->data->first());
     }
@@ -69,13 +53,8 @@ class ZipcodeTransformerTest extends TestCase
     public function testZipcodeTransfromationWithPadLeft()
     {
         $this->frame->setData(['122']);
-
-        $transformer = new ZipcodeTransformer(['zip']);
-        $transformer->padLeft();
-
+        $transformer = (new ZipcodeTransformer())->tranformColumn('zip', 'padleft');
         $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
 
         $this->assertSame('00122', $result->data->first());
     }
@@ -83,29 +62,9 @@ class ZipcodeTransformerTest extends TestCase
     public function testZipcodeTransfromationWithPadRight()
     {
         $this->frame->setData(['122']);
-
-        $transformer = new ZipcodeTransformer(['zip']);
-        $transformer->padRight();
-
+        $transformer = (new ZipcodeTransformer())->tranformColumn('zip', 'padright');
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertInstanceOf(Frame::class, $result);
-
-        $this->assertSame('12200', $result->data->first());
-    }
-
-    public function testZipcodeTransfromationMultiple()
-    {
-        $this->frame->setData(['122']);
-
-        $transformer = new ZipcodeTransformer(['zip']);
-        $transformer->padLeft();
-        $transformer->padRight();
-        $transformer->setToZero();
-
-        $result = $transformer->__invoke($this->frame);
-
-        $this->assertInstanceOf(Frame::class, $result);
         $this->assertSame('12200', $result->data->first());
     }
 
