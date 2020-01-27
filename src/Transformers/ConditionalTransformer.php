@@ -9,7 +9,7 @@ use jwhulette\pipes\Frame;
 class ConditionalTransformer implements TransformerInterface
 {
     protected array $conditionals;
- 
+
     /**
      * ConditionalTransformer.
      *
@@ -23,9 +23,9 @@ class ConditionalTransformer implements TransformerInterface
     /**
      * Invoke the transformer.
      *
-     * @param \jwhulette\pipes\Frame $frame
+     * @param Frame $frame
      *
-     * @return \jwhulette\pipes\Frame
+     * @return Frame
      */
     public function __invoke(Frame $frame): Frame
     {

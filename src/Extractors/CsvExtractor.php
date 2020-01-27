@@ -14,7 +14,8 @@ class CsvExtractor implements ExtractorInterface
     protected string $file;
     protected string $delimiter = ',';
     protected string $enclosure = '\'';
-    protected int $skipHeaderLines = 1;
+    protected int $skipLines = 0;
+    protected bool $header = true;
 
     /**
      * @param string $file
@@ -26,7 +27,7 @@ class CsvExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of delimiter
+     * Set the value of delimiter.
      *
      * @return  CsvExtractor
      */
@@ -38,7 +39,7 @@ class CsvExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of enclosure
+     * Set the value of enclosure.
      *
      * @return  CsvExtractor
      */
@@ -50,13 +51,25 @@ class CsvExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of skipHeaderLines
+     * Set the value of skipLines.
      *
      * @return  CsvExtractor
      */
-    public function setSkipHeaderLines(int $skipHeaderLines): CsvExtractor
+    public function setskipLines(int $skipLines): CsvExtractor
     {
-        $this->skipHeaderLines = $skipHeaderLines;
+        $this->skipLines = $skipLines;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of header.
+     *
+     * @return  CsvExtractor
+     */
+    public function setNoHeader(): CsvExtractor
+    {
+        $this->header = false;
 
         return $this;
     }
@@ -68,32 +81,32 @@ class CsvExtractor implements ExtractorInterface
      */
     public function extract(): Generator
     {
-        $skip = 0;
         $file = new SplFileObject($this->file);
         $file->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
 
-        $this->frame->setHeader(
-            $file->fgetcsv($this->delimiter, $this->enclosure)
-        );
+        if ($this->header) {
+            $this->frame->setHeader(
+                $file->fgetcsv($this->delimiter, $this->enclosure)
+            );
 
-        $file->rewind();
+            // Go back to the begining of the file
+            $file->rewind();
+        }
 
-        while (!$file->eof()) {
-            if ($skip < $this->skipHeaderLines) {
-                ++$skip;
+        // Skip the number of lines minus one as it's a zero based index
+        if ($this->skipLines > 0) {
+            $file->seek($this->skipLines - 1);
+        }
 
-                $file->current();
-            }
-
+        while (! $file->eof()) {
             $line = $file->fgetcsv($this->delimiter, $this->enclosure);
-  
-            if (!is_null($line)) {
+
+            if (! is_null($line)) {
                 yield $this->frame->setData($line);
             }
         }
 
         $this->frame->setEnd();
-
         $file = null;
     }
 }

@@ -13,7 +13,8 @@ use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 class XlsxExtractor implements ExtractorInterface
 {
     protected ReaderInterface $reader;
-    protected int $skipHeaderLines = 1;
+    protected int $skipLines = 0;
+    protected bool $header = true;
     protected Frame $frame;
 
     /**
@@ -30,17 +31,29 @@ class XlsxExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of skipHeaderLines
+     * Set the value of header.
      *
      * @return  XlsxExtractor
      */
-    public function setSkipHeaderLines(int $skipHeaderLines): XlsxExtractor
+    public function setNoHeader(): XlsxExtractor
     {
-        $this->skipHeaderLines = $skipHeaderLines;
+        $this->header = false;
 
         return $this;
     }
-    
+
+    /**
+     * Set the value of skipLines.
+     *
+     * @return  XlsxExtractor
+     */
+    public function setskipLines(int $skipLines): XlsxExtractor
+    {
+        $this->skipLines = $skipLines;
+
+        return $this;
+    }
+
     /**
      * Get a file line.
      *
@@ -50,14 +63,16 @@ class XlsxExtractor implements ExtractorInterface
     {
         $skip = 0;
         $sheet = $this->reader->getSheetIterator();
-        $this->setHeader($sheet);
+        if ($this->header) {
+            $this->setHeader($sheet);
+        }
 
         foreach ($this->reader->getSheetIterator() as $sheet) {
             // Read only first sheet
             if ($sheet->getIndex() === 0) {
                 foreach ($sheet->getRowIterator() as $row) {
-                    if ($skip < $this->skipHeaderLines) {
-                        ++$skip;
+                    if ($skip < $this->skipLines) {
+                        $skip++;
                         continue;
                     }
 
@@ -73,7 +88,6 @@ class XlsxExtractor implements ExtractorInterface
         }
 
         $this->frame->setEnd();
-
         $this->reader->close();
     }
 

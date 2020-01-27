@@ -11,7 +11,7 @@ class CaseTransformer implements TransformerInterface
     protected array $columns = [];
 
     /**
-     * Set the column to transform
+     * Set the column to transform.
      *
      * @param string  $column
      * @param string $mode upper|lower|title
@@ -24,7 +24,7 @@ class CaseTransformer implements TransformerInterface
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
             'mode' => $this->getMode($mode),
-            'encoding' => $encoding
+            'encoding' => $encoding,
         ];
 
         return $this;
@@ -33,9 +33,9 @@ class CaseTransformer implements TransformerInterface
     /**
      * Invoke the transformer.
      *
-     * @param \jwhulette\pipes\Frame $frame
+     * @param Frame $frame
      *
-     * @return \jwhulette\pipes\Frame
+     * @return Frame
      */
     public function __invoke(Frame $frame): Frame
     {
@@ -69,6 +69,6 @@ class CaseTransformer implements TransformerInterface
             case 'title':
                 return MB_CASE_TITLE;
         }
-        throw new \InvalidArgumentException("The conversion mode [{$mode}] is invalid.");
+        throw new \InvalidArgumentException("Invalid conversion mode {$mode}.");
     }
 }

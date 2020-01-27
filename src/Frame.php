@@ -14,9 +14,9 @@ class Frame
     public bool $end = false;
 
     /**
-     * Set the frame data.
-     *
      * @param array $data
+     *
+     * @return Frame
      */
     public function setData(array $data): Frame
     {
@@ -30,8 +30,6 @@ class Frame
     }
 
     /**
-     * Set the frame header data.
-     *
      * @param array $header
      */
     public function setHeader(array $header): void
@@ -40,8 +38,6 @@ class Frame
     }
 
     /**
-     * Set a frame attribute.
-     *
      * @param array $attribute
      */
     public function setAttribute(array $attribute): void

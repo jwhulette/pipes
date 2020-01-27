@@ -18,7 +18,7 @@ class EtlPipe
      *
      * @param ExtractorInterface $extractor
      *
-     * @return \jwhulette\pipes\EtlPipe
+     * @return EtlPipe
      */
     public function extract(ExtractorInterface $extractor): EtlPipe
     {
@@ -32,9 +32,9 @@ class EtlPipe
      *
      * @param array $transformers
      *
-     * @return \jwhulette\pipes\EtlPipe
+     * @return EtlPipe
      */
-    public function transforms(array $transformers): EtlPipe
+    public function transformers(array $transformers): EtlPipe
     {
         $this->transformers = $transformers;
 
@@ -46,7 +46,7 @@ class EtlPipe
      *
      * @param LoaderInterface $loader
      *
-     * @return \jwhulette\pipes\EtlPipe
+     * @return EtlPipe
      */
     public function load(LoaderInterface $loader): EtlPipe
     {
@@ -55,12 +55,8 @@ class EtlPipe
         return $this;
     }
 
-    /**
-     * Run the EtlPipe process.
-     */
     public function run(): void
     {
-        $processor = new Processor($this->extractor, $this->transformers, $this->loader);
-        $processor->process();
+        (new Processor($this->extractor, $this->transformers, $this->loader))->process();
     }
 }

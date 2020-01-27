@@ -13,10 +13,7 @@ class TrimTransformer implements TransformerInterface
     protected string $type;
     protected string $mask;
 
-
     /**
-     * Transfrom the column
-     *
      * @param string $column
      * @param string $type
      * @param string $mask
@@ -28,15 +25,13 @@ class TrimTransformer implements TransformerInterface
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
             'type' => $type,
-            'mask' => $mask
+            'mask' => $mask,
         ];
 
         return $this;
     }
 
     /**
-     * Transfrom all columns
-     *
      * @param string $type
      * @param string $mask
      *
@@ -52,11 +47,9 @@ class TrimTransformer implements TransformerInterface
     }
 
     /**
-     *  Invoke the transformer.
+     * @param Frame $frame
      *
-     * @param \jwhulette\pipes\Frame $frame
-     *
-     * @return \jwhulette\pipes\Frame
+     * @return Frame
      */
     public function __invoke(Frame $frame): Frame
     {
@@ -74,6 +67,7 @@ class TrimTransformer implements TransformerInterface
                     return $this->trimColumnValue($item, $column['type'], $column['mask']);
                 }
             }
+
             return $item;
         });
 
@@ -81,7 +75,6 @@ class TrimTransformer implements TransformerInterface
     }
 
     /**
-     *
      * @param string $value
      * @param string $type
      * @param string $mask

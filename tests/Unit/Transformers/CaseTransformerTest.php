@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Tests\Unit\Transformers;
 
-use Tests\TestCase;
 use jwhulette\pipes\Frame;
 use jwhulette\pipes\Transformers\CaseTransformer;
+use Tests\TestCase;
 
 class CaseTransformerTest extends TestCase
 {
@@ -38,6 +38,27 @@ class CaseTransformerTest extends TestCase
             'FIRSTNAME' => 'bob',
             'LASTNAME'  => 'smith',
             'DOB'       => '02/11/1969',
+        ];
+
+        $this->assertEquals($expected, $result->data->toArray());
+    }
+
+    public function testConvertColumnsLowerKeyIsInt()
+    {
+        $transformer = new CaseTransformer();
+        $transformer->transformColumn('0', 'lower');
+        $transformer->transformColumn('1', 'lower');
+        $this->frame = new Frame();
+        $this->frame->setData([
+            'BOB',
+            'SMITH',
+            '02/11/1969',
+        ]);
+        $result = $transformer->__invoke($this->frame);
+        $expected = [
+            'bob',
+            'smith',
+            '02/11/1969',
         ];
 
         $this->assertEquals($expected, $result->data->toArray());

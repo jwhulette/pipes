@@ -10,22 +10,6 @@ use jwhulette\pipes\Extractors\XlsxExtractor;
 
 class XlsxExtractorTest extends TestCase
 {
-    public function testExtractorSpreadSheetInstance()
-    {
-        $xlsx = new XlsxExtractor($this->xlsxExtract);
-
-        $this->assertInstanceOf(XlsxExtractor::class, $xlsx);
-    }
-
-    public function testHasCollection()
-    {
-        $csv = new XlsxExtractor($this->xlsxExtract);
-        $frameData = $csv->extract();
-        $frame = $frameData->current();
-
-        $this->assertInstanceOf(Frame::class, $frame);
-    }
-
     public function testFrameHasHeader()
     {
         $excel = new XlsxExtractor($this->xlsxExtract);
@@ -36,7 +20,7 @@ class XlsxExtractorTest extends TestCase
             'LASTNAME',
             'DOB',
             'COST',
-            'test2'
+            'test2',
         ];
 
         $this->assertEquals($expected, $frame->header->values()->toArray());
@@ -44,15 +28,15 @@ class XlsxExtractorTest extends TestCase
 
     public function testHasNoHeader()
     {
-        $excel = new XlsxExtractor($this->xlsxExtract);
-        $frameData = $excel->extract();
+        $excel = new XlsxExtractor($this->xlsxExtractNoHeader);
+        $frameData = $excel->setNoHeader()->extract();
         $frame = $frameData->current();
         $expected = [
-            'FIRSTNAME' => 'BOB',
-            'LASTNAME' => 'SMITH',
-            'DOB' => '02/11/69',
-            'COST' => 22,
-            'test2' => 'test'
+            'BOB',
+            'SMITH',
+            '02/11/69',
+            22,
+            'test',
         ];
 
         $this->assertEquals($expected, $frame->data->toArray());
