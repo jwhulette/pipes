@@ -34,7 +34,7 @@ class EtlPipe
      *
      * @return \jwhulette\pipes\EtlPipe
      */
-    public function transforms(array $transformers): EtlPipe
+    public function transformers(array $transformers): EtlPipe
     {
         $this->transformers = $transformers;
 

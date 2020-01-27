@@ -11,7 +11,7 @@ class CaseTransformer implements TransformerInterface
     protected array $columns = [];
 
     /**
-     * Set the column to transform
+     * Set the column to transform.
      *
      * @param string  $column
      * @param string $mode upper|lower|title
@@ -19,12 +19,12 @@ class CaseTransformer implements TransformerInterface
      *
      * @return CaseTransformer
      */
-    public function transformColumn(string $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
+    public function transformColumn(string $column, string $mode, string $encoding = 'utf-8'): self
     {
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
             'mode' => $this->getMode($mode),
-            'encoding' => $encoding
+            'encoding' => $encoding,
         ];
 
         return $this;

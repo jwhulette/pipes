@@ -6,8 +6,6 @@ namespace jwhulette\pipes\Transformers;
 
 use DateTime;
 use jwhulette\pipes\Frame;
-use RecursiveArrayIterator;
-use RecursiveIteratorIterator;
 
 class DateTimeTransformer implements TransformerInterface
 {

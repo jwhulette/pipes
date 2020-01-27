@@ -10,27 +10,29 @@ use Illuminate\Support\Facades\DB;
 use jwhulette\pipes\Loaders\CsvLoader;
 use jwhulette\pipes\Loaders\SqlLoader;
 use jwhulette\pipes\Extractors\CsvExtractor;
+use jwhulette\pipes\Extractors\XmlExtractor;
 use jwhulette\pipes\Extractors\XlsxExtractor;
 use jwhulette\pipes\Transformers\CaseTransformer;
 use jwhulette\pipes\Transformers\TrimTransformer;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use jwhulette\pipes\Extractors\XmlExtractor;
 use jwhulette\pipes\Transformers\DateTimeTransformer;
 
 /**
- * This is excluded from the regular tests
+ * This is excluded from the regular tests.
  */
 class TestLargeProcessor extends TestCase
 {
     use DatabaseMigrations;
+    use WithoutMiddleware;
 
     protected $testCsv = 'tests/files/large/50000_Sales_Records.csv';
     protected $testOutputCsv = 'tests/files/large/50000_Sales_Records_OUTPUT.csv';
     protected $testXlsx = 'tests/files/large/50000_Sales_Records.xlsx';
-    protected $testOutputXlsx = 'tests/files/large/50000_Sales_Records_OUTPUT_XLSX.csv';
+    protected $testOutputXlsx
+        = 'tests/files/large/50000_Sales_Records_OUTPUT_XLSX.csv';
     protected $testXML = 'tests/files/large/feed_big.xml.gz';
     protected $testOutputXml = 'tests/files/large/feed_big_OUTPUT.csv';
-
 
     protected function setUp(): void
     {
@@ -41,10 +43,11 @@ class TestLargeProcessor extends TestCase
     {
         (new EtlPipe())
             ->extract(new CsvExtractor($this->testCsv))
-            ->transforms([
-                (new CaseTransformer(['Sales Channel'], 'lower')),
-                (new TrimTransformer([])),
-                (new DateTimeTransformer(['Order Date', 'Ship Date'])),
+            ->transformers([
+                (new CaseTransformer())->transformColumn('Sales Channel', 'lower'),
+                (new TrimTransformer())->transformAllColumns(),
+                (new DateTimeTransformer())->transformColumn('Order Date')
+                    ->transformColumn('Ship Date'),
             ])
             ->load(new CsvLoader($this->testOutputCsv))
             ->run();
@@ -54,14 +57,14 @@ class TestLargeProcessor extends TestCase
 
     public function testCsvSqlProcessorLargeFile()
     {
-        $columns = ['region','country','item_type','sales_channel','order_priority','order_date', 'order_id','ship_date','units_sold','unit_price','unit_cost', 'total_revenue', 'total_cost', 'total_profit'];
+        $columns = ['region', 'country', 'item_type', 'sales_channel', 'order_priority', 'order_date', 'order_id', 'ship_date', 'units_sold', 'unit_price', 'unit_cost', 'total_revenue', 'total_cost', 'total_profit'];
 
         (new EtlPipe())
             ->extract(new CsvExtractor($this->testCsv))
-            ->transforms([
-                (new CaseTransformer(['Sales Channel'], 'lower')),
-                (new TrimTransformer([])),
-                (new DateTimeTransformer(['Order Date', 'Ship Date'])),
+            ->transformers([
+                (new CaseTransformer())->transformColumn('Sales Channel', 'lower'),
+                (new TrimTransformer())->transformAllColumns(),
+                (new DateTimeTransformer())->transformColumn('Order Date')->transformColumn('Ship Date'),
             ])
             ->load((new SqlLoader('sales_data'))->setColumns($columns))
             ->run();
@@ -74,10 +77,10 @@ class TestLargeProcessor extends TestCase
     {
         (new EtlPipe())
             ->extract(new XlsxExtractor($this->testXlsx))
-            ->transforms([
-                (new CaseTransformer(['Sales Channel'], 'lower')),
-                (new TrimTransformer([])),
-                (new DateTimeTransformer(['OrPder Date', 'Ship Date'])),
+            ->transformers([
+                (new CaseTransformer())->transformColumn('Sales Channel', 'lower'),
+                (new TrimTransformer())->transformAllColumns(),
+                (new DateTimeTransformer())->transformColumn('Order Date')->transformColumn('Ship Date'),
             ])
             ->load(new CsvLoader($this->testOutputXlsx))
             ->run();
@@ -89,10 +92,10 @@ class TestLargeProcessor extends TestCase
     {
         (new EtlPipe())
             ->extract(new XmlExtractor($this->testXML, 'prod', true))
-            ->transforms([
-                (new CaseTransformer(['brandName'], 'lower')),
-                (new TrimTransformer([])),
-                (new DateTimeTransformer(['lastUpdated'])),
+            ->transformers([
+                (new CaseTransformer())->transformColumn('brandName', 'lower'),
+                (new TrimTransformer())->transformAllColumns(),
+                (new DateTimeTransformer())->transformColumn('Order Date')->transformColumn('lastUpdated'),
             ])
             ->load(new CsvLoader($this->testOutputXml))
             ->run();

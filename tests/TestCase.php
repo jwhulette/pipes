@@ -21,6 +21,11 @@ class TestCase extends BaseTestCase
         $this->loadMigrationsFrom(getcwd().'/tests/database');
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
+
     protected function getEnvironmentSetUp($app)
     {
         // Setup default database to use sqlite :memory:
