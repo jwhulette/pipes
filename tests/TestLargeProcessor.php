@@ -23,9 +23,6 @@ use jwhulette\pipes\Transformers\DateTimeTransformer;
  */
 class TestLargeProcessor extends TestCase
 {
-    use DatabaseMigrations;
-    use WithoutMiddleware;
-
     protected $testCsv = 'tests/files/large/50000_Sales_Records.csv';
     protected $testOutputCsv = 'tests/files/large/50000_Sales_Records_OUTPUT.csv';
     protected $testXlsx = 'tests/files/large/50000_Sales_Records.xlsx';

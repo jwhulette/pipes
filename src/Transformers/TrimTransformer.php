@@ -13,9 +13,8 @@ class TrimTransformer implements TransformerInterface
     protected string $type;
     protected string $mask;
 
-
     /**
-     * Transfrom the column
+     * Transfrom the column.
      *
      * @param string $column
      * @param string $type
@@ -23,26 +22,26 @@ class TrimTransformer implements TransformerInterface
      *
      * @return TrimTransformer
      */
-    public function transformColumn(string $column, string $type = 'trim', string $mask = " \t\n\r\0\x0B"): TrimTransformer
+    public function transformColumn(string $column, string $type = 'trim', string $mask = " \t\n\r\0\x0B"): self
     {
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
             'type' => $type,
-            'mask' => $mask
+            'mask' => $mask,
         ];
 
         return $this;
     }
 
     /**
-     * Transfrom all columns
+     * Transfrom all columns.
      *
      * @param string $type
      * @param string $mask
      *
      * @return TrimTransformer
      */
-    public function transformAllColumns(string $type = 'trim', string $mask = " \t\n\r\0\x0B"): TrimTransformer
+    public function transformAllColumns(string $type = 'trim', string $mask = " \t\n\r\0\x0B"): self
     {
         $this->type = $type;
         $this->mask = $mask;
@@ -74,6 +73,7 @@ class TrimTransformer implements TransformerInterface
                     return $this->trimColumnValue($item, $column['type'], $column['mask']);
                 }
             }
+
             return $item;
         });
 
@@ -81,7 +81,6 @@ class TrimTransformer implements TransformerInterface
     }
 
     /**
-     *
      * @param string $value
      * @param string $type
      * @param string $mask
