@@ -14,8 +14,6 @@ use jwhulette\pipes\Extractors\XmlExtractor;
 use jwhulette\pipes\Extractors\XlsxExtractor;
 use jwhulette\pipes\Transformers\CaseTransformer;
 use jwhulette\pipes\Transformers\TrimTransformer;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use jwhulette\pipes\Transformers\DateTimeTransformer;
 
 /**
