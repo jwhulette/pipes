@@ -18,7 +18,7 @@ class Frame
      *
      * @param array $data
      */
-    public function setData(array $data): Frame
+    public function setData(array $data): self
     {
         $this->data = collect($data);
 

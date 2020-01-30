@@ -16,7 +16,7 @@ class Processor
     protected PipelineInterface $pipline;
 
     /**
-     * Processor Extractor
+     * Processor Extractor.
      *
      * @param \jwhulette\pipes\Extractors\ExtractorInterface $extractor
      * @param array $transformers
