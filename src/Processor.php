@@ -16,11 +16,11 @@ class Processor
     protected PipelineInterface $pipline;
 
     /**
-     * Processor Extractor.
+     * Build the pipeline.
      *
-     * @param \jwhulette\pipes\Extractors\ExtractorInterface $extractor
+     * @param ExtractorInterface $extractor
      * @param array $transformers
-     * @param \jwhulette\pipes\Loaders\LoaderInterface $loader
+     * @param LoaderInterface $loader
      */
     public function __construct(ExtractorInterface $extractor, array $transformers, LoaderInterface $loader)
     {
@@ -42,8 +42,6 @@ class Processor
     }
 
     /**
-     * Build a transformer pipline.
-     *
      * @param array $transformers
      */
     private function buildTransformerPipline(array $transformers): void

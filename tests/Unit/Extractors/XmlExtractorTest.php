@@ -10,40 +10,19 @@ use jwhulette\pipes\Extractors\XmlExtractor;
 
 class XmlExtractorTest extends TestCase
 {
-    /** @var string */
-    protected $xml;
+    protected string $xml;
 
     public function setUp(): void
     {
         parent::setUp();
-
     }
 
-    public function testExtractorCsvInstance()
+    public function testXmlExtractZipped()
     {
         $xml = new XmlExtractor($this->xmlExtract, 'item');
-
-        $this->assertInstanceOf(XmlExtractor::class, $xml);
-    }
-
-    public function testHasGenerator()
-    {
-        $xml = new XmlExtractor($this->xmlExtract, 'item');
-
-        $frame = $xml->extract();
-
-        $this->assertInstanceOf(Generator::class, $frame);
-    }
-
-   
-    public function testHasData()
-    {
-        $xml = new XmlExtractor($this->xmlExtract, 'item');
-
+        $xml->setIsZipped();
         $frameData = $xml->extract();
-
         $frame = $frameData->current();
-
         $expected = [
             'firstName' => 'Bob',
             'lastName'  => 'Smith',
@@ -51,5 +30,19 @@ class XmlExtractorTest extends TestCase
         ];
 
         $this->assertEquals($expected, $frame->data->toArray());
-    } 
+    }
+
+    public function testXmlExtract()
+    {
+        $xml = new XmlExtractor($this->xmlExtract, 'item');
+        $frameData = $xml->extract();
+        $frame = $frameData->current();
+        $expected = [
+            'firstName' => 'Bob',
+            'lastName'  => 'Smith',
+            'dob'       => '02/11/1969',
+        ];
+
+        $this->assertEquals($expected, $frame->data->toArray());
+    }
 }

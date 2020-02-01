@@ -12,7 +12,7 @@ class DateTimeTransformer implements TransformerInterface
     protected array $columns = [];
 
     /**
-     * Set the column to transform
+     * Set the column to transform.
      *
      * @param string $column
      * @param string $outputFormat
@@ -25,7 +25,7 @@ class DateTimeTransformer implements TransformerInterface
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
             'outputFormat' => $outputFormat,
-            'inputFormat' => $inputFormat
+            'inputFormat' => $inputFormat,
         ];
 
         return $this;
@@ -34,9 +34,9 @@ class DateTimeTransformer implements TransformerInterface
     /**
      * Invoke the transformer.
      *
-     * @param \jwhulette\pipes\Frame $frame
+     * @param Frame $frame
      *
-     * @return \jwhulette\pipes\Frame
+     * @return Frame
      */
     public function __invoke(Frame $frame): Frame
     {
@@ -65,10 +65,12 @@ class DateTimeTransformer implements TransformerInterface
     {
         if ($transform['inputFormat'] === '') {
             $date = new DateTime($datetime);
+
             return $date->format($transform['outputFormat']);
         }
 
         $dateObject = DateTime::createFromFormat($transform['inputFormat'], $datetime);
+
         return $dateObject->format($transform['outputFormat']);
     }
 }

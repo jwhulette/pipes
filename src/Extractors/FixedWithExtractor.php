@@ -11,11 +11,12 @@ use jwhulette\pipes\Frame;
 class FixedWithExtractor implements ExtractorInterface
 {
     protected string $file;
-    protected int $skipHeaderLines = 1;
+    protected int $skipLines = 0;
     protected array $columnWidths = [];
     protected bool $allColumns = false;
     protected int $width;
     protected Frame $frame;
+    protected bool $header = true;
 
     /**
      * FixedWithExtractor.
@@ -31,21 +32,21 @@ class FixedWithExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of skipHeaderLines
+     * Set the value of skipLines.
      *
-     * @param int $skipHeaderLines
+     * @param int $skipLines
      *
      * @return  FixedWithExtractor
      */
-    public function setSkipHeaderLines(int $skipHeaderLines): FixedWithExtractor
+    public function setskipLines(int $skipLines): FixedWithExtractor
     {
-        $this->skipHeaderLines = $skipHeaderLines;
+        $this->skipLines = $skipLines;
 
         return $this;
     }
 
     /**
-     * Set the value of allColumns
+     * Set the value of allColumns.
      *
      * @return  FixedWithExtractor
      */
@@ -56,7 +57,19 @@ class FixedWithExtractor implements ExtractorInterface
 
         return $this;
     }
-    
+
+    /**
+     * Set the value of header.
+     *
+     * @return  FixedWithExtractor
+     */
+    public function setNoHeader(): FixedWithExtractor
+    {
+        $this->header = false;
+
+        return $this;
+    }
+
     /**
      * Extract the data from the source file.
      *
@@ -64,24 +77,25 @@ class FixedWithExtractor implements ExtractorInterface
      */
     public function extract(): Generator
     {
-        $skip = 0;
         $file = new SplFileObject($this->file);
 
-        $this->frame->setHeader(
-            $this->makeFrame(
-                trim($file->fgets())
-            )
-        );
+        if ($this->header) {
+            $this->frame->setHeader(
+                $this->makeFrame(
+                    trim($file->fgets())
+                )
+            );
 
-        $file->rewind();
+            // Go back to the begining of the file
+            $file->rewind();
+        }
 
-        while (!$file->eof()) {
-            if ($skip < $this->skipHeaderLines) {
-                ++$skip;
+        // Skip the number of lines minus one as it's a zero based index
+        if ($this->skipLines > 0) {
+            $file->seek($this->skipLines - 1);
+        }
 
-                $file->current();
-            }
-
+        while (! $file->eof()) {
             yield $this->frame->setData(
                 $this->makeFrame(
                     trim($file->fgets())
@@ -90,12 +104,11 @@ class FixedWithExtractor implements ExtractorInterface
         }
 
         $this->frame->setEnd();
-
         $file = null;
     }
 
     /**
-     * Convert the data to an array
+     * Convert the data to an array.
      *
      * @param string $row
      *

@@ -25,7 +25,7 @@ class CsvLoader implements LoaderInterface
     }
 
     /**
-     * Set the value of delimiter
+     * Set the value of delimiter.
      *
      * @param string $delimiter
      *
@@ -39,7 +39,7 @@ class CsvLoader implements LoaderInterface
     }
 
     /**
-     * Set the value of enclosure
+     * Set the value of enclosure.
      *
      * @param string $enclosure
      *
@@ -53,7 +53,7 @@ class CsvLoader implements LoaderInterface
     }
 
     /**
-     * Set the value of escapeCharacter
+     * Set the value of escapeCharacter.
      *
      * @param string $escapeCharacter
      *
@@ -65,11 +65,11 @@ class CsvLoader implements LoaderInterface
 
         return $this;
     }
-    
+
     /**
      * Write the data to the file.
      *
-     * @param \jwhulette\pipes\Frame $frame
+     * @param Frame $frame
      */
     public function load(Frame $frame): void
     {
@@ -79,5 +79,10 @@ class CsvLoader implements LoaderInterface
             $this->enclosure,
             $this->escapeCharacter
         );
+
+        // Close the file
+        if ($frame->end === true) {
+            unset($this->file);
+        }
     }
 }

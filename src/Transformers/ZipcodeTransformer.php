@@ -13,8 +13,6 @@ class ZipcodeTransformer implements TransformerInterface
     protected int $limit = 5;
 
     /**
-     * Tansfrom column
-     *
      * @param string $column
      * @param string|null $option padleft|padright
      * @param int|null $limit
@@ -26,22 +24,20 @@ class ZipcodeTransformer implements TransformerInterface
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
             'limit' => $limit ? $limit : $this->limit,
-            'option' => $this->setOption($option)
+            'option' => $this->setOption($option),
         ];
-        
+
         return $this;
     }
 
     /**
-     * Set the column option
-     *
      * @param string|null $option
      *
      * @return int|null
      */
     private function setOption(?string $option): ?int
     {
-        if (!\is_null($option)) {
+        if (! \is_null($option)) {
             if (strtolower($option) === 'padleft') {
                 return STR_PAD_LEFT;
             }
@@ -55,11 +51,9 @@ class ZipcodeTransformer implements TransformerInterface
     }
 
     /**
-     * Invoke the transformer.
+     * @param Frame $frame
      *
-     * @param \jwhulette\pipes\Frame $frame
-     *
-     * @return \jwhulette\pipes\Frame
+     * @return Frame
      */
     public function __invoke(Frame $frame): Frame
     {
@@ -69,20 +63,21 @@ class ZipcodeTransformer implements TransformerInterface
                     return $this->transformZipcode($item, $column['option'], $column['limit']);
                 }
             }
+
             return $item;
         });
 
         return $frame;
     }
 
-    /*
-     * Transform the zipcode.
-     *
+    /**
      * @param string $zipcode
+     * @param int|null $type
+     * @param int $limit
      *
-     * @return string|null
+     * @return string
      */
-    private function transformZipcode(string $zipcode, ?int $type, $limit): string
+    private function transformZipcode(string $zipcode, ?int $type, int $limit): string
     {
         $transformed = \preg_replace('/\D+/', '', $zipcode);
         $zipLength = \strlen($transformed);
@@ -91,7 +86,7 @@ class ZipcodeTransformer implements TransformerInterface
             return \substr($transformed, 0, $limit);
         }
 
-        if (!\is_null($type) && $zipLength < $limit) {
+        if (! \is_null($type) && $zipLength < $limit) {
             return \str_pad($transformed, $limit, '0', $type);
         }
 

@@ -14,21 +14,31 @@ class XmlExtractor implements ExtractorInterface
     protected string $file;
     protected string $nodename;
     protected Frame $frame;
-    protected bool $isZipped;
+    protected bool $isZipped = false;
 
     /**
      * XmlExtractor.
      *
      * @param string $file
      * @param string $nodename
-     * @param bool $isZipped
      */
-    public function __construct(string $file, string $nodename, bool $isZipped = false)
+    public function __construct(string $file, string $nodename)
     {
         $this->file = $file;
         $this->nodename = $nodename;
-        $this->isZipped = $isZipped;
         $this->frame = new Frame();
+    }
+
+    /**
+     * Set the value of isZipped.
+     *
+     * @return  XmlExtractor
+     */
+    public function setIsZipped(): XmlExtractor
+    {
+        $this->isZipped = true;
+
+        return $this;
     }
 
     /**
@@ -55,12 +65,11 @@ class XmlExtractor implements ExtractorInterface
         }
 
         $this->frame->setEnd();
-
         $reader->close();
     }
 
     /**
-     * Flatten the multidimentional array
+     * Flatten the multidimentional array.
      *
      * @param array $array
      *
@@ -68,7 +77,7 @@ class XmlExtractor implements ExtractorInterface
      */
     private function arrayFlatten(array $array): array
     {
-        $return = array();
+        $return = [];
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 $return = array_merge($return, $this->arrayFlatten($value));
@@ -76,11 +85,12 @@ class XmlExtractor implements ExtractorInterface
                 $return[$key] = $value;
             }
         }
+
         return $return;
     }
 
     /**
-     * Get all the xml nodes as an array
+     * Get all the xml nodes as an array.
      *
      * @param SimpleXMLElement $element
      * @param array $record

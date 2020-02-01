@@ -11,8 +11,6 @@ class PhoneTransformer implements TransformerInterface
     protected array $columns = [];
 
     /**
-     * Undocumented function
-     *
      * @param string|int $column
      * @param int $limit
      *
@@ -22,18 +20,16 @@ class PhoneTransformer implements TransformerInterface
     {
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
-            'limit' => $limit
+            'limit' => $limit,
         ];
 
         return $this;
     }
 
     /**
-     * Invoke the transformer.
+     * @param Frame $frame
      *
-     * @param \jwhulette\pipes\Frame $frame
-     *
-     * @return \jwhulette\pipes\Frame
+     * @return Frame
      */
     public function __invoke(Frame $frame): Frame
     {
@@ -51,9 +47,8 @@ class PhoneTransformer implements TransformerInterface
     }
 
     /**
-     * Transform the phone.
-     *
      * @param string $item
+     * @param array $transform
      *
      * @return string
      */

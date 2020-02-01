@@ -19,7 +19,7 @@ class CaseTransformer implements TransformerInterface
      *
      * @return CaseTransformer
      */
-    public function transformColumn(string $column, string $mode, string $encoding = 'utf-8'): self
+    public function transformColumn(string $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
     {
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
@@ -33,9 +33,9 @@ class CaseTransformer implements TransformerInterface
     /**
      * Invoke the transformer.
      *
-     * @param \jwhulette\pipes\Frame $frame
+     * @param Frame $frame
      *
-     * @return \jwhulette\pipes\Frame
+     * @return Frame
      */
     public function __invoke(Frame $frame): Frame
     {
@@ -69,6 +69,6 @@ class CaseTransformer implements TransformerInterface
             case 'title':
                 return MB_CASE_TITLE;
         }
-        throw new \InvalidArgumentException("The conversion mode [{$mode}] is invalid.");
+        throw new \InvalidArgumentException("Invalid conversion mode {$mode}.");
     }
 }

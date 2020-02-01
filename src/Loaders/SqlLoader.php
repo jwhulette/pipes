@@ -26,7 +26,7 @@ class SqlLoader implements LoaderInterface
      */
     public function __construct(string $table, string $connection = null)
     {
-        if (!is_null($connection)) {
+        if (! is_null($connection)) {
             $this->db = DB::connection($connection)->table($table);
         } else {
             $this->db = DB::table($table);
@@ -38,7 +38,7 @@ class SqlLoader implements LoaderInterface
      *
      * @param int $batchSize
      *
-     * @return \jwhulette\pipes\Loaders\SqlLoader
+     * @return SqlLoader
      */
     public function setBatchSize(int $batchSize): SqlLoader
     {
@@ -52,7 +52,7 @@ class SqlLoader implements LoaderInterface
      *
      * @param array $columns
      *
-     * @return \jwhulette\pipes\Loaders\SqlLoader
+     * @return SqlLoader
      */
     public function setColumns(array $columns = []): SqlLoader
     {
@@ -65,12 +65,12 @@ class SqlLoader implements LoaderInterface
     /**
      * Write the data to the loader.
      *
-     * @param \jwhulette\pipes\Frame $frame
+     * @param Frame $frame
      */
     public function load(Frame $frame): void
     {
-        ++$this->count;
-        
+        $this->count++;
+
         $this->buildInsert($frame);
 
         if (($this->count >= $this->batchSize) || $frame->end === true) {
@@ -84,7 +84,7 @@ class SqlLoader implements LoaderInterface
     /**
      * Add custom array keys for the column names.
      *
-     * @param \jwhulette\pipes\Frame $frame
+     * @param Frame $frame
      */
     private function buildInsert(Frame $frame): void
     {
