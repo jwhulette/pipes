@@ -43,7 +43,7 @@ class SqlLoaderTest extends TestCase
         $loader = new SqlLoader('test');
         $loader->setBatchSize(3);
 
-        for ($x = 0; $x < 5; ++$x) {
+        for ($x = 0; $x < 5; $x++) {
             $data = $this->frame->setData([
                 'BOB',
                 'SMITH',
@@ -57,7 +57,6 @@ class SqlLoaderTest extends TestCase
             $loader->load($data);
         }
 
-
         $count = DB::table('test')->count();
         $this->assertEquals(5, $count);
     }
@@ -67,7 +66,7 @@ class SqlLoaderTest extends TestCase
         $columns = ['first_name', 'last_name', 'dob'];
         $loader = new SqlLoader('test');
         $loader->setBatchSize(1)
-            ->setColumns($columns);
+            ->setSqlColumnNames($columns);
         $data = $this->frame->setData([
                 'BOBBO',
                 'SMITH',

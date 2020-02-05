@@ -19,7 +19,7 @@ class Processor
      * Build the pipeline.
      *
      * @param ExtractorInterface $extractor
-     * @param array $transformers
+     * @param array<object> $transformers
      * @param LoaderInterface $loader
      */
     public function __construct(ExtractorInterface $extractor, array $transformers, LoaderInterface $loader)

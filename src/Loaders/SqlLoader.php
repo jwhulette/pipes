@@ -14,28 +14,23 @@ class SqlLoader implements LoaderInterface
     protected Builder $db;
     protected Collection $columns;
     protected int $count = 0;
-    protected int $batchSize = 100;
+    protected int $batchSize = 500;
     protected array $insert = [];
     protected bool $useColumns = false;
 
     /**
-     * __construct.
-     *
      * @param string $table
      * @param string $connection
      */
     public function __construct(string $table, string $connection = null)
     {
+        $this->db = DB::table($table);
         if (! is_null($connection)) {
             $this->db = DB::connection($connection)->table($table);
-        } else {
-            $this->db = DB::table($table);
         }
     }
 
     /**
-     * Set the batch size.
-     *
      * @param int $batchSize
      *
      * @return SqlLoader
@@ -48,23 +43,19 @@ class SqlLoader implements LoaderInterface
     }
 
     /**
-     * Set the column names for the insert.
-     *
      * @param array $columns
      *
      * @return SqlLoader
      */
-    public function setColumns(array $columns = []): SqlLoader
+    public function setSqlColumnNames(array $columns = []): SqlLoader
     {
         $this->columns = collect($columns);
-        $this->useColumns = count($this->columns) > 0 ? true : false;
+        $this->useColumns = true;
 
         return $this;
     }
 
     /**
-     * Write the data to the loader.
-     *
      * @param Frame $frame
      */
     public function load(Frame $frame): void
@@ -82,8 +73,6 @@ class SqlLoader implements LoaderInterface
     }
 
     /**
-     * Add custom array keys for the column names.
-     *
      * @param Frame $frame
      */
     private function buildInsert(Frame $frame): void

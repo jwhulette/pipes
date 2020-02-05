@@ -36,6 +36,19 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
+    public function testThrowsExeception()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $transformer = (new TrimTransformer())->transformAllColumns('ltrims');
+        $this->frame->setData([
+            '  BOB',
+            '  SMITH',
+            '  02/11/1969',
+        ]);
+        $transformer->__invoke($this->frame);
+    }
+
     public function testLtrimAllColumns()
     {
         $transformer = (new TrimTransformer())->transformAllColumns('ltrim');

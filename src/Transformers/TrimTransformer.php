@@ -10,8 +10,8 @@ class TrimTransformer implements TransformerInterface
 {
     protected array $columns = [];
     protected bool $allcolumns = false;
-    protected string $type;
-    protected string $mask;
+    protected string $type = 'trim';
+    protected string $mask = " \t\n\r\0\x0B";
 
     /**
      * @param string $column
@@ -20,12 +20,12 @@ class TrimTransformer implements TransformerInterface
      *
      * @return TrimTransformer
      */
-    public function transformColumn(string $column, string $type = 'trim', string $mask = " \t\n\r\0\x0B"): TrimTransformer
+    public function transformColumn(string $column, ?string $type = null, ?string $mask = null): TrimTransformer
     {
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
-            'type' => $type,
-            'mask' => $mask,
+            'type' => $type ?? $this->type,
+            'mask' => $mask ?? $this->mask,
         ];
 
         return $this;
@@ -37,10 +37,12 @@ class TrimTransformer implements TransformerInterface
      *
      * @return TrimTransformer
      */
-    public function transformAllColumns(string $type = 'trim', string $mask = " \t\n\r\0\x0B"): TrimTransformer
+    public function transformAllColumns(?string $type = null, ?string $mask = null): TrimTransformer
     {
-        $this->type = $type;
-        $this->mask = $mask;
+        $this->columns = [
+            'type' => $type ?? $this->type,
+            'mask' => $mask ?? $this->mask,
+        ];
         $this->allcolumns = true;
 
         return $this;
@@ -56,8 +58,10 @@ class TrimTransformer implements TransformerInterface
         // Apply to all columns
         if ($this->allcolumns) {
             $frame->data->transform(function ($item) {
-                return $this->trimColumnValue($item, $this->type, $this->mask);
+                return $this->trimColumnValue($item, $this->columns['type'], $this->columns['mask']);
             });
+
+            return $frame;
         }
 
         // Apply to only selected columns
@@ -80,9 +84,14 @@ class TrimTransformer implements TransformerInterface
      * @param string $mask
      *
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function trimColumnValue(string $value, string $type, string $mask): string
     {
+        if (! \is_callable($type)) {
+            throw new \InvalidArgumentException("Invalid trim type: {$type}.");
+        }
+
         return \call_user_func($type, $value, $mask);
     }
 }

@@ -10,6 +10,8 @@ use jwhulette\pipes\Frame;
 class DateTimeTransformer implements TransformerInterface
 {
     protected array $columns = [];
+    const OUTPUTFORMAT = 'Y-m-d';
+    const INPUTFORMAT = '';
 
     /**
      * Set the column to transform.
@@ -20,12 +22,12 @@ class DateTimeTransformer implements TransformerInterface
      *
      * @return DateTimeTransformer
      */
-    public function transformColumn(string $column, string $outputFormat = 'Y-m-d', string $inputFormat = ''): DateTimeTransformer
+    public function transformColumn(string $column, ?string $outputFormat = null, ?string $inputFormat = null): DateTimeTransformer
     {
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
-            'outputFormat' => $outputFormat,
-            'inputFormat' => $inputFormat,
+            'outputFormat' => $outputFormat ?? self::OUTPUTFORMAT,
+            'inputFormat' => $inputFormat ?? self::INPUTFORMAT,
         ];
 
         return $this;

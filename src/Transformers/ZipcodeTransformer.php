@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Transformers;
 
-use Exception;
 use jwhulette\pipes\Frame;
 
 class ZipcodeTransformer implements TransformerInterface
 {
     protected array $columns = [];
-    protected int $limit = 5;
+    const MAXLENGTH = 5;
 
     /**
      * @param string $column
      * @param string|null $option padleft|padright
-     * @param int|null $limit
+     * @param int|null $maxlength
+
      *
      * @return ZipcodeTransformer
      */
-    public function tranformColumn(string $column, ?string $option = null, ?int $limit = null): ZipcodeTransformer
+    public function tranformColumn(string $column, ?string $option = null, ?int $maxlength = null): ZipcodeTransformer
     {
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
-            'limit' => $limit ? $limit : $this->limit,
+            'maxlength' => $maxlength ?? self::MAXLENGTH,
             'option' => $this->setOption($option),
         ];
 
@@ -60,7 +60,7 @@ class ZipcodeTransformer implements TransformerInterface
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
                 if ($column['column'] === $key) {
-                    return $this->transformZipcode($item, $column['option'], $column['limit']);
+                    return $this->transformZipcode($item, $column['option'], $column['maxlength']);
                 }
             }
 
@@ -73,21 +73,22 @@ class ZipcodeTransformer implements TransformerInterface
     /**
      * @param string $zipcode
      * @param int|null $type
-     * @param int $limit
+     * @param int $maxlength
+
      *
      * @return string
      */
-    private function transformZipcode(string $zipcode, ?int $type, int $limit): string
+    private function transformZipcode(string $zipcode, ?int $type, int $maxlength): string
     {
         $transformed = \preg_replace('/\D+/', '', $zipcode);
         $zipLength = \strlen($transformed);
 
-        if ($zipLength > $limit) {
-            return \substr($transformed, 0, $limit);
+        if ($zipLength > $maxlength) {
+            return \substr($transformed, 0, $maxlength);
         }
 
-        if (! \is_null($type) && $zipLength < $limit) {
-            return \str_pad($transformed, $limit, '0', $type);
+        if (! \is_null($type) && $zipLength < $maxlength) {
+            return \str_pad($transformed, $maxlength, '0', $type);
         }
 
         return $transformed;

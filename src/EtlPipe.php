@@ -30,7 +30,7 @@ class EtlPipe
     /**
      * Set the transforms to use.
      *
-     * @param array $transformers
+     * @param array<object> $transformers
      *
      * @return EtlPipe
      */

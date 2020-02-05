@@ -9,18 +9,19 @@ use jwhulette\pipes\Frame;
 class PhoneTransformer implements TransformerInterface
 {
     protected array $columns = [];
+    const MAXLENGTH = 10;
 
     /**
      * @param string|int $column
-     * @param int $limit
+     * @param int|null $maxlength
      *
      * @return PhoneTransformer
      */
-    public function transformColumn($column, int $limit = 10): PhoneTransformer
+    public function transformColumn($column, ?int $maxlength = null): PhoneTransformer
     {
         $this->columns[] = [
             'column' => (is_numeric($column) ? (int) $column : $column),
-            'limit' => $limit,
+            'maxlength' => $maxlength ?? self::MAXLENGTH,
         ];
 
         return $this;
@@ -57,8 +58,8 @@ class PhoneTransformer implements TransformerInterface
         // Remove all non numeric characters
         $transformed = \preg_replace('/\D+/', '', $item);
 
-        if ($transform['limit'] > 0) {
-            $transformed = \substr($transformed, 0, $transform['limit']);
+        if ($transform['maxlength'] > 0) {
+            $transformed = \substr($transformed, 0, $transform['maxlength']);
         }
 
         return $transformed;

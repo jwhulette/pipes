@@ -97,7 +97,7 @@ class XmlExtractor implements ExtractorInterface
      *
      * @return array
      */
-    private function loopXml($element, $record = []): array
+    private function loopXml(SimpleXMLElement $element, $record = []): array
     {
         foreach ($element->children() as $node) {
             if ($node->count() > 0) {
