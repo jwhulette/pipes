@@ -15,8 +15,6 @@ class CsvLoader implements LoaderInterface
     protected SplFileObject $file;
 
     /**
-     * CsvLoader.
-     *
      * @param string $ouputfile
      */
     public function __construct(string $ouputfile)
@@ -25,8 +23,6 @@ class CsvLoader implements LoaderInterface
     }
 
     /**
-     * Set the value of delimiter.
-     *
      * @param string $delimiter
      *
      * @return CsvLoader
@@ -39,8 +35,6 @@ class CsvLoader implements LoaderInterface
     }
 
     /**
-     * Set the value of enclosure.
-     *
      * @param string $enclosure
      *
      * @return CsvLoader
@@ -53,8 +47,6 @@ class CsvLoader implements LoaderInterface
     }
 
     /**
-     * Set the value of escapeCharacter.
-     *
      * @param string $escapeCharacter
      *
      * @return CsvLoader
@@ -67,8 +59,6 @@ class CsvLoader implements LoaderInterface
     }
 
     /**
-     * Write the data to the file.
-     *
      * @param Frame $frame
      */
     public function load(Frame $frame): void
