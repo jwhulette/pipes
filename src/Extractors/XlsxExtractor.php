@@ -14,12 +14,10 @@ class XlsxExtractor implements ExtractorInterface
 {
     protected ReaderInterface $reader;
     protected int $skipLines = 0;
-    protected bool $header = true;
+    protected bool $hasHeader = true;
     protected Frame $frame;
 
     /**
-     * XlsxExtrator.
-     *
      * @param string $file
      */
     public function __construct(string $file)
@@ -31,21 +29,19 @@ class XlsxExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of header.
-     *
      * @return  XlsxExtractor
      */
     public function setNoHeader(): XlsxExtractor
     {
-        $this->header = false;
+        $this->hasHeader = false;
 
         return $this;
     }
 
     /**
-     * Set the value of skipLines.
+     * @param int $skipLines
      *
-     * @return  XlsxExtractor
+     * @return XlsxExtractor
      */
     public function setskipLines(int $skipLines): XlsxExtractor
     {
@@ -55,15 +51,13 @@ class XlsxExtractor implements ExtractorInterface
     }
 
     /**
-     * Get a file line.
-     *
      * @return Generator
      */
     public function extract(): Generator
     {
         $skip = 0;
         $sheet = $this->reader->getSheetIterator();
-        if ($this->header) {
+        if ($this->hasHeader) {
             $this->setHeader($sheet);
         }
 
@@ -92,9 +86,7 @@ class XlsxExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the frame header.
-     *
-     * The use of rewind is needed when using current
+     * The use of rewind is needed when using current.
      *
      * @see https://github.com/box/spout/pull/606#issuecomment-443745187
      *
@@ -118,8 +110,6 @@ class XlsxExtractor implements ExtractorInterface
     }
 
     /**
-     * Create a new frame row from the data.
-     *
      * @param array $cells
      *
      * @return array

@@ -16,11 +16,9 @@ class FixedWithExtractor implements ExtractorInterface
     protected bool $allColumns = false;
     protected int $width;
     protected Frame $frame;
-    protected bool $header = true;
+    protected bool $hasHeader = true;
 
     /**
-     * FixedWithExtractor.
-     *
      * @param string $file
      * @param array  $columnWidths
      */
@@ -32,11 +30,9 @@ class FixedWithExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of skipLines.
-     *
      * @param int $skipLines
      *
-     * @return  FixedWithExtractor
+     * @return FixedWithExtractor
      */
     public function setskipLines(int $skipLines): FixedWithExtractor
     {
@@ -46,9 +42,9 @@ class FixedWithExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of allColumns.
+     * @param int $width
      *
-     * @return  FixedWithExtractor
+     * @return FixedWithExtractor
      */
     public function setAllColumns(int $width): FixedWithExtractor
     {
@@ -59,27 +55,23 @@ class FixedWithExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of header.
-     *
      * @return  FixedWithExtractor
      */
     public function setNoHeader(): FixedWithExtractor
     {
-        $this->header = false;
+        $this->hasHeader = false;
 
         return $this;
     }
 
     /**
-     * Extract the data from the source file.
-     *
      * @return Generator
      */
     public function extract(): Generator
     {
         $file = new SplFileObject($this->file);
 
-        if ($this->header) {
+        if ($this->hasHeader) {
             $this->frame->setHeader(
                 $this->makeFrame(
                     trim($file->fgets())
@@ -108,8 +100,6 @@ class FixedWithExtractor implements ExtractorInterface
     }
 
     /**
-     * Convert the data to an array.
-     *
      * @param string $row
      *
      * @return array

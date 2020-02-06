@@ -17,8 +17,6 @@ class XmlExtractor implements ExtractorInterface
     protected bool $isZipped = false;
 
     /**
-     * XmlExtractor.
-     *
      * @param string $file
      * @param string $nodename
      */
@@ -30,8 +28,6 @@ class XmlExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of isZipped.
-     *
      * @return  XmlExtractor
      */
     public function setIsZipped(): XmlExtractor
@@ -42,8 +38,6 @@ class XmlExtractor implements ExtractorInterface
     }
 
     /**
-     * Extract the data from the source file.
-     *
      * @return Generator
      */
     public function extract(): Generator

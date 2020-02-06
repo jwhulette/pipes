@@ -15,7 +15,7 @@ class CsvExtractor implements ExtractorInterface
     protected string $delimiter = ',';
     protected string $enclosure = '\'';
     protected int $skipLines = 0;
-    protected bool $header = true;
+    protected bool $hasHeader = true;
 
     /**
      * @param string $file
@@ -27,7 +27,7 @@ class CsvExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of delimiter.
+     * @param string $delimiter
      *
      * @return  CsvExtractor
      */
@@ -39,7 +39,7 @@ class CsvExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of enclosure.
+     * @param string $enclosure
      *
      * @return  CsvExtractor
      */
@@ -51,7 +51,7 @@ class CsvExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of skipLines.
+     * @param int $skipLines
      *
      * @return  CsvExtractor
      */
@@ -63,13 +63,11 @@ class CsvExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the value of header.
-     *
      * @return  CsvExtractor
      */
     public function setNoHeader(): CsvExtractor
     {
-        $this->header = false;
+        $this->hasHeader = false;
 
         return $this;
     }
@@ -84,7 +82,7 @@ class CsvExtractor implements ExtractorInterface
         $file = new SplFileObject($this->file);
         $file->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
 
-        if ($this->header) {
+        if ($this->hasHeader) {
             $this->frame->setHeader(
                 $file->fgetcsv($this->delimiter, $this->enclosure)
             );
