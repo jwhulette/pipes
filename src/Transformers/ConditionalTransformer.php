@@ -5,38 +5,47 @@ declare(strict_types=1);
 namespace jwhulette\pipes\Transformers;
 
 use jwhulette\pipes\Frame;
+use Illuminate\Support\Collection;
 
 class ConditionalTransformer implements TransformerInterface
 {
-    protected array $conditionals;
+    protected Collection $conditionals;
 
-    /**
-     * ConditionalTransformer.
-     *
-     * @param array<array> $conditionals
-     */
-    public function __construct(array $conditionals)
+    public function __construct()
     {
-        $this->conditionals = $conditionals;
+        $this->conditionals = collect();
     }
 
     /**
-     * Invoke the transformer.
+     * @param array $match Any array of keys to values to match against
+     * @param array $replace An array of keyas to values replace
      *
+     * @return ConditionalTransformer
+     */
+    public function addConditional(array $match, array $replace): ConditionalTransformer
+    {
+        $condition = [
+            'match' => collect($match),
+            'replace' => collect($replace),
+        ];
+        $this->conditionals->push($condition);
+
+        return $this;
+    }
+
+    /**
      * @param Frame $frame
      *
      * @return Frame
      */
     public function __invoke(Frame $frame): Frame
     {
-        foreach ($this->conditionals as $conditional) {
-            $frameArray = $frame->data->toArray();
-            $check = \array_diff_assoc($conditional['match'], $frameArray);
-            if (\count($check) === 0) {
-                $replaced = \array_replace($frameArray, $conditional['replace']);
-                $frame->data = collect($replaced);
+        $this->conditionals->transform(function ($item) use ($frame) {
+            $diff = $item['match']->diffAssoc($frame->data);
+            if ($diff->count() === 0) {
+                $frame->data = $frame->data->replace($item['replace']);
             }
-        }
+        });
 
         return $frame;
     }
