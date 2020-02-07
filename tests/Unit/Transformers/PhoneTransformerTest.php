@@ -26,6 +26,22 @@ class PhoneTransformerTest extends TestCase
     }
 
     /**
+     * @param string $phone
+     * @param string $expected
+     *
+     * @dataProvider phoneProvider
+     */
+    public function testPhoneTransfromationByIndex($phone, $expected)
+    {
+        $frame = new Frame();
+        $frame->setData([$phone]);
+        $transformer = (new PhoneTransformer())->transformColumnByIndex(0);
+        $result = $transformer->__invoke($frame);
+
+        $this->assertSame($expected, $result->data->first());
+    }
+
+    /**
      * Data providor for testPhoneTransfromation.
      */
     public static function phoneProvider()

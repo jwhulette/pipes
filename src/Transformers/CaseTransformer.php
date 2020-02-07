@@ -12,9 +12,7 @@ class CaseTransformer implements TransformerInterface
     protected array $columns = [];
 
     /**
-     * Set the column to transform.
-     *
-     * @param string  $column
+     * @param string $column
      * @param string $mode upper|lower|title
      * @param string $encoding
      *
@@ -23,7 +21,7 @@ class CaseTransformer implements TransformerInterface
     public function transformColumn(string $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
     {
         $this->columns[] = [
-            'column' => (is_numeric($column) ? (int) $column : $column),
+            'column' =>  $column,
             'mode' => $this->getMode($mode),
             'encoding' => $encoding,
         ];
@@ -32,8 +30,24 @@ class CaseTransformer implements TransformerInterface
     }
 
     /**
-     * Invoke the transformer.
+     * @param int $column
+     * @param string $mode upper|lower|title
+     * @param string $encoding
      *
+     * @return CaseTransformer
+     */
+    public function transformColumnByIndex(int $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
+    {
+        $this->columns[] = [
+            'column' => $column,
+            'mode' => $this->getMode($mode),
+            'encoding' => $encoding,
+        ];
+
+        return $this;
+    }
+
+    /**
      * @param Frame $frame
      *
      * @return Frame
@@ -54,13 +68,13 @@ class CaseTransformer implements TransformerInterface
     }
 
     /**
-     * Get the mode.
+     * @param string $mode
      *
      * @return int
      *
      * @throws InvalidArgumentException
      */
-    private function getMode($mode): int
+    private function getMode(string $mode): int
     {
         switch (strtolower($mode)) {
             case 'upper':

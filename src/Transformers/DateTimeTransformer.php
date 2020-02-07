@@ -10,12 +10,10 @@ use jwhulette\pipes\Frame;
 class DateTimeTransformer implements TransformerInterface
 {
     protected array $columns = [];
-    const OUTPUTFORMAT = 'Y-m-d';
-    const INPUTFORMAT = '';
+    protected string $outputFormat = 'Y-m-d';
+    protected string $inputFormat = '';
 
     /**
-     * Set the column to transform.
-     *
      * @param string $column
      * @param string $outputFormat
      * @param string $inputFormat
@@ -25,17 +23,33 @@ class DateTimeTransformer implements TransformerInterface
     public function transformColumn(string $column, ?string $outputFormat = null, ?string $inputFormat = null): DateTimeTransformer
     {
         $this->columns[] = [
-            'column' => (is_numeric($column) ? (int) $column : $column),
-            'outputFormat' => $outputFormat ?? self::OUTPUTFORMAT,
-            'inputFormat' => $inputFormat ?? self::INPUTFORMAT,
+            'column' => $column,
+            'outputFormat' => $outputFormat ?? $this->outputFormat,
+            'inputFormat' => $inputFormat ?? $this->inputFormat,
         ];
 
         return $this;
     }
 
     /**
-     * Invoke the transformer.
+     * @param int $column
+     * @param string $outputFormat
+     * @param string $inputFormat
      *
+     * @return DateTimeTransformer
+     */
+    public function transformColumnByIndex(int $column, ?string $outputFormat = null, ?string $inputFormat = null): DateTimeTransformer
+    {
+        $this->columns[] = [
+            'column' => $column,
+            'outputFormat' => $outputFormat ?? $this->outputFormat,
+            'inputFormat' => $inputFormat ?? $this->inputFormat,
+        ];
+
+        return $this;
+    }
+
+    /**
      * @param Frame $frame
      *
      * @return Frame
@@ -56,8 +70,6 @@ class DateTimeTransformer implements TransformerInterface
     }
 
     /**
-     * Format the date.
-     *
      * @param string $datetime
      * @param array $transform
      *

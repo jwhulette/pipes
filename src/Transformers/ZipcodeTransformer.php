@@ -9,22 +9,39 @@ use jwhulette\pipes\Frame;
 class ZipcodeTransformer implements TransformerInterface
 {
     protected array $columns = [];
-    const MAXLENGTH = 5;
+    protected int $maxlength = 5;
 
     /**
      * @param string $column
-     * @param string|null $option padleft|padright
+     * @param string|null $pad padleft|padright
      * @param int|null $maxlength
-
      *
      * @return ZipcodeTransformer
      */
-    public function tranformColumn(string $column, ?string $option = null, ?int $maxlength = null): ZipcodeTransformer
+    public function tranformColumn(string $column, ?string $pad = null, ?int $maxlength = null): ZipcodeTransformer
     {
         $this->columns[] = [
-            'column' => (is_numeric($column) ? (int) $column : $column),
-            'maxlength' => $maxlength ?? self::MAXLENGTH,
-            'option' => $this->setOption($option),
+            'column' => $column,
+            'maxlength' => $maxlength ?? $this->maxlength,
+            'option' => $this->setOption($pad),
+        ];
+
+        return $this;
+    }
+
+    /**
+     * @param int $column
+     * @param string|null $pad padleft|padright
+     * @param int|null $maxlength
+     *
+     * @return ZipcodeTransformer
+     */
+    public function tranformColumnByIndex(int $column, ?string $pad = null, ?int $maxlength = null): ZipcodeTransformer
+    {
+        $this->columns[] = [
+            'column' => $column,
+            'maxlength' => $maxlength ?? $this->maxlength,
+            'option' => $this->setOption($pad),
         ];
 
         return $this;
@@ -74,7 +91,6 @@ class ZipcodeTransformer implements TransformerInterface
      * @param string $zipcode
      * @param int|null $type
      * @param int $maxlength
-
      *
      * @return string
      */

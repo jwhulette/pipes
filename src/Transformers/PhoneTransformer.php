@@ -9,19 +9,35 @@ use jwhulette\pipes\Frame;
 class PhoneTransformer implements TransformerInterface
 {
     protected array $columns = [];
-    const MAXLENGTH = 10;
+    protected int $maxlength = 10;
 
     /**
-     * @param string|int $column
-     * @param int|null $maxlength
+     * @param string $column
+     * @param int $maxlength
      *
      * @return PhoneTransformer
      */
-    public function transformColumn($column, ?int $maxlength = null): PhoneTransformer
+    public function transformColumn(string $column, int $maxlength = null): PhoneTransformer
     {
         $this->columns[] = [
-            'column' => (is_numeric($column) ? (int) $column : $column),
-            'maxlength' => $maxlength ?? self::MAXLENGTH,
+            'column' => $column,
+            'maxlength' => $maxlength ?? $this->maxlength,
+        ];
+
+        return $this;
+    }
+
+    /**
+     * @param int $column
+     * @param int $maxlength
+     *
+     * @return PhoneTransformer
+     */
+    public function transformColumnByIndex(int $column, int $maxlength = null): PhoneTransformer
+    {
+        $this->columns[] = [
+            'column' => $column,
+            'maxlength' => $maxlength ?? $this->maxlength,
         ];
 
         return $this;

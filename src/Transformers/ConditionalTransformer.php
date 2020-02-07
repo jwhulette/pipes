@@ -17,8 +17,8 @@ class ConditionalTransformer implements TransformerInterface
     }
 
     /**
-     * @param array $match Any array of keys to values to match against
-     * @param array $replace An array of keyas to values replace
+     * @param array $match Any associative array of keys to values to match against
+     * @param array $replace An associative array of keys to values to replace
      *
      * @return ConditionalTransformer
      */

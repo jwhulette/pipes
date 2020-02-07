@@ -88,6 +88,20 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB  ', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
+    public function testTrimColumnsByIndex()
+    {
+        $transformer = (new TrimTransformer())->transformColumnByIndex(1);
+        $frame = new Frame;
+        $frame->setData([
+            'BOB  ',
+            '  SMITH   ',
+            '02/11/1969',
+        ]);
+        $result = $transformer->__invoke($frame);
+
+        $this->assertEquals(['BOB  ', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+    }
+
     public function testLtrimColumns()
     {
         $transformer = (new TrimTransformer())->transformColumn('LASTNAME', 'ltrim');
@@ -97,6 +111,20 @@ class TrimTransformerTest extends TestCase
             '02/11/1969',
         ]);
         $result = $transformer->__invoke($this->frame);
+
+        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+    }
+
+    public function testLtrimColumnsByIndex()
+    {
+        $transformer = (new TrimTransformer())->transformColumnByIndex(1, 'ltrim');
+        $frame = new Frame;
+        $frame->setData([
+            'BOB',
+            '  SMITH',
+            '02/11/1969',
+        ]);
+        $result = $transformer->__invoke($frame);
 
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }

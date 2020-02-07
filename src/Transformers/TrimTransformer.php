@@ -24,7 +24,25 @@ class TrimTransformer implements TransformerInterface
     public function transformColumn(string $column, ?string $type = null, ?string $mask = null): TrimTransformer
     {
         $this->columns[] = [
-            'column' => (is_numeric($column) ? (int) $column : $column),
+            'column' => $column,
+            'type' => $type ?? $this->type,
+            'mask' => $mask ?? $this->mask,
+        ];
+
+        return $this;
+    }
+
+    /**
+     * @param int $column
+     * @param string $type
+     * @param string $mask
+     *
+     * @return TrimTransformer
+     */
+    public function transformColumnByIndex(int $column, ?string $type = null, ?string $mask = null): TrimTransformer
+    {
+        $this->columns[] = [
+            'column' => $column,
             'type' => $type ?? $this->type,
             'mask' => $mask ?? $this->mask,
         ];
