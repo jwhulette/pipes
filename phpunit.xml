@@ -15,7 +15,7 @@
         <server name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
     </php>         
     <testsuites>
-        <testsuite name="Pipes Etl Test Suite">
+        <testsuite name="Pipes ETL Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
