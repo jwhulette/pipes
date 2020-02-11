@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace jwhulette\pipes\Tests\Unit\Transformers;
 
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
 use jwhulette\pipes\Extractors\XlsxExtractor;
 
 class XlsxExtractorTest extends TestCase
@@ -22,8 +21,16 @@ class XlsxExtractorTest extends TestCase
             'COST',
             'test2',
         ];
+        $expectedData = [
+            'FIRSTNAME' => 'BOB',
+            'LASTNAME' => 'SMITH',
+            'DOB' => '02/11/69',
+            'COST' => '22',
+            'test2' => 'test',
+        ];
 
         $this->assertEquals($expected, $frame->header->values()->toArray());
+        $this->assertEquals($expectedData, $frame->data->toArray());
     }
 
     public function testHasNoHeader()

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Extractors;
 
-use Iterator;
 use Generator;
 use jwhulette\pipes\Frame;
 use Box\Spout\Reader\ReaderInterface;
+use Box\Spout\Reader\XLSX\RowIterator;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 class XlsxExtractor implements ExtractorInterface
@@ -16,6 +16,7 @@ class XlsxExtractor implements ExtractorInterface
     protected int $skipLines = 0;
     protected bool $hasHeader = true;
     protected Frame $frame;
+    protected int $sheetIndex = 0;
 
     /**
      * @param string $file
@@ -56,28 +57,31 @@ class XlsxExtractor implements ExtractorInterface
     public function extract(): Generator
     {
         $skip = 0;
-        $sheet = $this->reader->getSheetIterator();
-        if ($this->hasHeader) {
-            $this->setHeader($sheet);
-        }
 
         foreach ($this->reader->getSheetIterator() as $sheet) {
-            // Read only first sheet
-            if ($sheet->getIndex() === 0) {
-                foreach ($sheet->getRowIterator() as $row) {
+            // Read the selected sheet
+            if ($sheet->getIndex() === $this->sheetIndex) {
+                $rowIterator = $sheet->getRowIterator();
+
+                if ($this->hasHeader) {
+                    $this->setHeader($rowIterator);
+                    /*
+                     * Since foreach resets the point to the beginning
+                     * skip the header when looping the rows
+                     */
+                    $this->skipLines = $this->skipLines + 1;
+                }
+
+                foreach ($rowIterator as $row) {
                     if ($skip < $this->skipLines) {
                         $skip++;
                         continue;
                     }
 
                     yield $this->frame->setData(
-                        $this->makeRow(
-                            $row->getCells()
-                        )
+                        $this->makeRow($row->getCells())
                     );
                 }
-
-                break;
             }
         }
 
@@ -90,23 +94,18 @@ class XlsxExtractor implements ExtractorInterface
      *
      * @see https://github.com/box/spout/pull/606#issuecomment-443745187
      *
-     * @param Iterator $sheet
+     * @param RowIterator  $rowIterator
      */
-    private function setHeader($sheet): void
+    private function setHeader(RowIterator $rowIterator): void
     {
-        $sheet->rewind();
-        $currentSheet = $sheet->current();
-        $readerIterator = $currentSheet->getRowIterator();
-        $readerIterator->rewind();
-        $row = $readerIterator->current();
+        $rowIterator->rewind();
+        $row = $rowIterator->current();
+
         $this->frame->setHeader(
             $this->makeRow(
                 $row->getCells()
             )
         );
-
-        $sheet->rewind();
-        $readerIterator->rewind();
     }
 
     /**
