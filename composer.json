@@ -46,6 +46,7 @@
         "phpstan/phpstan": "^0.12.15",
         "ramsey/uuid": "^3.9",
         "orchestra/testbench": "^5.1",
-        "codedungeon/phpunit-result-printer": "^0.27.0"
+        "codedungeon/phpunit-result-printer": "^0.27.0",
+        "mikey179/vfsstream": "^1.6"
     }
 }

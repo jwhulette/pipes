@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+// @codingStandardsIgnoreLine
 class CreatePackageLargeTables extends Migration
 {
     /**
@@ -11,15 +12,13 @@ class CreatePackageLargeTables extends Migration
      */
     public function up()
     {
-        // Region,Country,Item Type,Sales Channel,Order Priority,Order Date,Order ID,Ship Date,Units Sold,Unit Price,Unit Cost,Total Revenue,Total Cost,Total Profit
-
         Schema::create('sales_data', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('region');
             $table->string('country');
             $table->string('item_type');
             $table->string('sales_channel');
-            $table->string('order_priority',1);
+            $table->string('order_priority', 1);
             $table->date('order_date');
             $table->string('order_id', 15);
             $table->date('ship_date');

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<wrapper>
-    <item>
-        <firstName>Bob</firstName>
-        <lastName>Smith</lastName>
-        <dob>02/11/1969</dob>
-    </item>
-</wrapper>
