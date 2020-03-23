@@ -41,11 +41,11 @@
         }
     },
     "require-dev": {
-        "codedungeon/phpunit-result-printer": "^0.26.2",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "phpunit/phpunit": "^8.5",
-        "phpstan/phpstan": "^0.12.3",
+        "phpunit/phpunit": "^9",
+        "phpstan/phpstan": "^0.12.15",
         "ramsey/uuid": "^3.9",
-        "orchestra/testbench": "^4.4"
+        "orchestra/testbench": "^5.1",
+        "codedungeon/phpunit-result-printer": "^0.27.0"
     }
 }
