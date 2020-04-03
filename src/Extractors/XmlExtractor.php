@@ -14,7 +14,7 @@ class XmlExtractor implements ExtractorInterface
     protected string $file;
     protected string $nodename;
     protected Frame $frame;
-    protected bool $isZipped = false;
+    protected bool $isGZipped = false;
 
     /**
      * @param string $file
@@ -30,9 +30,9 @@ class XmlExtractor implements ExtractorInterface
     /**
      * @return  XmlExtractor
      */
-    public function setIsZipped(): XmlExtractor
+    public function setIsGZipped(): XmlExtractor
     {
-        $this->isZipped = true;
+        $this->isGZipped = true;
 
         return $this;
     }
@@ -43,7 +43,7 @@ class XmlExtractor implements ExtractorInterface
     public function extract(): Generator
     {
         $reader = new XMLReader();
-        if ($this->isZipped) {
+        if ($this->isGZipped) {
             $reader->open('compress.zlib://'.$this->file);
         } else {
             $reader->open($this->file);

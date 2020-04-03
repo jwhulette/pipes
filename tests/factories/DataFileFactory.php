@@ -3,6 +3,7 @@
 namespace Tests\factories;
 
 use SplFileObject;
+use SimpleXMLElement;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class DataFileFactory
@@ -34,10 +35,25 @@ class DataFileFactory
             case 'xlsx':
                 $this->createXlsxFile();
                 break;
+            case 'xml':
+                $this->createXmlFile();
+                break;
             default:
                 // code...
                 break;
         }
+    }
+
+    /**
+     * Set the file as an xlsx.
+     *
+     * @return DataFileFactory
+     */
+    public function asXml(): DataFileFactory
+    {
+        $this->fileType = 'xml';
+
+        return $this;
     }
 
     /**
@@ -164,6 +180,25 @@ class DataFileFactory
                 $this->escapeCharacter
             );
         }
+    }
+
+    /**
+     * Create a text file.
+     */
+    protected function createXmlFile(): void
+    {
+        $file = new SplFileObject($this->file, 'w');
+
+        $xml = new SimpleXMLElement('<xml/>');
+
+        foreach ($this->data() as $data) {
+            $item = $xml->addChild('item');
+            $item->addChild('firstName', $data[0]);
+            $item->addChild('lastName', $data[1]);
+            $item->addChild('dob', $data[2]);
+        }
+
+        $file->fwrite($xml->saveXML());
     }
 
     /**

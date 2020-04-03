@@ -4,18 +4,25 @@ namespace jwhulette\pipes\Tests\Unit\Loaders;
 
 use Tests\TestCase;
 use jwhulette\pipes\Frame;
+use org\bovigo\vfs\vfsStream;
 use jwhulette\pipes\Loaders\CsvLoader;
+use org\bovigo\vfs\vfsStreamDirectory;
 
 class CsvLoaderTest extends TestCase
 {
-    /** @var Frame */
-    protected $frame;
-
-    /** @var string */
+    protected Frame $frame;
+    protected string $testfile;
+    protected vfsStreamDirectory $vfs;
 
     protected function setUp(): void
     {
         $this->frame = new Frame();
+
+        $this->frame->setData([
+            'BOB',
+            'SMITH',
+            '02/11/1969',
+        ]);
 
         $this->frame->setHeader([
                 'FIRSTNAME',
@@ -23,35 +30,37 @@ class CsvLoaderTest extends TestCase
                 'DOB',
             ]);
 
-        $this->frame->setData([
-                'BOB',
-                'SMITH',
-                '02/11/1969',
-            ]);
+        $directory = [
+                'csv_extractor.csv',
+            ];
+
+        $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
+
+        $this->testfile = $this->vfs->url().'/csv_extractor.csv';
     }
 
     public function testExtractorCsvInstance()
     {
-        $csv = new CsvLoader($this->csvLoader);
+        $csv = new CsvLoader($this->testfile);
 
         $this->assertInstanceOf(CsvLoader::class, $csv);
     }
 
     public function testHasLoader()
     {
-        $csv = new CsvLoader($this->csvLoader);
+        $csv = new CsvLoader($this->testfile);
 
         $csv->load($this->frame);
 
         $this->assertTrue(true);
     }
 
-    public function testFileWritw()
+    public function testFileWrite()
     {
-        $csv = new CsvLoader($this->csvLoader);
+        $csv = new CsvLoader($this->testfile);
 
         $csv->load($this->frame);
 
-        $this->assertTrue(file_exists($this->csvLoader));
+        $this->assertTrue(file_exists($this->testfile));
     }
 }
