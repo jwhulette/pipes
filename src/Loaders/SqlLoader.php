@@ -26,6 +26,7 @@ class SqlLoader implements LoaderInterface
     public function __construct(string $table, string $connection = null)
     {
         $this->db = DB::table($table);
+
         if (! is_null($connection)) {
             $this->db = DB::connection($connection)->table($table);
         }
