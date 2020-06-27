@@ -53,9 +53,11 @@ class SqlLoader implements LoaderInterface
     public function setSqlColumnNames(array $columns = []): SqlLoader
     {
         $this->columns = collect($columns);
+
         if ($this->columns->count() === 0) {
             throw new InvalidArgumentException('SQL Columns name cannot be empty');
         }
+
         $this->useColumns = true;
 
         return $this;
@@ -67,11 +69,14 @@ class SqlLoader implements LoaderInterface
     public function load(Frame $frame): void
     {
         $this->count++;
+
         $this->buildInsert($frame);
 
         if (($this->count >= $this->batchSize) || $frame->end === true) {
             $this->bulkInsert();
+
             $this->count = 0;
+
             $this->insert = [];
         }
     }

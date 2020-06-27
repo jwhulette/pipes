@@ -105,6 +105,7 @@ class CsvExtractor implements ExtractorInterface
         }
 
         $this->frame->setEnd();
+
         $file = null;
     }
 }

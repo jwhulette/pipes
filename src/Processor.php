@@ -25,7 +25,9 @@ class Processor
     public function __construct(ExtractorInterface $extractor, array $transformers, LoaderInterface $loader)
     {
         $this->extractor = $extractor;
+
         $this->loader = $loader;
+
         $this->buildTransformerPipline($transformers);
     }
 
@@ -35,8 +37,10 @@ class Processor
     public function process(): void
     {
         $line = $this->extractor->extract();
+
         foreach ($line as $collection) {
             $transformed = $this->pipline->process($collection);
+
             $this->loader->load($transformed);
         }
     }
@@ -47,6 +51,7 @@ class Processor
     private function buildTransformerPipline(array $transformers): void
     {
         $piplineBuilder = (new PipelineBuilder());
+
         foreach ($transformers as $transformer) {
             $piplineBuilder->add($transformer);
         }

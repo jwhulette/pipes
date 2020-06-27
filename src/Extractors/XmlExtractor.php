@@ -23,7 +23,9 @@ class XmlExtractor implements ExtractorInterface
     public function __construct(string $file, string $nodename)
     {
         $this->file = $file;
+
         $this->nodename = $nodename;
+
         $this->frame = new Frame();
     }
 
@@ -52,13 +54,17 @@ class XmlExtractor implements ExtractorInterface
         while ($reader->read()) {
             if ($reader->nodeType == XMLReader::ELEMENT and $reader->name === $this->nodename) {
                 $element = new SimpleXMLElement($reader->readOuterXML());
+
                 $xmlRecord = $this->loopXml($element);
+
                 $record = $this->arrayFlatten($xmlRecord);
+
                 yield $this->frame->setData($record);
             }
         }
 
         $this->frame->setEnd();
+
         $reader->close();
     }
 

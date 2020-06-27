@@ -62,6 +62,7 @@ class TrimTransformer implements TransformerInterface
             'type' => $type ?? $this->type,
             'mask' => $mask ?? $this->mask,
         ];
+
         $this->allcolumns = true;
 
         return $this;

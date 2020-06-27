@@ -25,7 +25,9 @@ class FixedWithExtractor implements ExtractorInterface
     public function __construct(string $file, array $columnWidths = [])
     {
         $this->file = $file;
+
         $this->frame = new Frame;
+
         $this->columnWidths = $columnWidths;
     }
 
@@ -49,6 +51,7 @@ class FixedWithExtractor implements ExtractorInterface
     public function setAllColumns(int $width): FixedWithExtractor
     {
         $this->allColumns = true;
+
         $this->width = $width;
 
         return $this;
@@ -96,6 +99,7 @@ class FixedWithExtractor implements ExtractorInterface
         }
 
         $this->frame->setEnd();
+
         $file = null;
     }
 
@@ -125,12 +129,16 @@ class FixedWithExtractor implements ExtractorInterface
     private function columnSizes(string $row): array
     {
         $data = [];
+
         $rangeStart = 0;
+
         $widths = $this->columnWidths;
 
         foreach ($widths as $width) {
             $item = substr($row, $rangeStart, $width);
+
             $data[] = trim($item);
+
             // Reset the ranges
             $rangeStart += $width;
         }
@@ -148,12 +156,16 @@ class FixedWithExtractor implements ExtractorInterface
     private function allColumnsEqual(string $row): array
     {
         $data = [];
+
         $length = strlen($row);
+
         $rangeStart = 0;
 
         while ($length >= $rangeStart) {
             $item = substr($row, $rangeStart, $this->width);
+
             $data[] = trim($item);
+
             // Reset the ranges
             $rangeStart += $this->width;
         }

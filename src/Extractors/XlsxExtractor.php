@@ -24,8 +24,11 @@ class XlsxExtractor implements ExtractorInterface
     public function __construct(string $file)
     {
         $this->reader = ReaderEntityFactory::createXLSXReader();
+
         $this->reader->setShouldFormatDates(true);
+
         $this->reader->open($file);
+
         $this->frame = new Frame();
     }
 
@@ -75,6 +78,7 @@ class XlsxExtractor implements ExtractorInterface
                 foreach ($rowIterator as $row) {
                     if ($skip < $this->skipLines) {
                         $skip++;
+
                         continue;
                     }
 
@@ -86,6 +90,7 @@ class XlsxExtractor implements ExtractorInterface
         }
 
         $this->frame->setEnd();
+
         $this->reader->close();
     }
 
@@ -99,6 +104,7 @@ class XlsxExtractor implements ExtractorInterface
     private function setHeader(RowIterator $rowIterator): void
     {
         $rowIterator->rewind();
+
         $row = $rowIterator->current();
 
         $this->frame->setHeader(
@@ -116,6 +122,7 @@ class XlsxExtractor implements ExtractorInterface
     public function makeRow(array $cells): array
     {
         $collection = [];
+
         foreach ($cells as $cell) {
             $collection[] = (string) $cell->getValue();
         }

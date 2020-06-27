@@ -28,6 +28,7 @@ class ConditionalTransformer implements TransformerInterface
             'match' => collect($match),
             'replace' => collect($replace),
         ];
+
         $this->conditionals->push($condition);
 
         return $this;
@@ -42,6 +43,7 @@ class ConditionalTransformer implements TransformerInterface
     {
         $this->conditionals->transform(function ($item) use ($frame) {
             $diff = $item['match']->diffAssoc($frame->data);
+
             if ($diff->count() === 0) {
                 $frame->data = $frame->data->replace($item['replace']);
             }
