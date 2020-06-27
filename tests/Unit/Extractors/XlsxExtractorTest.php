@@ -55,14 +55,18 @@ class XlsxExtractorTest extends TestCase
     public function testFrameHasHeader()
     {
         $excel = new XlsxExtractor($this->extract);
+
         $frameData = $excel->extract();
+
         $frame = $frameData->current();
+
         $expected = [
             'FIRSTNAME',
             'LASTNAME',
             'DOB',
             'AMOUNT',
         ];
+
         $expectedData = [
             'FIRSTNAME' => 'BOB',
             'LASTNAME' => 'SMITH',
@@ -78,8 +82,11 @@ class XlsxExtractorTest extends TestCase
     public function testHasNoHeader()
     {
         $excel = new XlsxExtractor($this->extractNoHeader);
+
         $frameData = $excel->setNoHeader()->extract();
+
         $frame = $frameData->current();
+
         $expected = [
             'BOB',
             'SMITH',

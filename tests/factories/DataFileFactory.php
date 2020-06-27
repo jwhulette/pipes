@@ -38,9 +38,6 @@ class DataFileFactory
             case 'xml':
                 $this->createXmlFile();
                 break;
-            default:
-                // code...
-                break;
         }
     }
 
@@ -95,8 +92,11 @@ class DataFileFactory
     public function asText(string $delimeter = ',', string $enclosure = '"', string $escapeCharacter = '\\'): DataFileFactory
     {
         $this->fileType = 'txt';
+
         $this->delimiter = $delimeter;
+
         $this->enclosure = $enclosure;
+
         $this->escapeCharacter = $escapeCharacter;
 
         return $this;
@@ -119,6 +119,7 @@ class DataFileFactory
     protected function createXlsxFile():void
     {
         $writer = WriterEntityFactory::createXLSXWriter();
+
         $writer->openToFile($this->file);
 
         if (! is_null($this->header)) {
@@ -142,10 +143,12 @@ class DataFileFactory
     protected function createFixedWidthFile(): void
     {
         $file = new SplFileObject($this->file, 'w');
+
         if (! is_null($this->header)) {
             foreach ($this->header as $value) {
                 $file->fwrite(\str_pad($value, $this->width));
             }
+
             $file->fwrite(PHP_EOL);
         }
 
@@ -153,6 +156,7 @@ class DataFileFactory
             foreach ($line as $item) {
                 $file->fwrite(\str_pad($item, $this->width));
             }
+
             $file->fwrite(PHP_EOL);
         }
     }
@@ -163,6 +167,7 @@ class DataFileFactory
     protected function createTextFile(): void
     {
         $file = new SplFileObject($this->file, 'w');
+
         if (! is_null($this->header)) {
             $file->fputcsv(
                 $this->header,
@@ -193,8 +198,11 @@ class DataFileFactory
 
         foreach ($this->data() as $data) {
             $item = $xml->addChild('item');
+
             $item->addChild('firstName', $data[0]);
+
             $item->addChild('lastName', $data[1]);
+
             $item->addChild('dob', $data[2]);
         }
 

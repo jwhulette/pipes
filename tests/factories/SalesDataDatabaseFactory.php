@@ -14,6 +14,7 @@ class SalesDataDatabaseFactory
     public function __construct(string $table)
     {
         $this->faker = Factory::create();
+
         $this->table = $table;
     }
 
@@ -21,6 +22,7 @@ class SalesDataDatabaseFactory
     {
         for ($i = 0; $i < $amount; $i++) {
             $data = $this->data();
+
             DB::table($this->table)->insert($data);
         }
     }
