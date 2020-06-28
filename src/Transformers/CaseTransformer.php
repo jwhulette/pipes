@@ -9,7 +9,7 @@ use InvalidArgumentException;
 
 class CaseTransformer implements TransformerInterface
 {
-    protected array $columns = [];
+    protected array $transformers = [];
 
     /**
      * @param string $column
@@ -20,7 +20,7 @@ class CaseTransformer implements TransformerInterface
      */
     public function transformColumn(string $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
     {
-        $this->columns[] = [
+        $this->transformers[] = (object) [
             'column' =>  $column,
             'mode' => $this->getMode($mode),
             'encoding' => $encoding,
@@ -38,7 +38,7 @@ class CaseTransformer implements TransformerInterface
      */
     public function transformColumnByIndex(int $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
     {
-        $this->columns[] = [
+        $this->transformers[] = (object) [
             'column' => $column,
             'mode' => $this->getMode($mode),
             'encoding' => $encoding,
@@ -55,9 +55,9 @@ class CaseTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
-            foreach ($this->columns as $column) {
-                if ($column['column'] === $key) {
-                    return \mb_convert_case($item, $column['mode'], $column['encoding']);
+            foreach ($this->transformers as $transformer) {
+                if ($transformer->column === $key) {
+                    return \mb_convert_case($item, $transformer->mode, $transformer->encoding);
                 }
             }
 

@@ -55,6 +55,18 @@ class XlsxExtractor implements ExtractorInterface
     }
 
     /**
+     * @param int $sheet
+     *
+     * @return XlsxExtractor
+     */
+    public function setSheetIndex(int $sheetIndex): XlsxExtractor
+    {
+        $this->sheetIndex = $sheetIndex;
+
+        return $this;
+    }
+
+    /**
      * @return Generator
      */
     public function extract(): Generator

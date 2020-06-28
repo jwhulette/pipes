@@ -10,12 +10,12 @@ use jwhulette\pipes\Transformers\CaseTransformer;
 
 class CaseTransformerTest extends TestCase
 {
-    /** @var Frame */
-    protected $frame;
+    protected Frame $frame;
 
     protected function setUp(): void
     {
         $this->frame = new Frame();
+
         $this->frame->setHeader([
             'FIRSTNAME',
             'LASTNAME',
@@ -30,10 +30,12 @@ class CaseTransformerTest extends TestCase
 
     public function testConvertColumnsLower()
     {
-        $transformer = new CaseTransformer();
-        $transformer->transformColumn('LASTNAME', 'lower');
-        $transformer->transformColumn('FIRSTNAME', 'lower');
+        $transformer = (new CaseTransformer())
+            ->transformColumn('LASTNAME', 'lower')
+            ->transformColumn('FIRSTNAME', 'lower');
+
         $result = $transformer->__invoke($this->frame);
+
         $expected = [
             'FIRSTNAME' => 'bob',
             'LASTNAME'  => 'smith',
@@ -45,16 +47,20 @@ class CaseTransformerTest extends TestCase
 
     public function testConvertColumnsLowerKeyIsInt()
     {
-        $transformer = new CaseTransformer();
-        $transformer->transformColumnByIndex(0, 'lower');
-        $transformer->transformColumnByIndex(1, 'lower');
+        $transformer = (new CaseTransformer())
+            ->transformColumnByIndex(0, 'lower')
+            ->transformColumnByIndex(1, 'lower');
+
         $this->frame = new Frame();
+
         $this->frame->setData([
             'BOB',
             'SMITH',
             '02/11/1969',
         ]);
+
         $result = $transformer->__invoke($this->frame);
+
         $expected = [
             'bob',
             'smith',
@@ -66,9 +72,11 @@ class CaseTransformerTest extends TestCase
 
     public function testConvertColumnsUpper()
     {
-        $transformer = new CaseTransformer();
-        $transformer->transformColumn('LASTNAME', 'Upper');
+        $transformer = (new CaseTransformer())
+            ->transformColumn('LASTNAME', 'Upper');
+
         $result = $transformer->__invoke($this->frame);
+
         $expected = [
             'FIRSTNAME' => 'BOB',
             'LASTNAME'  => 'SMITH',
@@ -80,9 +88,11 @@ class CaseTransformerTest extends TestCase
 
     public function testConvertColumnsTitle()
     {
-        $transformer = new CaseTransformer();
-        $transformer->transformColumn('LASTNAME', 'TITLE');
+        $transformer = (new CaseTransformer())
+            ->transformColumn('LASTNAME', 'TITLE');
+
         $result = $transformer->__invoke($this->frame);
+
         $expected = [
             'FIRSTNAME' => 'BOB',
             'LASTNAME'  => 'Smith',

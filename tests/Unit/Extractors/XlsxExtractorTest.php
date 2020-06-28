@@ -54,9 +54,8 @@ class XlsxExtractorTest extends TestCase
 
     public function testFrameHasHeader()
     {
-        $excel = new XlsxExtractor($this->extract);
-
-        $frameData = $excel->extract();
+        $frameData = (new XlsxExtractor($this->extract))
+            ->extract();
 
         $frame = $frameData->current();
 
@@ -81,9 +80,9 @@ class XlsxExtractorTest extends TestCase
 
     public function testHasNoHeader()
     {
-        $excel = new XlsxExtractor($this->extractNoHeader);
-
-        $frameData = $excel->setNoHeader()->extract();
+        $frameData = (new XlsxExtractor($this->extractNoHeader))
+            ->setNoHeader()
+            ->extract();
 
         $frame = $frameData->current();
 
@@ -92,6 +91,24 @@ class XlsxExtractorTest extends TestCase
             'SMITH',
             '02/11/1969',
             '$22.00',
+        ];
+
+        $this->assertEquals($expected, $frame->data->toArray());
+    }
+
+    public function testSetSheetIndex()
+    {
+        $frameData = (new XlsxExtractor($this->extract))
+            ->setSheetIndex(0)
+            ->extract();
+
+        $frame = $frameData->current();
+
+        $expected = [
+            'FIRSTNAME' => 'BOB',
+            'LASTNAME' => 'SMITH',
+            'DOB' => '02/11/1969',
+            'AMOUNT' => '$22.00',
         ];
 
         $this->assertEquals($expected, $frame->data->toArray());
