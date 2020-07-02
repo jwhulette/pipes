@@ -55,7 +55,7 @@ class XlsxExtractor implements ExtractorInterface
     }
 
     /**
-     * @param int $sheet
+     * @param int $sheetIndex
      *
      * @return XlsxExtractor
      */
