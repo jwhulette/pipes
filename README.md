@@ -1,3 +1,5 @@
+![Tests](https://github.com/jwhulette/pipes/workflows/Tests/badge.svg)
+
 # Pipes
 
 Pipes is a PHP Extract Transform Load [ETL] package for Laravel or Laravel Zero
