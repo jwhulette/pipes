@@ -34,6 +34,7 @@ class AppTest extends TestCase
     public function testAppBoots()
     {
         $EtlPipe = new EtlPipe;
+
         $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
     }
 
@@ -45,7 +46,9 @@ class AppTest extends TestCase
     public function testExtractorAdd()
     {
         $EtlPipe = new EtlPipe;
+
         $EtlPipe->extract(new CsvExtractor($this->testfile));
+
         $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
     }
 
@@ -57,21 +60,28 @@ class AppTest extends TestCase
     public function testTransformsAdd()
     {
         $EtlPipe = new EtlPipe;
+
         $EtlPipe->extract(new CsvExtractor($this->testfile));
+
         $EtlPipe->transformers([
             (new CaseTransformer())->transformColumn('test', 'lower'),
         ]);
+
         $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
     }
 
     public function testLoader()
     {
         $EtlPipe = new EtlPipe;
+
         $EtlPipe->extract(new CsvExtractor($this->testfile));
+
         $EtlPipe->transformers([
             (new CaseTransformer())->transformColumn('test', 'lower'),
         ]);
+
         $EtlPipe->load(new CsvLoader('test'));
+
         $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
     }
 }

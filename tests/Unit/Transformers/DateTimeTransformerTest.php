@@ -10,8 +10,7 @@ use jwhulette\pipes\Transformers\DateTimeTransformer;
 
 class DateTimeTransformerTest extends TestCase
 {
-    /** @var Frame */
-    protected $frame;
+    protected Frame $frame;
 
     protected function setUp(): void
     {
@@ -41,18 +40,21 @@ class DateTimeTransformerTest extends TestCase
         $result = $transformer->__invoke($this->frame);
 
         $this->assertEquals('1969-02-11', $result->data->get('DOB'));
+
         $this->assertEquals('2000-01-11', $result->data->get('DOB2'));
     }
 
     public function testDateGuessColumnIndex()
     {
         $frame = new Frame;
+
         $frame->setData([
             'BOB',
             'SMITH',
             '02/11/1969',
             '01/11/2000',
         ]);
+
         $transformer = (new DateTimeTransformer())
             ->transformColumnByIndex(2)
             ->transformColumnByIndex(3);
@@ -60,6 +62,7 @@ class DateTimeTransformerTest extends TestCase
         $result = $transformer->__invoke($frame);
 
         $this->assertEquals('1969-02-11', $result->data->slice(2, 1)->first());
+
         $this->assertEquals('2000-01-11', $result->data->slice(3, 1)->first());
     }
 
@@ -72,18 +75,21 @@ class DateTimeTransformerTest extends TestCase
         $result = $transformer->__invoke($this->frame);
 
         $this->assertEquals('1969-02-11', $result->data->get('DOB'));
+
         $this->assertEquals('2000-01-11', $result->data->get('DOB2'));
     }
 
     public function testDateInputFormatColumnIndex()
     {
         $frame = new Frame;
+
         $frame->setData([
             'BOB',
             'SMITH',
             '02/11/1969',
             '01/11/2000',
         ]);
+
         $transformer = (new DateTimeTransformer())
             ->transformColumnByIndex(2, 'Y-m-d', 'm/d/Y')
             ->transformColumnByIndex(3, null, 'm/d/Y');
@@ -91,6 +97,7 @@ class DateTimeTransformerTest extends TestCase
         $result = $transformer->__invoke($frame);
 
         $this->assertEquals('1969-02-11', $result->data->slice(2, 1)->first());
+
         $this->assertEquals('2000-01-11', $result->data->slice(3, 1)->first());
     }
 
@@ -111,8 +118,10 @@ class DateTimeTransformerTest extends TestCase
         });
 
         $this->frame->setData($frame->toArray());
+
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB');
+
         $result = $transformer->__invoke($this->frame);
 
         $this->assertEquals($expected, $result->data->get('DOB'));

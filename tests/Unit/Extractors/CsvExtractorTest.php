@@ -35,6 +35,7 @@ class CsvExtractorTest extends TestCase
             'AMOUNT',
         ];
         $this->extract = $this->vfs->url().'/csv_extractor.csv';
+
         $this->extractNoHeader = $this->vfs->url().'/csv_no_header_extractor.csv';
 
         (new DataFileFactory($this->extract))
@@ -50,8 +51,11 @@ class CsvExtractorTest extends TestCase
     public function testHasHeader()
     {
         $csv = new CsvExtractor($this->extract);
+
         $frameData = $csv->extract();
+
         $frame = $frameData->current();
+
         $expected = [
             'FIRSTNAME',
             'LASTNAME',
@@ -65,9 +69,13 @@ class CsvExtractorTest extends TestCase
     public function testHasNoHeader()
     {
         $csv = new CsvExtractor($this->extractNoHeader);
+
         $csv->setNoHeader();
+
         $frameData = $csv->extract();
+
         $frame = $frameData->current();
+
         $expected = [
             'BOB',
             'SMITH',
@@ -83,9 +91,13 @@ class CsvExtractorTest extends TestCase
     public function testSkipLines()
     {
         $csv = new CsvExtractor($this->extract);
+
         $csv->setskipLines(3);
+
         $frameData = $csv->extract();
+
         $frame = $frameData->current();
+
         $expected = [
             'FIRSTNAME' => 'LISA',
             'LASTNAME'  => 'SMITH',

@@ -29,18 +29,22 @@ class SqlLoaderTest extends TestCase
     public function testSqlLoaderInstance()
     {
         $loader = new SqlLoader('test');
+
         $data = $this->frame->setData([
             'BOB',
             'SMITH',
             '02/11/1969',
         ]);
+
         $loader->load($data);
+
         $this->assertInstanceOf(SqlLoader::class, $loader);
     }
 
     public function testWillLoadByBatch()
     {
         $loader = new SqlLoader('test');
+
         $loader->setBatchSize(3);
 
         for ($x = 0; $x < 5; $x++) {
@@ -58,23 +62,29 @@ class SqlLoaderTest extends TestCase
         }
 
         $count = DB::table('test')->count();
+
         $this->assertEquals(5, $count);
     }
 
     public function testUseCustomColumnNames()
     {
         $columns = ['first_name', 'last_name', 'dob'];
+
         $loader = new SqlLoader('test');
+
         $loader->setBatchSize(1)
             ->setSqlColumnNames($columns);
+
         $data = $this->frame->setData([
                 'BOBBO',
                 'SMITH',
                 '02/11/1969',
             ]);
+
         $loader->load($data);
 
         $count = DB::table('test')->count();
+
         $this->assertEquals(1, $count);
     }
 }
