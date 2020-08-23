@@ -8,6 +8,9 @@ use Tests\TestCase;
 use jwhulette\pipes\Frame;
 use jwhulette\pipes\Transformers\DateTimeTransformer;
 
+/**
+ * @group date
+ */
 class DateTimeTransformerTest extends TestCase
 {
     protected Frame $frame;
@@ -27,7 +30,7 @@ class DateTimeTransformerTest extends TestCase
             'BOB',
             'SMITH',
             '02/11/1969',
-            '01/11/2000',
+            '01/11/2000  00:00:00',
         ]);
     }
 
@@ -39,9 +42,9 @@ class DateTimeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals('1969-02-11', $result->data->get('DOB'));
+        $this->assertEquals('1969-02-11 00:00:00', $result->data->get('DOB'));
 
-        $this->assertEquals('2000-01-11', $result->data->get('DOB2'));
+        $this->assertEquals('2000-01-11 00:00:00', $result->data->get('DOB2'));
     }
 
     public function testDateGuessColumnIndex()
@@ -61,22 +64,22 @@ class DateTimeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertEquals('1969-02-11', $result->data->slice(2, 1)->first());
+        $this->assertEquals('1969-02-11 00:00:00', $result->data->slice(2, 1)->first());
 
-        $this->assertEquals('2000-01-11', $result->data->slice(3, 1)->first());
+        $this->assertEquals('2000-01-11 00:00:00', $result->data->slice(3, 1)->first());
     }
 
     public function testDateInputFormat()
     {
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB', 'Y-m-d', 'm/d/Y')
-            ->transformColumn('DOB2', null, 'm/d/Y');
+            ->transformColumn('DOB2', null, 'm/d/Y H:i:s');
 
         $result = $transformer->__invoke($this->frame);
 
         $this->assertEquals('1969-02-11', $result->data->get('DOB'));
 
-        $this->assertEquals('2000-01-11', $result->data->get('DOB2'));
+        $this->assertEquals('2000-01-11 00:00:00', $result->data->get('DOB2'));
     }
 
     public function testDateInputFormatColumnIndex()
@@ -87,18 +90,18 @@ class DateTimeTransformerTest extends TestCase
             'BOB',
             'SMITH',
             '02/11/1969',
-            '01/11/2000',
+            '01/11/2000 00:00:00',
         ]);
 
         $transformer = (new DateTimeTransformer())
             ->transformColumnByIndex(2, 'Y-m-d', 'm/d/Y')
-            ->transformColumnByIndex(3, null, 'm/d/Y');
+            ->transformColumnByIndex(3, null, 'm/d/Y H:i:s');
 
         $result = $transformer->__invoke($frame);
 
         $this->assertEquals('1969-02-11', $result->data->slice(2, 1)->first());
 
-        $this->assertEquals('2000-01-11', $result->data->slice(3, 1)->first());
+        $this->assertEquals('2000-01-11 00:00:00', $result->data->slice(3, 1)->first());
     }
 
     /**
@@ -133,17 +136,17 @@ class DateTimeTransformerTest extends TestCase
     public static function dateTimeProvider()
     {
         return [
-            ['02/11/1969', '1969-02-11'],
-            ['feb 11th 1969', '1969-02-11'],
-            ['Feb 11th 1969', '1969-02-11'],
-            ['11-FEB-1969', '1969-02-11'],
-            ['1997-07-16T19:20+01:00', '1997-07-16'],
-            ['1997-07-16T19:20:30+01:00', '1997-07-16'],
-            ['1997-07-16T19:20:30.45+01:00', '1997-07-16'],
-            ['1994-11-05T08:15:30-05:00', '1994-11-05'],
-            ['1994-11-05T13:15:30Z', '1994-11-05'],
-            ['Sun, 09 Mar 2008 16:05:07 GMT', '2008-03-09'],
-            ['Sunday, March 09, 2008 4:05:07 PM', '2008-03-09'],
+            ['02/11/1969', '1969-02-11 00:00:00'],
+            ['feb 11th 1969', '1969-02-11 00:00:00'],
+            ['Feb 11th 1969', '1969-02-11 00:00:00'],
+            ['11-FEB-1969', '1969-02-11 00:00:00'],
+            ['1997-07-16T19:20+01:00', '1997-07-16 19:20:00'],
+            ['1997-07-16T19:20:30+01:00', '1997-07-16 19:20:30'],
+            ['1997-07-16T19:20:30.45+01:00', '1997-07-16 19:20:30'],
+            ['1994-11-05T08:15:30-05:00', '1994-11-05 08:15:30'],
+            ['1994-11-05T13:15:30Z', '1994-11-05 13:15:30'],
+            ['Sun, 09 Mar 2008 16:05:07 GMT', '2008-03-09 16:05:07'],
+            ['Sunday, March 09, 2008 4:05:07 PM', '2008-03-09 16:05:07'],
         ];
     }
 }

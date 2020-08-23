@@ -23,6 +23,7 @@ class CsvExtractor implements ExtractorInterface
     public function __construct(string $file)
     {
         $this->file = $file;
+
         $this->frame = new Frame();
     }
 
@@ -80,6 +81,7 @@ class CsvExtractor implements ExtractorInterface
     public function extract(): Generator
     {
         $file = new SplFileObject($this->file);
+
         $file->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
 
         if ($this->hasHeader) {

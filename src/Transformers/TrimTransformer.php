@@ -7,6 +7,9 @@ namespace jwhulette\pipes\Transformers;
 use jwhulette\pipes\Frame;
 use InvalidArgumentException;
 
+/**
+ * Trim the item.
+ */
 class TrimTransformer implements TransformerInterface
 {
     protected array $columns = [];
@@ -16,8 +19,8 @@ class TrimTransformer implements TransformerInterface
 
     /**
      * @param string $column
-     * @param string $type
-     * @param string $mask
+     * @param string|null $type trim|ltrim|rtrim
+     * @param string|null $mask
      *
      * @return TrimTransformer
      */
@@ -34,8 +37,8 @@ class TrimTransformer implements TransformerInterface
 
     /**
      * @param int $column
-     * @param string $type
-     * @param string $mask
+     * @param string|null $type trim|ltrim|rtrim
+     * @param string|null $mask
      *
      * @return TrimTransformer
      */
@@ -51,8 +54,8 @@ class TrimTransformer implements TransformerInterface
     }
 
     /**
-     * @param string $type
-     * @param string $mask
+     * @param string|null $type trim|ltrim|rtrim
+     * @param string|null $mask
      *
      * @return TrimTransformer
      */
@@ -78,7 +81,11 @@ class TrimTransformer implements TransformerInterface
         // Apply to all columns
         if ($this->allcolumns) {
             $frame->data->transform(function ($item) {
-                return $this->trimColumnValue($item, $this->columns['type'], $this->columns['mask']);
+                return $this->trimColumnValue(
+                    $item,
+                    $this->columns['type'],
+                    $this->columns['mask']
+                );
             });
 
             return $frame;
@@ -88,7 +95,11 @@ class TrimTransformer implements TransformerInterface
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
                 if ($column['column'] === $key) {
-                    return $this->trimColumnValue($item, $column['type'], $column['mask']);
+                    return $this->trimColumnValue(
+                        $item,
+                        $column['type'],
+                        $column['mask']
+                    );
                 }
             }
 

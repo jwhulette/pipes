@@ -7,6 +7,9 @@ namespace jwhulette\pipes\Loaders;
 use SplFileObject;
 use jwhulette\pipes\Frame;
 
+/**
+ * Write a csv file.
+ */
 class CsvLoader implements LoaderInterface
 {
     protected string $delimiter = ',';

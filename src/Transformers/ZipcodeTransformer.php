@@ -6,6 +6,9 @@ namespace jwhulette\pipes\Transformers;
 
 use jwhulette\pipes\Frame;
 
+/**
+ * Clean the zip code.
+ */
 class ZipcodeTransformer implements TransformerInterface
 {
     protected array $columns = [];
@@ -77,7 +80,11 @@ class ZipcodeTransformer implements TransformerInterface
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
                 if ($column['column'] === $key) {
-                    return $this->transformZipcode($item, $column['option'], $column['maxlength']);
+                    return $this->transformZipcode(
+                        $item,
+                        $column['option'],
+                        $column['maxlength']
+                    );
                 }
             }
 

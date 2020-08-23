@@ -55,6 +55,9 @@ class EtlPipe
         return $this;
     }
 
+    /**
+     * Process the ETl pipeline.
+     */
     public function run(): void
     {
         (new Processor($this->extractor, $this->transformers, $this->loader))->process();

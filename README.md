@@ -40,12 +40,26 @@ Data is passed to the transfomers in the order they are defined
 
 ```php
 $etl = new EtlPipe();
-$etl->extract(new CsvExtractor($this->csvFile));
+$etl->extract(new CsvExtractor('my-file.csv'));
 $etl->transforms([
-    new CaseTransformer([], 'lower'),
+    new CaseTransformer()
+        ->transformColumn('first_name', 'lower'),
     new TrimTransformer(),
 ]);
 $etl->load(new CsvLoader('saved-file.csv'));
+$etl->run();
+
+or
+
+(new EtlPipe())
+    ->extract(new CsvExtractor('my-file.csv'))
+    ->transforms([
+        new CaseTransformer()
+            ->transformColumn('first_name', 'lower'),
+        new TrimTransformer(),
+    ])
+    ->load(new CsvLoader('saved-file.csv'))
+    ->run();
 ```
 
 ## Contributing

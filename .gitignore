@@ -6,3 +6,4 @@
 /report
 /coverage
 test
+/tests/performance/files/*

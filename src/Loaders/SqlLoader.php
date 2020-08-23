@@ -10,6 +10,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
 
+/**
+ * Write to a database.
+ */
 class SqlLoader implements LoaderInterface
 {
     protected Builder $db;

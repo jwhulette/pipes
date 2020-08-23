@@ -7,6 +7,9 @@ namespace jwhulette\pipes\Transformers;
 use jwhulette\pipes\Frame;
 use InvalidArgumentException;
 
+/**
+ * Change the case of the item.
+ */
 class CaseTransformer implements TransformerInterface
 {
     protected array $transformers = [];

@@ -6,6 +6,9 @@ namespace jwhulette\pipes\Transformers;
 
 use jwhulette\pipes\Frame;
 
+/**
+ * Clean phone numbers to include only digits.
+ */
 class PhoneTransformer implements TransformerInterface
 {
     protected array $columns = [];

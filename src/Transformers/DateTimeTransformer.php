@@ -7,21 +7,27 @@ namespace jwhulette\pipes\Transformers;
 use DateTime;
 use jwhulette\pipes\Frame;
 
+/**
+ * Change the date/time format of an item.
+ */
 class DateTimeTransformer implements TransformerInterface
 {
     protected array $columns = [];
-    protected string $outputFormat = 'Y-m-d';
-    protected string $inputFormat = '';
+    protected string $outputFormat = 'Y-m-d H:i:s';
+    protected ?string $inputFormat = null;
 
     /**
      * @param string $column
-     * @param string $outputFormat
-     * @param string $inputFormat
+     * @param string|null $outputFormat
+     * @param string|null $inputFormat
      *
      * @return DateTimeTransformer
      */
-    public function transformColumn(string $column, ?string $outputFormat = null, ?string $inputFormat = null): DateTimeTransformer
-    {
+    public function transformColumn(
+        string $column,
+        ?string $outputFormat = null,
+        ?string $inputFormat = null
+    ): DateTimeTransformer {
         $this->columns[] = [
             'column' => $column,
             'outputFormat' => $outputFormat ?? $this->outputFormat,
@@ -33,13 +39,16 @@ class DateTimeTransformer implements TransformerInterface
 
     /**
      * @param int $column
-     * @param string $outputFormat
-     * @param string $inputFormat
+     * @param string|null $outputFormat
+     * @param string|null $inputFormat
      *
      * @return DateTimeTransformer
      */
-    public function transformColumnByIndex(int $column, ?string $outputFormat = null, ?string $inputFormat = null): DateTimeTransformer
-    {
+    public function transformColumnByIndex(
+        int $column,
+        ?string $outputFormat = null,
+        ?string $inputFormat = null
+    ): DateTimeTransformer {
         $this->columns[] = [
             'column' => $column,
             'outputFormat' => $outputFormat ?? $this->outputFormat,
@@ -77,14 +86,12 @@ class DateTimeTransformer implements TransformerInterface
      */
     private function transformDateTime(string $datetime, array $transform): string
     {
-        if ($transform['inputFormat'] === '') {
-            $date = new DateTime($datetime);
-
-            return $date->format($transform['outputFormat']);
+        if ($transform['inputFormat'] === null) {
+            return (new DateTime($datetime))
+                ->format($transform['outputFormat']);
         }
 
-        $dateObject = DateTime::createFromFormat($transform['inputFormat'], $datetime);
-
-        return $dateObject->format($transform['outputFormat']);
+        return (DateTime::createFromFormat($transform['inputFormat'], $datetime))
+            ->format($transform['outputFormat']);
     }
 }

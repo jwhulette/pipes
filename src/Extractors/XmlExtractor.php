@@ -78,6 +78,7 @@ class XmlExtractor implements ExtractorInterface
     private function arrayFlatten(array $array): array
     {
         $return = [];
+
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 $return = array_merge($return, $this->arrayFlatten($value));

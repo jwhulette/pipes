@@ -6,6 +6,9 @@ namespace jwhulette\pipes;
 
 use Illuminate\Support\Collection;
 
+/**
+ * A data frame.
+ */
 class Frame
 {
     public Collection $header;

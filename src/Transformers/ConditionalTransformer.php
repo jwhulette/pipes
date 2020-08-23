@@ -7,13 +7,19 @@ namespace jwhulette\pipes\Transformers;
 use jwhulette\pipes\Frame;
 use Illuminate\Support\Collection;
 
+/**
+ * Change a value of an item of based on a conditional.
+ */
 class ConditionalTransformer implements TransformerInterface
 {
     protected Collection $conditionals;
 
+    /**
+     * __construct.
+     */
     public function __construct()
     {
-        $this->conditionals = collect();
+        $this->conditionals = new Collection;
     }
 
     /**
