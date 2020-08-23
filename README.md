@@ -95,9 +95,9 @@ Using the following pipeline:
 
 | File                     | Peak Memory | Execution Time |
 | ------------------------ | ----------- | -------------- |
-| 50000 Sales Records.csv  | 1.04MB      | 1.556 seconds  |
-| 100000 Sales Records.csv | 1.04MB      | 3.063 seconds  |
-| 500000 Sales Records.csv | 1.04MB      | 15.898 seconds |
+| 50000 Sales Records.csv  | 1.043MB     | 1.556 seconds  |
+| 100000 Sales Records.csv | 1.043MB     | 3.063 seconds  |
+| 500000 Sales Records.csv | 1.043MB     | 15.898 seconds |
 
 ## Contributing
 
