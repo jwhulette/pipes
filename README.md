@@ -6,8 +6,6 @@
 
 Pipes is a PHP Extract Transform Load [ETL] package for Laravel or Laravel Zero
 
-This a currently a work in progress, my idea was to have it as a "plug-in" for Laravel Zero
-
 ## Installation
 
 Add the following to your composer.json file.
@@ -24,19 +22,21 @@ Add the following to your composer.json file.
 
 ## Usage
 
-Create a new EtlPipe object.
+1. Create a new EtlPipe object.
 
-Add an extractor to the object to read the file
+1. Add an extractor to the object to read the input file
 
-You can add as many transformers as you want.
+1. Add one or more transforms to transform the data
 
-Add a loader to save the data
+    - You can add as many transformers as you want.
 
-### Notes
+    - Data is passed to the transfomers in the order they are defined
 
-Data is passed line by line from the loader using the generator function `yeild`
+1. Add a loader to save the data
 
-Data is passed to the transfomers in the order they are defined
+#### Notes
+
+-   Data is passed line by line in the pipeline using the generators
 
 ```php
 $etl = new EtlPipe();
@@ -61,6 +61,43 @@ or
     ->load(new CsvLoader('saved-file.csv'))
     ->run();
 ```
+
+##############################################################################
+
+### Performance
+
+Use the datasets from the below link to test the library performance
+
+[http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/](https://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/)
+
+Run `composer perf` to run the performance script
+
+Sample runs on my notebook:
+
+-   MacBook Pro (Retina, 15-inch, Late 2013)
+-   2.3 GHz Quad-Core Intel Core i7
+-   16 GB 1600 MHz DDR3
+
+Using the following pipeline:
+
+```php
+    (new EtlPipe())
+    ->extract(new CsvExtractor($filename))
+    ->transformers([
+        (new CaseTransformer())->transformColumn('Sales Channel', 'lower'),
+        (new TrimTransformer())->transformAllColumns(),
+        (new DateTimeTransformer())->transformColumn('Order Date')
+            ->transformColumn('Ship Date'),
+    ])
+    ->load(new CsvLoader($filepath.'/output/output.csv'))
+    ->run();
+```
+
+| File                     | Peak Memory | Execution Time |
+| ------------------------ | ----------- | -------------- |
+| 50000 Sales Records.csv  | 1.04MB      | 1.556 seconds  |
+| 100000 Sales Records.csv | 1.04MB      | 3.063 seconds  |
+| 500000 Sales Records.csv | 1.04MB      | 15.898 seconds |
 
 ## Contributing
 

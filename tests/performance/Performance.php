@@ -16,8 +16,8 @@ function run()
 {
     $filepath = 'tests/performance/files';
 
-    if (is_readable($filepath) && count(scandir($filepath)) === 3) {
-        die('Files directory is emtpy! Unable to run test!');
+    if (is_readable($filepath) && count(scandir($filepath)) <= 3) {
+        die('Files directory is emtpy! Unable to run performance test!');
     }
 
     foreach (glob($filepath.'/*.csv') as $filename) {
@@ -39,9 +39,9 @@ function run()
         /* Peak memory usage */
         $mem_peak = memory_get_peak_usage();
 
-        echo 'Peak usage: '.round(($mem_peak / 1024) / 1024, 2).'MB of memory used.'.PHP_EOL;
+        echo 'Peak usage: '.round(($mem_peak / 1024) / 1024, 3).'MB of memory used.'.PHP_EOL;
 
-        echo 'Total execution time in seconds: '.round(microtime(true) - $time_start, 1).PHP_EOL.PHP_EOL;
+        echo 'Total execution time in seconds: '.round(microtime(true) - $time_start, 3).PHP_EOL.PHP_EOL;
     }
 }
 
