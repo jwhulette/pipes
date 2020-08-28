@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace jwhulette\pipes;
 
 use League\Pipeline\PipelineBuilder;
-use League\Pipeline\PipelineInterface;
 use jwhulette\pipes\Loaders\LoaderInterface;
 use jwhulette\pipes\Extractors\ExtractorInterface;
 
@@ -16,7 +15,7 @@ class Processor
 {
     protected ExtractorInterface $extractor;
     protected LoaderInterface $loader;
-    protected PipelineInterface $pipline;
+    protected $pipline;
 
     /**
      * Build the pipeline.
@@ -49,7 +48,7 @@ class Processor
     }
 
     /**
-     * @param array $transformers
+     * @param array<object> $transformers
      */
     private function buildTransformerPipline(array $transformers): void
     {
