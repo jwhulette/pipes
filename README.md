@@ -80,6 +80,10 @@ Sample runs on my notebook:
 
 Using the following pipeline:
 
+1. Transform the Sales Channel column value to lowercase
+2. Trim the values in all columns
+3. Format the date in the Order Date & Ship Date values
+
 ```php
     (new EtlPipe())
     ->extract(new CsvExtractor($filename))
@@ -93,11 +97,12 @@ Using the following pipeline:
     ->run();
 ```
 
-| File                     | Peak Memory | Execution Time |
-| ------------------------ | ----------- | -------------- |
-| 50000 Sales Records.csv  | 1.043MB     | 1.556 seconds  |
-| 100000 Sales Records.csv | 1.043MB     | 3.063 seconds  |
-| 500000 Sales Records.csv | 1.043MB     | 15.898 seconds |
+| File                      | Peak Memory | Execution Time |
+| ------------------------- | ----------- | -------------- |
+| 50000 Sales Records.csv   | 1.043MB     | 1.556 seconds  |
+| 100000 Sales Records.csv  | 1.043MB     | 3.063 seconds  |
+| 500000 Sales Records.csv  | 1.043MB     | 15.898 seconds |
+| 1000000 Sales Records.csv | 1.348MB     | 32.204 seconds |
 
 ## Contributing
 
