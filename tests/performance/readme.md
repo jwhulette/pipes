@@ -2,7 +2,7 @@ Use the datasets from the below link to test the library performance
 
 [http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/](https://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/)
 
-Run `composer perf` to run the performance script
+Run `composer performance` to run the performance script
 
 Sample runs on my notebook:
 
@@ -25,8 +25,9 @@ Using the following pipeline:
     ->run();
 ```
 
-| File                     | Peak Memory | Execution Time |
-| ------------------------ | ----------- | -------------- |
-| 50000 Sales Records.csv  | 1.04MB      | 1.5 seconds    |
-| 100000 Sales Records.csv | 1.04MB      | 3.1 seconds    |
-| 500000 Sales Records.csv | 1.04MB      | 15.3 seconds   |
+| File                        | Peak Memory | Execution Time |
+| --------------------------- | ----------- | -------------- |
+| 50,000 Sales Records.csv    | 1.04MB      | 1.5 seconds    |
+| 100,000 Sales Records.csv   | 1.04MB      | 3.1 seconds    |
+| 500,000 Sales Records.csv   | 1.04MB      | 15.3 seconds   |
+| 1,000,000 Sales Records.csv | 1.38MB      | 33.6 seconds  |

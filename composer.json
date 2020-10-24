@@ -33,7 +33,7 @@
             "phpstan analyse",
             "phpunit --colors=always"
         ],
-        "perf": "@php tests/performance/performance.php"
+        "performance": "@php tests/performance/performance.php"
     },
     "extra": {
         "laravel": {
