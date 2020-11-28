@@ -4,10 +4,7 @@ require 'vendor/autoload.php';
 
 use jwhulette\pipes\EtlPipe;
 use jwhulette\pipes\Loaders\CsvLoader;
-use jwhulette\pipes\Loaders\SqlLoader;
 use jwhulette\pipes\Extractors\CsvExtractor;
-use jwhulette\pipes\Extractors\XmlExtractor;
-use jwhulette\pipes\Extractors\XlsxExtractor;
 use jwhulette\pipes\Transformers\CaseTransformer;
 use jwhulette\pipes\Transformers\TrimTransformer;
 use jwhulette\pipes\Transformers\DateTimeTransformer;
