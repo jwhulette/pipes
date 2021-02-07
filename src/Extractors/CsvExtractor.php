@@ -8,14 +8,11 @@ use Generator;
 use SplFileObject;
 use jwhulette\pipes\Frame;
 
-class CsvExtractor implements ExtractorInterface
+class CsvExtractor extends Extractor implements ExtractorInterface
 {
-    protected Frame $frame;
-    protected string $file;
     protected string $delimiter = ',';
+
     protected string $enclosure = '\'';
-    protected int $skipLines = 0;
-    protected bool $hasHeader = true;
 
     /**
      * @param string $file
@@ -24,7 +21,7 @@ class CsvExtractor implements ExtractorInterface
     {
         $this->file = $file;
 
-        $this->frame = new Frame();
+        $this->frame = new Frame;
     }
 
     /**
@@ -98,10 +95,10 @@ class CsvExtractor implements ExtractorInterface
             $file->seek($this->skipLines - 1);
         }
 
-        while (! $file->eof()) {
+        while (!$file->eof()) {
             $line = $file->fgetcsv($this->delimiter, $this->enclosure);
 
-            if (! is_null($line)) {
+            if (!is_null($line)) {
                 yield $this->frame->setData($line);
             }
         }

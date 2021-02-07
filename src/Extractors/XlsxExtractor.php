@@ -10,12 +10,10 @@ use Box\Spout\Reader\ReaderInterface;
 use Box\Spout\Reader\XLSX\RowIterator;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
-class XlsxExtractor implements ExtractorInterface
+class XlsxExtractor extends Extractor implements ExtractorInterface
 {
     protected ReaderInterface $reader;
-    protected int $skipLines = 0;
-    protected bool $hasHeader = true;
-    protected Frame $frame;
+
     protected int $sheetIndex = 0;
 
     /**

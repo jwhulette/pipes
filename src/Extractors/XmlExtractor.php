@@ -9,11 +9,10 @@ use XMLReader;
 use SimpleXMLElement;
 use jwhulette\pipes\Frame;
 
-class XmlExtractor implements ExtractorInterface
+class XmlExtractor extends Extractor implements ExtractorInterface
 {
-    protected string $file;
     protected string $nodename;
-    protected Frame $frame;
+
     protected bool $isGZipped = false;
 
     /**
@@ -46,7 +45,7 @@ class XmlExtractor implements ExtractorInterface
     {
         $reader = new XMLReader();
         if ($this->isGZipped) {
-            $reader->open('compress.zlib://'.$this->file);
+            $reader->open('compress.zlib://' . $this->file);
         } else {
             $reader->open($this->file);
         }

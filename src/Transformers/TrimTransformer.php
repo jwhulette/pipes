@@ -13,8 +13,11 @@ use InvalidArgumentException;
 class TrimTransformer implements TransformerInterface
 {
     protected array $columns = [];
+
     protected bool $allcolumns = false;
+
     protected string $type = 'trim';
+
     protected string $mask = " \t\n\r\0\x0B";
 
     /**
@@ -119,7 +122,7 @@ class TrimTransformer implements TransformerInterface
      */
     public function trimColumnValue(string $value, string $type, string $mask): string
     {
-        if (! \is_callable($type)) {
+        if (!\is_callable($type)) {
             throw new InvalidArgumentException("Invalid trim type: {$type}.");
         }
 

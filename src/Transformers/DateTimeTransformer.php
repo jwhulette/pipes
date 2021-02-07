@@ -13,7 +13,9 @@ use jwhulette\pipes\Frame;
 class DateTimeTransformer implements TransformerInterface
 {
     protected array $columns = [];
+
     protected string $outputFormat = 'Y-m-d H:i:s';
+
     protected ?string $inputFormat = null;
 
     /**
@@ -23,7 +25,7 @@ class DateTimeTransformer implements TransformerInterface
      *
      * @return DateTimeTransformer
      */
-    public function transformColumn(
+    public function transformColumnByName(
         string $column,
         ?string $outputFormat = null,
         ?string $inputFormat = null

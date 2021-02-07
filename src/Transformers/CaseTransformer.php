@@ -15,34 +15,16 @@ class CaseTransformer implements TransformerInterface
     protected array $transformers = [];
 
     /**
-     * @param string $column
+     * @param mixed $column name|index
      * @param string $mode upper|lower|title
      * @param string $encoding
      *
      * @return CaseTransformer
      */
-    public function transformColumn(string $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
+    public function transformColumn(mixed $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
     {
         $this->transformers[] = (object) [
             'column' =>  $column,
-            'mode' => $this->getMode($mode),
-            'encoding' => $encoding,
-        ];
-
-        return $this;
-    }
-
-    /**
-     * @param int $column
-     * @param string $mode upper|lower|title
-     * @param string $encoding
-     *
-     * @return CaseTransformer
-     */
-    public function transformColumnByIndex(int $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
-    {
-        $this->transformers[] = (object) [
-            'column' => $column,
             'mode' => $this->getMode($mode),
             'encoding' => $encoding,
         ];

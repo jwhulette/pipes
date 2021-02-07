@@ -8,21 +8,13 @@ use Generator;
 use SplFileObject;
 use jwhulette\pipes\Frame;
 
-class FixedWithExtractor implements ExtractorInterface
+class FixedWithExtractor extends Extractor implements ExtractorInterface
 {
-    protected string $file;
-
-    protected int $skipLines = 0;
-
     protected array $columnWidths = [];
 
     protected bool $allColumns = false;
 
     protected int $width;
-
-    protected Frame $frame;
-
-    protected bool $hasHeader = true;
 
     /**
      * @param string $file

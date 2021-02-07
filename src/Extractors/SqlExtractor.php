@@ -10,12 +10,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
 use jwhulette\pipes\Extractors\ExtractorInterface;
 
-class SqlExtractor implements ExtractorInterface
+class SqlExtractor extends Extractor implements ExtractorInterface
 {
     protected DB $db;
-    protected Frame $frame;
+
     protected ?string $connection = null;
+
     protected ?string $table = null;
+
     protected ?string $select = null;
 
     public function __construct()
@@ -40,7 +42,7 @@ class SqlExtractor implements ExtractorInterface
      *
      * @return SqlExtractor
      */
-    public function setTable(string $table):SqlExtractor
+    public function setTable(string $table): SqlExtractor
     {
         $this->table = $table;
 
@@ -78,15 +80,15 @@ class SqlExtractor implements ExtractorInterface
      */
     protected function getConnection(): ?Builder
     {
-        if (! is_null($this->connection)) {
+        if (!is_null($this->connection)) {
             DB::setDefaultConnection($this->connection);
         }
 
-        if (! is_null($this->select)) {
+        if (!is_null($this->select)) {
             return DB::table($this->table)->selectRaw($this->select);
         }
 
-        if (! is_null($this->table)) {
+        if (!is_null($this->table)) {
             return DB::table($this->table);
         }
 

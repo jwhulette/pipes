@@ -48,8 +48,8 @@ class CaseTransformerTest extends TestCase
     public function testConvertColumnsLowerKeyIsInt()
     {
         $transformer = (new CaseTransformer())
-            ->transformColumnByIndex(0, 'lower')
-            ->transformColumnByIndex(1, 'lower');
+            ->transformColumn(0, 'lower')
+            ->transformColumn(1, 'lower');
 
         $this->frame = new Frame();
 

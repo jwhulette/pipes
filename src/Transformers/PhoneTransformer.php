@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace jwhulette\pipes\Transformers;
 
 use jwhulette\pipes\Frame;
+use Illuminate\Support\Collection;
 
 /**
  * Clean phone numbers to include only digits.
  */
 class PhoneTransformer implements TransformerInterface
 {
-    protected array $columns = [];
+    protected Collection $columns;
+
     protected int $maxlength = 10;
 
     /**
@@ -20,12 +22,12 @@ class PhoneTransformer implements TransformerInterface
      *
      * @return PhoneTransformer
      */
-    public function transformColumn(string $column, int $maxlength = null): PhoneTransformer
+    public function transformColumnByName(string $column, int $maxlength = null): PhoneTransformer
     {
-        $this->columns[] = [
+        $this->columns->push([
             'column' => $column,
             'maxlength' => $maxlength ?? $this->maxlength,
-        ];
+        ]);
 
         return $this;
     }
@@ -38,10 +40,10 @@ class PhoneTransformer implements TransformerInterface
      */
     public function transformColumnByIndex(int $column, int $maxlength = null): PhoneTransformer
     {
-        $this->columns[] = [
+        $this->columns->push([
             'column' => $column,
             'maxlength' => $maxlength ?? $this->maxlength,
-        ];
+        ]);
 
         return $this;
     }

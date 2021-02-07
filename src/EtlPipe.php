@@ -10,7 +10,9 @@ use jwhulette\pipes\Extractors\ExtractorInterface;
 class EtlPipe
 {
     protected ExtractorInterface $extractor;
+
     protected LoaderInterface $loader;
+
     protected array $transformers = [];
 
     /**

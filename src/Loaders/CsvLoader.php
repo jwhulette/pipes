@@ -13,8 +13,11 @@ use jwhulette\pipes\Frame;
 class CsvLoader implements LoaderInterface
 {
     protected string $delimiter = ',';
+
     protected string $enclosure = '"';
+
     protected string $escapeCharacter = '\\';
+
     protected SplFileObject $file;
 
     /**

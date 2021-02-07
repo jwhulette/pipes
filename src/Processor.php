@@ -14,7 +14,9 @@ use jwhulette\pipes\Extractors\ExtractorInterface;
 class Processor
 {
     protected ExtractorInterface $extractor;
+
     protected LoaderInterface $loader;
+
     protected $pipline;
 
     /**

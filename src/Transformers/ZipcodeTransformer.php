@@ -12,6 +12,7 @@ use jwhulette\pipes\Frame;
 class ZipcodeTransformer implements TransformerInterface
 {
     protected array $columns = [];
+
     protected int $maxlength = 5;
 
     /**
@@ -57,7 +58,7 @@ class ZipcodeTransformer implements TransformerInterface
      */
     private function setOption(?string $option): ?int
     {
-        if (! \is_null($option)) {
+        if (!\is_null($option)) {
             if (strtolower($option) === 'padleft') {
                 return STR_PAD_LEFT;
             }
@@ -111,7 +112,7 @@ class ZipcodeTransformer implements TransformerInterface
             return \substr($transformed, 0, $maxlength);
         }
 
-        if (! \is_null($type) && $zipLength < $maxlength) {
+        if (!\is_null($type) && $zipLength < $maxlength) {
             return \str_pad($transformed, $maxlength, '0', $type);
         }
 

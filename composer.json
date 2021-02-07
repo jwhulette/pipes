@@ -42,12 +42,12 @@
         }
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.16",
-        "phpunit/phpunit": "^9",
-        "phpstan/phpstan": "^0.12.15",
-        "ramsey/uuid": "^3.9",
-        "orchestra/testbench": "^5.1",
-        "codedungeon/phpunit-result-printer": "^0.27.0",
+        "friendsofphp/php-cs-fixer": "^2.18",
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^0.12.73",
+        "ramsey/uuid": "^4.1",
+        "orchestra/testbench": "^6.11",
+        "codedungeon/phpunit-result-printer": "^0.30.1",
         "mikey179/vfsstream": "^1.6"
     }
 }
