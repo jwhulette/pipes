@@ -12,7 +12,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8",
         "league/pipeline": "^1.0",
         "box/spout": "^3.1"
     },
@@ -32,12 +32,13 @@
         "test-all": [
             "phpstan analyse",
             "phpunit --colors=always"
-        ],
-        "performance": "@php tests/performance/performance.php"
+        ]    
     },
     "extra": {
         "laravel": {
-            "providers": []
+            "providers": [
+                "jwhulette\\Pipes\\PipesServiceProvider"
+            ]
         }
     },
     "require-dev": {

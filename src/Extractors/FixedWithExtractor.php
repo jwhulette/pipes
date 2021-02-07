@@ -11,11 +11,17 @@ use jwhulette\pipes\Frame;
 class FixedWithExtractor implements ExtractorInterface
 {
     protected string $file;
+
     protected int $skipLines = 0;
+
     protected array $columnWidths = [];
+
     protected bool $allColumns = false;
+
     protected int $width;
+
     protected Frame $frame;
+
     protected bool $hasHeader = true;
 
     /**
@@ -90,7 +96,7 @@ class FixedWithExtractor implements ExtractorInterface
             $file->seek($this->skipLines - 1);
         }
 
-        while (! $file->eof()) {
+        while (!$file->eof()) {
             yield $this->frame->setData(
                 $this->makeFrame(
                     trim($file->fgets())
