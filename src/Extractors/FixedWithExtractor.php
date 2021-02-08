@@ -18,27 +18,12 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
 
     /**
      * @param string $file
-     * @param array  $columnWidths
      */
-    public function __construct(string $file, array $columnWidths = [])
+    public function __construct(string $file)
     {
         $this->file = $file;
 
         $this->frame = new Frame;
-
-        $this->columnWidths = $columnWidths;
-    }
-
-    /**
-     * @param int $skipLines
-     *
-     * @return FixedWithExtractor
-     */
-    public function setskipLines(int $skipLines): FixedWithExtractor
-    {
-        $this->skipLines = $skipLines;
-
-        return $this;
     }
 
     /**
@@ -51,6 +36,32 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
         $this->allColumns = true;
 
         $this->width = $width;
+
+        return $this;
+    }
+
+    /**
+     * Set the column with
+     *
+     * @param int $width
+     *
+     * @return FixedWithExtractor
+     */
+    public function setColumnWidth(int $width): FixedWithExtractor
+    {
+        $this->columnWidths = $width;
+
+        return $this;
+    }
+
+    /**
+     * @param int $skipLines
+     *
+     * @return FixedWithExtractor
+     */
+    public function setskipLines(int $skipLines): FixedWithExtractor
+    {
+        $this->skipLines = $skipLines;
 
         return $this;
     }
