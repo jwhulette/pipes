@@ -43,13 +43,13 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
     /**
      * Set the column with
      *
-     * @param int $width
+     * @param array $widths
      *
      * @return FixedWithExtractor
      */
-    public function setColumnWidth(int $width): FixedWithExtractor
+    public function setColumnsWidth(array $widths): FixedWithExtractor
     {
-        $this->columnWidths = $width;
+        $this->columnWidths = $widths;
 
         return $this;
     }

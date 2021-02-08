@@ -90,9 +90,9 @@ class FixedWithExtractorTest extends TestCase
     {
         $widths = [1 => 10, 2 => 10, 3 => 10, 4 => 10];
 
-        $fixedWidth = new FixedWithExtractor($this->extractNoHeader, $widths);
+        $fixedWidth = new FixedWithExtractor($this->extractNoHeader);
 
-        $frameData = $fixedWidth->setNoHeader()->extract();
+        $frameData = $fixedWidth->setColumnsWidth($widths)->setNoHeader()->extract();
 
         $frame = $frameData->current();
 
