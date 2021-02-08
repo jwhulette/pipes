@@ -59,8 +59,8 @@ class DateTimeTransformerTest extends TestCase
         ]);
 
         $transformer = (new DateTimeTransformer())
-            ->transformColumnByIndex(2)
-            ->transformColumnByIndex(3);
+            ->transformColumn(2)
+            ->transformColumn(3);
 
         $result = $transformer->__invoke($frame);
 
@@ -94,8 +94,8 @@ class DateTimeTransformerTest extends TestCase
         ]);
 
         $transformer = (new DateTimeTransformer())
-            ->transformColumnByIndex(2, 'Y-m-d', 'm/d/Y')
-            ->transformColumnByIndex(3, null, 'm/d/Y H:i:s');
+            ->transformColumn(2, 'Y-m-d', 'm/d/Y')
+            ->transformColumn(3, null, 'm/d/Y H:i:s');
 
         $result = $transformer->__invoke($frame);
 

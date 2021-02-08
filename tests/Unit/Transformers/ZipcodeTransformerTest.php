@@ -48,7 +48,7 @@ class ZipcodeTransformerTest extends TestCase
 
         $frame->setData([$zip]);
 
-        $transformer = (new ZipcodeTransformer())->tranformColumnByIndex(0);
+        $transformer = (new ZipcodeTransformer())->tranformColumn(0);
 
         $result = $transformer->__invoke($frame);
 
@@ -72,7 +72,7 @@ class ZipcodeTransformerTest extends TestCase
 
         $frame->setData(['']);
 
-        $transformer = (new ZipcodeTransformer())->tranformColumnByIndex(0, 'padleft');
+        $transformer = (new ZipcodeTransformer())->tranformColumn(0, 'padleft');
 
         $result = $transformer->__invoke($frame);
 
@@ -94,7 +94,7 @@ class ZipcodeTransformerTest extends TestCase
     {
         $frame = new Frame;
         $frame->setData(['']);
-        $transformer = (new ZipcodeTransformer())->tranformColumnByIndex(0, 'padleft', 10);
+        $transformer = (new ZipcodeTransformer())->tranformColumn(0, 'padleft', 10);
         $result = $transformer->__invoke($frame);
 
         $this->assertSame('0000000000', $result->data->first());
@@ -117,7 +117,7 @@ class ZipcodeTransformerTest extends TestCase
 
         $frame->setData(['122']);
 
-        $transformer = (new ZipcodeTransformer())->tranformColumnByIndex(0, 'padleft');
+        $transformer = (new ZipcodeTransformer())->tranformColumn(0, 'padleft');
 
         $result = $transformer->__invoke($frame);
 
@@ -141,7 +141,7 @@ class ZipcodeTransformerTest extends TestCase
 
         $frame->setData(['122']);
 
-        $transformer = (new ZipcodeTransformer())->tranformColumnByIndex(0, 'padright');
+        $transformer = (new ZipcodeTransformer())->tranformColumn(0, 'padright');
 
         $result = $transformer->__invoke($frame);
 

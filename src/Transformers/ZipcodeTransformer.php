@@ -5,48 +5,39 @@ declare(strict_types=1);
 namespace jwhulette\pipes\Transformers;
 
 use jwhulette\pipes\Frame;
+use Illuminate\Support\Collection;
 
 /**
  * Clean the zip code.
  */
 class ZipcodeTransformer implements TransformerInterface
 {
-    protected array $columns = [];
+    protected Collection $columns;
 
     protected int $maxlength = 5;
 
     /**
-     * @param string $column
-     * @param string|null $pad padleft|padright
-     * @param int|null $maxlength
-     *
-     * @return ZipcodeTransformer
+     * __construct.
      */
-    public function tranformColumn(string $column, ?string $pad = null, ?int $maxlength = null): ZipcodeTransformer
+    public function __construct()
     {
-        $this->columns[] = [
-            'column' => $column,
-            'maxlength' => $maxlength ?? $this->maxlength,
-            'option' => $this->setOption($pad),
-        ];
-
-        return $this;
+        $this->columns = new Collection;
     }
 
     /**
-     * @param int $column
+     * @param mixed $column name|index
      * @param string|null $pad padleft|padright
      * @param int|null $maxlength
      *
      * @return ZipcodeTransformer
      */
-    public function tranformColumnByIndex(int $column, ?string $pad = null, ?int $maxlength = null): ZipcodeTransformer
+    public function tranformColumn(mixed $column, ?string $pad = null, ?int $maxlength = null): ZipcodeTransformer
     {
-        $this->columns[] = [
+        $this->columns->push((object) [
             'column' => $column,
             'maxlength' => $maxlength ?? $this->maxlength,
             'option' => $this->setOption($pad),
-        ];
+        ]);
 
         return $this;
     }
@@ -80,11 +71,11 @@ class ZipcodeTransformer implements TransformerInterface
     {
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
-                if ($column['column'] === $key) {
+                if ($column->column === $key) {
                     return $this->transformZipcode(
                         $item,
-                        $column['option'],
-                        $column['maxlength']
+                        $column->option,
+                        $column->maxlength
                     );
                 }
             }

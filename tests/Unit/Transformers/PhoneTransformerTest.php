@@ -41,7 +41,7 @@ class PhoneTransformerTest extends TestCase
 
         $frame->setData([$phone]);
 
-        $transformer = (new PhoneTransformer())->transformColumnByIndex(0);
+        $transformer = (new PhoneTransformer())->transformColumn(0);
 
         $result = $transformer->__invoke($frame);
 

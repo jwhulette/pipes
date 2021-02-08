@@ -17,30 +17,22 @@ class PhoneTransformer implements TransformerInterface
     protected int $maxlength = 10;
 
     /**
-     * @param string $column
-     * @param int $maxlength
-     *
-     * @return PhoneTransformer
+     * __construct.
      */
-    public function transformColumnByName(string $column, int $maxlength = null): PhoneTransformer
+    public function __construct()
     {
-        $this->columns->push([
-            'column' => $column,
-            'maxlength' => $maxlength ?? $this->maxlength,
-        ]);
-
-        return $this;
+        $this->columns = new Collection;
     }
 
     /**
-     * @param int $column
+     * @param mixed $column name|index
      * @param int $maxlength
      *
      * @return PhoneTransformer
      */
-    public function transformColumnByIndex(int $column, int $maxlength = null): PhoneTransformer
+    public function transformColumn(mixed $column, int $maxlength = null): PhoneTransformer
     {
-        $this->columns->push([
+        $this->columns->push((object)[
             'column' => $column,
             'maxlength' => $maxlength ?? $this->maxlength,
         ]);
@@ -57,7 +49,7 @@ class PhoneTransformer implements TransformerInterface
     {
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
-                if ($column['column'] === $key) {
+                if ($column->column === $key) {
                     return $this->tranformPhone($item, $column);
                 }
             }
@@ -70,17 +62,17 @@ class PhoneTransformer implements TransformerInterface
 
     /**
      * @param string $item
-     * @param array $transform
+     * @param object $transform
      *
      * @return string
      */
-    private function tranformPhone(string $item, array $transform): string
+    private function tranformPhone(string $item, object $transform): string
     {
         // Remove all non numeric characters
         $transformed = \preg_replace('/\D+/', '', $item);
 
-        if ($transform['maxlength'] > 0) {
-            $transformed = \substr($transformed, 0, $transform['maxlength']);
+        if ($transform->maxlength > 0) {
+            $transformed = \substr($transformed, 0, $transform->maxlength);
         }
 
         return $transformed;

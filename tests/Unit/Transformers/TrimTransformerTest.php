@@ -17,10 +17,10 @@ class TrimTransformerTest extends TestCase
         $this->frame = new Frame();
 
         $this->frame->setHeader([
-                'FIRSTNAME',
-                'LASTNAME',
-                'DOB',
-            ]);
+            'FIRSTNAME',
+            'LASTNAME',
+            'DOB',
+        ]);
     }
 
     public function testTrimAllColumns()
@@ -100,7 +100,7 @@ class TrimTransformerTest extends TestCase
 
     public function testTrimColumnsByIndex()
     {
-        $transformer = (new TrimTransformer())->transformColumnByIndex(1);
+        $transformer = (new TrimTransformer())->transformColumn(1);
 
         $frame = new Frame;
 
@@ -132,7 +132,7 @@ class TrimTransformerTest extends TestCase
 
     public function testLtrimColumnsByIndex()
     {
-        $transformer = (new TrimTransformer())->transformColumnByIndex(1, 'ltrim');
+        $transformer = (new TrimTransformer())->transformColumn(1, 'ltrim');
 
         $frame = new Frame;
 

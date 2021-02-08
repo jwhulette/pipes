@@ -6,13 +6,22 @@ namespace jwhulette\pipes\Transformers;
 
 use jwhulette\pipes\Frame;
 use InvalidArgumentException;
+use Illuminate\Support\Collection;
 
 /**
  * Change the case of the item.
  */
 class CaseTransformer implements TransformerInterface
 {
-    protected array $transformers = [];
+    protected Collection $transformers;
+
+    /**
+     * __construct.
+     */
+    public function __construct()
+    {
+        $this->transformers = new Collection;
+    }
 
     /**
      * @param mixed $column name|index
@@ -23,11 +32,13 @@ class CaseTransformer implements TransformerInterface
      */
     public function transformColumn(mixed $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
     {
-        $this->transformers[] = (object) [
+        $transformer = (object) [
             'column' =>  $column,
             'mode' => $this->getMode($mode),
             'encoding' => $encoding,
         ];
+
+        $this->transformers->push($transformer);
 
         return $this;
     }

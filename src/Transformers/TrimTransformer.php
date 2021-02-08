@@ -6,13 +6,14 @@ namespace jwhulette\pipes\Transformers;
 
 use jwhulette\pipes\Frame;
 use InvalidArgumentException;
+use Illuminate\Support\Collection;
 
 /**
  * Trim the item.
  */
 class TrimTransformer implements TransformerInterface
 {
-    protected array $columns = [];
+    protected Collection $columns;
 
     protected bool $allcolumns = false;
 
@@ -21,37 +22,27 @@ class TrimTransformer implements TransformerInterface
     protected string $mask = " \t\n\r\0\x0B";
 
     /**
-     * @param string $column
-     * @param string|null $type trim|ltrim|rtrim
-     * @param string|null $mask
-     *
-     * @return TrimTransformer
+     * __construct.
      */
-    public function transformColumn(string $column, ?string $type = null, ?string $mask = null): TrimTransformer
+    public function __construct()
     {
-        $this->columns[] = [
-            'column' => $column,
-            'type' => $type ?? $this->type,
-            'mask' => $mask ?? $this->mask,
-        ];
-
-        return $this;
+        $this->columns = new Collection;
     }
 
     /**
-     * @param int $column
+     * @param mixed $column name|index
      * @param string|null $type trim|ltrim|rtrim
      * @param string|null $mask
      *
      * @return TrimTransformer
      */
-    public function transformColumnByIndex(int $column, ?string $type = null, ?string $mask = null): TrimTransformer
+    public function transformColumn(mixed $column, ?string $type = null, ?string $mask = null): TrimTransformer
     {
-        $this->columns[] = [
+        $this->columns->push((object) [
             'column' => $column,
             'type' => $type ?? $this->type,
             'mask' => $mask ?? $this->mask,
-        ];
+        ]);
 
         return $this;
     }
@@ -64,10 +55,10 @@ class TrimTransformer implements TransformerInterface
      */
     public function transformAllColumns(?string $type = null, ?string $mask = null): TrimTransformer
     {
-        $this->columns = [
+        $this->columns->push((object) [
             'type' => $type ?? $this->type,
             'mask' => $mask ?? $this->mask,
-        ];
+        ]);
 
         $this->allcolumns = true;
 
@@ -82,12 +73,12 @@ class TrimTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         // Apply to all columns
-        if ($this->allcolumns) {
+        if ($this->allcolumns === true) {
             $frame->data->transform(function ($item) {
                 return $this->trimColumnValue(
                     $item,
-                    $this->columns['type'],
-                    $this->columns['mask']
+                    $this->columns->first()->type,
+                    $this->columns->first()->mask
                 );
             });
 
@@ -97,11 +88,11 @@ class TrimTransformer implements TransformerInterface
         // Apply to only selected columns
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
-                if ($column['column'] === $key) {
+                if ($column->column === $key) {
                     return $this->trimColumnValue(
                         $item,
-                        $column['type'],
-                        $column['mask']
+                        $column->type,
+                        $column->mask
                     );
                 }
             }

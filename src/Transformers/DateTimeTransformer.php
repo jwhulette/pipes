@@ -6,56 +6,44 @@ namespace jwhulette\pipes\Transformers;
 
 use DateTime;
 use jwhulette\pipes\Frame;
+use Illuminate\Support\Collection;
 
 /**
  * Change the date/time format of an item.
  */
 class DateTimeTransformer implements TransformerInterface
 {
-    protected array $columns = [];
+    protected Collection $columns;
 
     protected string $outputFormat = 'Y-m-d H:i:s';
 
     protected ?string $inputFormat = null;
 
     /**
-     * @param string $column
-     * @param string|null $outputFormat
-     * @param string|null $inputFormat
-     *
-     * @return DateTimeTransformer
+     * __construct.
      */
-    public function transformColumnByName(
-        string $column,
-        ?string $outputFormat = null,
-        ?string $inputFormat = null
-    ): DateTimeTransformer {
-        $this->columns[] = [
-            'column' => $column,
-            'outputFormat' => $outputFormat ?? $this->outputFormat,
-            'inputFormat' => $inputFormat ?? $this->inputFormat,
-        ];
-
-        return $this;
+    public function __construct()
+    {
+        $this->columns = new Collection;
     }
 
     /**
-     * @param int $column
+     * @param string $column name|index
      * @param string|null $outputFormat
      * @param string|null $inputFormat
      *
      * @return DateTimeTransformer
      */
-    public function transformColumnByIndex(
-        int $column,
+    public function transformColumn(
+        mixed $column,
         ?string $outputFormat = null,
         ?string $inputFormat = null
     ): DateTimeTransformer {
-        $this->columns[] = [
+        $this->columns->push((object) [
             'column' => $column,
             'outputFormat' => $outputFormat ?? $this->outputFormat,
             'inputFormat' => $inputFormat ?? $this->inputFormat,
-        ];
+        ]);
 
         return $this;
     }
@@ -69,7 +57,7 @@ class DateTimeTransformer implements TransformerInterface
     {
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
-                if ($column['column'] === $key) {
+                if ($column->column === $key) {
                     return $this->transformDateTime($item, $column);
                 }
             }
@@ -82,18 +70,18 @@ class DateTimeTransformer implements TransformerInterface
 
     /**
      * @param string $datetime
-     * @param array $transform
+     * @param object $transform
      *
      * @return string
      */
-    private function transformDateTime(string $datetime, array $transform): string
+    private function transformDateTime(string $datetime, object $transform): string
     {
-        if ($transform['inputFormat'] === null) {
+        if ($transform->inputFormat === null) {
             return (new DateTime($datetime))
-                ->format($transform['outputFormat']);
+                ->format($transform->outputFormat);
         }
 
-        return (DateTime::createFromFormat($transform['inputFormat'], $datetime))
-            ->format($transform['outputFormat']);
+        return (DateTime::createFromFormat($transform->inputFormat, $datetime))
+            ->format($transform->outputFormat);
     }
 }
