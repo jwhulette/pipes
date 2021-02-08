@@ -72,6 +72,8 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
     {
         $file = new SplFileObject($this->file);
 
+        $file->setFlags(SplFileObject::READ_AHEAD);
+
         if ($this->hasHeader) {
             $this->frame->setHeader(
                 $this->makeFrame(

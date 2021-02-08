@@ -14,7 +14,9 @@ use jwhulette\pipes\Extractors\CsvExtractor;
 class CsvExtractorTest extends TestCase
 {
     protected string $extract;
+
     protected string $extractNoHeader;
+
     protected vfsStreamDirectory $vfs;
 
     public function setUp(): void
@@ -34,9 +36,9 @@ class CsvExtractorTest extends TestCase
             'DOB',
             'AMOUNT',
         ];
-        $this->extract = $this->vfs->url().'/csv_extractor.csv';
+        $this->extract = $this->vfs->url() . '/csv_extractor.csv';
 
-        $this->extractNoHeader = $this->vfs->url().'/csv_no_header_extractor.csv';
+        $this->extractNoHeader = $this->vfs->url() . '/csv_no_header_extractor.csv';
 
         (new DataFileFactory($this->extract))
             ->asText()

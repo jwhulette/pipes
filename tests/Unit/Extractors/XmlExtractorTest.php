@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Extractors;
 
-use ZipArchive;
 use Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
-use Illuminate\Support\Facades\File;
 use Tests\factories\DataFileFactory;
 use jwhulette\pipes\Extractors\XmlExtractor;
 
 class XmlExtractorTest extends TestCase
 {
     protected string $testfile;
+
     protected string $testZipfile;
 
     public function setUp(): void
@@ -26,14 +25,14 @@ class XmlExtractorTest extends TestCase
 
         $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
 
-        $this->testfile = $this->vfs->url().'/extractor.xml';
+        $this->testfile = $this->vfs->url() . '/extractor.xml';
 
         (new DataFileFactory($this->testfile))->asXml()->create();
     }
 
     public function testXmlExtractZipped()
     {
-        $testZipfile = sys_get_temp_dir().'/testgzip.gz';
+        $testZipfile = sys_get_temp_dir() . '/testgzip.gz';
 
         $fp = gzopen($testZipfile, 'w');
 

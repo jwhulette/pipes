@@ -79,7 +79,7 @@ class CsvExtractor extends Extractor implements ExtractorInterface
     {
         $file = new SplFileObject($this->file);
 
-        $file->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
+        $file->setFlags(SplFileObject::READ_AHEAD);
 
         if ($this->hasHeader) {
             $this->frame->setHeader(

@@ -12,6 +12,7 @@ use jwhulette\pipes\Extractors\XlsxExtractor;
 class XlsxExtractorTest extends TestCase
 {
     protected string $extract;
+
     protected string $extractNoHeader;
 
     public function setUp(): void
@@ -31,9 +32,9 @@ class XlsxExtractorTest extends TestCase
          */
         File::makeDirectory($this->testFilesDirectory, 0777, true);
 
-        $this->extract = $this->testFilesDirectory.'/extractor.xlsx';
+        $this->extract = $this->testFilesDirectory . '/extractor.xlsx';
 
-        $this->extractNoHeader = $this->testFilesDirectory.'/no_header_extractor.xlsx';
+        $this->extractNoHeader = $this->testFilesDirectory . '/no_header_extractor.xlsx';
 
         (new DataFileFactory($this->extract))
             ->asXlsx()

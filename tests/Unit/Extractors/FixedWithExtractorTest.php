@@ -13,7 +13,9 @@ use jwhulette\pipes\Extractors\FixedWithExtractor;
 class FixedWithExtractorTest extends TestCase
 {
     protected string $extract;
+
     protected string $extractNoHeader;
+
     protected vfsStreamDirectory $vfs;
 
     public function setUp(): void
@@ -34,8 +36,9 @@ class FixedWithExtractorTest extends TestCase
             'AMOUNT',
         ];
 
-        $this->extract = $this->vfs->url().'/fixed_width_extractor.txt';
-        $this->extractNoHeader = $this->vfs->url().'/fixed_width_no_header_extractor.txt';
+        $this->extract = $this->vfs->url() . '/fixed_width_extractor.txt';
+
+        $this->extractNoHeader = $this->vfs->url() . '/fixed_width_no_header_extractor.txt';
 
         (new DataFileFactory($this->extract))
             ->asFixedWidth(10)
@@ -50,8 +53,11 @@ class FixedWithExtractorTest extends TestCase
     public function testHasHeader()
     {
         $fixedWidth = new FixedWithExtractor($this->extract);
+
         $frameData = $fixedWidth->setAllColumns(10)->extract();
+
         $frame = $frameData->current();
+
         $expected = [
             'FIRSTNAME',
             'LASTNAME',
@@ -65,8 +71,11 @@ class FixedWithExtractorTest extends TestCase
     public function testHasNoHeaderAllColumnsSameWidth()
     {
         $fixedWidth = new FixedWithExtractor($this->extractNoHeader);
+
         $frameData = $fixedWidth->setNoHeader()->setAllColumns(10)->extract();
+
         $frame = $frameData->current();
+
         $expected = [
             'BOB',
             'SMITH',
@@ -80,9 +89,13 @@ class FixedWithExtractorTest extends TestCase
     public function testHasNoHeaderDifferentColumns()
     {
         $widths = [1 => 10, 2 => 10, 3 => 10, 4 => 10];
+
         $fixedWidth = new FixedWithExtractor($this->extractNoHeader, $widths);
+
         $frameData = $fixedWidth->setNoHeader()->extract();
+
         $frame = $frameData->current();
+
         $expected = [
             'BOB',
             'SMITH',
@@ -96,9 +109,13 @@ class FixedWithExtractorTest extends TestCase
     public function testSkipLines()
     {
         $fixedWidth = new FixedWithExtractor($this->extract);
+
         $fixedWidth->setskipLines(3);
+
         $frameData = $fixedWidth->setAllColumns(10)->extract();
+
         $frame = $frameData->current();
+
         $expected = [
             'FIRSTNAME' => 'LISA',
             'LASTNAME'  => 'SMITH',
