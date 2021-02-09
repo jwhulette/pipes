@@ -14,6 +14,8 @@ class CsvExtractor extends Extractor implements ExtractorInterface
 
     protected string $enclosure = '\'';
 
+    protected string $escape = '\\';
+
     /**
      * @param string $file
      */
@@ -49,6 +51,18 @@ class CsvExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
+     * @param string $escape
+     *
+     * @return  CsvExtractor
+     */
+    public function setEscape(string $escape): CsvExtractor
+    {
+        $this->escape = $escape;
+
+        return $this;
+    }
+
+    /**
      * @param int $skipLines
      *
      * @return  CsvExtractor
@@ -79,6 +93,8 @@ class CsvExtractor extends Extractor implements ExtractorInterface
     {
         $file = new SplFileObject($this->file);
 
+        $file->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
+
         $file->setFlags(SplFileObject::READ_AHEAD);
 
         if ($this->hasHeader) {
@@ -98,7 +114,7 @@ class CsvExtractor extends Extractor implements ExtractorInterface
         while (!$file->eof()) {
             $line = $file->fgetcsv($this->delimiter, $this->enclosure);
 
-            if (!is_null($line)) {
+            if (count($line) === 1 && !is_null($line[0])) {
                 yield $this->frame->setData($line);
             }
         }

@@ -20,10 +20,15 @@ use Illuminate\Database\Query\Builder;
 class SqlLoader implements LoaderInterface
 {
     protected Builder $db;
+
     protected Collection $columns;
+
     protected int $count = 0;
+
     protected int $batchSize = 500;
+
     protected array $insert = [];
+
     protected bool $useColumns = false;
 
     /**

@@ -16,7 +16,7 @@ class CsvLoader implements LoaderInterface
 
     protected string $enclosure = '"';
 
-    protected string $escapeCharacter = '\\';
+    protected string $escape = '\\';
 
     protected SplFileObject $file;
 
@@ -53,13 +53,13 @@ class CsvLoader implements LoaderInterface
     }
 
     /**
-     * @param string $escapeCharacter
+     * @param string $escape
      *
      * @return CsvLoader
      */
-    public function setEscapeCharacter(string $escapeCharacter): CsvLoader
+    public function setEscape(string $escape): CsvLoader
     {
-        $this->escapeCharacter = $escapeCharacter;
+        $this->escape = $escape;
 
         return $this;
     }
@@ -73,7 +73,7 @@ class CsvLoader implements LoaderInterface
             $frame->data->values()->toArray(),
             $this->delimiter,
             $this->enclosure,
-            $this->escapeCharacter
+            $this->escape
         );
 
         // Close the file
