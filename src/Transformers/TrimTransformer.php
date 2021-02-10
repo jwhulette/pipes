@@ -36,7 +36,7 @@ class TrimTransformer implements TransformerInterface
      *
      * @return TrimTransformer
      */
-    public function transformColumn(mixed $column, ?string $type = null, ?string $mask = null): TrimTransformer
+    public function transformColumn($column, ?string $type = null, ?string $mask = null): TrimTransformer
     {
         $this->columns->push((object) [
             'column' => $column,

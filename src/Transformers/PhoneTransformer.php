@@ -30,7 +30,7 @@ class PhoneTransformer implements TransformerInterface
      *
      * @return PhoneTransformer
      */
-    public function transformColumn(mixed $column, int $maxlength = null): PhoneTransformer
+    public function transformColumn($column, int $maxlength = null): PhoneTransformer
     {
         $this->columns->push((object)[
             'column' => $column,

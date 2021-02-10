@@ -30,7 +30,7 @@ class CaseTransformer implements TransformerInterface
      *
      * @return CaseTransformer
      */
-    public function transformColumn(mixed $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
+    public function transformColumn($column, string $mode, string $encoding = 'utf-8'): CaseTransformer
     {
         $transformer = (object) [
             'column' =>  $column,

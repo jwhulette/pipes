@@ -28,14 +28,14 @@ class DateTimeTransformer implements TransformerInterface
     }
 
     /**
-     * @param string $column name|index
+     * @param mixed $column name|index
      * @param string|null $outputFormat
      * @param string|null $inputFormat
      *
      * @return DateTimeTransformer
      */
     public function transformColumn(
-        mixed $column,
+        $column,
         ?string $outputFormat = null,
         ?string $inputFormat = null
     ): DateTimeTransformer {
