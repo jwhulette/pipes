@@ -116,13 +116,13 @@ class DataFileFactory
         return $this;
     }
 
-    protected function createXlsxFile():void
+    protected function createXlsxFile(): void
     {
         $writer = WriterEntityFactory::createXLSXWriter();
 
         $writer->openToFile($this->file);
 
-        if (! is_null($this->header)) {
+        if (!is_null($this->header)) {
             $rowFromValues = WriterEntityFactory::createRowFromArray($this->header);
 
             $writer->addRow($rowFromValues);
@@ -144,7 +144,7 @@ class DataFileFactory
     {
         $file = new SplFileObject($this->file, 'w');
 
-        if (! is_null($this->header)) {
+        if (!is_null($this->header)) {
             foreach ($this->header as $value) {
                 $file->fwrite(\str_pad($value, $this->width));
             }
@@ -168,7 +168,7 @@ class DataFileFactory
     {
         $file = new SplFileObject($this->file, 'w');
 
-        if (! is_null($this->header)) {
+        if (!is_null($this->header)) {
             $file->fputcsv(
                 $this->header,
                 $this->delimiter,
@@ -185,6 +185,13 @@ class DataFileFactory
                 $this->escapeCharacter
             );
         }
+
+        $file->fputcsv(
+            $data,
+            $this->delimiter,
+            $this->enclosure,
+            $this->escapeCharacter
+        );
     }
 
     /**
