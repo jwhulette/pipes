@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace jwhulette\pipes;
 
 use League\Pipeline\PipelineBuilder;
+use League\Pipeline\PipelineInterface;
 use jwhulette\pipes\Loaders\LoaderInterface;
 use jwhulette\pipes\Extractors\ExtractorInterface;
 
@@ -17,7 +18,7 @@ class Processor
 
     protected LoaderInterface $loader;
 
-    protected $pipline;
+    protected PipelineInterface $pipline;
 
     /**
      * Build the pipeline.

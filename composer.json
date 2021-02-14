@@ -13,7 +13,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.4|^8",
-        "league/pipeline": "^1.0",
+        "league/pipeline": "dev-master",
         "box/spout": "^3.1"
     },
     "autoload": {
@@ -29,7 +29,7 @@
     "scripts": {
         "test": "phpunit --colors=always",
         "phpstan": "phpstan analyse",
-        "test-all": [
+        "ts": [
             "phpstan analyse",
             "phpunit --colors=always"
         ]    
@@ -48,6 +48,7 @@
         "ramsey/uuid": "^4.1",
         "orchestra/testbench": "^6.11",
         "codedungeon/phpunit-result-printer": "^0.30.1",
-        "mikey179/vfsstream": "^1.6"
+        "mikey179/vfsstream": "^1.6",
+        "nunomaduro/larastan": "^0.7.0"
     }
 }

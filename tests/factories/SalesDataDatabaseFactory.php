@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class SalesDataDatabaseFactory
 {
     protected Generator $faker;
+
     protected string $table;
 
     public function __construct(string $table)

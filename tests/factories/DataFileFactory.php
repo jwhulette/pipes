@@ -9,10 +9,15 @@ use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 class DataFileFactory
 {
     protected string $delimiter;
+
     protected string $enclosure;
+
     protected string $escapeCharacter;
+
     protected int $width;
+
     protected ?array $header = null;
+
     protected string $file;
 
     public function __construct(string $file)
@@ -75,6 +80,7 @@ class DataFileFactory
     public function asFixedWidth(int $width): DataFileFactory
     {
         $this->fileType = 'fw';
+
         $this->width = $width;
 
         return $this;
