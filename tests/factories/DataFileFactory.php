@@ -186,12 +186,7 @@ class DataFileFactory
             );
         }
 
-        $file->fputcsv(
-            $data,
-            $this->delimiter,
-            $this->enclosure,
-            $this->escapeCharacter
-        );
+        $file->fwrite('');
     }
 
     /**
