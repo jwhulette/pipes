@@ -89,8 +89,11 @@ class DataFileFactory
      *
      * @return DataFileFactory
      */
-    public function asText(string $delimeter = ',', string $enclosure = '"', string $escapeCharacter = '\\'): DataFileFactory
-    {
+    public function asText(
+        string $delimeter = ',',
+        string $enclosure = '"',
+        string $escapeCharacter = '\\'
+    ): DataFileFactory {
         $this->fileType = 'txt';
 
         $this->delimiter = $delimeter;
