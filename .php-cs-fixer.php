@@ -1,5 +1,5 @@
 <?php
-
+// .php-cs-fixer.php
 use PhpCsFixer\Finder;
 
 $rules = [
@@ -95,7 +95,6 @@ $rules = [
     'phpdoc_trim'                                => true,
     'phpdoc_types'                               => true,
     'phpdoc_var_without_name'                    => true,
-    'psr12'                                      => true,
     'self_accessor'                              => false,
     'short_scalar_cast'                          => true,
     'simplified_null_return'                     => true,
