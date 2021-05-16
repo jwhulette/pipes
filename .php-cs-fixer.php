@@ -1,8 +1,9 @@
 <?php
-
+// .php-cs-fixer.php
 use PhpCsFixer\Finder;
 
 $rules = [
+    '@PSR12'                 => true,
     'array_syntax'           => ['syntax' => 'short'],
     'binary_operator_spaces' => [
         'default'   => 'single_space',
@@ -16,7 +17,11 @@ $rules = [
     'braces'                      => true,
     'cast_spaces'                 => true,
     'class_attributes_separation' => [
-        'elements' => ['method'],
+        'elements' => [
+            'const' => 'none',
+            'method' => 'one',
+            'property' => 'one',
+        ],
     ],
     'class_definition' => true,
     'concat_space'     => [
@@ -95,7 +100,6 @@ $rules = [
     'phpdoc_trim'                                => true,
     'phpdoc_types'                               => true,
     'phpdoc_var_without_name'                    => true,
-    'psr12'                                      => true,
     'self_accessor'                              => false,
     'short_scalar_cast'                          => true,
     'simplified_null_return'                     => true,
