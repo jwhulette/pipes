@@ -4,7 +4,9 @@ use PhpCsFixer\Finder;
 
 $rules = [
     '@PSR12'                 => true,
-    'array_syntax'           => ['syntax' => 'short'],
+    'array_syntax'           => [
+        'syntax' => 'short'
+    ],
     'binary_operator_spaces' => [
         'default'   => 'single_space',
         'operators' => ['=>' => null],
@@ -87,7 +89,7 @@ $rules = [
     'normalize_index_brace'                      => true,
     'not_operator_with_successor_space'          => true,
     'object_operator_without_whitespace'         => true,
-    'ordered_imports'                            => ['sortAlgorithm' => 'alpha'],
+    'ordered_imports'                            => ['sort_algorithm' => 'alpha'],
     'phpdoc_indent'                              => true,
     'phpdoc_line_span'                           => true,
     'phpdoc_no_access'                           => true,
@@ -121,9 +123,14 @@ $rules = [
     'trim_array_spaces'                 => true,
     'unary_operator_spaces'             => true,
     'visibility_required'               => [
-        'elements' => ['method', 'property'],
+        'elements' => [
+            'property',
+            'method',
+            'const'
+        ],
     ],
     'whitespace_after_comma_in_array' => true,
+    'blank_line_before_statement' => true
 ];
 
 $finder = Finder::create()
