@@ -1,6 +1,5 @@
 <?php
 
-use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 $rules = [
@@ -136,8 +135,8 @@ $finder = Finder::create()
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-return Config::create()
+$config = new PhpCsFixer\Config();
+return $config->setRules($rules)
     ->setFinder($finder)
-    ->setRules($rules)
     ->setRiskyAllowed(true)
     ->setUsingCache(true);
