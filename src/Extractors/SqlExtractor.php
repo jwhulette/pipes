@@ -13,11 +13,8 @@ use Jwhulette\Pipes\Extractors\ExtractorInterface;
 class SqlExtractor extends Extractor implements ExtractorInterface
 {
     protected DB $db;
-
     protected ?string $connection = null;
-
     protected ?string $table = null;
-
     protected ?string $select = null;
 
     public function __construct()

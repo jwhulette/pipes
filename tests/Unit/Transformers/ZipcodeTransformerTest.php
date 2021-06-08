@@ -20,7 +20,19 @@ class ZipcodeTransformerTest extends TestCase
     }
 
     /**
-     * @param string $phone
+     * Data providor for zipcodes.
+     */
+    public static function zipcodeProvider()
+    {
+        return [
+            ['12345', '12345'],
+            ['12345+678', '12345'],
+            ['123', '123'],
+        ];
+    }
+
+    /**
+     * @param string $zip
      * @param string $expected
      *
      * @dataProvider zipcodeProvider
@@ -37,7 +49,7 @@ class ZipcodeTransformerTest extends TestCase
     }
 
     /**
-     * @param string $phone
+     * @param string $zip
      * @param string $expected
      *
      * @dataProvider zipcodeProvider
@@ -146,17 +158,5 @@ class ZipcodeTransformerTest extends TestCase
         $result = $transformer->__invoke($frame);
 
         $this->assertSame('12200', $result->data->first());
-    }
-
-    /**
-     * Data providor for testPhoneTransfromation.
-     */
-    public static function zipcodeProvider()
-    {
-        return [
-            ['12345', '12345'],
-            ['12345+678', '12345'],
-            ['123', '123'],
-        ];
     }
 }

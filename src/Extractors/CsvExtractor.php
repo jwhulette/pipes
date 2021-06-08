@@ -108,7 +108,7 @@ class CsvExtractor extends Extractor implements ExtractorInterface
         }
 
         while (!$file->eof()) {
-            $line = $file->fgetcsv($this->delimiter, $this->enclosure);
+            $line = $file->fgetcsv($this->delimiter, $this->enclosure, $this->escape);
 
             if ($line[0] !== null) {
                 yield $this->frame->setData($line);
