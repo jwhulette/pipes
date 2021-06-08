@@ -11,9 +11,7 @@ use jwhulette\pipes\Frame;
 class CsvExtractor extends Extractor implements ExtractorInterface
 {
     protected string $delimiter = ',';
-
     protected string $enclosure = '\'';
-
     protected string $escape = '\\';
 
     /**
@@ -92,9 +90,7 @@ class CsvExtractor extends Extractor implements ExtractorInterface
     public function extract(): Generator
     {
         $file = new SplFileObject($this->file);
-
         $file->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
-
         $file->setFlags(SplFileObject::READ_AHEAD);
 
         if ($this->hasHeader) {

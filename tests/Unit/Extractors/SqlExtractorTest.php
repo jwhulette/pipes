@@ -6,7 +6,7 @@ use Tests\TestCase;
 use jwhulette\pipes\Frame;
 use Illuminate\Support\Collection;
 use jwhulette\pipes\Extractors\SqlExtractor;
-use Tests\factories\SalesDataDatabaseFactory;
+use Tests\database\factories\SalesDataDatabaseFactory;
 
 class SqlExtractorTest extends TestCase
 {
@@ -15,6 +15,7 @@ class SqlExtractorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         (new SalesDataDatabaseFactory($this->table))->create(10);
     }
 

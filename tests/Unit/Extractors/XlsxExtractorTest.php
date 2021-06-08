@@ -6,14 +6,15 @@ namespace jwhulette\pipes\Tests\Unit\Transformers;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\File;
-use Tests\factories\DataFileFactory;
 use jwhulette\pipes\Extractors\XlsxExtractor;
+use Tests\database\factories\DataFileFactory;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class XlsxExtractorTest extends TestCase
 {
     protected string $extract;
-
     protected string $extractNoHeader;
+    protected TemporaryDirectory $temporaryDirectory;
 
     public function setUp(): void
     {
@@ -30,11 +31,9 @@ class XlsxExtractorTest extends TestCase
          * Need to create a temp file as Spout Box is not able
          * to read from the vfStream file stream
          */
-        File::makeDirectory($this->testFilesDirectory, 0777, true);
-
-        $this->extract = $this->testFilesDirectory . '/extractor.xlsx';
-
-        $this->extractNoHeader = $this->testFilesDirectory . '/no_header_extractor.xlsx';
+        $this->temporaryDirectory = (new TemporaryDirectory())->create();
+        $this->extract = $this->temporaryDirectory->path('extractor.xlsx');
+        $this->extractNoHeader = $this->temporaryDirectory->path('no_header_extractor.xlsx');
 
         (new DataFileFactory($this->extract))
             ->asXlsx()
@@ -48,9 +47,9 @@ class XlsxExtractorTest extends TestCase
 
     public function tearDown(): void
     {
-        File::cleanDirectory($this->testFilesDirectory);
+        parent::tearDown();
 
-        File::deleteDirectory($this->testFilesDirectory);
+        $this->temporaryDirectory->delete();
     }
 
     public function testFrameHasHeader()

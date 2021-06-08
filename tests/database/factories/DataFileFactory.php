@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\factories;
+declare(strict_types=1);
+
+namespace Tests\database\factories;
 
 use SplFileObject;
 use SimpleXMLElement;
@@ -9,15 +11,10 @@ use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 class DataFileFactory
 {
     protected string $delimiter;
-
     protected string $enclosure;
-
     protected string $escapeCharacter;
-
     protected int $width;
-
     protected ?array $header = null;
-
     protected string $file;
 
     public function __construct(string $file)

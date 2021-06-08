@@ -6,16 +6,14 @@ namespace jwhulette\pipes\Tests\Unit\Extractors;
 
 use Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
-use Tests\factories\DataFileFactory;
 use org\bovigo\vfs\vfsStreamDirectory;
+use Tests\database\factories\DataFileFactory;
 use jwhulette\pipes\Extractors\FixedWithExtractor;
 
 class FixedWithExtractorTest extends TestCase
 {
     protected string $extract;
-
     protected string $extractNoHeader;
-
     protected vfsStreamDirectory $vfs;
 
     public function setUp(): void

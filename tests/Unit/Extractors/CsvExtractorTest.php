@@ -7,16 +7,14 @@ namespace jwhulette\pipes\Tests\Unit\Extractors;
 use Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
 use Illuminate\Support\Facades\File;
-use Tests\factories\DataFileFactory;
 use org\bovigo\vfs\vfsStreamDirectory;
 use jwhulette\pipes\Extractors\CsvExtractor;
+use Tests\database\factories\DataFileFactory;
 
 class CsvExtractorTest extends TestCase
 {
     protected string $extract;
-
     protected string $extractNoHeader;
-
     protected vfsStreamDirectory $vfs;
 
     public function setUp(): void
