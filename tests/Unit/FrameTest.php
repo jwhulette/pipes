@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit;
+namespace Jwhulette\Pipes\Tests\Unit;
 
+use Jwhulette\Pipes\Frame;
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
 
 class FrameTest extends TestCase
 {
     protected $frame;
+
     protected $testHeader;
+
     protected $testData;
 
     protected function setUp(): void

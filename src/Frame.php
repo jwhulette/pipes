@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes;
+namespace Jwhulette\Pipes;
 
 use Illuminate\Support\Collection;
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit\Transformers;
+namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Transformers\ConditionalTransformer;
 use Orchestra\Testbench\TestCase;
-use jwhulette\pipes\Transformers\ConditionalTransformer;
 
 class ConditionalTransformerTest extends TestCase
 {

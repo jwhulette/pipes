@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Transformers;
+namespace Jwhulette\Pipes\Transformers;
 
-use jwhulette\pipes\Frame;
-use InvalidArgumentException;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
+use Jwhulette\Pipes\Frame;
 
 /**
  * Trim the item.
@@ -26,7 +26,7 @@ class TrimTransformer implements TransformerInterface
      */
     public function __construct()
     {
-        $this->columns = new Collection;
+        $this->columns = new Collection();
     }
 
     /**
@@ -113,7 +113,7 @@ class TrimTransformer implements TransformerInterface
      */
     public function trimColumnValue(string $value, string $type, string $mask): string
     {
-        if (!\is_callable($type)) {
+        if (! \is_callable($type)) {
             throw new InvalidArgumentException("Invalid trim type: {$type}.");
         }
 

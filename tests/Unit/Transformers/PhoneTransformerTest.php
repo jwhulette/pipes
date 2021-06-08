@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Transformers;
 
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Transformers\PhoneTransformer;
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
-use jwhulette\pipes\Transformers\PhoneTransformer;
 
 class PhoneTransformerTest extends TestCase
 {

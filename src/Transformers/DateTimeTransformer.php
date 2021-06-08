@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Transformers;
+namespace Jwhulette\Pipes\Transformers;
 
 use DateTime;
-use jwhulette\pipes\Frame;
 use Illuminate\Support\Collection;
+use Jwhulette\Pipes\Frame;
 
 /**
  * Change the date/time format of an item.
@@ -24,7 +24,7 @@ class DateTimeTransformer implements TransformerInterface
      */
     public function __construct()
     {
-        $this->columns = new Collection;
+        $this->columns = new Collection();
     }
 
     /**

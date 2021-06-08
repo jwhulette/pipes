@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit;
+namespace Jwhulette\Pipes\Tests\Unit;
 
-use Tests\TestCase;
-use jwhulette\pipes\EtlPipe;
+use Jwhulette\Pipes\EtlPipe;
+use Jwhulette\Pipes\Extractors\CsvExtractor;
+use Jwhulette\Pipes\Loaders\CsvLoader;
+use Jwhulette\Pipes\Transformers\CaseTransformer;
 use org\bovigo\vfs\vfsStream;
-use jwhulette\pipes\Loaders\CsvLoader;
-use jwhulette\pipes\Extractors\CsvExtractor;
-use jwhulette\pipes\Transformers\CaseTransformer;
+use Tests\TestCase;
 
 class AppTest extends TestCase
 {
@@ -33,7 +33,7 @@ class AppTest extends TestCase
      */
     public function testAppBoots()
     {
-        $EtlPipe = new EtlPipe;
+        $EtlPipe = new EtlPipe();
 
         $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
     }
@@ -45,7 +45,7 @@ class AppTest extends TestCase
      */
     public function testExtractorAdd()
     {
-        $EtlPipe = new EtlPipe;
+        $EtlPipe = new EtlPipe();
 
         $EtlPipe->extract(new CsvExtractor($this->testfile));
 
@@ -59,7 +59,7 @@ class AppTest extends TestCase
      */
     public function testTransformsAdd()
     {
-        $EtlPipe = new EtlPipe;
+        $EtlPipe = new EtlPipe();
 
         $EtlPipe->extract(new CsvExtractor($this->testfile));
 
@@ -72,7 +72,7 @@ class AppTest extends TestCase
 
     public function testLoader()
     {
-        $EtlPipe = new EtlPipe;
+        $EtlPipe = new EtlPipe();
 
         $EtlPipe->extract(new CsvExtractor($this->testfile));
 

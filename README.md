@@ -1,6 +1,13 @@
 ![Banner](.github/images/pipes_banner.png)
 
-![Build](https://github.com/jwhulette/pipes/workflows/Tests/badge.svg)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.0-8892BF.svg?style=flat-square)](https://php.net/)
+
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/jwhulette/factory-generator/run-tests?label=tests)](https://github.com/jwhulette/factory-generator/actions?query=workflow%3Arun-tests+branch%3Amain)
+
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/jwhulette/factory-generator/Check%20&%20fix%20styling?label=code%20style)](https://github.com/jwhulette/factory-generator/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+
+[![Total Downloads](https://img.shields.io/packagist/dt/jwhulette/factory-generator.svg?style=flat-square)](https://packagist.org/packages/jwhulette/factory-generator)
+
 
 # Pipes
 
@@ -8,17 +15,11 @@ Pipes is a PHP Extract Transform Load [ETL] package for Laravel or Laravel Zero
 
 ## Installation
 
-Add the following to your composer.json file.
+You can install the package via composer:
 
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/jwhulette/pipes"
-        }
-    ],
-    "require": {
-        "jwhulette/pipes": "master",
-    }
+```bash
+composer require jwhulette/factory-generator
+```
 
 ## Usage
 
@@ -66,11 +67,9 @@ or
 
 ### Performance
 
-Use the datasets from the below link to test the library performance
+Useing the datasets from the below link to test the library performance
 
 [http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/](https://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/)
-
-Run `composer perf` to run the performance script
 
 Sample runs on my notebook:
 
@@ -97,19 +96,45 @@ Using the following pipeline:
     ->run();
 ```
 
-| File                      | Peak Memory | Execution Time |
-| ------------------------- | ----------- | -------------- |
-| 50000 Sales Records.csv   | 1.043MB     | 1.556 seconds  |
-| 100000 Sales Records.csv  | 1.043MB     | 3.063 seconds  |
-| 500000 Sales Records.csv  | 1.043MB     | 15.898 seconds |
-| 1000000 Sales Records.csv | 1.348MB     | 32.204 seconds |
+## Test results
+Reading, transforming and writing to another csv file.
+###### Running CSV performance tests #####
+---- Processing file: 100000 Sales Records.csv ----
+Peak usage: 10.599MB of memory used.
+Total execution time in seconds: 4.331
+---- Processing file: 1000000 Sales Records.csv ----
+Peak usage: 10.599MB of memory used.
+Total execution time in seconds: 44.176
+
+Reading XLSX file, tranforming and inserting into sqlite database
+###### Running SQL performance tests
+---- Processing file: 100000 Sales Records.xlsx ----
+Peak usage: 14.996MB of memory used.
+Total execution time in seconds: 33.372
+
+## Testing
+
+```bash
+composer test
+```
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
-Please make sure to update tests as appropriate.
+## Security Vulnerabilities
+
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+
+## Credits
+
+- [Wes Hulette](https://github.com/jwhulette)
+- [All Contributors](../../contributors)
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

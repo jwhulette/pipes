@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Extractors;
+namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use jwhulette\pipes\Frame;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
-use jwhulette\pipes\Extractors\ExtractorInterface;
+use Illuminate\Support\Facades\DB;
+use Jwhulette\Pipes\Exceptions\PipesException;
+use Jwhulette\Pipes\Extractors\ExtractorInterface;
+use Jwhulette\Pipes\Frame;
 
 class SqlExtractor extends Extractor implements ExtractorInterface
 {
@@ -22,11 +23,11 @@ class SqlExtractor extends Extractor implements ExtractorInterface
 
     public function __construct()
     {
-        $this->frame = new Frame;
+        $this->frame = new Frame();
     }
 
     /**
-     * @param string $select
+     * @param string $select The raw select query to use
      *
      * @return SqlExtractor
      */
@@ -38,7 +39,7 @@ class SqlExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * @param string $table
+     * @param string $table The name of the table to use
      *
      * @return SqlExtractor
      */
@@ -50,7 +51,7 @@ class SqlExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * @param string $connection
+     * @param string $connection The database connection to use
      *
      * @return SqlExtractor
      */
@@ -68,7 +69,7 @@ class SqlExtractor extends Extractor implements ExtractorInterface
     {
         $db = $this->getConnection();
 
-        foreach ($db->cursor() as $item) {
+        foreach ($db->lazyById() as $item) {
             yield $this->frame->setData((array) $item);
         }
 
@@ -76,22 +77,24 @@ class SqlExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * @return \Illuminate\Database\Query\Builder|null
+     * @return \Illuminate\Database\Query\Builder
+     *
+     * @throws PipesException
      */
-    protected function getConnection(): ?Builder
+    protected function getConnection(): Builder
     {
-        if (!is_null($this->connection)) {
+        if (\is_null($this->connection) === \false) {
             DB::setDefaultConnection($this->connection);
         }
 
-        if (!is_null($this->select)) {
+        if (\is_null($this->select) === \false) {
             return DB::table($this->table)->selectRaw($this->select);
         }
 
-        if (!is_null($this->table)) {
+        if (\is_null($this->table) === \false) {
             return DB::table($this->table);
         }
 
-        return null;
+        throw new PipesException('No valid database configuration found');
     }
 }

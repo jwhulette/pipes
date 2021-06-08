@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Transformers;
 
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Transformers\ZipcodeTransformer;
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
-use jwhulette\pipes\Transformers\ZipcodeTransformer;
 
 class ZipcodeTransformerTest extends TestCase
 {
@@ -20,7 +20,19 @@ class ZipcodeTransformerTest extends TestCase
     }
 
     /**
-     * @param string $phone
+     * Data providor for zipcodes.
+     */
+    public static function zipcodeProvider()
+    {
+        return [
+            ['12345', '12345'],
+            ['12345+678', '12345'],
+            ['123', '123'],
+        ];
+    }
+
+    /**
+     * @param string $zip
      * @param string $expected
      *
      * @dataProvider zipcodeProvider
@@ -37,14 +49,14 @@ class ZipcodeTransformerTest extends TestCase
     }
 
     /**
-     * @param string $phone
+     * @param string $zip
      * @param string $expected
      *
      * @dataProvider zipcodeProvider
      */
     public function testZipcodeTransfromationByIndex($zip, $expected)
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData([$zip]);
 
@@ -68,7 +80,7 @@ class ZipcodeTransformerTest extends TestCase
 
     public function testZipcodeTransfromationByIndexWithFillLimit5()
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData(['']);
 
@@ -92,7 +104,7 @@ class ZipcodeTransformerTest extends TestCase
 
     public function testZipcodeTransfromationByIndexWithFillLimitOther()
     {
-        $frame = new Frame;
+        $frame = new Frame();
         $frame->setData(['']);
         $transformer = (new ZipcodeTransformer())->tranformColumn(0, 'padleft', 10);
         $result = $transformer->__invoke($frame);
@@ -113,7 +125,7 @@ class ZipcodeTransformerTest extends TestCase
 
     public function testZipcodeTransfromationByIndexWithPadLeft()
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData(['122']);
 
@@ -137,7 +149,7 @@ class ZipcodeTransformerTest extends TestCase
 
     public function testZipcodeTransfromationByIndexWithPadRight()
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData(['122']);
 
@@ -146,17 +158,5 @@ class ZipcodeTransformerTest extends TestCase
         $result = $transformer->__invoke($frame);
 
         $this->assertSame('12200', $result->data->first());
-    }
-
-    /**
-     * Data providor for testPhoneTransfromation.
-     */
-    public static function zipcodeProvider()
-    {
-        return [
-            ['12345', '12345'],
-            ['12345+678', '12345'],
-            ['123', '123'],
-        ];
     }
 }

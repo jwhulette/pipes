@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit\Extractors;
+namespace Jwhulette\Pipes\Tests\Unit\Extractors;
 
-use Tests\TestCase;
-use org\bovigo\vfs\vfsStream;
 use Illuminate\Support\Facades\File;
-use Tests\factories\DataFileFactory;
+use Jwhulette\Pipes\Extractors\CsvExtractor;
+use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use jwhulette\pipes\Extractors\CsvExtractor;
+use Tests\database\factories\DataFileFactory;
+use Tests\TestCase;
 
 class CsvExtractorTest extends TestCase
 {
@@ -36,9 +36,9 @@ class CsvExtractorTest extends TestCase
             'DOB',
             'AMOUNT',
         ];
-        $this->extract = $this->vfs->url() . '/csv_extractor.csv';
+        $this->extract = $this->vfs->url().'/csv_extractor.csv';
 
-        $this->extractNoHeader = $this->vfs->url() . '/csv_no_header_extractor.csv';
+        $this->extractNoHeader = $this->vfs->url().'/csv_no_header_extractor.csv';
 
         (new DataFileFactory($this->extract))
             ->asText()

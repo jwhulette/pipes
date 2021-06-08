@@ -1,6 +1,8 @@
 <?php
 
-namespace Tests\factories;
+declare(strict_types=1);
+
+namespace Tests\database\factories;
 
 use Faker\Factory;
 use Faker\Generator;

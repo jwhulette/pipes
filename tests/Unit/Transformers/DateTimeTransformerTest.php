@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit\Transformers;
+namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Transformers\DateTimeTransformer;
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
-use jwhulette\pipes\Transformers\DateTimeTransformer;
 
 /**
  * @group date
@@ -49,7 +49,7 @@ class DateTimeTransformerTest extends TestCase
 
     public function testDateGuessColumnIndex()
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData([
             'BOB',
@@ -84,7 +84,7 @@ class DateTimeTransformerTest extends TestCase
 
     public function testDateInputFormatColumnIndex()
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData([
             'BOB',

@@ -1,16 +1,20 @@
 <?php
 
-namespace jwhulette\pipes\Tests\Unit\Loaders;
+namespace Jwhulette\Pipes\Tests\Unit\Loaders;
 
-use Tests\TestCase;
-use jwhulette\pipes\Frame;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use jwhulette\pipes\Loaders\SqlLoader;
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Loaders\SqlLoader;
+use Tests\TestCase;
 
 class SqlLoaderTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected Frame $frame;
+
     protected Collection $data;
 
     protected function setUp(): void
@@ -20,10 +24,10 @@ class SqlLoaderTest extends TestCase
         $this->frame = new Frame();
 
         $this->frame->setHeader([
-                'first_name',
-                'last_name',
-                'dob',
-            ]);
+            'first_name',
+            'last_name',
+            'dob',
+        ]);
     }
 
     public function testSqlLoaderInstance()
@@ -76,10 +80,10 @@ class SqlLoaderTest extends TestCase
             ->setSqlColumnNames($columns);
 
         $data = $this->frame->setData([
-                'BOBBO',
-                'SMITH',
-                '02/11/1969',
-            ]);
+            'BOBBO',
+            'SMITH',
+            '02/11/1969',
+        ]);
 
         $loader->load($data);
 

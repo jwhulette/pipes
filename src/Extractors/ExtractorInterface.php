@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Extractors;
+namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
 

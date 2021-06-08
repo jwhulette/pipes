@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Extractors;
+namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
+use Jwhulette\Pipes\Frame;
 use SplFileObject;
-use jwhulette\pipes\Frame;
 
 class CsvExtractor extends Extractor implements ExtractorInterface
 {
@@ -23,7 +23,7 @@ class CsvExtractor extends Extractor implements ExtractorInterface
     {
         $this->file = $file;
 
-        $this->frame = new Frame;
+        $this->frame = new Frame();
     }
 
     /**
@@ -92,9 +92,7 @@ class CsvExtractor extends Extractor implements ExtractorInterface
     public function extract(): Generator
     {
         $file = new SplFileObject($this->file);
-
         $file->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
-
         $file->setFlags(SplFileObject::READ_AHEAD);
 
         if ($this->hasHeader) {
@@ -111,8 +109,8 @@ class CsvExtractor extends Extractor implements ExtractorInterface
             $file->seek($this->skipLines - 1);
         }
 
-        while (!$file->eof()) {
-            $line = $file->fgetcsv($this->delimiter, $this->enclosure);
+        while (! $file->eof()) {
+            $line = $file->fgetcsv($this->delimiter, $this->enclosure, $this->escape);
 
             if ($line[0] !== null) {
                 yield $this->frame->setData($line);

@@ -2,27 +2,20 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes;
+namespace Jwhulette\Pipes;
 
-use Illuminate\Support\ServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class PipesServiceProvider extends ServiceProvider
+class PipesServiceProvider extends PackageServiceProvider
 {
-    /**
-     * Bootstrap any package services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function configurePackage(Package $package): void
     {
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
+        /*
+         * This class is a Package Service Provider
+         *
+         * More info: https://github.com/spatie/laravel-package-tools
+         */
+        $package->name('pipes');
     }
 }

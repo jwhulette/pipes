@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Extractors;
+namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
+use Jwhulette\Pipes\Frame;
 use SplFileObject;
-use jwhulette\pipes\Frame;
 
 class FixedWithExtractor extends Extractor implements ExtractorInterface
 {
@@ -23,7 +23,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
     {
         $this->file = $file;
 
-        $this->frame = new Frame;
+        $this->frame = new Frame();
     }
 
     /**
@@ -41,7 +41,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * Set the column with
+     * Set the column with.
      *
      * @param array $widths
      *
@@ -101,7 +101,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
             $file->seek($this->skipLines - 1);
         }
 
-        while (!$file->eof()) {
+        while (! $file->eof()) {
             yield $this->frame->setData(
                 $this->makeFrame(
                     trim($file->fgets())
