@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Loaders;
+namespace Jwhulette\Pipes\Loaders;
 
 use SplFileObject;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 
 /**
  * Write a csv file.

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit\Transformers;
+namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
-use jwhulette\pipes\Transformers\TrimTransformer;
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Transformers\TrimTransformer;
 
 class TrimTransformerTest extends TestCase
 {

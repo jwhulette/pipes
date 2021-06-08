@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "jwhulette\\pipes\\": "src/"
+            "Jwhulette\\Pipes\\": "src/"
         }
     },
     "autoload-dev": {

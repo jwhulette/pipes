@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Extractors;
+namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 use Box\Spout\Reader\ReaderInterface;
 use Box\Spout\Reader\XLSX\RowIterator;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;

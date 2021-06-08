@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit\Transformers;
+namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\File;
-use jwhulette\pipes\Extractors\XlsxExtractor;
+use Jwhulette\Pipes\Extractors\XlsxExtractor;
 use Tests\database\factories\DataFileFactory;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 

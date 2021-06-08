@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit;
+namespace Jwhulette\Pipes\Tests\Unit;
 
 use Tests\TestCase;
-use jwhulette\pipes\EtlPipe;
+use Jwhulette\Pipes\EtlPipe;
 use org\bovigo\vfs\vfsStream;
-use jwhulette\pipes\Loaders\CsvLoader;
-use jwhulette\pipes\Extractors\CsvExtractor;
-use jwhulette\pipes\Transformers\CaseTransformer;
+use Jwhulette\Pipes\Loaders\CsvLoader;
+use Jwhulette\Pipes\Extractors\CsvExtractor;
+use Jwhulette\Pipes\Transformers\CaseTransformer;
 
 class AppTest extends TestCase
 {

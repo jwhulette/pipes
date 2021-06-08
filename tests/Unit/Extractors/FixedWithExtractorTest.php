@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit\Extractors;
+namespace Jwhulette\Pipes\Tests\Unit\Extractors;
 
 use Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use Tests\database\factories\DataFileFactory;
-use jwhulette\pipes\Extractors\FixedWithExtractor;
+use Jwhulette\Pipes\Extractors\FixedWithExtractor;
 
 class FixedWithExtractorTest extends TestCase
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Extractors;
+namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
 use SplFileObject;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 
 class CsvExtractor extends Extractor implements ExtractorInterface
 {

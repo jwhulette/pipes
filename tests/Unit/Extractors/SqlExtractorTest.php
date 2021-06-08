@@ -3,9 +3,9 @@
 namespace Tests\Unit\Extractors;
 
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 use Illuminate\Support\Collection;
-use jwhulette\pipes\Extractors\SqlExtractor;
+use Jwhulette\Pipes\Extractors\SqlExtractor;
 use Tests\database\factories\SalesDataDatabaseFactory;
 
 class SqlExtractorTest extends TestCase

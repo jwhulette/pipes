@@ -1,8 +1,8 @@
 <?php
 
-namespace jwhulette\pipes\Extractors;
+namespace Jwhulette\Pipes\Extractors;
 
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 
 abstract class Extractor
 {

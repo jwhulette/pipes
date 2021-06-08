@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit;
+namespace Jwhulette\Pipes\Tests\Unit;
 
 use Tests\TestCase;
-use jwhulette\pipes\Processor;
-use jwhulette\pipes\Loaders\CsvLoader;
-use jwhulette\pipes\Extractors\CsvExtractor;
-use jwhulette\pipes\Transformers\TrimTransformer;
+use Jwhulette\Pipes\Processor;
+use Jwhulette\Pipes\Loaders\CsvLoader;
+use Jwhulette\Pipes\Extractors\CsvExtractor;
+use Jwhulette\Pipes\Transformers\TrimTransformer;
 
 class ProcessorTest extends TestCase
 {

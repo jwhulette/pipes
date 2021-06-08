@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit\Extractors;
+namespace Jwhulette\Pipes\Tests\Unit\Extractors;
 
 use Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
 use Illuminate\Support\Facades\File;
 use org\bovigo\vfs\vfsStreamDirectory;
-use jwhulette\pipes\Extractors\CsvExtractor;
+use Jwhulette\Pipes\Extractors\CsvExtractor;
 use Tests\database\factories\DataFileFactory;
 
 class CsvExtractorTest extends TestCase

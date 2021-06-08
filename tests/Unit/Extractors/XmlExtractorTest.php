@@ -6,7 +6,7 @@ namespace Tests\Unit\Extractors;
 
 use Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
-use jwhulette\pipes\Extractors\XmlExtractor;
+use Jwhulette\Pipes\Extractors\XmlExtractor;
 use Tests\database\factories\DataFileFactory;
 
 class XmlExtractorTest extends TestCase

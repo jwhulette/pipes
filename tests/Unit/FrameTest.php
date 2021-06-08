@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit;
+namespace Jwhulette\Pipes\Tests\Unit;
 
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 
 class FrameTest extends TestCase
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes;
+namespace Jwhulette\Pipes;
 
-use jwhulette\pipes\Loaders\LoaderInterface;
-use jwhulette\pipes\Extractors\ExtractorInterface;
+use Jwhulette\Pipes\Loaders\LoaderInterface;
+use Jwhulette\Pipes\Extractors\ExtractorInterface;
 
 class EtlPipe
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace jwhulette\pipes\Tests\Unit\Loaders;
+namespace Jwhulette\Pipes\Tests\Unit\Loaders;
 
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 use org\bovigo\vfs\vfsStream;
-use jwhulette\pipes\Loaders\CsvLoader;
+use Jwhulette\Pipes\Loaders\CsvLoader;
 use org\bovigo\vfs\vfsStreamDirectory;
 
 class CsvLoaderTest extends TestCase

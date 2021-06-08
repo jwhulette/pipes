@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Transformers;
+namespace Jwhulette\Pipes\Transformers;
 
 use DateTime;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 use Illuminate\Support\Collection;
 
 /**

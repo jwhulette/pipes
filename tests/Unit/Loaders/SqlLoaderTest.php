@@ -1,12 +1,12 @@
 <?php
 
-namespace jwhulette\pipes\Tests\Unit\Loaders;
+namespace Jwhulette\Pipes\Tests\Unit\Loaders;
 
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use jwhulette\pipes\Loaders\SqlLoader;
+use Jwhulette\Pipes\Loaders\SqlLoader;
 
 class SqlLoaderTest extends TestCase
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Extractors;
+namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
 use XMLReader;
 use SimpleXMLElement;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 
 class XmlExtractor extends Extractor implements ExtractorInterface
 {

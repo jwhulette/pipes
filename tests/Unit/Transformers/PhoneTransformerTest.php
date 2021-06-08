@@ -3,8 +3,8 @@
 namespace Tests\Unit\Transformers;
 
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
-use jwhulette\pipes\Transformers\PhoneTransformer;
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Transformers\PhoneTransformer;
 
 class PhoneTransformerTest extends TestCase
 {

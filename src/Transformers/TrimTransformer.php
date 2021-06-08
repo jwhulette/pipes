@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Transformers;
+namespace Jwhulette\Pipes\Transformers;
 
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 use InvalidArgumentException;
 use Illuminate\Support\Collection;
 
