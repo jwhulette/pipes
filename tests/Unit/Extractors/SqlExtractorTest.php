@@ -6,10 +6,14 @@ use Tests\TestCase;
 use Jwhulette\Pipes\Frame;
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Extractors\SqlExtractor;
+use Jwhulette\Pipes\Exceptions\PipesException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\database\factories\SalesDataDatabaseFactory;
 
 class SqlExtractorTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected string $table = 'sales_data';
 
     protected function setUp(): void
@@ -46,5 +50,16 @@ class SqlExtractorTest extends TestCase
         $this->assertArrayHasKey('country', $frame->data->toArray());
         $this->assertArrayHasKey('order_date', $frame->data->toArray());
         $this->assertSame(2, $frame->data->count());
+    }
+
+    /** @test */
+    public function testDatabaseConnectionThrowsError()
+    {
+        $this->expectException(PipesException::class);
+
+        $sql = (new SqlExtractor());
+
+        $frameData = $sql->extract();
+        $frameData->current();
     }
 }
