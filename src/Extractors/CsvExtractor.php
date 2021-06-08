@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use SplFileObject;
 use Jwhulette\Pipes\Frame;
+use SplFileObject;
 
 class CsvExtractor extends Extractor implements ExtractorInterface
 {
     protected string $delimiter = ',';
+
     protected string $enclosure = '\'';
+
     protected string $escape = '\\';
 
     /**
@@ -21,7 +23,7 @@ class CsvExtractor extends Extractor implements ExtractorInterface
     {
         $this->file = $file;
 
-        $this->frame = new Frame;
+        $this->frame = new Frame();
     }
 
     /**
@@ -107,7 +109,7 @@ class CsvExtractor extends Extractor implements ExtractorInterface
             $file->seek($this->skipLines - 1);
         }
 
-        while (!$file->eof()) {
+        while (! $file->eof()) {
             $line = $file->fgetcsv($this->delimiter, $this->enclosure, $this->escape);
 
             if ($line[0] !== null) {

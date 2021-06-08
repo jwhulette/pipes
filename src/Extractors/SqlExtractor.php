@@ -5,22 +5,25 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use Jwhulette\Pipes\Frame;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 use Jwhulette\Pipes\Exceptions\PipesException;
 use Jwhulette\Pipes\Extractors\ExtractorInterface;
+use Jwhulette\Pipes\Frame;
 
 class SqlExtractor extends Extractor implements ExtractorInterface
 {
     protected DB $db;
+
     protected ?string $connection = null;
+
     protected ?string $table = null;
+
     protected ?string $select = null;
 
     public function __construct()
     {
-        $this->frame = new Frame;
+        $this->frame = new Frame();
     }
 
     /**

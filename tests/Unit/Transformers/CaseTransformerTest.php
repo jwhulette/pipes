@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
-use Tests\TestCase;
 use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Transformers\CaseTransformer;
+use Tests\TestCase;
 
 class CaseTransformerTest extends TestCase
 {

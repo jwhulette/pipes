@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Extractors;
 
-use Tests\TestCase;
-use Jwhulette\Pipes\Frame;
-use Illuminate\Support\Collection;
-use Jwhulette\Pipes\Extractors\SqlExtractor;
-use Jwhulette\Pipes\Exceptions\PipesException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Collection;
+use Jwhulette\Pipes\Exceptions\PipesException;
+use Jwhulette\Pipes\Extractors\SqlExtractor;
+use Jwhulette\Pipes\Frame;
 use Tests\database\factories\SalesDataDatabaseFactory;
+use Tests\TestCase;
 
 class SqlExtractorTest extends TestCase
 {
@@ -23,7 +23,9 @@ class SqlExtractorTest extends TestCase
         (new SalesDataDatabaseFactory($this->table))->create(10);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function testTableConnection()
     {
         $sql = (new SqlExtractor())
@@ -35,7 +37,9 @@ class SqlExtractorTest extends TestCase
         $this->assertInstanceOf(Frame::class, $frame);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function testQueryConnection()
     {
         $sql = (new SqlExtractor())
@@ -52,7 +56,9 @@ class SqlExtractorTest extends TestCase
         $this->assertSame(2, $frame->data->count());
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function testDatabaseConnectionThrowsError()
     {
         $this->expectException(PipesException::class);

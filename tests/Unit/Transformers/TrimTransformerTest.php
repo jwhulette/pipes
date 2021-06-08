@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
-use Tests\TestCase;
 use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Transformers\TrimTransformer;
+use Tests\TestCase;
 
 class TrimTransformerTest extends TestCase
 {
@@ -102,7 +102,7 @@ class TrimTransformerTest extends TestCase
     {
         $transformer = (new TrimTransformer())->transformColumn(1);
 
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData([
             'BOB  ',
@@ -134,7 +134,7 @@ class TrimTransformerTest extends TestCase
     {
         $transformer = (new TrimTransformer())->transformColumn(1, 'ltrim');
 
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData([
             'BOB',

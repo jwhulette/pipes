@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Tests\Unit\Extractors;
 
-use Tests\TestCase;
+use Jwhulette\Pipes\Extractors\FixedWithExtractor;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use Tests\database\factories\DataFileFactory;
-use Jwhulette\Pipes\Extractors\FixedWithExtractor;
+use Tests\TestCase;
 
 class FixedWithExtractorTest extends TestCase
 {
     protected string $extract;
+
     protected string $extractNoHeader;
+
     protected vfsStreamDirectory $vfs;
 
     public function setUp(): void
@@ -34,9 +36,9 @@ class FixedWithExtractorTest extends TestCase
             'AMOUNT',
         ];
 
-        $this->extract = $this->vfs->url() . '/fixed_width_extractor.txt';
+        $this->extract = $this->vfs->url().'/fixed_width_extractor.txt';
 
-        $this->extractNoHeader = $this->vfs->url() . '/fixed_width_no_header_extractor.txt';
+        $this->extractNoHeader = $this->vfs->url().'/fixed_width_no_header_extractor.txt';
 
         (new DataFileFactory($this->extract))
             ->asFixedWidth(10)

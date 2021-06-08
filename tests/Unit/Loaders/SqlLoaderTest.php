@@ -2,18 +2,19 @@
 
 namespace Jwhulette\Pipes\Tests\Unit\Loaders;
 
-use Tests\TestCase;
-use Jwhulette\Pipes\Frame;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Loaders\SqlLoader;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class SqlLoaderTest extends TestCase
 {
     use RefreshDatabase;
 
     protected Frame $frame;
+
     protected Collection $data;
 
     protected function setUp(): void

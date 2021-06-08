@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Loaders;
 
-use SplFileObject;
 use Jwhulette\Pipes\Frame;
+use SplFileObject;
 
 /**
  * Write a csv file.
