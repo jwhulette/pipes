@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
 use Jwhulette\Pipes\Frame;
-use Orchestra\Testbench\TestCase;
 use Jwhulette\Pipes\Transformers\ConditionalTransformer;
+use Orchestra\Testbench\TestCase;
 
 class ConditionalTransformerTest extends TestCase
 {

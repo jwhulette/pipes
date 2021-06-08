@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes;
 
-use Jwhulette\Pipes\Loaders\LoaderInterface;
 use Jwhulette\Pipes\Extractors\ExtractorInterface;
+use Jwhulette\Pipes\Loaders\LoaderInterface;
 
 class EtlPipe
 {

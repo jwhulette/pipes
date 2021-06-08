@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Tests\Unit;
 
-use Tests\TestCase;
 use Jwhulette\Pipes\Frame;
+use Tests\TestCase;
 
 class FrameTest extends TestCase
 {
     protected $frame;
+
     protected $testHeader;
+
     protected $testData;
 
     protected function setUp(): void

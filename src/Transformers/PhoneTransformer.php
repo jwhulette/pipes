@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use Jwhulette\Pipes\Frame;
 use Illuminate\Support\Collection;
+use Jwhulette\Pipes\Frame;
 
 /**
  * Clean phone numbers to include only digits.
@@ -21,7 +21,7 @@ class PhoneTransformer implements TransformerInterface
      */
     public function __construct()
     {
-        $this->columns = new Collection;
+        $this->columns = new Collection();
     }
 
     /**
@@ -32,7 +32,7 @@ class PhoneTransformer implements TransformerInterface
      */
     public function transformColumn($column, int $maxlength = null): PhoneTransformer
     {
-        $this->columns->push((object)[
+        $this->columns->push((object) [
             'column' => $column,
             'maxlength' => $maxlength ?? $this->maxlength,
         ]);

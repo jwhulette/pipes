@@ -13,7 +13,7 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        app()->useDatabasePath(__DIR__ . '/database');
+        app()->useDatabasePath(__DIR__.'/database');
 
         $this->loadMigrationsFrom(database_path('migrations'));
 

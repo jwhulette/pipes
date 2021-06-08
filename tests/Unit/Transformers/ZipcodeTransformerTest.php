@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Transformers;
 
-use Tests\TestCase;
 use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Transformers\ZipcodeTransformer;
+use Tests\TestCase;
 
 class ZipcodeTransformerTest extends TestCase
 {
@@ -56,7 +56,7 @@ class ZipcodeTransformerTest extends TestCase
      */
     public function testZipcodeTransfromationByIndex($zip, $expected)
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData([$zip]);
 
@@ -80,7 +80,7 @@ class ZipcodeTransformerTest extends TestCase
 
     public function testZipcodeTransfromationByIndexWithFillLimit5()
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData(['']);
 
@@ -104,7 +104,7 @@ class ZipcodeTransformerTest extends TestCase
 
     public function testZipcodeTransfromationByIndexWithFillLimitOther()
     {
-        $frame = new Frame;
+        $frame = new Frame();
         $frame->setData(['']);
         $transformer = (new ZipcodeTransformer())->tranformColumn(0, 'padleft', 10);
         $result = $transformer->__invoke($frame);
@@ -125,7 +125,7 @@ class ZipcodeTransformerTest extends TestCase
 
     public function testZipcodeTransfromationByIndexWithPadLeft()
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData(['122']);
 
@@ -149,7 +149,7 @@ class ZipcodeTransformerTest extends TestCase
 
     public function testZipcodeTransfromationByIndexWithPadRight()
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData(['122']);
 

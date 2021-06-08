@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\database\factories;
 
-use SplFileObject;
-use SimpleXMLElement;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use SimpleXMLElement;
+use SplFileObject;
 
 class DataFileFactory
 {
     protected string $delimiter;
+
     protected string $enclosure;
+
     protected string $escapeCharacter;
+
     protected int $width;
+
     protected ?array $header = null;
+
     protected string $file;
 
     public function __construct(string $file)
@@ -30,15 +35,19 @@ class DataFileFactory
         switch ($this->fileType) {
             case 'txt':
                 $this->createTextFile();
+
                 break;
             case 'fw':
                 $this->createFixedWidthFile();
+
                 break;
             case 'xlsx':
                 $this->createXlsxFile();
+
                 break;
             case 'xml':
                 $this->createXmlFile();
+
                 break;
         }
     }
@@ -128,7 +137,7 @@ class DataFileFactory
 
         $writer->openToFile($this->file);
 
-        if (!is_null($this->header)) {
+        if (! is_null($this->header)) {
             $rowFromValues = WriterEntityFactory::createRowFromArray($this->header);
 
             $writer->addRow($rowFromValues);
@@ -150,7 +159,7 @@ class DataFileFactory
     {
         $file = new SplFileObject($this->file, 'w');
 
-        if (!is_null($this->header)) {
+        if (! is_null($this->header)) {
             foreach ($this->header as $value) {
                 $file->fwrite(\str_pad($value, $this->width));
             }
@@ -174,7 +183,7 @@ class DataFileFactory
     {
         $file = new SplFileObject($this->file, 'w');
 
-        if (!is_null($this->header)) {
+        if (! is_null($this->header)) {
             $file->fputcsv(
                 $this->header,
                 $this->delimiter,
