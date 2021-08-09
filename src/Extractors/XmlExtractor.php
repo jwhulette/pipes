@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use Jwhulette\Pipes\Frame;
-use SimpleXMLElement;
 use XMLReader;
+use SimpleXMLElement;
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Contracts\Extractor;
+use Jwhulette\Pipes\Contracts\ExtractorInterface;
 
 class XmlExtractor extends Extractor implements ExtractorInterface
 {
@@ -45,7 +47,7 @@ class XmlExtractor extends Extractor implements ExtractorInterface
     {
         $reader = new XMLReader();
         if ($this->isGZipped) {
-            $reader->open('compress.zlib://'.$this->file);
+            $reader->open('compress.zlib://' . $this->file);
         } else {
             $reader->open($this->file);
         }

@@ -5,16 +5,21 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
+use League\Csv\Reader;
 use Jwhulette\Pipes\Frame;
-use SplFileObject;
+use League\Csv\SyntaxError;
+use Jwhulette\Pipes\Contracts\Extractor;
+use Jwhulette\Pipes\Exceptions\PipesException;
+use Jwhulette\Pipes\Contracts\ExtractorInterface;
 
 class CsvExtractor extends Extractor implements ExtractorInterface
 {
+    protected string $file;
     protected string $delimiter = ',';
-
     protected string $enclosure = '\'';
-
     protected string $escape = '\\';
+    protected int $skipLines = 0;
+    protected bool $hasHeader = \true;
 
     /**
      * @param string $file
@@ -67,7 +72,7 @@ class CsvExtractor extends Extractor implements ExtractorInterface
      *
      * @return  CsvExtractor
      */
-    public function setskipLines(int $skipLines): CsvExtractor
+    public function setSkipLines(int $skipLines): CsvExtractor
     {
         $this->skipLines = $skipLines;
 
@@ -91,36 +96,37 @@ class CsvExtractor extends Extractor implements ExtractorInterface
      */
     public function extract(): Generator
     {
-        $file = new SplFileObject($this->file);
-        $file->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
-        $file->setFlags(SplFileObject::READ_AHEAD);
+        $reader = Reader::createFromPath($this->file, 'r');
+        $reader->setDelimiter($this->delimiter);
+        $reader->setEnclosure($this->enclosure);
+        $reader->setEscape($this->escape);
 
-        if ($this->hasHeader) {
-            $this->frame->setHeader(
-                $file->fgetcsv($this->delimiter, $this->enclosure)
-            );
-
-            // Go back to the begining of the file
-            $file->rewind();
+        if ($this->hasHeader === \true) {
+            $reader->setHeaderOffset(0);
         }
 
-        // Skip the number of lines minus one as it's a zero based index
-        if ($this->skipLines > 0) {
-            $file->seek($this->skipLines - 1);
-        }
+        if ($this->hasHeader === \true) {
+            try {
+                $header = $reader->getHeader();
 
-        while (! $file->eof()) {
-            $line = $file->fgetcsv($this->delimiter, $this->enclosure, $this->escape);
-
-            if ($line[0] !== null) {
-                yield $this->frame->setData($line);
+                $this->frame->setHeader($header);
+            } catch (SyntaxError $exception) {
+                $duplicateColumns = collect($exception->duplicateColumnNames())->implode(',');
+                throw new PipesException("Duplicate column names " . $duplicateColumns, 1);
             }
+        }
+
+        $records = $reader->getRecords();
+        foreach ($records as $offset => $record) {
+            if ($offset < $this->skipLines) {
+                continue;
+            }
+
+            yield $this->frame->setData($record);
         }
 
         $this->frame->setEnd();
 
         yield $this->frame;
-
-        $file = null;
     }
 }

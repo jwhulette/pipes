@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Loaders;
 
-use Illuminate\Database\Query\Builder;
+use Jwhulette\Pipes\Frame;
+use InvalidArgumentException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use InvalidArgumentException;
-use Jwhulette\Pipes\Frame;
+use Illuminate\Database\Query\Builder;
+use Jwhulette\Pipes\Contracts\LoaderInterface;
 
 /**
  * Write to a database.
@@ -35,7 +36,7 @@ class SqlLoader implements LoaderInterface
     {
         $this->db = DB::table($table);
 
-        if (! is_null($connection)) {
+        if (!is_null($connection)) {
             $this->db = DB::connection($connection)->table($table);
         }
     }

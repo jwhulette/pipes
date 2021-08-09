@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use Illuminate\Support\Collection;
-use InvalidArgumentException;
 use Jwhulette\Pipes\Frame;
+use InvalidArgumentException;
+use Illuminate\Support\Collection;
+use Jwhulette\Pipes\Contracts\TransformerInterface;
 
 /**
  * Trim the item.
@@ -113,7 +114,7 @@ class TrimTransformer implements TransformerInterface
      */
     public function trimColumnValue(string $value, string $type, string $mask): string
     {
-        if (! \is_callable($type)) {
+        if (!\is_callable($type)) {
             throw new InvalidArgumentException("Invalid trim type: {$type}.");
         }
 

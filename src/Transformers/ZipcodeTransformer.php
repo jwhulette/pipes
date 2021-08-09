@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Frame;
+use Illuminate\Support\Collection;
+use Jwhulette\Pipes\Contracts\TransformerInterface;
 
 /**
  * Clean the zip code.
@@ -49,7 +50,7 @@ class ZipcodeTransformer implements TransformerInterface
      */
     private function setOption(?string $option): ?int
     {
-        if (! \is_null($option)) {
+        if (!\is_null($option)) {
             if (strtolower($option) === 'padleft') {
                 return STR_PAD_LEFT;
             }
@@ -103,7 +104,7 @@ class ZipcodeTransformer implements TransformerInterface
             return \substr($transformed, 0, $maxlength);
         }
 
-        if (! \is_null($type) && $zipLength < $maxlength) {
+        if (!\is_null($type) && $zipLength < $maxlength) {
             return \str_pad($transformed, $maxlength, '0', $type);
         }
 

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Frame;
+use Illuminate\Support\Collection;
+use Jwhulette\Pipes\Contracts\TransformerInterface;
 
 /**
  * Clean phone numbers to include only digits.

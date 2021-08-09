@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use Jwhulette\Pipes\Frame;
 use SplFileObject;
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Contracts\Extractor;
+use Jwhulette\Pipes\Contracts\ExtractorInterface;
 
 class FixedWithExtractor extends Extractor implements ExtractorInterface
 {
     protected array $columnWidths = [];
-
     protected bool $allColumns = false;
-
     protected int $width;
 
     /**
@@ -101,7 +101,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
             $file->seek($this->skipLines - 1);
         }
 
-        while (! $file->eof()) {
+        while (!$file->eof()) {
             yield $this->frame->setData(
                 $this->makeFrame(
                     trim($file->fgets())

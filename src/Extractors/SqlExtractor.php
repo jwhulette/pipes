@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\DB;
-use Jwhulette\Pipes\Exceptions\PipesException;
-use Jwhulette\Pipes\Extractors\ExtractorInterface;
 use Jwhulette\Pipes\Frame;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
+use Jwhulette\Pipes\Contracts\Extractor;
+use Jwhulette\Pipes\Exceptions\PipesException;
+use Jwhulette\Pipes\Contracts\ExtractorInterface;
 
 class SqlExtractor extends Extractor implements ExtractorInterface
 {

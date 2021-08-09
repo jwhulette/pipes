@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Tests\Unit\Extractors;
 
-use Illuminate\Support\Facades\File;
-use Jwhulette\Pipes\Extractors\CsvExtractor;
-use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamDirectory;
-use Tests\database\factories\DataFileFactory;
 use Tests\TestCase;
+use org\bovigo\vfs\vfsStream;
+use Illuminate\Support\Facades\File;
+use org\bovigo\vfs\vfsStreamDirectory;
+use Jwhulette\Pipes\Extractors\CsvExtractor;
+use Tests\database\factories\DataFileFactory;
 
 class CsvExtractorTest extends TestCase
 {
@@ -36,7 +36,7 @@ class CsvExtractorTest extends TestCase
             'DOB',
             'AMOUNT',
         ];
-        $this->extract = $this->vfs->url().'/csv_extractor.csv';
+        $this->extract = $this->vfs->url().'/csv_extractor.txt';
 
         $this->extractNoHeader = $this->vfs->url().'/csv_no_header_extractor.csv';
 
@@ -94,7 +94,7 @@ class CsvExtractorTest extends TestCase
     {
         $csv = new CsvExtractor($this->extract);
 
-        $csv->setskipLines(3);
+        $csv->setSkipLines(3);
 
         $frameData = $csv->extract();
 

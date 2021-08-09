@@ -1,6 +1,6 @@
 <?php
 
-namespace Jwhulette\Pipes\Extractors;
+namespace Jwhulette\Pipes\Contracts;
 
 use Jwhulette\Pipes\Frame;
 

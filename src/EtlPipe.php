@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes;
 
-use Jwhulette\Pipes\Extractors\ExtractorInterface;
-use Jwhulette\Pipes\Loaders\LoaderInterface;
+use Jwhulette\Pipes\Contracts\LoaderInterface;
+use Jwhulette\Pipes\Contracts\ExtractorInterface;
 
 class EtlPipe
 {
     protected ExtractorInterface $extractor;
-
     protected LoaderInterface $loader;
-
     protected array $transformers = [];
 
     /**
