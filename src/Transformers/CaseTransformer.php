@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Transformers;
 
 use Jwhulette\Pipes\Frame;
-use InvalidArgumentException;
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 
 /**
  * Change the case of the item.
@@ -69,7 +69,7 @@ class CaseTransformer implements TransformerInterface
      *
      * @return int
      *
-     * @throws InvalidArgumentException
+     * @throws PipesInvalidArgumentException
      */
     private function getMode(string $mode): int
     {
@@ -82,6 +82,6 @@ class CaseTransformer implements TransformerInterface
                 return MB_CASE_TITLE;
         }
 
-        throw new InvalidArgumentException("Invalid conversion mode {$mode}.");
+        throw new PipesInvalidArgumentException("Invalid conversion mode {$mode}.");
     }
 }

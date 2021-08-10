@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
+use Tests\TestCase;
 use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Transformers\TrimTransformer;
-use Tests\TestCase;
+use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 
 class TrimTransformerTest extends TestCase
 {
@@ -40,7 +41,7 @@ class TrimTransformerTest extends TestCase
 
     public function testThrowsExeception()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(PipesInvalidArgumentException::class);
 
         $transformer = (new TrimTransformer())->transformAllColumns('ltrims');
 

@@ -14,7 +14,6 @@ use Jwhulette\Pipes\Contracts\TransformerInterface;
 class PhoneTransformer implements TransformerInterface
 {
     protected Collection $columns;
-
     protected int $maxlength = 10;
 
     /**

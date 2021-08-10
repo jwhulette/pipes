@@ -24,9 +24,7 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
     public function __construct(string $file)
     {
         $this->reader = ReaderEntityFactory::createXLSXReader();
-
         $this->reader->setShouldFormatDates(true);
-
         $this->reader->open($file);
 
         $this->frame = new Frame();
@@ -47,7 +45,7 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
      *
      * @return XlsxExtractor
      */
-    public function setskipLines(int $skipLines): XlsxExtractor
+    public function setSkipLines(int $skipLines): XlsxExtractor
     {
         $this->skipLines = $skipLines;
 
@@ -133,12 +131,12 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
      */
     public function makeRow(array $cells): array
     {
-        $collection = [];
+        $array = [];
 
         foreach ($cells as $cell) {
-            $collection[] = (string) $cell->getValue();
+            $array[] = (string) $cell->getValue();
         }
 
-        return $collection;
+        return $array;
     }
 }

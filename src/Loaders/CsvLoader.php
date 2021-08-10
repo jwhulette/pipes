@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Loaders;
 
-use SplFileObject;
+use League\Csv\Writer;
 use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
 
@@ -14,19 +14,17 @@ use Jwhulette\Pipes\Contracts\LoaderInterface;
 class CsvLoader implements LoaderInterface
 {
     protected string $delimiter = ',';
-
     protected string $enclosure = '"';
-
     protected string $escape = '\\';
-
-    protected SplFileObject $file;
+    protected string $newline = '\n';
+    protected Writer $writer;
 
     /**
      * @param string $ouputfile
      */
     public function __construct(string $ouputfile)
     {
-        $this->file = new SplFileObject($ouputfile, 'w');
+        $this->writer = Writer::createFromPath($ouputfile, 'w+');
     }
 
     /**
@@ -66,20 +64,27 @@ class CsvLoader implements LoaderInterface
     }
 
     /**
+     * @param string $newline
+     *
+     * @return CsvLoader
+     */
+    public function setNewline(string $newline): CsvLoader
+    {
+        $this->newline = $newline;
+
+        return $this;
+    }
+
+    /**
      * @param Frame $frame
      */
     public function load(Frame $frame): void
     {
-        $this->file->fputcsv(
-            $frame->data->values()->toArray(),
-            $this->delimiter,
-            $this->enclosure,
-            $this->escape
-        );
+        $this->writer->setEscape($this->escape);
+        $this->writer->setEnclosure($this->enclosure);
+        $this->writer->setDelimiter($this->delimiter);
+        $this->writer->setNewline($this->newline);
 
-        // Close the file
-        if ($frame->end === true) {
-            unset($this->file);
-        }
+        $this->writer->insertOne($frame->data->values()->toArray());
     }
 }

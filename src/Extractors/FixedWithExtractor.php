@@ -8,6 +8,7 @@ use Generator;
 use SplFileObject;
 use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Contracts\Extractor;
+use Jwhulette\Pipes\Exceptions\PipesException;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 
 class FixedWithExtractor extends Extractor implements ExtractorInterface
@@ -86,9 +87,16 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
         $file->setFlags(SplFileObject::READ_AHEAD);
 
         if ($this->hasHeader) {
+
+            $line = $file->fgets();
+
+            if ($line === false) {
+                throw new PipesException('Error reading file!');
+            }
+
             $this->frame->setHeader(
                 $this->makeFrame(
-                    trim($file->fgets())
+                    trim($line)
                 )
             );
 
@@ -102,9 +110,15 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
         }
 
         while (!$file->eof()) {
+            $line = $file->fgets();
+
+            if ($line === false) {
+                throw new PipesException('Error reading file!');
+            }
+
             yield $this->frame->setData(
                 $this->makeFrame(
-                    trim($file->fgets())
+                    trim($line)
                 )
             );
         }
@@ -141,17 +155,17 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
     {
         $data = [];
 
-        $rangeStart = 0;
+        $offset = 0;
 
         $widths = $this->columnWidths;
 
         foreach ($widths as $width) {
-            $item = substr($row, $rangeStart, $width);
+            $item = substr($row, (int) $offset, $width);
 
             $data[] = trim($item);
 
             // Reset the ranges
-            $rangeStart += $width;
+            $offset += $width;
         }
 
         return $data;
@@ -170,15 +184,15 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
 
         $length = strlen($row);
 
-        $rangeStart = 0;
+        $offset = 0;
 
-        while ($length >= $rangeStart) {
-            $item = substr($row, $rangeStart, $this->width);
+        while ($length >= $offset) {
+            $item = substr($row, $offset, $this->width);
 
             $data[] = trim($item);
 
             // Reset the ranges
-            $rangeStart += $this->width;
+            $offset += $this->width;
         }
 
         return $data;

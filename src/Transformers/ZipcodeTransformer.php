@@ -14,7 +14,6 @@ use Jwhulette\Pipes\Contracts\TransformerInterface;
 class ZipcodeTransformer implements TransformerInterface
 {
     protected Collection $columns;
-
     protected int $maxlength = 5;
 
     /**
@@ -48,7 +47,7 @@ class ZipcodeTransformer implements TransformerInterface
      *
      * @return int|null
      */
-    private function setOption(?string $option): ?int
+    protected function setOption(?string $option): ?int
     {
         if (!\is_null($option)) {
             if (strtolower($option) === 'padleft') {

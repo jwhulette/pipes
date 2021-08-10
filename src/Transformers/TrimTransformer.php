@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Transformers;
 
 use Jwhulette\Pipes\Frame;
-use InvalidArgumentException;
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 
 /**
  * Trim the item.
@@ -15,11 +15,8 @@ use Jwhulette\Pipes\Contracts\TransformerInterface;
 class TrimTransformer implements TransformerInterface
 {
     protected Collection $columns;
-
     protected bool $allcolumns = false;
-
     protected string $type = 'trim';
-
     protected string $mask = " \t\n\r\0\x0B";
 
     /**
@@ -31,13 +28,13 @@ class TrimTransformer implements TransformerInterface
     }
 
     /**
-     * @param mixed $column name|index
+     * @param string|int $column name|index
      * @param string|null $type trim|ltrim|rtrim
      * @param string|null $mask
      *
      * @return TrimTransformer
      */
-    public function transformColumn($column, ?string $type = null, ?string $mask = null): TrimTransformer
+    public function transformColumn(string|int $column, ?string $type = null, ?string $mask = null): TrimTransformer
     {
         $this->columns->push((object) [
             'column' => $column,
@@ -110,12 +107,12 @@ class TrimTransformer implements TransformerInterface
      * @param string $mask
      *
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException
      */
     public function trimColumnValue(string $value, string $type, string $mask): string
     {
         if (!\is_callable($type)) {
-            throw new InvalidArgumentException("Invalid trim type: {$type}.");
+            throw new PipesInvalidArgumentException("Invalid trim type: {$type}.");
         }
 
         return \call_user_func($type, $value, $mask);
