@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use Jwhulette\Pipes\Frame;
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
 use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
+use Jwhulette\Pipes\Frame;
 
 /**
  * Change the case of the item.

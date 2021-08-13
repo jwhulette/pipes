@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Extractors;
 
-use Generator;
-use Jwhulette\Pipes\Frame;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Box\Spout\Reader\ReaderInterface;
 use Box\Spout\Reader\XLSX\RowIterator;
+use Generator;
 use Jwhulette\Pipes\Contracts\Extractor;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use Jwhulette\Pipes\Frame;
 
 class XlsxExtractor extends Extractor implements ExtractorInterface
 {

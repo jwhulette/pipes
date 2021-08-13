@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use Jwhulette\Pipes\Frame;
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\Frame;
 
 /**
  * Change a value of an item of based on a conditional.

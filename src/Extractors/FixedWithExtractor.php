@@ -5,16 +5,18 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use SplFileObject;
-use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Contracts\Extractor;
-use Jwhulette\Pipes\Exceptions\PipesException;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
+use Jwhulette\Pipes\Exceptions\PipesException;
+use Jwhulette\Pipes\Frame;
+use SplFileObject;
 
 class FixedWithExtractor extends Extractor implements ExtractorInterface
 {
     protected array $columnWidths = [];
+
     protected bool $allColumns = false;
+
     protected int $width;
 
     /**
@@ -87,7 +89,6 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
         $file->setFlags(SplFileObject::READ_AHEAD);
 
         if ($this->hasHeader) {
-
             $line = $file->fgets();
 
             if ($line === false) {
@@ -109,7 +110,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
             $file->seek($this->skipLines - 1);
         }
 
-        while (!$file->eof()) {
+        while (! $file->eof()) {
             $line = $file->fgets();
 
             if ($line === false) {

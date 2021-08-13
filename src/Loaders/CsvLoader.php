@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Loaders;
 
-use League\Csv\Writer;
-use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
+use Jwhulette\Pipes\Frame;
+use League\Csv\Writer;
 
 /**
  * Write a csv file.
@@ -14,9 +14,13 @@ use Jwhulette\Pipes\Contracts\LoaderInterface;
 class CsvLoader implements LoaderInterface
 {
     protected string $delimiter = ',';
+
     protected string $enclosure = '"';
+
     protected string $escape = '\\';
+
     protected string $newline = '\n';
+
     protected Writer $writer;
 
     /**

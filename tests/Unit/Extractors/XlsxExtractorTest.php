@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
-use Tests\TestCase;
 use Jwhulette\Pipes\Extractors\XlsxExtractor;
-use Tests\database\factories\DataFileFactory;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
+use Tests\database\factories\DataFileFactory;
+use Tests\TestCase;
 
 class XlsxExtractorTest extends TestCase
 {
     protected string $extract;
+
     protected string $extractNoHeader;
+
     protected TemporaryDirectory $temporaryDirectory;
 
     public function setUp(): void

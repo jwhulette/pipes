@@ -12,8 +12,11 @@ use Illuminate\Support\Collection;
 class Frame
 {
     public Collection $header;
+
     public Collection $data;
+
     public array $attribute = [];
+
     public bool $end = false;
 
     /**
