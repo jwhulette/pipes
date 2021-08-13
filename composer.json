@@ -49,7 +49,6 @@
         "phpstan/phpstan": "^0.12.73",
         "ramsey/uuid": "^4.1",
         "orchestra/testbench": "^6.11",
-        "codedungeon/phpunit-result-printer": "^0.30.1",
         "mikey179/vfsstream": "^1.6",
         "nunomaduro/larastan": "^0.7.0",
         "spatie/temporary-directory": "^2.0"

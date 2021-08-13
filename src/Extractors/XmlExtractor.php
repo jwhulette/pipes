@@ -14,7 +14,6 @@ use Jwhulette\Pipes\Contracts\ExtractorInterface;
 class XmlExtractor extends Extractor implements ExtractorInterface
 {
     protected string $nodename;
-
     protected bool $isGZipped = false;
 
     /**

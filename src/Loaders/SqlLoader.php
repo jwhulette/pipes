@@ -11,21 +11,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
 
-/**
- * Write to a database.
- */
 class SqlLoader implements LoaderInterface
 {
     protected Builder $db;
-
     protected Collection $columns;
-
     protected int $count = 0;
-
     protected int $batchSize = 500;
-
     protected array $insert = [];
-
     protected bool $useColumns = false;
 
     /**

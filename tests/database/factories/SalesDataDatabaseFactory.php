@@ -17,7 +17,6 @@ class SalesDataDatabaseFactory
     public function __construct(string $table)
     {
         $this->faker = Factory::create();
-
         $this->table = $table;
     }
 

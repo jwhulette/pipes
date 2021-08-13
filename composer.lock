@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a99699a8056032a49364d4362a9380ab",
+    "content-hash": "f6370f2feb37dbefd5b67738baf833c7",
     "packages": [
         {
             "name": "box/spout",
@@ -138,16 +138,16 @@
         },
         {
             "name": "dflydev/dot-access-data",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-dot-access-data.git",
-                "reference": "e04ff030d24a33edc2421bef305e32919dd78fc3"
+                "reference": "0992cc19268b259a39e86f296da5f0677841f42c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-dot-access-data/zipball/e04ff030d24a33edc2421bef305e32919dd78fc3",
-                "reference": "e04ff030d24a33edc2421bef305e32919dd78fc3",
+                "url": "https://api.github.com/repos/dflydev/dflydev-dot-access-data/zipball/0992cc19268b259a39e86f296da5f0677841f42c",
+                "reference": "0992cc19268b259a39e86f296da5f0677841f42c",
                 "shasum": ""
             },
             "require": {
@@ -207,9 +207,9 @@
             ],
             "support": {
                 "issues": "https://github.com/dflydev/dflydev-dot-access-data/issues",
-                "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.0"
+                "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.1"
             },
-            "time": "2021-01-01T22:08:42+00:00"
+            "time": "2021-08-13T13:06:58+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -634,16 +634,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.53.1",
+            "version": "v8.54.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "5df423c2790f32b26baee90518bb659572aa404f"
+                "reference": "7b88554cd1aeb52b7f82689bf244182e7a81894b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/5df423c2790f32b26baee90518bb659572aa404f",
-                "reference": "5df423c2790f32b26baee90518bb659572aa404f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7b88554cd1aeb52b7f82689bf244182e7a81894b",
+                "reference": "7b88554cd1aeb52b7f82689bf244182e7a81894b",
                 "shasum": ""
             },
             "require": {
@@ -798,7 +798,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-08-05T14:04:08+00:00"
+            "time": "2021-08-10T14:25:51+00:00"
         },
         {
             "name": "league/commonmark",
@@ -2107,16 +2107,16 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "4.2.0",
+            "version": "4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "7231612a5221f5524d3575bebdce20eeef8547a1"
+                "reference": "fe665a03df4f056aa65af552a96e1976df8c8dae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/7231612a5221f5524d3575bebdce20eeef8547a1",
-                "reference": "7231612a5221f5524d3575bebdce20eeef8547a1",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/fe665a03df4f056aa65af552a96e1976df8c8dae",
+                "reference": "fe665a03df4f056aa65af552a96e1976df8c8dae",
                 "shasum": ""
             },
             "require": {
@@ -2188,7 +2188,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ramsey/uuid/issues",
-                "source": "https://github.com/ramsey/uuid/tree/4.2.0"
+                "source": "https://github.com/ramsey/uuid/tree/4.2.1"
             },
             "funding": [
                 {
@@ -2200,7 +2200,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-06T22:30:43+00:00"
+            "time": "2021-08-11T01:06:55+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
@@ -4860,159 +4860,6 @@
     ],
     "packages-dev": [
         {
-            "name": "2bj/phanybar",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/2bj/Phanybar.git",
-                "reference": "88ff671e18f30c2047a34f8cf2465a7ff93c819b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/2bj/Phanybar/zipball/88ff671e18f30c2047a34f8cf2465a7ff93c819b",
-                "reference": "88ff671e18f30c2047a34f8cf2465a7ff93c819b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "bin": [
-                "bin/phanybar"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Bakyt\\": [
-                        "src/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bakyt Turgumbaev",
-                    "email": "dev2bj@gmail.com"
-                }
-            ],
-            "description": "Control AnyBar from your php",
-            "keywords": [
-                "anybar",
-                "phanybar"
-            ],
-            "support": {
-                "issues": "https://github.com/2bj/Phanybar/issues",
-                "source": "https://github.com/2bj/Phanybar/tree/master"
-            },
-            "time": "2015-03-06T12:14:28+00:00"
-        },
-        {
-            "name": "codedungeon/php-cli-colors",
-            "version": "1.12.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mikeerickson/php-cli-colors.git",
-                "reference": "e346156f75717140a3dd622124d2ec686aa7ff8e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mikeerickson/php-cli-colors/zipball/e346156f75717140a3dd622124d2ec686aa7ff8e",
-                "reference": "e346156f75717140a3dd622124d2ec686aa7ff8e",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpunit/phpunit": ">=5.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Codedungeon\\PHPCliColors\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike Erickson",
-                    "email": "codedungeon@gmail.com"
-                }
-            ],
-            "description": "Liven up you PHP Console Apps with standard colors",
-            "homepage": "https://github.com/mikeerickson/php-cli-colors",
-            "keywords": [
-                "color",
-                "colors",
-                "composer",
-                "package",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/mikeerickson/php-cli-colors/issues",
-                "source": "https://github.com/mikeerickson/php-cli-colors/tree/1.12.2"
-            },
-            "time": "2021-01-05T04:48:27+00:00"
-        },
-        {
-            "name": "codedungeon/phpunit-result-printer",
-            "version": "0.30.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mikeerickson/phpunit-pretty-result-printer.git",
-                "reference": "a361009eeb7078c1478ba835976f7722a4952870"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mikeerickson/phpunit-pretty-result-printer/zipball/a361009eeb7078c1478ba835976f7722a4952870",
-                "reference": "a361009eeb7078c1478ba835976f7722a4952870",
-                "shasum": ""
-            },
-            "require": {
-                "2bj/phanybar": "^1.0",
-                "codedungeon/php-cli-colors": "^1.10.2",
-                "hassankhan/config": "^0.11.2|^1.0|^2.0",
-                "php": "^7.1 | ^8.0",
-                "symfony/yaml": "^2.7|^3.0|^4.0|^5.0"
-            },
-            "require-dev": {
-                "spatie/phpunit-watcher": "^1.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Codedungeon\\PHPUnitPrettyResultPrinter\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike Erickson",
-                    "email": "codedungeon@gmail.com"
-                }
-            ],
-            "description": "PHPUnit Pretty Result Printer",
-            "keywords": [
-                "TDD",
-                "composer",
-                "package",
-                "phpunit",
-                "printer",
-                "result-printer",
-                "testing"
-            ],
-            "support": {
-                "issues": "https://github.com/mikeerickson/phpunit-pretty-result-printer/issues",
-                "source": "https://github.com/mikeerickson/phpunit-pretty-result-printer/tree/0.30.1"
-            },
-            "time": "2020-12-24T20:19:03+00:00"
-        },
-        {
             "name": "composer/ca-bundle",
             "version": "1.2.10",
             "source": {
@@ -5875,68 +5722,6 @@
             "time": "2021-06-30T20:03:07+00:00"
         },
         {
-            "name": "hassankhan/config",
-            "version": "2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hassankhan/config.git",
-                "reference": "62b0fd17540136efa94ab6b39f04044c6dc5e4a7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hassankhan/config/zipball/62b0fd17540136efa94ab6b39f04044c6dc5e4a7",
-                "reference": "62b0fd17540136efa94ab6b39f04044c6dc5e4a7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.9"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.8.36 || ~5.7 || ~6.5 || ~7.5",
-                "scrutinizer/ocular": "~1.1",
-                "squizlabs/php_codesniffer": "~2.2",
-                "symfony/yaml": "~3.4"
-            },
-            "suggest": {
-                "symfony/yaml": "~3.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Noodlehaus\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hassan Khan",
-                    "homepage": "http://hassankhan.me/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Lightweight configuration file loader that supports PHP, INI, XML, JSON, and YAML files",
-            "homepage": "http://hassankhan.me/config/",
-            "keywords": [
-                "config",
-                "configuration",
-                "ini",
-                "json",
-                "microphp",
-                "unframework",
-                "xml",
-                "yaml",
-                "yml"
-            ],
-            "support": {
-                "issues": "https://github.com/hassankhan/config/issues",
-                "source": "https://github.com/hassankhan/config/tree/2.2.0"
-            },
-            "time": "2020-12-07T16:04:15+00:00"
-        },
-        {
             "name": "justinrainbow/json-schema",
             "version": "5.2.11",
             "source": {
@@ -6270,22 +6055,22 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v6.19.0",
+            "version": "v6.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "4e3ee38295d793f0d4864203d5e1f0b952635d1b"
+                "reference": "b9f7b932a5533739effa7c0da8a54d9217476c24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/4e3ee38295d793f0d4864203d5e1f0b952635d1b",
-                "reference": "4e3ee38295d793f0d4864203d5e1f0b952635d1b",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/b9f7b932a5533739effa7c0da8a54d9217476c24",
+                "reference": "b9f7b932a5533739effa7c0da8a54d9217476c24",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "^8.26",
+                "laravel/framework": "^8.54",
                 "mockery/mockery": "^1.4.2",
-                "orchestra/testbench-core": "^6.23",
+                "orchestra/testbench-core": "^6.24",
                 "php": "^7.3 || ^8.0",
                 "phpunit/phpunit": "^8.4 || ^9.3.3",
                 "spatie/laravel-ray": "^1.18"
@@ -6319,7 +6104,7 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v6.19.0"
+                "source": "https://github.com/orchestral/testbench/tree/v6.20.0"
             },
             "funding": [
                 {
@@ -6331,20 +6116,20 @@
                     "type": "liberapay"
                 }
             ],
-            "time": "2021-07-01T02:50:07+00:00"
+            "time": "2021-08-12T00:53:59+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v6.23.1",
+            "version": "v6.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "239bc0d99ae44f76c024e74ced0fc5aabfa00be3"
+                "reference": "fdd33d553480ff2192755806fca641bcd79ab04b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/239bc0d99ae44f76c024e74ced0fc5aabfa00be3",
-                "reference": "239bc0d99ae44f76c024e74ced0fc5aabfa00be3",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/fdd33d553480ff2192755806fca641bcd79ab04b",
+                "reference": "fdd33d553480ff2192755806fca641bcd79ab04b",
                 "shasum": ""
             },
             "require": {
@@ -6354,7 +6139,7 @@
                 "vlucas/phpdotenv": "^5.1"
             },
             "require-dev": {
-                "laravel/framework": "^8.26",
+                "laravel/framework": "^8.54",
                 "laravel/laravel": "8.x-dev",
                 "mockery/mockery": "^1.4.2",
                 "orchestra/canvas": "^6.1",
@@ -6363,7 +6148,7 @@
                 "symfony/process": "^5.0"
             },
             "suggest": {
-                "laravel/framework": "Required for testing (^8.26).",
+                "laravel/framework": "Required for testing (^8.54).",
                 "mockery/mockery": "Allow using Mockery for testing (^1.4.2).",
                 "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^6.0).",
                 "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^6.0).",
@@ -6418,7 +6203,7 @@
                     "type": "liberapay"
                 }
             ],
-            "time": "2021-07-14T02:34:48+00:00"
+            "time": "2021-08-12T00:45:07+00:00"
         },
         {
             "name": "phar-io/manifest",
