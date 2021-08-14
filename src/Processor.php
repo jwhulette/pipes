@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes;
 
+use Jwhulette\Pipes\Contracts\ExtractorInterface;
+use Jwhulette\Pipes\Contracts\LoaderInterface;
 use League\Pipeline\PipelineBuilder;
 use League\Pipeline\PipelineInterface;
-use Jwhulette\Pipes\Contracts\LoaderInterface;
-use Jwhulette\Pipes\Contracts\ExtractorInterface;
 
 /**
  * Processor.
@@ -15,7 +15,9 @@ use Jwhulette\Pipes\Contracts\ExtractorInterface;
 class Processor
 {
     protected ExtractorInterface $extractor;
+
     protected LoaderInterface $loader;
+
     protected PipelineInterface $pipline;
 
     /**

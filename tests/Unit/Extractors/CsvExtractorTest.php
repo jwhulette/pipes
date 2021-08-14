@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Tests\Unit\Extractors;
 
-use Tests\TestCase;
-use org\bovigo\vfs\vfsStream;
 use Illuminate\Support\Facades\File;
-use org\bovigo\vfs\vfsStreamDirectory;
 use Jwhulette\Pipes\Extractors\CsvExtractor;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use Tests\database\factories\DataFileFactory;
+use Tests\TestCase;
 
 class CsvExtractorTest extends TestCase
 {

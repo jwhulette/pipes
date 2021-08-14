@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Extractors;
 
-use Tests\TestCase;
-use Jwhulette\Pipes\Frame;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Jwhulette\Pipes\Extractors\SqlExtractor;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Jwhulette\Pipes\Frame;
 use Tests\database\factories\SalesDataDatabaseFactory;
+use Tests\TestCase;
 
 class SqlExtractorTest extends TestCase
 {
@@ -22,7 +22,9 @@ class SqlExtractorTest extends TestCase
         (new SalesDataDatabaseFactory($this->table))->create(10);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     public function test_query_builder()
     {
         $builder = DB::table($this->table)->select('country, order_date');

@@ -5,20 +5,25 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use League\Csv\Reader;
-use Jwhulette\Pipes\Frame;
-use League\Csv\SyntaxError;
 use Jwhulette\Pipes\Contracts\Extractor;
-use Jwhulette\Pipes\Exceptions\PipesException;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
+use Jwhulette\Pipes\Exceptions\PipesException;
+use Jwhulette\Pipes\Frame;
+use League\Csv\Reader;
+use League\Csv\SyntaxError;
 
 class CsvExtractor extends Extractor implements ExtractorInterface
 {
     protected string $file;
+
     protected string $delimiter = ',';
+
     protected string $enclosure = '\'';
+
     protected string $escape = '\\';
+
     protected int $skipLines = 0;
+
     protected bool $hasHeader = \true;
 
     /**
@@ -112,7 +117,8 @@ class CsvExtractor extends Extractor implements ExtractorInterface
                 $this->frame->setHeader($header);
             } catch (SyntaxError $exception) {
                 $duplicateColumns = collect($exception->duplicateColumnNames())->implode(',');
-                throw new PipesException("Duplicate column names " . $duplicateColumns, 1);
+
+                throw new PipesException('Duplicate column names '.$duplicateColumns, 1);
             }
         }
 

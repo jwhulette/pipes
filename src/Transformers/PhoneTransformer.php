@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use Jwhulette\Pipes\Frame;
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\Frame;
 
 /**
  * Clean phone numbers to include only digits.
@@ -14,6 +14,7 @@ use Jwhulette\Pipes\Contracts\TransformerInterface;
 class PhoneTransformer implements TransformerInterface
 {
     protected Collection $columns;
+
     protected int $maxlength = 10;
 
     /**
