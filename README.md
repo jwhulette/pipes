@@ -89,21 +89,27 @@ Using the following pipeline:
     ->run();
 ```
 
-## Test results
-Reading, transforming and writing to another csv file.
-###### Running CSV performance tests #####
----- Processing file: 100000 Sales Records.csv ----
-Peak usage: 10.599MB of memory used.
-Total execution time in seconds: 4.331
----- Processing file: 1000000 Sales Records.csv ----
-Peak usage: 10.599MB of memory used.
-Total execution time in seconds: 44.176
 
-Reading XLSX file, tranforming and inserting into sqlite database
-###### Running SQL performance tests
----- Processing file: 100000 Sales Records.xlsx ----
-Peak usage: 14.996MB of memory used.
-Total execution time in seconds: 33.372
+#### Performance tests
+---- CVS -> CVS : Processing file: 100000 Sales Records.csv ----
+Peak usage: 10.978MB of memory used.
+Total execution time in seconds: 5.676
+
+---- CVS -> CVS : Processing file: 1000000 Sales Records.csv ----
+Peak usage: 10.978MB of memory used.
+Total execution time in seconds: 59.601
+
+---- CSV -> SQL : Processing file: 100000 Sales Records.csv ----
+Peak usage: 14.229MB of memory used.
+Total execution time in seconds: 6.213
+
+---- CSV -> SQL : Processing file: 1000000 Sales Records.csv ----
+Peak usage: 14.23MB of memory used.
+Total execution time in seconds: 63.334
+
+---- XLSX -> SQL : Processing file: 100000 Sales Records.xlsx ----
+Peak usage: 15.371MB of memory used.
+Total execution time in seconds: 35.122
 
 ## Testing
 
