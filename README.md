@@ -6,6 +6,8 @@
 
 Pipes is a PHP Extract Transform Load [ETL] package for Laravel or Laravel Zero
 
+View documentation at https://jwhulette.github.io/pipes/
+
 ## Installation
 
 You can install the package via composer:
