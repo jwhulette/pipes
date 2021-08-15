@@ -7,8 +7,8 @@ namespace Jwhulette\Pipes\Loaders;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use InvalidArgumentException;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
+use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
 class SqlLoader implements LoaderInterface
@@ -31,11 +31,11 @@ class SqlLoader implements LoaderInterface
      */
     public function __construct(string $table, string $connection = null)
     {
-        $this->db = DB::table($table);
-
-        if (! is_null($connection)) {
+        if (!is_null($connection)) {
             $this->db = DB::connection($connection)->table($table);
         }
+
+        $this->db = DB::table($table);
     }
 
     /**
@@ -55,14 +55,14 @@ class SqlLoader implements LoaderInterface
      *
      * @return SqlLoader
      *
-     * @throws InvalidArgumentException
+     * @throws \Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException
      */
     public function setSqlColumnNames(array $columns = []): SqlLoader
     {
         $this->columns = collect($columns);
 
         if ($this->columns->count() === 0) {
-            throw new InvalidArgumentException('SQL Columns name cannot be empty');
+            throw new PipesInvalidArgumentException('SQL Columns name cannot be empty');
         }
 
         $this->useColumns = true;
