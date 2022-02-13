@@ -4,20 +4,25 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Loaders;
 
-use Jwhulette\Pipes\Frame;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\Builder;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
 use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
+use Jwhulette\Pipes\Frame;
 
 class SqlLoader implements LoaderInterface
 {
     protected Builder $db;
+
     protected Collection $columns;
+
     protected int $count = 0;
+
     protected int $batchSize = 500;
+
     protected array $insert = [];
+
     protected bool $useColumns = false;
 
     /**
@@ -26,7 +31,7 @@ class SqlLoader implements LoaderInterface
      */
     public function __construct(string $table, string $connection = null)
     {
-        if (!is_null($connection)) {
+        if (! is_null($connection)) {
             $this->db = DB::connection($connection)->table($table);
         }
 

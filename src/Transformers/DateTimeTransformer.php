@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Transformers;
 
 use DateTime;
-use Jwhulette\Pipes\Frame;
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\Frame;
 
 /**
  * Change the date/time format of an item.
@@ -15,7 +15,9 @@ use Jwhulette\Pipes\Contracts\TransformerInterface;
 class DateTimeTransformer implements TransformerInterface
 {
     protected Collection $columns;
+
     protected string $outputFormat = 'Y-m-d H:i:s';
+
     protected ?string $inputFormat = null;
 
     /**
@@ -85,6 +87,7 @@ class DateTimeTransformer implements TransformerInterface
         if ($dateObject === \false) {
             return '';
         }
+
         return $dateObject->format($transform->outputFormat);
     }
 }

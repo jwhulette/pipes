@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use Jwhulette\Pipes\Frame;
 use Illuminate\Database\Query\Builder;
 use Jwhulette\Pipes\Contracts\Extractor;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Exceptions\PipesSqlException;
+use Jwhulette\Pipes\Frame;
 
 class SqlExtractor extends Extractor implements ExtractorInterface
 {
@@ -21,7 +21,7 @@ class SqlExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * Set a laravel Query Builder 
+     * Set a laravel Query Builder.
      *
      * @param \Illuminate\Database\Query\Builder $queryBuilder
      *
@@ -36,7 +36,7 @@ class SqlExtractor extends Extractor implements ExtractorInterface
 
     /**
      * @return Generator
-     * 
+     *
      * @throws PipesSqlException
      */
     public function extract(): Generator
