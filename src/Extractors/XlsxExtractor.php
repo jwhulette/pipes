@@ -119,6 +119,10 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
 
         $row = $rowIterator->current();
 
+        if (\is_null($row)) {
+            return;
+        }
+
         $this->frame->setHeader(
             $this->makeRow(
                 $row->getCells()

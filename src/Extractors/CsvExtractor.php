@@ -15,21 +15,12 @@ class CsvExtractor extends Extractor implements ExtractorInterface
     
     protected string $file;
 
-    /**
-     * @param string $file
-     */
     public function __construct(string $file)
     {
         $this->file = $file;
-
         $this->frame = new Frame();
     }
 
-    /**
-     * @param string $delimiter
-     *
-     * @return  CsvExtractor
-     */
     public function setDelimiter(string $delimiter): CsvExtractor
     {
         $this->delimiter = $delimiter;
@@ -37,11 +28,6 @@ class CsvExtractor extends Extractor implements ExtractorInterface
         return $this;
     }
 
-    /**
-     * @param string $enclosure
-     *
-     * @return  CsvExtractor
-     */
     public function setEnclosure(string $enclosure): CsvExtractor
     {
         $this->enclosure = $enclosure;
@@ -49,11 +35,6 @@ class CsvExtractor extends Extractor implements ExtractorInterface
         return $this;
     }
 
-    /**
-     * @param string $escape
-     *
-     * @return  CsvExtractor
-     */
     public function setEscape(string $escape): CsvExtractor
     {
         $this->escape = $escape;
@@ -61,11 +42,6 @@ class CsvExtractor extends Extractor implements ExtractorInterface
         return $this;
     }
 
-    /**
-     * @param int $skipLines
-     *
-     * @return  CsvExtractor
-     */
     public function setSkipLines(int $skipLines): CsvExtractor
     {
         $this->skipLines = $skipLines;
@@ -73,9 +49,6 @@ class CsvExtractor extends Extractor implements ExtractorInterface
         return $this;
     }
 
-    /**
-     * @return  CsvExtractor
-     */
     public function setNoHeader(): CsvExtractor
     {
         $this->hasHeader = false;
@@ -83,11 +56,6 @@ class CsvExtractor extends Extractor implements ExtractorInterface
         return $this;
     }
 
-    /**
-     * Extract the data from the source file.
-     *
-     * @return Generator
-     */
     public function extract(): Generator
     {
         $reader = Reader::createFromPath($this->file, 'r');

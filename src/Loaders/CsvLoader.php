@@ -17,19 +17,11 @@ class CsvLoader implements LoaderInterface
 
     protected Writer $writer;
 
-    /**
-     * @param string $ouputfile
-     */
     public function __construct(string $ouputfile)
     {
         $this->writer = Writer::createFromPath($ouputfile, 'w+');
     }
 
-    /**
-     * @param string $delimiter
-     *
-     * @return CsvLoader
-     */
     public function setDelimiter(string $delimiter): CsvLoader
     {
         $this->delimiter = $delimiter;
@@ -37,11 +29,6 @@ class CsvLoader implements LoaderInterface
         return $this;
     }
 
-    /**
-     * @param string $enclosure
-     *
-     * @return CsvLoader
-     */
     public function setEnclosure(string $enclosure): CsvLoader
     {
         $this->enclosure = $enclosure;
@@ -49,11 +36,6 @@ class CsvLoader implements LoaderInterface
         return $this;
     }
 
-    /**
-     * @param string $escape
-     *
-     * @return CsvLoader
-     */
     public function setEscape(string $escape): CsvLoader
     {
         $this->escape = $escape;
@@ -61,11 +43,6 @@ class CsvLoader implements LoaderInterface
         return $this;
     }
 
-    /**
-     * @param string $newline
-     *
-     * @return CsvLoader
-     */
     public function setNewline(string $newline): CsvLoader
     {
         $this->newline = $newline;

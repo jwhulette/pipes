@@ -6,6 +6,7 @@ namespace Jwhulette\Pipes\Transformers;
 
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\DataTransferObjects\TrimColumn;
 use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
@@ -20,9 +21,6 @@ class TrimTransformer implements TransformerInterface
 
     protected string $mask = " \t\n\r\0\x0B";
 
-    /**
-     * __construct.
-     */
     public function __construct()
     {
         $this->columns = new Collection();
@@ -37,11 +35,7 @@ class TrimTransformer implements TransformerInterface
      */
     public function transformColumn(string | int $column, ?string $type = null, ?string $mask = null): TrimTransformer
     {
-        $this->columns->push((object) [
-            'column' => $column,
-            'type' => $type ?? $this->type,
-            'mask' => $mask ?? $this->mask,
-        ]);
+        $this->columns->push(new TrimColumn($column, $type ?? $this->type, $mask ?? $this->mask));
 
         return $this;
     }
@@ -54,21 +48,13 @@ class TrimTransformer implements TransformerInterface
      */
     public function transformAllColumns(?string $type = null, ?string $mask = null): TrimTransformer
     {
-        $this->columns->push((object) [
-            'type' => $type ?? $this->type,
-            'mask' => $mask ?? $this->mask,
-        ]);
+        $this->columns->push(new TrimColumn(0, $type ?? $this->type, $mask ?? $this->mask));
 
         $this->allColumns = true;
 
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     *
-     * @return Frame
-     */
     public function __invoke(Frame $frame): Frame
     {
         // Apply to all columns
@@ -103,14 +89,9 @@ class TrimTransformer implements TransformerInterface
     }
 
     /**
-     * @param string $value
-     * @param string $type
-     * @param string $mask
-     *
-     * @return string
-     * @throws \Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException
+     * @throws PipesInvalidArgumentException
      */
-    public function trimColumnValue(string $value, string $type, string $mask): string
+    protected function trimColumnValue(string $value, string $type, string $mask): string
     {
         if (! \is_callable($type)) {
             throw new PipesInvalidArgumentException("Invalid trim type: {$type}.");

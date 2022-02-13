@@ -25,10 +25,6 @@ class SqlLoader implements LoaderInterface
 
     protected bool $useColumns = false;
 
-    /**
-     * @param string $table
-     * @param string $connection
-     */
     public function __construct(string $table, string $connection = null)
     {
         if (!is_null($connection)) {
@@ -38,11 +34,6 @@ class SqlLoader implements LoaderInterface
         $this->db = DB::table($table);
     }
 
-    /**
-     * @param int $batchSize
-     *
-     * @return SqlLoader
-     */
     public function setBatchSize(int $batchSize): SqlLoader
     {
         $this->batchSize = $batchSize;
@@ -51,10 +42,6 @@ class SqlLoader implements LoaderInterface
     }
 
     /**
-     * @param array $columns
-     *
-     * @return SqlLoader
-     *
      * @throws PipesInvalidArgumentException
      */
     public function setSqlColumnNames(array $columns = []): SqlLoader
@@ -70,9 +57,6 @@ class SqlLoader implements LoaderInterface
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     */
     public function load(Frame $frame): void
     {
         $this->count++;
@@ -88,9 +72,6 @@ class SqlLoader implements LoaderInterface
         }
     }
 
-    /**
-     * @param Frame $frame
-     */
     private function buildInsert(Frame $frame): void
     {
         if ($this->useColumns) {
@@ -100,9 +81,6 @@ class SqlLoader implements LoaderInterface
         }
     }
 
-    /**
-     * Bulk insert the data.
-     */
     private function bulkInsert(): void
     {
         $this->db->insert($this->insert);

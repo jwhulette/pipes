@@ -16,13 +16,6 @@ class EtlPipe
 
     protected array $transformers = [];
 
-    /**
-     * Set the type of extractor to use.
-     *
-     * @param ExtractorInterface $extractor
-     *
-     * @return EtlPipe
-     */
     public function extract(ExtractorInterface $extractor): EtlPipe
     {
         $this->extractor = $extractor;
@@ -44,13 +37,6 @@ class EtlPipe
         return $this;
     }
 
-    /**
-     * Set the loader to use.
-     *
-     * @param LoaderInterface $loader
-     *
-     * @return EtlPipe
-     */
     public function load(LoaderInterface $loader): EtlPipe
     {
         $this->loader = $loader;
@@ -58,9 +44,6 @@ class EtlPipe
         return $this;
     }
 
-    /**
-     * Process the ETl pipeline.
-     */
     public function run(): void
     {
         (new Processor(

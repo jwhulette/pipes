@@ -6,6 +6,7 @@ namespace Jwhulette\Pipes\Transformers;
 
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\DataTransferObjects\CaseColumn;
 use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
@@ -16,9 +17,6 @@ class CaseTransformer implements TransformerInterface
 {
     protected Collection $transformers;
 
-    /**
-     * __construct.
-     */
     public function __construct()
     {
         $this->transformers = new Collection();
@@ -33,22 +31,17 @@ class CaseTransformer implements TransformerInterface
      */
     public function transformColumn($column, string $mode, string $encoding = 'utf-8'): CaseTransformer
     {
-        $transformer = (object) [
-            'column' =>  $column,
-            'mode' => $this->getMode($mode),
-            'encoding' => $encoding,
-        ];
+        $transformer = new CaseColumn(
+            $column,
+            $this->getMode($mode),
+            $encoding,
+        );
 
         $this->transformers->push($transformer);
 
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     *
-     * @return Frame
-     */
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
@@ -65,10 +58,6 @@ class CaseTransformer implements TransformerInterface
     }
 
     /**
-     * @param string $mode
-     *
-     * @return int
-     *
      * @throws PipesInvalidArgumentException
      */
     private function getMode(string $mode): int
