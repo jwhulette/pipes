@@ -11,11 +11,13 @@ use Generator;
 use Jwhulette\Pipes\Contracts\Extractor;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Traits\CsvOptions;
 
 class XlsxExtractor extends Extractor implements ExtractorInterface
 {
+    use CsvOptions;
+    
     protected ReaderInterface $reader;
-
     protected int $sheetIndex = 0;
 
     /**

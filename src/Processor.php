@@ -6,6 +6,7 @@ namespace Jwhulette\Pipes;
 
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
+use Jwhulette\Pipes\Contracts\TransformerInterface;
 use League\Pipeline\PipelineBuilder;
 use League\Pipeline\PipelineInterface;
 
@@ -24,7 +25,7 @@ class Processor
      * Build the pipeline.
      *
      * @param ExtractorInterface $extractor
-     * @param array<object> $transformers
+     * @param array<TransformerInterface> $transformers
      * @param LoaderInterface $loader
      */
     public function __construct(ExtractorInterface $extractor, array $transformers, LoaderInterface $loader)
@@ -51,7 +52,7 @@ class Processor
     }
 
     /**
-     * @param array<object> $transformers
+     * @param array<TransformerInterface> $transformers
      */
     private function buildTransformerPipline(array $transformers): void
     {

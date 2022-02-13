@@ -7,12 +7,12 @@ namespace Jwhulette\Pipes\Extractors;
 use Generator;
 use Jwhulette\Pipes\Contracts\Extractor;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
-use Jwhulette\Pipes\Exceptions\PipesException;
-use Jwhulette\Pipes\Frame;
-use SplFileObject;
+use Jwhulette\Pipes\Traits\CsvOptions;
 
 class FixedWithExtractor extends Extractor implements ExtractorInterface
 {
+    use CsvOptions;
+    
     protected array $columnWidths = [];
 
     protected bool $allColumns = false;

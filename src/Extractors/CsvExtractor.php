@@ -7,24 +7,13 @@ namespace Jwhulette\Pipes\Extractors;
 use Generator;
 use Jwhulette\Pipes\Contracts\Extractor;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
-use Jwhulette\Pipes\Exceptions\PipesException;
-use Jwhulette\Pipes\Frame;
-use League\Csv\Reader;
-use League\Csv\SyntaxError;
+use Jwhulette\Pipes\Traits\CsvOptions;
 
 class CsvExtractor extends Extractor implements ExtractorInterface
 {
+    use CsvOptions;
+    
     protected string $file;
-
-    protected string $delimiter = ',';
-
-    protected string $enclosure = '\'';
-
-    protected string $escape = '\\';
-
-    protected int $skipLines = 0;
-
-    protected bool $hasHeader = \true;
 
     /**
      * @param string $file

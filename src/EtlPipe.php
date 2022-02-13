@@ -6,6 +6,7 @@ namespace Jwhulette\Pipes;
 
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
+use Jwhulette\Pipes\Contracts\TransformerInterface;
 
 class EtlPipe
 {
@@ -32,7 +33,7 @@ class EtlPipe
     /**
      * Set the transforms to use.
      *
-     * @param array<object> $transformers
+     * @param array<TransformerInterface> $transformers
      *
      * @return EtlPipe
      */
@@ -62,6 +63,11 @@ class EtlPipe
      */
     public function run(): void
     {
-        (new Processor($this->extractor, $this->transformers, $this->loader))->process();
+        (new Processor(
+            $this->extractor,
+            $this->transformers,
+            $this->loader
+        )
+        )->process();
     }
 }
