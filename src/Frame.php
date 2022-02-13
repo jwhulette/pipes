@@ -44,6 +44,7 @@ class Frame
     }
 
     /**
+     * Set extra attributes to a data frame for use in processing
      * @param array $attribute
      */
     public function setAttribute(array $attribute): void

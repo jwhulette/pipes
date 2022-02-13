@@ -55,7 +55,7 @@ class SqlLoader implements LoaderInterface
      *
      * @return SqlLoader
      *
-     * @throws \Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException
+     * @throws PipesInvalidArgumentException
      */
     public function setSqlColumnNames(array $columns = []): SqlLoader
     {

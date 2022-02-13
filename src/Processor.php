@@ -18,8 +18,7 @@ class Processor
     protected ExtractorInterface $extractor;
 
     protected LoaderInterface $loader;
-
-    protected PipelineInterface $pipline;
+    protected PipelineInterface $pipeline;
 
     /**
      * Build the pipeline.
@@ -34,7 +33,7 @@ class Processor
 
         $this->loader = $loader;
 
-        $this->buildTransformerPipline($transformers);
+        $this->buildTransformerPipeline($transformers);
     }
 
     /**
@@ -45,7 +44,7 @@ class Processor
         $line = $this->extractor->extract();
 
         foreach ($line as $collection) {
-            $transformed = $this->pipline->process($collection);
+            $transformed = $this->pipeline->process($collection);
 
             $this->loader->load($transformed);
         }
@@ -54,14 +53,14 @@ class Processor
     /**
      * @param array<TransformerInterface> $transformers
      */
-    private function buildTransformerPipline(array $transformers): void
+    private function buildTransformerPipeline(array $transformers): void
     {
-        $piplineBuilder = (new PipelineBuilder());
+        $pipelineBuilder = (new PipelineBuilder());
 
         foreach ($transformers as $transformer) {
-            $piplineBuilder->add($transformer);
+            $pipelineBuilder->add($transformer);
         }
 
-        $this->pipline = $piplineBuilder->build();
+        $this->pipeline = $pipelineBuilder->build();
     }
 }

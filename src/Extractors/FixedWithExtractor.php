@@ -62,7 +62,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
      *
      * @return FixedWithExtractor
      */
-    public function setskipLines(int $skipLines): FixedWithExtractor
+    public function setSkipLines(int $skipLines): FixedWithExtractor
     {
         $this->skipLines = $skipLines;
 

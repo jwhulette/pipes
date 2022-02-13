@@ -15,9 +15,7 @@ use Jwhulette\Pipes\Frame;
 class TrimTransformer implements TransformerInterface
 {
     protected Collection $columns;
-
-    protected bool $allcolumns = false;
-
+    protected bool $allColumns = false;
     protected string $type = 'trim';
 
     protected string $mask = " \t\n\r\0\x0B";
@@ -61,7 +59,7 @@ class TrimTransformer implements TransformerInterface
             'mask' => $mask ?? $this->mask,
         ]);
 
-        $this->allcolumns = true;
+        $this->allColumns = true;
 
         return $this;
     }
@@ -74,7 +72,7 @@ class TrimTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         // Apply to all columns
-        if ($this->allcolumns === true) {
+        if ($this->allColumns === true) {
             $frame->data->transform(function ($item) {
                 return $this->trimColumnValue(
                     $item,

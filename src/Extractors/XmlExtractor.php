@@ -13,19 +13,18 @@ use XMLReader;
 
 class XmlExtractor extends Extractor implements ExtractorInterface
 {
-    protected string $nodename;
-
+    protected string $nodeName;
     protected bool $isGZipped = false;
 
     /**
      * @param string $file
-     * @param string $nodename
+     * @param string $nodeName
      */
-    public function __construct(string $file, string $nodename)
+    public function __construct(string $file, string $nodeName)
     {
         $this->file = $file;
 
-        $this->nodename = $nodename;
+        $this->nodeName = $nodeName;
 
         $this->frame = new Frame();
     }
@@ -53,7 +52,7 @@ class XmlExtractor extends Extractor implements ExtractorInterface
         }
 
         while ($reader->read()) {
-            if ($reader->nodeType == XMLReader::ELEMENT and $reader->name === $this->nodename) {
+            if ($reader->nodeType == XMLReader::ELEMENT and $reader->name === $this->nodeName) {
                 $element = new SimpleXMLElement($reader->readOuterXML());
 
                 $xmlRecord = $this->loopXml($element);
@@ -70,7 +69,7 @@ class XmlExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * Flatten the multidimentional array.
+     * Flatten the multidimensional array.
      *
      * @param array $array
      *
