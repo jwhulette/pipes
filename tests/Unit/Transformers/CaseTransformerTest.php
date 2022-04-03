@@ -42,7 +42,7 @@ class CaseTransformerTest extends TestCase
             'DOB'       => '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->data->toArray());
+        $this->assertEquals($expected, $result->getData()->toArray());
     }
 
     public function testConvertColumnsLowerKeyIsInt()
@@ -67,7 +67,7 @@ class CaseTransformerTest extends TestCase
             '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->data->toArray());
+        $this->assertEquals($expected, $result->getData()->toArray());
     }
 
     public function testConvertColumnsUpper()
@@ -83,7 +83,7 @@ class CaseTransformerTest extends TestCase
             'DOB'       => '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->data->toArray());
+        $this->assertEquals($expected, $result->getData()->toArray());
     }
 
     public function testConvertColumnsTitle()
@@ -99,6 +99,6 @@ class CaseTransformerTest extends TestCase
             'DOB'       => '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->data->toArray());
+        $this->assertEquals($expected, $result->getData()->toArray());
     }
 }

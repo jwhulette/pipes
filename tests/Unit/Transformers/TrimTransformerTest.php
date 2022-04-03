@@ -36,7 +36,7 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->getData()->values()->toArray());
     }
 
     public function testThrowsExeception()
@@ -66,7 +66,7 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->getData()->values()->toArray());
     }
 
     public function testRtrimAllColumns()
@@ -81,7 +81,7 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->getData()->values()->toArray());
     }
 
     public function testTrimColumns()
@@ -96,7 +96,7 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals(['BOB  ', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB  ', 'SMITH', '02/11/1969'], $result->getData()->values()->toArray());
     }
 
     public function testTrimColumnsByIndex()
@@ -113,7 +113,7 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertEquals(['BOB  ', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB  ', 'SMITH', '02/11/1969'], $result->getData()->values()->toArray());
     }
 
     public function testLtrimColumns()
@@ -128,7 +128,7 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->getData()->values()->toArray());
     }
 
     public function testLtrimColumnsByIndex()
@@ -145,7 +145,7 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->getData()->values()->toArray());
     }
 
     public function testRtrimColumns()
@@ -160,7 +160,7 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->getData()->values()->toArray());
     }
 
     public function testTrimAllColumnsWithMask()
@@ -175,7 +175,7 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->getData()->values()->toArray());
     }
 
     public function testTrimColumnsWithMask()
@@ -190,7 +190,7 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->getData()->values()->toArray());
     }
 
     public function testLtrimColumnsWithMask()
@@ -205,7 +205,7 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals(['BOB$', '$SMITH', '$02/11/1969'], $result->data->values()->toArray());
+        $this->assertEquals(['BOB$', '$SMITH', '$02/11/1969'], $result->getData()->values()->toArray());
     }
 
     public function testRtrimColumnsWithMask()
@@ -220,6 +220,6 @@ class TrimTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals(['$$$BOB', 'SMITH$', '02/11/1969$'], $result->data->values()->toArray());
+        $this->assertEquals(['$$$BOB', 'SMITH$', '02/11/1969$'], $result->getData()->values()->toArray());
     }
 }

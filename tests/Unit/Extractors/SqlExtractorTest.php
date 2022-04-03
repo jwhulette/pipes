@@ -22,10 +22,8 @@ class SqlExtractorTest extends TestCase
         (new SalesDataDatabaseFactory($this->table))->create(10);
     }
 
-    /**
-     * @test
-     */
-    public function test_query_builder()
+    /** @test */
+    public function it_can_extract_from_database()
     {
         $builder = DB::table($this->table)->select('country, order_date');
         $sql = (new SqlExtractor())->setQueryBuilder($builder);

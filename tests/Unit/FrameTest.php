@@ -9,11 +9,11 @@ use Tests\TestCase;
 
 class FrameTest extends TestCase
 {
-    protected $frame;
+    protected Frame $frame;
 
-    protected $testHeader;
+    protected array $testHeader;
 
-    protected $testData;
+    protected array $testData;
 
     protected function setUp(): void
     {
@@ -30,21 +30,21 @@ class FrameTest extends TestCase
     {
         $this->frame->setEnd();
 
-        $this->assertTrue($this->frame->end);
+        $this->assertTrue($this->frame->getEnd());
     }
 
     public function testFrameHeader()
     {
         $this->frame->setHeader($this->testHeader);
 
-        $this->assertEquals($this->testHeader, $this->frame->header->toArray());
+        $this->assertSame($this->testHeader, $this->frame->getHeader()->toArray());
     }
 
     public function testFrameData()
     {
         $this->frame->setData($this->testData);
 
-        $this->assertEquals($this->testData, $this->frame->data->toArray());
+        $this->assertSame($this->testData, $this->frame->getData()->toArray());
     }
 
     public function testFrameHeaderData()
@@ -53,14 +53,14 @@ class FrameTest extends TestCase
 
         $this->frame->setData($this->testData);
 
-        $this->assertEquals($this->testHeaderData, $this->frame->data->toArray());
+        $this->assertSame($this->testHeaderData, $this->frame->getData()->toArray());
     }
 
     public function testFrameAttribute()
     {
         $this->frame->setAttribute(['valid'=>'no']);
 
-        $this->assertEquals('no', $this->frame->attribute['valid']);
+        $this->assertSame('no', $this->frame->getAttribute('valid'));
     }
 
     public function testFrameAttributes()
@@ -69,8 +69,8 @@ class FrameTest extends TestCase
 
         $this->frame->setAttribute(['test'=>'yes']);
 
-        $this->assertEquals('no', $this->frame->attribute['valid']);
+        $this->assertSame('no', $this->frame->getAttribute('valid'));
 
-        $this->assertEquals('yes', $this->frame->attribute['test']);
+        $this->assertSame('yes', $this->frame->getAttribute('test'));
     }
 }

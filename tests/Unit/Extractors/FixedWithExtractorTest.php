@@ -13,9 +13,7 @@ use Tests\TestCase;
 class FixedWithExtractorTest extends TestCase
 {
     protected string $extract;
-
     protected string $extractNoHeader;
-
     protected vfsStreamDirectory $vfs;
 
     public function setUp(): void
@@ -50,7 +48,8 @@ class FixedWithExtractorTest extends TestCase
             ->create();
     }
 
-    public function testHasHeader()
+    /** @test */
+    public function it_has_header()
     {
         $fixedWidth = new FixedWithExtractor($this->extract);
 
@@ -65,10 +64,11 @@ class FixedWithExtractorTest extends TestCase
             'AMOUNT',
         ];
 
-        $this->assertEquals($expected, $frame->data->keys()->toArray());
+        $this->assertEquals($expected, $frame->getData()->keys()->toArray());
     }
 
-    public function testHasNoHeaderAllColumnsSameWidth()
+    /** @test */
+    public function it_has_no_header_all_columns_same_width()
     {
         $fixedWidth = new FixedWithExtractor($this->extractNoHeader);
 
@@ -83,10 +83,11 @@ class FixedWithExtractorTest extends TestCase
             '$22.00',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 
-    public function testHasNoHeaderDifferentColumns()
+    /** @test */
+    public function it_has_no_header_columns_have_different_widths()
     {
         $widths = [1 => 10, 2 => 10, 3 => 10, 4 => 10];
 
@@ -103,14 +104,15 @@ class FixedWithExtractorTest extends TestCase
             '$22.00',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 
-    public function testSkipLines()
+    /** @test */
+    public function it_can_skip_lines()
     {
         $fixedWidth = new FixedWithExtractor($this->extract);
 
-        $fixedWidth->setskipLines(3);
+        $fixedWidth->setSkipLines(3);
 
         $frameData = $fixedWidth->setAllColumns(10)->extract();
 
@@ -123,6 +125,6 @@ class FixedWithExtractorTest extends TestCase
             'AMOUNT'    => '$50.00',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 }

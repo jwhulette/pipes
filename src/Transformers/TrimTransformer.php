@@ -59,7 +59,7 @@ class TrimTransformer implements TransformerInterface
     {
         // Apply to all columns
         if ($this->allColumns === true) {
-            $frame->data->transform(function ($item) {
+            $frame->getData()->transform(function ($item) {
                 return $this->trimColumnValue(
                     $item,
                     $this->columns->first()->type,
@@ -71,7 +71,7 @@ class TrimTransformer implements TransformerInterface
         }
 
         // Apply to only selected columns
-        $frame->data->transform(function ($item, $key) {
+        $frame->getData()->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
                 if ($column->column === $key) {
                     return $this->trimColumnValue(

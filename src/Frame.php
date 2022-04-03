@@ -11,13 +11,10 @@ use Illuminate\Support\Collection;
  */
 class Frame
 {
-    public Collection $header;
-
-    public Collection $data;
-
-    public array $attribute = [];
-
-    public bool $end = false;
+    protected Collection $header;
+    protected Collection $data;
+    protected array $attributes = [];
+    protected bool $end = false;
 
     /**
      * @param array $data
@@ -35,6 +32,11 @@ class Frame
         return $this;
     }
 
+    public function getData(): Collection
+    {
+        return $this->data;
+    }
+
     /**
      * @param array $header
      */
@@ -43,13 +45,28 @@ class Frame
         $this->header = collect($header);
     }
 
+    public function getHeader(): Collection
+    {
+        return $this->header;
+    }
+
     /**
      * Set extra attributes to a data frame for use in processing
      * @param array $attribute
      */
     public function setAttribute(array $attribute): void
     {
-        $this->attribute[key($attribute)] = $attribute[key($attribute)];
+        $this->attributes[key($attribute)] = $attribute[key($attribute)];
+    }
+
+    public function getAllAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    public function getAttribute(string $key): mixed
+    {
+        return  $this->attributes[$key];
     }
 
     /**
@@ -58,5 +75,10 @@ class Frame
     public function setEnd(): void
     {
         $this->end = true;
+    }
+
+    public function getEnd(): bool
+    {
+        return $this->end;
     }
 }

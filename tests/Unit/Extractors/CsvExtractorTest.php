@@ -14,9 +14,7 @@ use Tests\TestCase;
 class CsvExtractorTest extends TestCase
 {
     protected string $extract;
-
     protected string $extractNoHeader;
-
     protected vfsStreamDirectory $vfs;
 
     public function setUp(): void
@@ -50,7 +48,8 @@ class CsvExtractorTest extends TestCase
             ->create();
     }
 
-    public function testHasHeader()
+    /** @test */
+    public function it_has_header()
     {
         $csv = new CsvExtractor($this->extract);
 
@@ -65,10 +64,11 @@ class CsvExtractorTest extends TestCase
             'AMOUNT',
         ];
 
-        $this->assertEquals($expected, $frame->header->values()->toArray());
+        $this->assertEquals($expected, $frame->getHeader()->values()->toArray());
     }
 
-    public function testHasNoHeader()
+    /** @test */
+    public function it_has_no_header()
     {
         $csv = new CsvExtractor($this->extractNoHeader);
 
@@ -85,12 +85,13 @@ class CsvExtractorTest extends TestCase
             '$22.00',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
 
         File::delete($this->extract);
     }
 
-    public function testSkipLines()
+    /** @test */
+    public function it_can_skip_lines()
     {
         $csv = new CsvExtractor($this->extract);
 
@@ -107,6 +108,6 @@ class CsvExtractorTest extends TestCase
             'AMOUNT'    => '$50.00',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 }

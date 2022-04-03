@@ -34,13 +34,13 @@ class SqlLoaderTest extends TestCase
     {
         $loader = new SqlLoader('test');
 
-        $data = $this->frame->setData([
+        $this->frame->setData([
             'BOB',
             'SMITH',
             '02/11/1969',
         ]);
 
-        $loader->load($data);
+        $loader->load($this->frame);
 
         $this->assertInstanceOf(SqlLoader::class, $loader);
     }
@@ -52,7 +52,7 @@ class SqlLoaderTest extends TestCase
         $loader->setBatchSize(3);
 
         for ($x = 0; $x < 5; $x++) {
-            $data = $this->frame->setData([
+            $this->frame->setData([
                 'BOB',
                 'SMITH',
                 '02/11/1969',
@@ -62,7 +62,7 @@ class SqlLoaderTest extends TestCase
                 $this->frame->setEnd();
             }
 
-            $loader->load($data);
+            $loader->load($this->frame);
         }
 
         $count = DB::table('test')->count();

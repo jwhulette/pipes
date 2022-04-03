@@ -57,6 +57,6 @@ class CsvLoader implements LoaderInterface
         $this->writer->setDelimiter($this->delimiter);
         $this->writer->setNewline($this->newline);
 
-        $this->writer->insertOne($frame->data->values()->toArray());
+        $this->writer->insertOne($frame->getData()->values()->toArray());
     }
 }

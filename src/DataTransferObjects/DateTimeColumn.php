@@ -10,7 +10,7 @@ class DateTimeColumn extends DataTransferObject
 {
     public int|string $column;
     public string $outputFormat;
-    public ?string $inputFormat;
+    public ?string $inputFormat = \null;
 
     public function __construct(int|string $column, string $outputFormat, ?string $inputFormat)
     {

@@ -63,7 +63,7 @@ class SqlLoader implements LoaderInterface
 
         $this->buildInsert($frame);
 
-        if (($this->count >= $this->batchSize) || $frame->end === true) {
+        if (($this->count >= $this->batchSize) || $frame->getEnd() === true) {
             $this->bulkInsert();
 
             $this->count = 0;
@@ -75,9 +75,9 @@ class SqlLoader implements LoaderInterface
     private function buildInsert(Frame $frame): void
     {
         if ($this->useColumns) {
-            $this->insert[] = $this->columns->combine($frame->data)->toArray();
+            $this->insert[] = $this->columns->combine($frame->getData())->toArray();
         } else {
-            $this->insert[] = $frame->data->toArray();
+            $this->insert[] = $frame->getData()->toArray();
         }
     }
 

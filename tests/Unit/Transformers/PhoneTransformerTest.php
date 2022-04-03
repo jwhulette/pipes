@@ -26,7 +26,7 @@ class PhoneTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame($expected, $result->data->first());
+        $this->assertSame($expected, $result->getData()->first());
     }
 
     /**
@@ -45,7 +45,7 @@ class PhoneTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame($expected, $result->data->first());
+        $this->assertSame($expected, $result->getData()->first());
     }
 
     /**

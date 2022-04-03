@@ -12,7 +12,6 @@ use Tests\TestCase;
 class XmlExtractorTest extends TestCase
 {
     protected string $testfile;
-
     protected string $testZipfile;
 
     public function setUp(): void
@@ -29,7 +28,8 @@ class XmlExtractorTest extends TestCase
         (new DataFileFactory($this->testfile))->asXml()->create();
     }
 
-    public function testXmlExtractZipped()
+    /** @test */
+    public function it_can_extract_xml_gzip_file()
     {
         $testZipfile = sys_get_temp_dir().'/testgzip.gz';
 
@@ -53,10 +53,11 @@ class XmlExtractorTest extends TestCase
             'dob'       => '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 
-    public function testXmlExtract()
+    /** @test */
+    public function it_can_extract_xml_data()
     {
         $xml = new XmlExtractor($this->testfile, 'item');
 
@@ -70,6 +71,6 @@ class XmlExtractorTest extends TestCase
             'dob'       => '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 }

@@ -13,7 +13,7 @@ class EtlPipe
     protected ExtractorInterface $extractor;
 
     protected LoaderInterface $loader;
-
+    /** @var array<TransformerInterface> */
     protected array $transformers = [];
 
     public function extract(ExtractorInterface $extractor): EtlPipe
@@ -50,7 +50,6 @@ class EtlPipe
             $this->extractor,
             $this->transformers,
             $this->loader
-        )
-        )->process();
+        ))->process();
     }
 }

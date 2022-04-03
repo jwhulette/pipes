@@ -13,9 +13,7 @@ use Tests\TestCase;
 class CsvLoaderTest extends TestCase
 {
     protected Frame $frame;
-
-    protected string $testfile;
-
+    protected string $testFile;
     protected vfsStreamDirectory $vfs;
 
     protected function setUp(): void
@@ -40,19 +38,21 @@ class CsvLoaderTest extends TestCase
 
         $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
 
-        $this->testfile = $this->vfs->url().'/csv_extractor.csv';
+        $this->testFile = $this->vfs->url().'/csv_extractor.csv';
     }
 
-    public function testExtractorCsvInstance(): void
+    /** @test */
+    public function it_can_create_an_instance(): void
     {
-        $csv = new CsvLoader($this->testfile);
+        $csv = new CsvLoader($this->testFile);
 
         $this->assertInstanceOf(CsvLoader::class, $csv);
     }
 
-    public function testHasLoader(): void
+    /** @test */
+    public function it_can_load_a_frame(): void
     {
-        $csv = new CsvLoader($this->testfile);
+        $csv = new CsvLoader($this->testFile);
 
         $csv->load($this->frame);
 
@@ -61,10 +61,10 @@ class CsvLoaderTest extends TestCase
 
     public function testFileWrite(): void
     {
-        $csv = new CsvLoader($this->testfile);
+        $csv = new CsvLoader($this->testFile);
 
         $csv->load($this->frame);
 
-        $this->assertTrue(file_exists($this->testfile));
+        $this->assertTrue(file_exists($this->testFile));
     }
 }

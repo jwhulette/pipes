@@ -10,7 +10,7 @@ class ZipcodeColumn extends DataTransferObject
 {
     public int|string $column;
     public int $maxlength;
-    public ?int $option;
+    public ?int $option = \null;
 
     public function __construct(int|string $column, int $maxlength, ?int $option)
     {

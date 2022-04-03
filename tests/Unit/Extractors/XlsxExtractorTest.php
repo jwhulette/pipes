@@ -53,7 +53,8 @@ class XlsxExtractorTest extends TestCase
         $this->temporaryDirectory->delete();
     }
 
-    public function testFrameHasHeader()
+    /** @test */
+    public function it_has_header()
     {
         $frameData = (new XlsxExtractor($this->extract))
             ->extract();
@@ -74,12 +75,13 @@ class XlsxExtractorTest extends TestCase
             'AMOUNT' => '$22.00',
         ];
 
-        $this->assertEquals($expected, $frame->header->values()->toArray());
+        $this->assertEquals($expected, $frame->getHeader()->values()->toArray());
 
-        $this->assertEquals($expectedData, $frame->data->toArray());
+        $this->assertEquals($expectedData, $frame->getData()->toArray());
     }
 
-    public function testHasNoHeader()
+    /** @test */
+    public function it_has_no_header()
     {
         $frameData = (new XlsxExtractor($this->extractNoHeader))
             ->setNoHeader()
@@ -94,10 +96,11 @@ class XlsxExtractorTest extends TestCase
             '$22.00',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 
-    public function testSetSheetIndex()
+    /** @test */
+    public function it_can_set_sheet_index()
     {
         $frameData = (new XlsxExtractor($this->extract))
             ->setSheetIndex(0)
@@ -112,6 +115,6 @@ class XlsxExtractorTest extends TestCase
             'AMOUNT' => '$22.00',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 }

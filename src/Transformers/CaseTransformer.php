@@ -44,7 +44,7 @@ class CaseTransformer implements TransformerInterface
 
     public function __invoke(Frame $frame): Frame
     {
-        $frame->data->transform(function ($item, $key) {
+        $frame->getData()->transform(function ($item, $key) {
             foreach ($this->transformers as $transformer) {
                 if ($transformer->column === $key) {
                     return \mb_convert_case($item, $transformer->mode, $transformer->encoding);

@@ -39,10 +39,10 @@ class ConditionalTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         $this->conditionals->transform(function ($item) use ($frame) {
-            $diff = $item->match->diffAssoc($frame->data);
+            $diff = $item->match->diffAssoc($frame->getData());
 
             if ($diff->count() === 0) {
-                $frame->data = $frame->data->replace($item->replace);
+                $frame->setData($frame->getData()->replace($item->replace)->toArray());
             }
         });
 

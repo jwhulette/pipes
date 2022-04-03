@@ -64,7 +64,7 @@ class ZipcodeTransformer implements TransformerInterface
 
     public function __invoke(Frame $frame): Frame
     {
-        $frame->data->transform(function ($item, $key) {
+        $frame->getData()->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
                 if ($column->column === $key) {
                     return $this->transformZipcode(
