@@ -7,4 +7,3 @@
 /coverage
 test
 /tests/performance/files/*
-composer.lock
