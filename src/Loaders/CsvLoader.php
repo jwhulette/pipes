@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Loaders;
 
 use Jwhulette\Pipes\Contracts\LoaderInterface;
+use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Traits\CsvOptions;
 use League\Csv\Writer;
 

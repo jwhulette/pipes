@@ -7,7 +7,10 @@ namespace Jwhulette\Pipes\Extractors;
 use Generator;
 use Jwhulette\Pipes\Contracts\Extractor;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
+use Jwhulette\Pipes\Exceptions\PipesException;
+use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Traits\CsvOptions;
+use SplFileObject;
 
 class FixedWithExtractor extends Extractor implements ExtractorInterface
 {
