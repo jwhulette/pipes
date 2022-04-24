@@ -6,6 +6,7 @@ parameters:
     paths:
         - src
 
+    checkGenericClassInNonGenericObjectType: false
     checkMissingIterableValueType: false
 
     ignoreErrors:
