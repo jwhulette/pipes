@@ -14,6 +14,7 @@ use XMLReader;
 class XmlExtractor extends Extractor implements ExtractorInterface
 {
     protected string $nodeName;
+
     protected bool $isGZipped = false;
 
     /**
@@ -32,7 +33,7 @@ class XmlExtractor extends Extractor implements ExtractorInterface
     /**
      * @return  XmlExtractor
      */
-    public function setIsGZipped(): XmlExtractor
+    public function setIsGZipped(): self
     {
         $this->isGZipped = true;
 

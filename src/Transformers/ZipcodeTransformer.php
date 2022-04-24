@@ -31,7 +31,7 @@ class ZipcodeTransformer implements TransformerInterface
      *
      * @return ZipcodeTransformer
      */
-    public function tranformColumn($column, ?string $pad = null, ?int $maxlength = null): ZipcodeTransformer
+    public function tranformColumn($column, ?string $pad = null, ?int $maxlength = null): self
     {
         $this->columns->push(new ZipcodeColumn(
             $column,

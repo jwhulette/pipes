@@ -18,7 +18,9 @@ class Processor
     protected ExtractorInterface $extractor;
 
     protected LoaderInterface $loader;
+
     protected PipelineInterface $pipeline;
+
     protected PipelineBuilder $pipelineBuilder;
 
     /**

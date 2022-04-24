@@ -16,7 +16,7 @@ use League\Csv\SyntaxError;
 class CsvExtractor extends Extractor implements ExtractorInterface
 {
     use CsvOptions;
-    
+
     protected string $file;
 
     public function __construct(string $file)
@@ -25,35 +25,35 @@ class CsvExtractor extends Extractor implements ExtractorInterface
         $this->frame = new Frame();
     }
 
-    public function setDelimiter(string $delimiter): CsvExtractor
+    public function setDelimiter(string $delimiter): self
     {
         $this->delimiter = $delimiter;
 
         return $this;
     }
 
-    public function setEnclosure(string $enclosure): CsvExtractor
+    public function setEnclosure(string $enclosure): self
     {
         $this->enclosure = $enclosure;
 
         return $this;
     }
 
-    public function setEscape(string $escape): CsvExtractor
+    public function setEscape(string $escape): self
     {
         $this->escape = $escape;
 
         return $this;
     }
 
-    public function setSkipLines(int $skipLines): CsvExtractor
+    public function setSkipLines(int $skipLines): self
     {
         $this->skipLines = $skipLines;
 
         return $this;
     }
 
-    public function setNoHeader(): CsvExtractor
+    public function setNoHeader(): self
     {
         $this->hasHeader = false;
 

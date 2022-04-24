@@ -13,7 +13,9 @@ use Tests\TestCase;
 class CsvLoaderTest extends TestCase
 {
     protected Frame $frame;
+
     protected string $testFile;
+
     protected vfsStreamDirectory $vfs;
 
     protected function setUp(): void

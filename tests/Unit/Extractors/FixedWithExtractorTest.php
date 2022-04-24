@@ -13,7 +13,9 @@ use Tests\TestCase;
 class FixedWithExtractorTest extends TestCase
 {
     protected string $extract;
+
     protected string $extractNoHeader;
+
     protected vfsStreamDirectory $vfs;
 
     public function setUp(): void

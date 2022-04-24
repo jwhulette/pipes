@@ -16,8 +16,9 @@ use Jwhulette\Pipes\Traits\CsvOptions;
 class XlsxExtractor extends Extractor implements ExtractorInterface
 {
     use CsvOptions;
-    
+
     protected ReaderInterface $reader;
+
     protected int $sheetIndex = 0;
 
     /**
@@ -35,7 +36,7 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
     /**
      * @return  XlsxExtractor
      */
-    public function setNoHeader(): XlsxExtractor
+    public function setNoHeader(): self
     {
         $this->hasHeader = false;
 
@@ -47,7 +48,7 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
      *
      * @return XlsxExtractor
      */
-    public function setSkipLines(int $skipLines): XlsxExtractor
+    public function setSkipLines(int $skipLines): self
     {
         $this->skipLines = $skipLines;
 
@@ -59,7 +60,7 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
      *
      * @return XlsxExtractor
      */
-    public function setSheetIndex(int $sheetIndex): XlsxExtractor
+    public function setSheetIndex(int $sheetIndex): self
     {
         $this->sheetIndex = $sheetIndex;
 

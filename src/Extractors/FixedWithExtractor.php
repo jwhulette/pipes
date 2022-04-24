@@ -15,7 +15,7 @@ use SplFileObject;
 class FixedWithExtractor extends Extractor implements ExtractorInterface
 {
     use CsvOptions;
-    
+
     protected array $columnWidths = [];
 
     protected bool $allColumns = false;
@@ -37,7 +37,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
      *
      * @return FixedWithExtractor
      */
-    public function setAllColumns(int $width): FixedWithExtractor
+    public function setAllColumns(int $width): self
     {
         $this->allColumns = true;
 
@@ -53,7 +53,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
      *
      * @return FixedWithExtractor
      */
-    public function setColumnsWidth(array $widths): FixedWithExtractor
+    public function setColumnsWidth(array $widths): self
     {
         $this->columnWidths = $widths;
 
@@ -65,7 +65,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
      *
      * @return FixedWithExtractor
      */
-    public function setSkipLines(int $skipLines): FixedWithExtractor
+    public function setSkipLines(int $skipLines): self
     {
         $this->skipLines = $skipLines;
 
@@ -75,7 +75,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
     /**
      * @return  FixedWithExtractor
      */
-    public function setNoHeader(): FixedWithExtractor
+    public function setNoHeader(): self
     {
         $this->hasHeader = false;
 

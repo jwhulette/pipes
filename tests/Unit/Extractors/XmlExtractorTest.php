@@ -12,6 +12,7 @@ use Tests\TestCase;
 class XmlExtractorTest extends TestCase
 {
     protected string $testfile;
+
     protected string $testZipfile;
 
     public function setUp(): void

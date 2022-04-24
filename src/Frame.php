@@ -12,8 +12,11 @@ use Illuminate\Support\Collection;
 class Frame
 {
     protected Collection $header;
+
     protected Collection $data;
+
     protected array $attributes = [];
+
     protected bool $end = false;
 
     /**
@@ -21,7 +24,7 @@ class Frame
      *
      * @return Frame
      */
-    public function setData(array $data): Frame
+    public function setData(array $data): self
     {
         $this->data = collect($data);
 
@@ -51,7 +54,7 @@ class Frame
     }
 
     /**
-     * Set extra attributes to a data frame for use in processing
+     * Set extra attributes to a data frame for use in processing.
      * @param array $attribute
      */
     public function setAttribute(array $attribute): void

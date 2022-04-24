@@ -9,7 +9,9 @@ use Spatie\DataTransferObject\DataTransferObject;
 class CaseColumn extends DataTransferObject
 {
     public int|string $column;
+
     public int $mode;
+
     public string $encoding;
 
     public function __construct(int|string $column, int $mode, string $encoding)

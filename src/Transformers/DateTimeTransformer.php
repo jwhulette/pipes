@@ -37,7 +37,7 @@ class DateTimeTransformer implements TransformerInterface
         $column,
         ?string $outputFormat = null,
         ?string $inputFormat = null
-    ): DateTimeTransformer {
+    ): self {
         $this->columns->push(new DateTimeColumn(
             $column,
             $outputFormat ?? $this->outputFormat,

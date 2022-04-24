@@ -27,7 +27,7 @@ class ConditionalTransformer implements TransformerInterface
      *
      * @return ConditionalTransformer
      */
-    public function addConditional(array $match, array $replace): ConditionalTransformer
+    public function addConditional(array $match, array $replace): self
     {
         $condition = new ConditionalColumn($match, $replace);
 

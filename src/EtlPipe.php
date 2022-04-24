@@ -13,10 +13,11 @@ class EtlPipe
     protected ExtractorInterface $extractor;
 
     protected LoaderInterface $loader;
+
     /** @var array<TransformerInterface> */
     protected array $transformers = [];
 
-    public function extract(ExtractorInterface $extractor): EtlPipe
+    public function extract(ExtractorInterface $extractor): self
     {
         $this->extractor = $extractor;
 
@@ -30,14 +31,14 @@ class EtlPipe
      *
      * @return EtlPipe
      */
-    public function transformers(array $transformers): EtlPipe
+    public function transformers(array $transformers): self
     {
         $this->transformers = $transformers;
 
         return $this;
     }
 
-    public function load(LoaderInterface $loader): EtlPipe
+    public function load(LoaderInterface $loader): self
     {
         $this->loader = $loader;
 

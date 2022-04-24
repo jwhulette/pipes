@@ -14,7 +14,9 @@ use Tests\TestCase;
 class CsvExtractorTest extends TestCase
 {
     protected string $extract;
+
     protected string $extractNoHeader;
+
     protected vfsStreamDirectory $vfs;
 
     public function setUp(): void
