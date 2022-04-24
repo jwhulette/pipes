@@ -10,4 +10,4 @@ parameters:
     checkMissingIterableValueType: false
 
     ignoreErrors:
-        #- '#Call to an undefined method League\\Pipeline\\PipelineInterface::process\(\)#'
+        - '#Call to an undefined method League\\Pipeline\\PipelineInterface::process\(\)#'

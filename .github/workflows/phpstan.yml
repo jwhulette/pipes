@@ -1,6 +1,11 @@
 name: Static Analysis
 
 on:
+# Only trigger, when the other workflow succeeded
+  workflow_run:
+    workflows: [php-cs-fixer]
+    types:
+      - completed
   push:
     paths:
       - '**.php'
@@ -27,7 +32,7 @@ jobs:
           key: composer-${{ hashFiles('composer.lock') }}
 
       - name: Run composer install
-        run: update --prefer-dist --no-interaction --no-progress --optimize-autoloader
+        run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
       - name: Run phpstan
         run: ./vendor/bin/phpstan analyse --memory-limit=2G
