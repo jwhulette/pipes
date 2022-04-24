@@ -1,10 +1,13 @@
 ![Banner](.github/images/Pipes.png)
 
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.0-8892BF.svg?style=flat-square)](https://php.net/) [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/jwhulette/factory-generator/run-tests?label=tests)](https://github.com/jwhulette/factory-generator/actions?query=workflow%3Arun-tests+branch%3Amain) [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/jwhulette/factory-generator/Check%20&%20fix%20styling?label=code%20style)](https://github.com/jwhulette/factory-generator/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain) [![Total Downloads](https://img.shields.io/packagist/dt/jwhulette/factory-generator.svg?style=flat-square)](https://packagist.org/packages/jwhulette/factory-generator)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.0-8892BF.svg?style=flat-square)](https://php.net/) 
+![Laravel](https://img.shields.io/badge/Laravel-8%2B-red)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/jwhulette/pipes/run-tests?label=tests)](https://github.com/jwhulette/pipes/actions?query=workflow%3Arun-tests+branch%3Amain) 
+[![Total Downloads](https://img.shields.io/packagist/dt/jwhulette/pipes.svg?style=flat-square)](https://packagist.org/packages/jwhulette/pipes)
 
 # Pipes
 
-Pipes is a PHP Extract Transform Load [ETL] package for Laravel or Laravel Zero
+Pipes is a PHP Extract Transform Load [ETL] package for Laravel 8+
 
 View documentation at https://jwhulette.github.io/pipes/
 
@@ -36,17 +39,22 @@ composer require jwhulette/pipes
 
 ```php
 $etl = new EtlPipe();
+
 $etl->extract(new CsvExtractor('my-file.csv'));
+
 $etl->transforms([
     new CaseTransformer()
         ->transformColumn('first_name', 'lower'),
     new TrimTransformer(),
 ]);
-$etl->load(new CsvLoader('saved-file.csv'));
-$etl->run();
 
+$etl->load(new CsvLoader('saved-file.csv'));
+
+$etl->run();
+```
 or
 
+```PHP
 (new EtlPipe())
     ->extract(new CsvExtractor('my-file.csv'))
     ->transforms([
@@ -93,24 +101,34 @@ Using the following pipeline:
 
 
 #### Performance tests
----- CVS -> CVS : Processing file: 100000 Sales Records.csv ----
+---- CVS -> CVS : Processing file: 100,000 Sales Records.csv ----
+
 Peak usage: 10.978MB of memory used.
+
 Total execution time in seconds: 5.676
 
----- CVS -> CVS : Processing file: 1000000 Sales Records.csv ----
+---- CVS -> CVS : Processing file: 1,000,000 Sales Records.csv ----
+
 Peak usage: 10.978MB of memory used.
+
 Total execution time in seconds: 59.601
 
----- CSV -> SQL : Processing file: 100000 Sales Records.csv ----
+---- CSV -> SQL : Processing file: 100,000 Sales Records.csv ----
+
 Peak usage: 14.229MB of memory used.
+
 Total execution time in seconds: 6.213
 
----- CSV -> SQL : Processing file: 1000000 Sales Records.csv ----
+---- CSV -> SQL : Processing file: 1,000,000 Sales Records.csv ----
+
 Peak usage: 14.23MB of memory used.
+
 Total execution time in seconds: 63.334
 
----- XLSX -> SQL : Processing file: 100000 Sales Records.xlsx ----
+---- XLSX -> SQL : Processing file: 100,000 Sales Records.xlsx ----
+
 Peak usage: 15.371MB of memory used.
+
 Total execution time in seconds: 35.122
 
 ## Testing
