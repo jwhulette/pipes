@@ -13,7 +13,9 @@ use Tests\TestCase;
 class FixedWithExtractorTest extends TestCase
 {
     protected string $extract;
+
     protected string $extractNoHeader;
+
     protected vfsStreamDirectory $vfs;
 
     public function setUp(): void
@@ -34,9 +36,9 @@ class FixedWithExtractorTest extends TestCase
             'AMOUNT',
         ];
 
-        $this->extract = $this->vfs->url().'/fixed_width_extractor.txt';
+        $this->extract = $this->vfs->url() . '/fixed_width_extractor.txt';
 
-        $this->extractNoHeader = $this->vfs->url().'/fixed_width_no_header_extractor.txt';
+        $this->extractNoHeader = $this->vfs->url() . '/fixed_width_no_header_extractor.txt';
 
         (new DataFileFactory($this->extract))
             ->asFixedWidth(10)
@@ -49,7 +51,7 @@ class FixedWithExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_has_header()
+    public function it_has_header(): void
     {
         $fixedWidth = new FixedWithExtractor($this->extract);
 
@@ -68,7 +70,7 @@ class FixedWithExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_has_no_header_all_columns_same_width()
+    public function it_has_no_header_all_columns_same_width(): void
     {
         $fixedWidth = new FixedWithExtractor($this->extractNoHeader);
 
@@ -87,7 +89,7 @@ class FixedWithExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_has_no_header_columns_have_different_widths()
+    public function it_has_no_header_columns_have_different_widths(): void
     {
         $widths = [1 => 10, 2 => 10, 3 => 10, 4 => 10];
 
@@ -108,7 +110,7 @@ class FixedWithExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_skip_lines()
+    public function it_can_skip_lines(): void
     {
         $fixedWidth = new FixedWithExtractor($this->extract);
 

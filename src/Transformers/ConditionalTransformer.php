@@ -22,12 +22,12 @@ class ConditionalTransformer implements TransformerInterface
     }
 
     /**
-     * @param array $match Any associative array of keys to values to match against
-     * @param array $replace An associative array of keys to values to replace
+     * @param array<string> $match Any associative array of keys to values to match against
+     * @param array<string> $replace An associative array of keys to values to replace
      *
      * @return ConditionalTransformer
      */
-    public function addConditional(array $match, array $replace): ConditionalTransformer
+    public function addConditional(array $match, array $replace): self
     {
         $condition = new ConditionalColumn($match, $replace);
 
@@ -38,7 +38,7 @@ class ConditionalTransformer implements TransformerInterface
 
     public function __invoke(Frame $frame): Frame
     {
-        $this->conditionals->transform(function ($item) use ($frame) {
+        $this->conditionals->transform(function ($item) use ($frame): void {
             $diff = $item->match->diffAssoc($frame->getData());
 
             if ($diff->count() === 0) {

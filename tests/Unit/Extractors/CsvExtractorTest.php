@@ -14,7 +14,9 @@ use Tests\TestCase;
 class CsvExtractorTest extends TestCase
 {
     protected string $extract;
+
     protected string $extractNoHeader;
+
     protected vfsStreamDirectory $vfs;
 
     public function setUp(): void
@@ -34,9 +36,9 @@ class CsvExtractorTest extends TestCase
             'DOB',
             'AMOUNT',
         ];
-        $this->extract = $this->vfs->url().'/csv_extractor.txt';
+        $this->extract = $this->vfs->url() . '/csv_extractor.txt';
 
-        $this->extractNoHeader = $this->vfs->url().'/csv_no_header_extractor.csv';
+        $this->extractNoHeader = $this->vfs->url() . '/csv_no_header_extractor.csv';
 
         (new DataFileFactory($this->extract))
             ->asText()
@@ -49,7 +51,7 @@ class CsvExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_has_header()
+    public function it_has_header(): void
     {
         $csv = new CsvExtractor($this->extract);
 
@@ -68,7 +70,7 @@ class CsvExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_has_no_header()
+    public function it_has_no_header(): void
     {
         $csv = new CsvExtractor($this->extractNoHeader);
 
@@ -91,7 +93,7 @@ class CsvExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_skip_lines()
+    public function it_can_skip_lines(): void
     {
         $csv = new CsvExtractor($this->extract);
 

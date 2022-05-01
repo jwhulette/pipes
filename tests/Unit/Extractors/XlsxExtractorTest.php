@@ -54,7 +54,7 @@ class XlsxExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_has_header()
+    public function it_has_header(): void
     {
         $frameData = (new XlsxExtractor($this->extract))
             ->extract();
@@ -81,7 +81,7 @@ class XlsxExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_has_no_header()
+    public function it_has_no_header(): void
     {
         $frameData = (new XlsxExtractor($this->extractNoHeader))
             ->setNoHeader()
@@ -100,7 +100,7 @@ class XlsxExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_sheet_index()
+    public function it_can_set_sheet_index(): void
     {
         $frameData = (new XlsxExtractor($this->extract))
             ->setSheetIndex(0)

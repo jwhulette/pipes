@@ -13,7 +13,9 @@ use Tests\TestCase;
 class CsvLoaderTest extends TestCase
 {
     protected Frame $frame;
+
     protected string $testFile;
+
     protected vfsStreamDirectory $vfs;
 
     protected function setUp(): void
@@ -38,7 +40,7 @@ class CsvLoaderTest extends TestCase
 
         $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
 
-        $this->testFile = $this->vfs->url().'/csv_extractor.csv';
+        $this->testFile = $this->vfs->url() . '/csv_extractor.csv';
     }
 
     /** @test */

@@ -10,8 +10,13 @@ use Spatie\DataTransferObject\DataTransferObject;
 class ConditionalColumn extends DataTransferObject
 {
     public Collection $match;
+
     public Collection $replace;
 
+    /**
+     * @param  array<string> $match
+     * @param  array<string> $replace
+     */
     public function __construct(array $match, array $replace)
     {
         $this->match = collect($match);

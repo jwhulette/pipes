@@ -23,28 +23,28 @@ class CsvLoader implements LoaderInterface
         $this->writer = Writer::createFromPath($ouputfile, 'w+');
     }
 
-    public function setDelimiter(string $delimiter): CsvLoader
+    public function setDelimiter(string $delimiter): self
     {
         $this->delimiter = $delimiter;
 
         return $this;
     }
 
-    public function setEnclosure(string $enclosure): CsvLoader
+    public function setEnclosure(string $enclosure): self
     {
         $this->enclosure = $enclosure;
 
         return $this;
     }
 
-    public function setEscape(string $escape): CsvLoader
+    public function setEscape(string $escape): self
     {
         $this->escape = $escape;
 
         return $this;
     }
 
-    public function setNewline(string $newline): CsvLoader
+    public function setNewline(string $newline): self
     {
         $this->newline = $newline;
 

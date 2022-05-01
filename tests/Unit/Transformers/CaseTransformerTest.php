@@ -28,7 +28,7 @@ class CaseTransformerTest extends TestCase
         ]);
     }
 
-    public function testConvertColumnsLower()
+    public function testConvertColumnsLower(): void
     {
         $transformer = (new CaseTransformer())
             ->transformColumn('LASTNAME', 'lower')
@@ -45,7 +45,7 @@ class CaseTransformerTest extends TestCase
         $this->assertEquals($expected, $result->getData()->toArray());
     }
 
-    public function testConvertColumnsLowerKeyIsInt()
+    public function testConvertColumnsLowerKeyIsInt(): void
     {
         $transformer = (new CaseTransformer())
             ->transformColumn(0, 'lower')
@@ -70,7 +70,7 @@ class CaseTransformerTest extends TestCase
         $this->assertEquals($expected, $result->getData()->toArray());
     }
 
-    public function testConvertColumnsUpper()
+    public function testConvertColumnsUpper(): void
     {
         $transformer = (new CaseTransformer())
             ->transformColumn('LASTNAME', 'Upper');
@@ -86,7 +86,7 @@ class CaseTransformerTest extends TestCase
         $this->assertEquals($expected, $result->getData()->toArray());
     }
 
-    public function testConvertColumnsTitle()
+    public function testConvertColumnsTitle(): void
     {
         $transformer = (new CaseTransformer())
             ->transformColumn('LASTNAME', 'TITLE');

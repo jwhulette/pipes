@@ -21,20 +21,21 @@ class SqlLoader implements LoaderInterface
 
     protected int $batchSize = 500;
 
+    /** @var array<array|int|string> */
     protected array $insert = [];
 
     protected bool $useColumns = false;
 
-    public function __construct(string $table, string $connection = null)
+    public function __construct(string $table, ?string $connection = null)
     {
-        if (!is_null($connection)) {
+        if (! is_null($connection)) {
             $this->db = DB::connection($connection)->table($table);
         }
 
         $this->db = DB::table($table);
     }
 
-    public function setBatchSize(int $batchSize): SqlLoader
+    public function setBatchSize(int $batchSize): self
     {
         $this->batchSize = $batchSize;
 
@@ -42,9 +43,11 @@ class SqlLoader implements LoaderInterface
     }
 
     /**
+     * @param array<array|int|string> $columns
+     *
      * @throws PipesInvalidArgumentException
      */
-    public function setSqlColumnNames(array $columns = []): SqlLoader
+    public function setSqlColumnNames(array $columns = []): self
     {
         $this->columns = collect($columns);
 

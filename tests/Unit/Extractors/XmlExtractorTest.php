@@ -12,6 +12,7 @@ use Tests\TestCase;
 class XmlExtractorTest extends TestCase
 {
     protected string $testfile;
+
     protected string $testZipfile;
 
     public function setUp(): void
@@ -23,15 +24,15 @@ class XmlExtractorTest extends TestCase
         ];
 
         $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
-        $this->testfile = $this->vfs->url().'/extractor.xml';
+        $this->testfile = $this->vfs->url() . '/extractor.xml';
 
         (new DataFileFactory($this->testfile))->asXml()->create();
     }
 
     /** @test */
-    public function it_can_extract_xml_gzip_file()
+    public function it_can_extract_xml_gzip_file(): void
     {
-        $testZipfile = sys_get_temp_dir().'/testgzip.gz';
+        $testZipfile = sys_get_temp_dir() . '/testgzip.gz';
 
         $fp = gzopen($testZipfile, 'w');
 
@@ -57,7 +58,7 @@ class XmlExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_extract_xml_data()
+    public function it_can_extract_xml_data(): void
     {
         $xml = new XmlExtractor($this->testfile, 'item');
 

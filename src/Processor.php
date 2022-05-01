@@ -18,15 +18,13 @@ class Processor
     protected ExtractorInterface $extractor;
 
     protected LoaderInterface $loader;
+
     protected PipelineInterface $pipeline;
+
     protected PipelineBuilder $pipelineBuilder;
 
     /**
-     * Build the pipeline.
-     *
-     * @param ExtractorInterface $extractor
      * @param array<TransformerInterface> $transformers
-     * @param LoaderInterface $loader
      */
     public function __construct(
         ExtractorInterface $extractor,
@@ -35,7 +33,7 @@ class Processor
     ) {
         $this->extractor = $extractor;
         $this->loader = $loader;
-        $pipelineBuilder = new PipelineBuilder;
+        $pipelineBuilder = new PipelineBuilder();
 
         $this->buildTransformerPipeline($pipelineBuilder, $transformers);
     }
@@ -55,7 +53,6 @@ class Processor
     }
 
     /**
-     * @param PipelineBuilder $pipelineBuilder
      * @param array<TransformerInterface> $transformers
      */
     private function buildTransformerPipeline(PipelineBuilder $pipelineBuilder, array $transformers): void

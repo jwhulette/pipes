@@ -4,19 +4,20 @@
   * Enforce the Laravel Code Style using PHP CS Fixer 3.x
   * -----------------------------------------------------
   * Credits go to Laravel Shift & Andreas Elia.
-  * https://gist.github.com/laravel-shift/cab527923ed2a109dda047b97d53c200
+  * https://gist.github.com/laravel-shift/cab527923ed2a109dda047b97d53c200.
 **/
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 $rules = [
+    '@PHP80Migration:risky' => true,
     'array_syntax' => ['syntax' => 'short'],
     'blank_line_after_namespace' => true,
     'blank_line_after_opening_tag' => true,
     'braces' => true,
     'cast_spaces' => true,
     'concat_space' => [
-        'spacing' => 'none',
+        'spacing' => 'one',
     ],
     'declare_equal_normalize' => true,
     'elseif' => true,
@@ -153,8 +154,8 @@ $rules = [
 
 $finder = Finder::create()
     ->in([
-        __DIR__.'/src',
-        __DIR__.'/tests',
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
     ])
     ->name('*.php')
     ->notName('*.blade.php')

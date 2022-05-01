@@ -23,7 +23,7 @@ class PhoneTransformer implements TransformerInterface
         $this->columns = new Collection();
     }
 
-    public function transformColumn(int|string $column, int $maxlength = null): PhoneTransformer
+    public function transformColumn(int|string $column, ?int $maxlength = null): self
     {
         $this->columns->push(new PhoneColumn($column, $maxlength ?? $this->maxlength));
 

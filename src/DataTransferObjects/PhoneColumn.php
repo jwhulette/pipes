@@ -9,6 +9,7 @@ use Spatie\DataTransferObject\DataTransferObject;
 class PhoneColumn extends DataTransferObject
 {
     public int|string $column;
+
     public int $maxLength;
 
     public function __construct(int|string $column, int $maxLength)

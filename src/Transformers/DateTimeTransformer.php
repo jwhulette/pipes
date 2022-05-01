@@ -26,18 +26,11 @@ class DateTimeTransformer implements TransformerInterface
         $this->columns = new Collection();
     }
 
-    /**
-     * @param mixed $column name|index
-     * @param string|null $outputFormat
-     * @param string|null $inputFormat
-     *
-     * @return DateTimeTransformer
-     */
     public function transformColumn(
-        $column,
+        int|string $column,
         ?string $outputFormat = null,
         ?string $inputFormat = null
-    ): DateTimeTransformer {
+    ): self {
         $this->columns->push(new DateTimeColumn(
             $column,
             $outputFormat ?? $this->outputFormat,

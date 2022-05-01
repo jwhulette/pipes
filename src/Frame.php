@@ -12,16 +12,18 @@ use Illuminate\Support\Collection;
 class Frame
 {
     protected Collection $header;
+
     protected Collection $data;
+
+    /** @var array<array|int|string> */
     protected array $attributes = [];
+
     protected bool $end = false;
 
     /**
-     * @param array $data
-     *
-     * @return Frame
+     * @param array<int|string> $data
      */
-    public function setData(array $data): Frame
+    public function setData(array $data): self
     {
         $this->data = collect($data);
 
@@ -38,7 +40,7 @@ class Frame
     }
 
     /**
-     * @param array $header
+     * @param array<int|string> $header
      */
     public function setHeader(array $header): void
     {
@@ -51,14 +53,18 @@ class Frame
     }
 
     /**
-     * Set extra attributes to a data frame for use in processing
-     * @param array $attribute
+     * Set extra attributes to a data frame for use in processing.
+     *
+     * @param array<int|string> $attribute
      */
     public function setAttribute(array $attribute): void
     {
         $this->attributes[key($attribute)] = $attribute[key($attribute)];
     }
 
+    /**
+     * @return array<array|int|string>
+     */
     public function getAllAttributes(): array
     {
         return $this->attributes;
@@ -66,7 +72,7 @@ class Frame
 
     public function getAttribute(string $key): mixed
     {
-        return  $this->attributes[$key];
+        return $this->attributes[$key];
     }
 
     /**

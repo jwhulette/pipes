@@ -14,12 +14,9 @@ use XMLReader;
 class XmlExtractor extends Extractor implements ExtractorInterface
 {
     protected string $nodeName;
+
     protected bool $isGZipped = false;
 
-    /**
-     * @param string $file
-     * @param string $nodeName
-     */
     public function __construct(string $file, string $nodeName)
     {
         $this->file = $file;
@@ -32,27 +29,24 @@ class XmlExtractor extends Extractor implements ExtractorInterface
     /**
      * @return  XmlExtractor
      */
-    public function setIsGZipped(): XmlExtractor
+    public function setIsGZipped(): self
     {
         $this->isGZipped = true;
 
         return $this;
     }
 
-    /**
-     * @return Generator
-     */
     public function extract(): Generator
     {
         $reader = new XMLReader();
         if ($this->isGZipped) {
-            $reader->open('compress.zlib://'.$this->file);
+            $reader->open('compress.zlib://' . $this->file);
         } else {
             $reader->open($this->file);
         }
 
         while ($reader->read()) {
-            if ($reader->nodeType == XMLReader::ELEMENT and $reader->name === $this->nodeName) {
+            if ($reader->nodeType === XMLReader::ELEMENT && $reader->name === $this->nodeName) {
                 $element = new SimpleXMLElement($reader->readOuterXML());
 
                 $xmlRecord = $this->loopXml($element);
@@ -69,11 +63,9 @@ class XmlExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * Flatten the multidimensional array.
+     * @param array<array|int|string> $array
      *
-     * @param array $array
-     *
-     * @return array
+     * @return array<int|string>
      */
     private function arrayFlatten(array $array): array
     {
@@ -91,14 +83,11 @@ class XmlExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * Get all the xml nodes as an array.
+     * @param array<int|string> $record
      *
-     * @param SimpleXMLElement $element
-     * @param array $record
-     *
-     * @return array
+     * @return array<array|int|string>
      */
-    private function loopXml(SimpleXMLElement $element, $record = []): array
+    private function loopXml(SimpleXMLElement $element, array $record = []): array
     {
         foreach ($element->children() as $node) {
             if ($node->count() > 0) {

@@ -24,14 +24,7 @@ class ZipcodeTransformer implements TransformerInterface
         $this->columns = new Collection();
     }
 
-    /**
-     * @param mixed $column name|index
-     * @param string|null $pad padleft|padright
-     * @param int|null $maxlength
-     *
-     * @return ZipcodeTransformer
-     */
-    public function tranformColumn($column, ?string $pad = null, ?int $maxlength = null): ZipcodeTransformer
+    public function tranformColumn(int|string $column, ?string $pad = null, ?int $maxlength = null): self
     {
         $this->columns->push(new ZipcodeColumn(
             $column,
@@ -44,8 +37,6 @@ class ZipcodeTransformer implements TransformerInterface
 
     /**
      * @param string $option padleft|padright
-     *
-     * @return int
      *
      * @throws PipesInvalidArgumentException
      */

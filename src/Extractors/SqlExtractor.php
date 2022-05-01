@@ -19,8 +19,8 @@ class SqlExtractor extends Extractor implements ExtractorInterface
     {
         $this->frame = new Frame();
     }
-    
-    public function setQueryBuilder(Builder $queryBuilder): SqlExtractor
+
+    public function setQueryBuilder(Builder $queryBuilder): self
     {
         $this->queryBuilder = $queryBuilder;
 

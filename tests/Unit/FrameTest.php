@@ -26,28 +26,28 @@ class FrameTest extends TestCase
         ];
     }
 
-    public function testFrameEnd()
+    public function testFrameEnd(): void
     {
         $this->frame->setEnd();
 
         $this->assertTrue($this->frame->getEnd());
     }
 
-    public function testFrameHeader()
+    public function testFrameHeader(): void
     {
         $this->frame->setHeader($this->testHeader);
 
         $this->assertSame($this->testHeader, $this->frame->getHeader()->toArray());
     }
 
-    public function testFrameData()
+    public function testFrameData(): void
     {
         $this->frame->setData($this->testData);
 
         $this->assertSame($this->testData, $this->frame->getData()->toArray());
     }
 
-    public function testFrameHeaderData()
+    public function testFrameHeaderData(): void
     {
         $this->frame->setHeader($this->testHeader);
 
@@ -56,14 +56,14 @@ class FrameTest extends TestCase
         $this->assertSame($this->testHeaderData, $this->frame->getData()->toArray());
     }
 
-    public function testFrameAttribute()
+    public function testFrameAttribute(): void
     {
         $this->frame->setAttribute(['valid'=>'no']);
 
         $this->assertSame('no', $this->frame->getAttribute('valid'));
     }
 
-    public function testFrameAttributes()
+    public function testFrameAttributes(): void
     {
         $this->frame->setAttribute(['valid'=>'no']);
 

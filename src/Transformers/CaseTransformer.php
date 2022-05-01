@@ -22,14 +22,7 @@ class CaseTransformer implements TransformerInterface
         $this->transformers = new Collection();
     }
 
-    /**
-     * @param mixed $column name|index
-     * @param string $mode upper|lower|title
-     * @param string $encoding
-     *
-     * @return CaseTransformer
-     */
-    public function transformColumn($column, string $mode, string $encoding = 'utf-8'): CaseTransformer
+    public function transformColumn(int|string $column, string $mode, string $encoding = 'utf-8'): self
     {
         $transformer = new CaseColumn(
             $column,

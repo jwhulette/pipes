@@ -16,7 +16,9 @@ use Jwhulette\Pipes\Frame;
 class TrimTransformer implements TransformerInterface
 {
     protected Collection $columns;
+
     protected bool $allColumns = false;
+
     protected string $type = 'trim';
 
     protected string $mask = " \t\n\r\0\x0B";
@@ -26,14 +28,7 @@ class TrimTransformer implements TransformerInterface
         $this->columns = new Collection();
     }
 
-    /**
-     * @param string|int $column name|index
-     * @param string|null $type trim|ltrim|rtrim
-     * @param string|null $mask
-     *
-     * @return TrimTransformer
-     */
-    public function transformColumn(string | int $column, ?string $type = null, ?string $mask = null): TrimTransformer
+    public function transformColumn(string | int $column, ?string $type = null, ?string $mask = null): self
     {
         $this->columns->push(new TrimColumn($column, $type ?? $this->type, $mask ?? $this->mask));
 
@@ -42,11 +37,8 @@ class TrimTransformer implements TransformerInterface
 
     /**
      * @param string|null $type trim|ltrim|rtrim
-     * @param string|null $mask
-     *
-     * @return TrimTransformer
      */
-    public function transformAllColumns(?string $type = null, ?string $mask = null): TrimTransformer
+    public function transformAllColumns(?string $type = null, ?string $mask = null): self
     {
         $this->columns->push(new TrimColumn(0, $type ?? $this->type, $mask ?? $this->mask));
 

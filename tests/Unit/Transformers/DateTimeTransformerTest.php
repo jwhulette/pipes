@@ -34,7 +34,7 @@ class DateTimeTransformerTest extends TestCase
         ]);
     }
 
-    public function testDateGuess()
+    public function testDateGuess(): void
     {
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB')
@@ -47,7 +47,7 @@ class DateTimeTransformerTest extends TestCase
         $this->assertEquals('2000-01-11 00:00:00', $result->getData()->get('DOB2'));
     }
 
-    public function testDateGuessColumnIndex()
+    public function testDateGuessColumnIndex(): void
     {
         $frame = new Frame();
 
@@ -69,7 +69,7 @@ class DateTimeTransformerTest extends TestCase
         $this->assertEquals('2000-01-11 00:00:00', $result->getData()->slice(3, 1)->first());
     }
 
-    public function testDateInputFormat()
+    public function testDateInputFormat(): void
     {
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB', 'Y-m-d', 'm/d/Y')
@@ -82,7 +82,7 @@ class DateTimeTransformerTest extends TestCase
         $this->assertEquals('2000-01-11 00:00:00', $result->getData()->get('DOB2'));
     }
 
-    public function testDateInputFormatColumnIndex()
+    public function testDateInputFormatColumnIndex(): void
     {
         $frame = new Frame();
 
@@ -110,7 +110,7 @@ class DateTimeTransformerTest extends TestCase
      *
      * @dataProvider dateTimeProvider
      */
-    public function testDateFormats($date, $expected)
+    public function testDateFormats($date, $expected): void
     {
         $frame = $this->frame->getData()->map(function ($item, $key) use ($date) {
             if ($key === 'DOB') {

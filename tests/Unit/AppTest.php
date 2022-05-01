@@ -23,11 +23,11 @@ class AppTest extends TestCase
 
         $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
 
-        $this->testFile = $this->vfs->url().'/csv_extractor.csv';
+        $this->testFile = $this->vfs->url() . '/csv_extractor.csv';
     }
 
     /** @test */
-    public function the_app_successfully_boots()
+    public function the_app_successfully_boots(): void
     {
         $pipe = new EtlPipe();
 
@@ -35,7 +35,7 @@ class AppTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_an_extractor()
+    public function it_can_add_an_extractor(): void
     {
         $pipe = new EtlPipe();
 
@@ -45,7 +45,7 @@ class AppTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_a_transformer()
+    public function it_can_add_a_transformer(): void
     {
         $pipe = new EtlPipe();
 
@@ -59,7 +59,7 @@ class AppTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_a_loader()
+    public function it_can_add_a_loader(): void
     {
         $pipe = new EtlPipe();
 
