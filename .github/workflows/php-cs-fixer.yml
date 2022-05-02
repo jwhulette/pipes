@@ -1,9 +1,6 @@
 name: Check & fix styling
-on:
-    push:
-        branches: [main, develop]
-    pull_request:
-        branches: [main]
+
+on: [push]
 
 jobs:
   php-cs-fixer:
@@ -15,7 +12,7 @@ jobs:
     - name: Run php-cs-fixer
       uses: docker://oskarstark/php-cs-fixer-ga
       with:
-          args: --config=.php_cs.dist.php --allow-risky=yes
+          args: --config=.php-cs-fixer.dist.php --allow-risky=yes
 
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:

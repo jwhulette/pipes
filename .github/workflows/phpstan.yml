@@ -1,15 +1,6 @@
 name: Static Analysis
 
-on:
-# Only trigger, when the other workflow succeeded
-  workflow_run:
-    workflows: [php-cs-fixer]
-    types:
-      - completed
-  push:
-    paths:
-      - '**.php'
-      - 'phpstan.neon.dist'
+on: [push]
 
 jobs:
   phpstan:

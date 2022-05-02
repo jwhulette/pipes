@@ -1,10 +1,6 @@
 name: Tests
-on:
-# Only trigger, when the other workflow succeeded
-  workflow_run:
-    workflows: [php-cs-fixer, phpstan]
-    types:
-      - completed
+
+on: [push, pull_request]
 
 jobs:
   test:
