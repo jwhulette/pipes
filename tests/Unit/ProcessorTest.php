@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class ProcessorTest extends TestCase
 {
-    public function testProcessorConstruction()
+    public function testProcessorConstruction(): void
     {
         $extractor = new CsvExtractor('test');
         $transforms = [

@@ -36,9 +36,9 @@ class CsvExtractorTest extends TestCase
             'DOB',
             'AMOUNT',
         ];
-        $this->extract = $this->vfs->url().'/csv_extractor.txt';
+        $this->extract = $this->vfs->url() . '/csv_extractor.txt';
 
-        $this->extractNoHeader = $this->vfs->url().'/csv_no_header_extractor.csv';
+        $this->extractNoHeader = $this->vfs->url() . '/csv_no_header_extractor.csv';
 
         (new DataFileFactory($this->extract))
             ->asText()
@@ -50,7 +50,8 @@ class CsvExtractorTest extends TestCase
             ->create();
     }
 
-    public function testHasHeader()
+    /** @test */
+    public function it_has_header(): void
     {
         $csv = new CsvExtractor($this->extract);
 
@@ -65,10 +66,11 @@ class CsvExtractorTest extends TestCase
             'AMOUNT',
         ];
 
-        $this->assertEquals($expected, $frame->header->values()->toArray());
+        $this->assertEquals($expected, $frame->getHeader()->values()->toArray());
     }
 
-    public function testHasNoHeader()
+    /** @test */
+    public function it_has_no_header(): void
     {
         $csv = new CsvExtractor($this->extractNoHeader);
 
@@ -85,12 +87,13 @@ class CsvExtractorTest extends TestCase
             '$22.00',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
 
         File::delete($this->extract);
     }
 
-    public function testSkipLines()
+    /** @test */
+    public function it_can_skip_lines(): void
     {
         $csv = new CsvExtractor($this->extract);
 
@@ -107,6 +110,6 @@ class CsvExtractorTest extends TestCase
             'AMOUNT'    => '$50.00',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 }

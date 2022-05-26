@@ -34,7 +34,7 @@ class DateTimeTransformerTest extends TestCase
         ]);
     }
 
-    public function testDateGuess()
+    public function testDateGuess(): void
     {
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB')
@@ -42,12 +42,12 @@ class DateTimeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals('1969-02-11 00:00:00', $result->data->get('DOB'));
+        $this->assertEquals('1969-02-11 00:00:00', $result->getData()->get('DOB'));
 
-        $this->assertEquals('2000-01-11 00:00:00', $result->data->get('DOB2'));
+        $this->assertEquals('2000-01-11 00:00:00', $result->getData()->get('DOB2'));
     }
 
-    public function testDateGuessColumnIndex()
+    public function testDateGuessColumnIndex(): void
     {
         $frame = new Frame();
 
@@ -64,12 +64,12 @@ class DateTimeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertEquals('1969-02-11 00:00:00', $result->data->slice(2, 1)->first());
+        $this->assertEquals('1969-02-11 00:00:00', $result->getData()->slice(2, 1)->first());
 
-        $this->assertEquals('2000-01-11 00:00:00', $result->data->slice(3, 1)->first());
+        $this->assertEquals('2000-01-11 00:00:00', $result->getData()->slice(3, 1)->first());
     }
 
-    public function testDateInputFormat()
+    public function testDateInputFormat(): void
     {
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB', 'Y-m-d', 'm/d/Y')
@@ -77,12 +77,12 @@ class DateTimeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals('1969-02-11', $result->data->get('DOB'));
+        $this->assertEquals('1969-02-11', $result->getData()->get('DOB'));
 
-        $this->assertEquals('2000-01-11 00:00:00', $result->data->get('DOB2'));
+        $this->assertEquals('2000-01-11 00:00:00', $result->getData()->get('DOB2'));
     }
 
-    public function testDateInputFormatColumnIndex()
+    public function testDateInputFormatColumnIndex(): void
     {
         $frame = new Frame();
 
@@ -99,9 +99,9 @@ class DateTimeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertEquals('1969-02-11', $result->data->slice(2, 1)->first());
+        $this->assertEquals('1969-02-11', $result->getData()->slice(2, 1)->first());
 
-        $this->assertEquals('2000-01-11 00:00:00', $result->data->slice(3, 1)->first());
+        $this->assertEquals('2000-01-11 00:00:00', $result->getData()->slice(3, 1)->first());
     }
 
     /**
@@ -110,9 +110,9 @@ class DateTimeTransformerTest extends TestCase
      *
      * @dataProvider dateTimeProvider
      */
-    public function testDateFormats($date, $expected)
+    public function testDateFormats($date, $expected): void
     {
-        $frame = $this->frame->data->map(function ($item, $key) use ($date) {
+        $frame = $this->frame->getData()->map(function ($item, $key) use ($date) {
             if ($key === 'DOB') {
                 $item = $date;
             }
@@ -127,7 +127,7 @@ class DateTimeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals($expected, $result->data->get('DOB'));
+        $this->assertEquals($expected, $result->getData()->get('DOB'));
     }
 
     /**

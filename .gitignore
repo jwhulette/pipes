@@ -7,4 +7,4 @@
 /coverage
 test
 /tests/performance/files/*
-composer.lock
+.php-cs-fixer.cache

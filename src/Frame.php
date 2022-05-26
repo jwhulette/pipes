@@ -11,20 +11,19 @@ use Illuminate\Support\Collection;
  */
 class Frame
 {
-    public Collection $header;
+    protected Collection $header;
 
-    public Collection $data;
+    protected Collection $data;
 
-    public array $attribute = [];
+    /** @var array<array|int|string> */
+    protected array $attributes = [];
 
-    public bool $end = false;
+    protected bool $end = false;
 
     /**
-     * @param array $data
-     *
-     * @return Frame
+     * @param array<int|string> $data
      */
-    public function setData(array $data): Frame
+    public function setData(array $data): self
     {
         $this->data = collect($data);
 
@@ -35,20 +34,45 @@ class Frame
         return $this;
     }
 
+    public function getData(): Collection
+    {
+        return $this->data;
+    }
+
     /**
-     * @param array $header
+     * @param array<int|string> $header
      */
     public function setHeader(array $header): void
     {
         $this->header = collect($header);
     }
 
+    public function getHeader(): Collection
+    {
+        return $this->header;
+    }
+
     /**
-     * @param array $attribute
+     * Set extra attributes to a data frame for use in processing.
+     *
+     * @param array<int|string> $attribute
      */
     public function setAttribute(array $attribute): void
     {
-        $this->attribute[key($attribute)] = $attribute[key($attribute)];
+        $this->attributes[key($attribute)] = $attribute[key($attribute)];
+    }
+
+    /**
+     * @return array<array|int|string>
+     */
+    public function getAllAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    public function getAttribute(string $key): mixed
+    {
+        return $this->attributes[$key];
     }
 
     /**
@@ -57,5 +81,10 @@ class Frame
     public function setEnd(): void
     {
         $this->end = true;
+    }
+
+    public function getEnd(): bool
+    {
+        return $this->end;
     }
 }

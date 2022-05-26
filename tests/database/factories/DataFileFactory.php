@@ -57,7 +57,7 @@ class DataFileFactory
      *
      * @return DataFileFactory
      */
-    public function asXml(): DataFileFactory
+    public function asXml(): self
     {
         $this->fileType = 'xml';
 
@@ -69,7 +69,7 @@ class DataFileFactory
      *
      * @return DataFileFactory
      */
-    public function asXlsx(): DataFileFactory
+    public function asXlsx(): self
     {
         $this->fileType = 'xlsx';
 
@@ -83,7 +83,7 @@ class DataFileFactory
      *
      * @return DataFileFactory
      */
-    public function asFixedWidth(int $width): DataFileFactory
+    public function asFixedWidth(int $width): self
     {
         $this->fileType = 'fw';
 
@@ -105,7 +105,7 @@ class DataFileFactory
         string $delimeter = ',',
         string $enclosure = '"',
         string $escapeCharacter = '\\'
-    ): DataFileFactory {
+    ): self {
         $this->fileType = 'txt';
 
         $this->delimiter = $delimeter;
@@ -124,7 +124,7 @@ class DataFileFactory
      *
      * @return DataFileFactory
      */
-    public function setHeader(array $header): DataFileFactory
+    public function setHeader(array $header): self
     {
         $this->header = $header;
 

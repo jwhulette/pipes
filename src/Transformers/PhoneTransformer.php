@@ -6,6 +6,7 @@ namespace Jwhulette\Pipes\Transformers;
 
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\DataTransferObjects\PhoneColumn;
 use Jwhulette\Pipes\Frame;
 
 /**
@@ -17,38 +18,21 @@ class PhoneTransformer implements TransformerInterface
 
     protected int $maxlength = 10;
 
-    /**
-     * __construct.
-     */
     public function __construct()
     {
         $this->columns = new Collection();
     }
 
-    /**
-     * @param mixed $column name|index
-     * @param int $maxlength
-     *
-     * @return PhoneTransformer
-     */
-    public function transformColumn($column, int $maxlength = null): PhoneTransformer
+    public function transformColumn(int|string $column, ?int $maxlength = null): self
     {
-        $this->columns->push((object) [
-            'column' => $column,
-            'maxlength' => $maxlength ?? $this->maxlength,
-        ]);
+        $this->columns->push(new PhoneColumn($column, $maxlength ?? $this->maxlength));
 
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     *
-     * @return Frame
-     */
     public function __invoke(Frame $frame): Frame
     {
-        $frame->data->transform(function ($item, $key) {
+        $frame->getData()->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
                 if ($column->column === $key) {
                     return $this->tranformPhone($item, $column);
@@ -61,19 +45,13 @@ class PhoneTransformer implements TransformerInterface
         return $frame;
     }
 
-    /**
-     * @param string $item
-     * @param object $transform
-     *
-     * @return string
-     */
-    private function tranformPhone(string $item, object $transform): string
+    private function tranformPhone(string $item, PhoneColumn $transform): string
     {
         // Remove all non numeric characters
-        $transformed = \preg_replace('/\D+/', '', $item);
+        $transformed = (string) \preg_replace('/\D+/', '', $item);
 
-        if ($transform->maxlength > 0) {
-            $transformed = \substr($transformed, 0, $transform->maxlength);
+        if ($transform->maxLength > 0) {
+            $transformed = \substr($transformed, 0, $transform->maxLength);
         }
 
         return $transformed;

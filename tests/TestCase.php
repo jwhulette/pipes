@@ -13,7 +13,7 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        app()->useDatabasePath(__DIR__.'/database');
+        app()->useDatabasePath(__DIR__ . '/database');
 
         $this->loadMigrationsFrom(database_path('migrations'));
 
@@ -32,7 +32,7 @@ class TestCase extends BaseTestCase
         ];
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');

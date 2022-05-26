@@ -6,6 +6,7 @@ namespace Jwhulette\Pipes;
 
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
+use Jwhulette\Pipes\Contracts\TransformerInterface;
 use League\Pipeline\PipelineBuilder;
 use League\Pipeline\PipelineInterface;
 
@@ -18,22 +19,23 @@ class Processor
 
     protected LoaderInterface $loader;
 
-    protected PipelineInterface $pipline;
+    protected PipelineInterface $pipeline;
+
+    protected PipelineBuilder $pipelineBuilder;
 
     /**
-     * Build the pipeline.
-     *
-     * @param ExtractorInterface $extractor
-     * @param array<object> $transformers
-     * @param LoaderInterface $loader
+     * @param array<TransformerInterface> $transformers
      */
-    public function __construct(ExtractorInterface $extractor, array $transformers, LoaderInterface $loader)
-    {
+    public function __construct(
+        ExtractorInterface $extractor,
+        array $transformers,
+        LoaderInterface $loader
+    ) {
         $this->extractor = $extractor;
-
         $this->loader = $loader;
+        $pipelineBuilder = new PipelineBuilder();
 
-        $this->buildTransformerPipline($transformers);
+        $this->buildTransformerPipeline($pipelineBuilder, $transformers);
     }
 
     /**
@@ -44,23 +46,21 @@ class Processor
         $line = $this->extractor->extract();
 
         foreach ($line as $collection) {
-            $transformed = $this->pipline->process($collection);
+            $transformed = $this->pipeline->process($collection);
 
             $this->loader->load($transformed);
         }
     }
 
     /**
-     * @param array<object> $transformers
+     * @param array<TransformerInterface> $transformers
      */
-    private function buildTransformerPipline(array $transformers): void
+    private function buildTransformerPipeline(PipelineBuilder $pipelineBuilder, array $transformers): void
     {
-        $piplineBuilder = (new PipelineBuilder());
-
         foreach ($transformers as $transformer) {
-            $piplineBuilder->add($transformer);
+            $pipelineBuilder->add($transformer);
         }
 
-        $this->pipline = $piplineBuilder->build();
+        $this->pipeline = $pipelineBuilder->build();
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jwhulette\Pipes\Tests\Unit\Loaders;
 
 use Jwhulette\Pipes\Frame;
@@ -12,7 +14,7 @@ class CsvLoaderTest extends TestCase
 {
     protected Frame $frame;
 
-    protected string $testfile;
+    protected string $testFile;
 
     protected vfsStreamDirectory $vfs;
 
@@ -27,42 +29,44 @@ class CsvLoaderTest extends TestCase
         ]);
 
         $this->frame->setHeader([
-                'FIRSTNAME',
-                'LASTNAME',
-                'DOB',
-            ]);
+            'FIRSTNAME',
+            'LASTNAME',
+            'DOB',
+        ]);
 
         $directory = [
-                'csv_extractor.csv',
-            ];
+            'csv_extractor.csv',
+        ];
 
         $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
 
-        $this->testfile = $this->vfs->url().'/csv_extractor.csv';
+        $this->testFile = $this->vfs->url() . '/csv_extractor.csv';
     }
 
-    public function testExtractorCsvInstance()
+    /** @test */
+    public function it_can_create_an_instance(): void
     {
-        $csv = new CsvLoader($this->testfile);
+        $csv = new CsvLoader($this->testFile);
 
         $this->assertInstanceOf(CsvLoader::class, $csv);
     }
 
-    public function testHasLoader()
+    /** @test */
+    public function it_can_load_a_frame(): void
     {
-        $csv = new CsvLoader($this->testfile);
+        $csv = new CsvLoader($this->testFile);
 
         $csv->load($this->frame);
 
         $this->assertTrue(true);
     }
 
-    public function testFileWrite()
+    public function testFileWrite(): void
     {
-        $csv = new CsvLoader($this->testfile);
+        $csv = new CsvLoader($this->testFile);
 
         $csv->load($this->frame);
 
-        $this->assertTrue(file_exists($this->testfile));
+        $this->assertTrue(file_exists($this->testFile));
     }
 }

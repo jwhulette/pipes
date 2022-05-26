@@ -7,8 +7,8 @@ namespace Jwhulette\Pipes\Loaders;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use InvalidArgumentException;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
+use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
 class SqlLoader implements LoaderInterface
@@ -21,29 +21,21 @@ class SqlLoader implements LoaderInterface
 
     protected int $batchSize = 500;
 
+    /** @var array<array|int|string> */
     protected array $insert = [];
 
     protected bool $useColumns = false;
 
-    /**
-     * @param string $table
-     * @param string $connection
-     */
-    public function __construct(string $table, string $connection = null)
+    public function __construct(string $table, ?string $connection = null)
     {
-        $this->db = DB::table($table);
-
         if (! is_null($connection)) {
             $this->db = DB::connection($connection)->table($table);
         }
+
+        $this->db = DB::table($table);
     }
 
-    /**
-     * @param int $batchSize
-     *
-     * @return SqlLoader
-     */
-    public function setBatchSize(int $batchSize): SqlLoader
+    public function setBatchSize(int $batchSize): self
     {
         $this->batchSize = $batchSize;
 
@@ -51,18 +43,16 @@ class SqlLoader implements LoaderInterface
     }
 
     /**
-     * @param array $columns
+     * @param array<array|int|string> $columns
      *
-     * @return SqlLoader
-     *
-     * @throws InvalidArgumentException
+     * @throws PipesInvalidArgumentException
      */
-    public function setSqlColumnNames(array $columns = []): SqlLoader
+    public function setSqlColumnNames(array $columns = []): self
     {
         $this->columns = collect($columns);
 
         if ($this->columns->count() === 0) {
-            throw new InvalidArgumentException('SQL Columns name cannot be empty');
+            throw new PipesInvalidArgumentException('SQL Columns name cannot be empty');
         }
 
         $this->useColumns = true;
@@ -70,16 +60,13 @@ class SqlLoader implements LoaderInterface
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     */
     public function load(Frame $frame): void
     {
         $this->count++;
 
         $this->buildInsert($frame);
 
-        if (($this->count >= $this->batchSize) || $frame->end === true) {
+        if (($this->count >= $this->batchSize) || $frame->getEnd() === true) {
             $this->bulkInsert();
 
             $this->count = 0;
@@ -88,21 +75,15 @@ class SqlLoader implements LoaderInterface
         }
     }
 
-    /**
-     * @param Frame $frame
-     */
     private function buildInsert(Frame $frame): void
     {
         if ($this->useColumns) {
-            $this->insert[] = $this->columns->combine($frame->data)->toArray();
+            $this->insert[] = $this->columns->combine($frame->getData())->toArray();
         } else {
-            $this->insert[] = $frame->data->toArray();
+            $this->insert[] = $frame->getData()->toArray();
         }
     }
 
-    /**
-     * Bulk insert the data.
-     */
     private function bulkInsert(): void
     {
         $this->db->insert($this->insert);

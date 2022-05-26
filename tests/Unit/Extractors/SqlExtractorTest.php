@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Extractors;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,10 +24,8 @@ class SqlExtractorTest extends TestCase
         (new SalesDataDatabaseFactory($this->table))->create(10);
     }
 
-    /**
-     * @test
-     */
-    public function test_query_builder()
+    /** @test */
+    public function it_can_extract_from_database(): void
     {
         $builder = DB::table($this->table)->select('country, order_date');
         $sql = (new SqlExtractor())->setQueryBuilder($builder);

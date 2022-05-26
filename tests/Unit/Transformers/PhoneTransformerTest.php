@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Transformers;
 
 use Jwhulette\Pipes\Frame;
@@ -14,7 +16,7 @@ class PhoneTransformerTest extends TestCase
      *
      * @dataProvider phoneProvider
      */
-    public function testPhoneTransfromation($phone, $expected)
+    public function testPhoneTransfromation($phone, $expected): void
     {
         $frame = new Frame();
 
@@ -26,7 +28,7 @@ class PhoneTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame($expected, $result->data->first());
+        $this->assertSame($expected, $result->getData()->first());
     }
 
     /**
@@ -35,7 +37,7 @@ class PhoneTransformerTest extends TestCase
      *
      * @dataProvider phoneProvider
      */
-    public function testPhoneTransfromationByIndex($phone, $expected)
+    public function testPhoneTransfromationByIndex($phone, $expected): void
     {
         $frame = new Frame();
 
@@ -45,7 +47,7 @@ class PhoneTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame($expected, $result->data->first());
+        $this->assertSame($expected, $result->getData()->first());
     }
 
     /**
