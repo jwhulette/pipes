@@ -54,7 +54,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "jwhulette\\Pipes\\PipesServiceProvider"
+                "Jwhulette\\Pipes\\PipesServiceProvider"
             ]
         }
     },
