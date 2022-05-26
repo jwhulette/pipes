@@ -13,7 +13,7 @@ use Tests\TestCase;
 
 class AppTest extends TestCase
 {
-    protected string $testfile;
+    protected string $testFile;
 
     public function setUp(): void
     {
@@ -23,65 +23,54 @@ class AppTest extends TestCase
 
         $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
 
-        $this->testfile = $this->vfs->url().'/csv_extractor.csv';
+        $this->testFile = $this->vfs->url() . '/csv_extractor.csv';
     }
 
-    /**
-     * Test the EtlPipe object gets created.
-     *
-     * @return void
-     */
-    public function testAppBoots()
+    /** @test */
+    public function the_app_successfully_boots(): void
     {
-        $EtlPipe = new EtlPipe();
+        $pipe = new EtlPipe();
 
-        $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
+        $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
-    /**
-     * Test extractors adding to app.
-     *
-     * @return void
-     */
-    public function testExtractorAdd()
+    /** @test */
+    public function it_can_add_an_extractor(): void
     {
-        $EtlPipe = new EtlPipe();
+        $pipe = new EtlPipe();
 
-        $EtlPipe->extract(new CsvExtractor($this->testfile));
+        $pipe->extract(new CsvExtractor($this->testFile));
 
-        $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
+        $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
-    /**
-     * Test extractors adding to app.
-     *
-     * @return void
-     */
-    public function testTransformsAdd()
+    /** @test */
+    public function it_can_add_a_transformer(): void
     {
-        $EtlPipe = new EtlPipe();
+        $pipe = new EtlPipe();
 
-        $EtlPipe->extract(new CsvExtractor($this->testfile));
+        $pipe->extract(new CsvExtractor($this->testFile));
 
-        $EtlPipe->transformers([
+        $pipe->transformers([
             (new CaseTransformer())->transformColumn('test', 'lower'),
         ]);
 
-        $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
+        $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
-    public function testLoader()
+    /** @test */
+    public function it_can_add_a_loader(): void
     {
-        $EtlPipe = new EtlPipe();
+        $pipe = new EtlPipe();
 
-        $EtlPipe->extract(new CsvExtractor($this->testfile));
+        $pipe->extract(new CsvExtractor($this->testFile));
 
-        $EtlPipe->transformers([
+        $pipe->transformers([
             (new CaseTransformer())->transformColumn('test', 'lower'),
         ]);
 
-        $EtlPipe->load(new CsvLoader('test'));
+        $pipe->load(new CsvLoader('test'));
 
-        $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
+        $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 }

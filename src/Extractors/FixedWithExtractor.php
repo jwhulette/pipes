@@ -9,19 +9,20 @@ use Jwhulette\Pipes\Contracts\Extractor;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Exceptions\PipesException;
 use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Traits\CsvOptions;
 use SplFileObject;
 
 class FixedWithExtractor extends Extractor implements ExtractorInterface
 {
+    use CsvOptions;
+
+    /** @var array<int> */
     protected array $columnWidths = [];
 
     protected bool $allColumns = false;
 
     protected int $width;
 
-    /**
-     * @param string $file
-     */
     public function __construct(string $file)
     {
         $this->file = $file;
@@ -29,12 +30,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
         $this->frame = new Frame();
     }
 
-    /**
-     * @param int $width
-     *
-     * @return FixedWithExtractor
-     */
-    public function setAllColumns(int $width): FixedWithExtractor
+    public function setAllColumns(int $width): self
     {
         $this->allColumns = true;
 
@@ -44,44 +40,31 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * Set the column with.
-     *
-     * @param array $widths
+     * @param array<int> $widths
      *
      * @return FixedWithExtractor
      */
-    public function setColumnsWidth(array $widths): FixedWithExtractor
+    public function setColumnsWidth(array $widths): self
     {
         $this->columnWidths = $widths;
 
         return $this;
     }
 
-    /**
-     * @param int $skipLines
-     *
-     * @return FixedWithExtractor
-     */
-    public function setskipLines(int $skipLines): FixedWithExtractor
+    public function setSkipLines(int $skipLines): self
     {
         $this->skipLines = $skipLines;
 
         return $this;
     }
 
-    /**
-     * @return  FixedWithExtractor
-     */
-    public function setNoHeader(): FixedWithExtractor
+    public function setNoHeader(): self
     {
         $this->hasHeader = false;
 
         return $this;
     }
 
-    /**
-     * @return Generator
-     */
     public function extract(): Generator
     {
         $file = new SplFileObject($this->file);
@@ -101,7 +84,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
                 )
             );
 
-            // Go back to the begining of the file
+            // Go back to the beginning of the file
             $file->rewind();
         }
 
@@ -126,13 +109,11 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
 
         $this->frame->setEnd();
 
-        $file = null;
+        unset($file);
     }
 
     /**
-     * @param string $row
-     *
-     * @return array
+     * @return array<int|string>
      */
     private function makeFrame(string $row): array
     {
@@ -146,11 +127,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * All columns are of equal.
-     *
-     * @param string $row
-     *
-     * @return array
+     * @return array<string>
      */
     private function columnSizes(string $row): array
     {
@@ -173,11 +150,7 @@ class FixedWithExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * All columns are of equal.
-     *
-     * @param string $row
-     *
-     * @return array
+     * @return array<string>
      */
     private function allColumnsEqual(string $row): array
     {

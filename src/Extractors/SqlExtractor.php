@@ -20,14 +20,7 @@ class SqlExtractor extends Extractor implements ExtractorInterface
         $this->frame = new Frame();
     }
 
-    /**
-     * Set a laravel Query Builder.
-     *
-     * @param \Illuminate\Database\Query\Builder $queryBuilder
-     *
-     * @return SqlExtractor
-     */
-    public function setQueryBuilder(Builder $queryBuilder): SqlExtractor
+    public function setQueryBuilder(Builder $queryBuilder): self
     {
         $this->queryBuilder = $queryBuilder;
 
@@ -35,8 +28,6 @@ class SqlExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * @return Generator
-     *
      * @throws PipesSqlException
      */
     public function extract(): Generator

@@ -7,6 +7,7 @@ namespace Jwhulette\Pipes\Transformers;
 use DateTime;
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\DataTransferObjects\DateTimeColumn;
 use Jwhulette\Pipes\Frame;
 
 /**
@@ -20,43 +21,28 @@ class DateTimeTransformer implements TransformerInterface
 
     protected ?string $inputFormat = null;
 
-    /**
-     * __construct.
-     */
     public function __construct()
     {
         $this->columns = new Collection();
     }
 
-    /**
-     * @param mixed $column name|index
-     * @param string|null $outputFormat
-     * @param string|null $inputFormat
-     *
-     * @return DateTimeTransformer
-     */
     public function transformColumn(
-        $column,
+        int|string $column,
         ?string $outputFormat = null,
         ?string $inputFormat = null
-    ): DateTimeTransformer {
-        $this->columns->push((object) [
-            'column' => $column,
-            'outputFormat' => $outputFormat ?? $this->outputFormat,
-            'inputFormat' => $inputFormat ?? $this->inputFormat,
-        ]);
+    ): self {
+        $this->columns->push(new DateTimeColumn(
+            $column,
+            $outputFormat ?? $this->outputFormat,
+            $inputFormat ?? $this->inputFormat,
+        ));
 
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     *
-     * @return Frame
-     */
     public function __invoke(Frame $frame): Frame
     {
-        $frame->data->transform(function ($item, $key) {
+        $frame->getData()->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
                 if ($column->column === $key) {
                     return $this->transformDateTime($item, $column);
@@ -69,13 +55,7 @@ class DateTimeTransformer implements TransformerInterface
         return $frame;
     }
 
-    /**
-     * @param string $datetime
-     * @param object $transform
-     *
-     * @return string
-     */
-    private function transformDateTime(string $datetime, object $transform): string
+    private function transformDateTime(string $datetime, DateTimeColumn $transform): string
     {
         if ($transform->inputFormat === null) {
             return (new DateTime($datetime))
@@ -83,7 +63,6 @@ class DateTimeTransformer implements TransformerInterface
         }
 
         $dateObject = DateTime::createFromFormat($transform->inputFormat, $datetime);
-
         if ($dateObject === \false) {
             return '';
         }

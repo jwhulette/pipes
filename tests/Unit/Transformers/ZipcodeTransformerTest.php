@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Transformers;
 
 use Jwhulette\Pipes\Frame;
@@ -37,7 +39,7 @@ class ZipcodeTransformerTest extends TestCase
      *
      * @dataProvider zipcodeProvider
      */
-    public function testZipcodeTransfromation($zip, $expected)
+    public function testZipcodeTransfromation($zip, $expected): void
     {
         $this->frame->setData([$zip]);
 
@@ -45,7 +47,7 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertSame($expected, $result->data->first());
+        $this->assertSame($expected, $result->getData()->first());
     }
 
     /**
@@ -54,7 +56,7 @@ class ZipcodeTransformerTest extends TestCase
      *
      * @dataProvider zipcodeProvider
      */
-    public function testZipcodeTransfromationByIndex($zip, $expected)
+    public function testZipcodeTransfromationByIndex($zip, $expected): void
     {
         $frame = new Frame();
 
@@ -64,10 +66,10 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame($expected, $result->data->first());
+        $this->assertSame($expected, $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationWithFillLimit5()
+    public function testZipcodeTransfromationWithFillLimit5(): void
     {
         $this->frame->setData(['']);
 
@@ -75,10 +77,10 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertSame('00000', $result->data->first());
+        $this->assertSame('00000', $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationByIndexWithFillLimit5()
+    public function testZipcodeTransfromationByIndexWithFillLimit5(): void
     {
         $frame = new Frame();
 
@@ -88,10 +90,10 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame('00000', $result->data->first());
+        $this->assertSame('00000', $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationWithFillLimitOther()
+    public function testZipcodeTransfromationWithFillLimitOther(): void
     {
         $this->frame->setData(['']);
 
@@ -99,20 +101,20 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertSame('0000000000', $result->data->first());
+        $this->assertSame('0000000000', $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationByIndexWithFillLimitOther()
+    public function testZipcodeTransfromationByIndexWithFillLimitOther(): void
     {
         $frame = new Frame();
         $frame->setData(['']);
         $transformer = (new ZipcodeTransformer())->tranformColumn(0, 'padleft', 10);
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame('0000000000', $result->data->first());
+        $this->assertSame('0000000000', $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationWithPadLeft()
+    public function testZipcodeTransfromationWithPadLeft(): void
     {
         $this->frame->setData(['122']);
 
@@ -120,10 +122,10 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertSame('00122', $result->data->first());
+        $this->assertSame('00122', $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationByIndexWithPadLeft()
+    public function testZipcodeTransfromationByIndexWithPadLeft(): void
     {
         $frame = new Frame();
 
@@ -133,10 +135,10 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame('00122', $result->data->first());
+        $this->assertSame('00122', $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationWithPadRight()
+    public function testZipcodeTransfromationWithPadRight(): void
     {
         $this->frame->setData(['122']);
 
@@ -144,10 +146,10 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertSame('12200', $result->data->first());
+        $this->assertSame('12200', $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationByIndexWithPadRight()
+    public function testZipcodeTransfromationByIndexWithPadRight(): void
     {
         $frame = new Frame();
 
@@ -157,6 +159,6 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame('12200', $result->data->first());
+        $this->assertSame('12200', $result->getData()->first());
     }
 }

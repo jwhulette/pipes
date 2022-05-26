@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jwhulette\Pipes\Tests\Unit\Loaders;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,29 +32,29 @@ class SqlLoaderTest extends TestCase
         ]);
     }
 
-    public function testSqlLoaderInstance()
+    public function testSqlLoaderInstance(): void
     {
         $loader = new SqlLoader('test');
 
-        $data = $this->frame->setData([
+        $this->frame->setData([
             'BOB',
             'SMITH',
             '02/11/1969',
         ]);
 
-        $loader->load($data);
+        $loader->load($this->frame);
 
         $this->assertInstanceOf(SqlLoader::class, $loader);
     }
 
-    public function testWillLoadByBatch()
+    public function testWillLoadByBatch(): void
     {
         $loader = new SqlLoader('test');
 
         $loader->setBatchSize(3);
 
         for ($x = 0; $x < 5; $x++) {
-            $data = $this->frame->setData([
+            $this->frame->setData([
                 'BOB',
                 'SMITH',
                 '02/11/1969',
@@ -62,7 +64,7 @@ class SqlLoaderTest extends TestCase
                 $this->frame->setEnd();
             }
 
-            $loader->load($data);
+            $loader->load($this->frame);
         }
 
         $count = DB::table('test')->count();
@@ -70,7 +72,7 @@ class SqlLoaderTest extends TestCase
         $this->assertEquals(5, $count);
     }
 
-    public function testUseCustomColumnNames()
+    public function testUseCustomColumnNames(): void
     {
         $columns = ['first_name', 'last_name', 'dob'];
 

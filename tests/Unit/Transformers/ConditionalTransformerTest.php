@@ -29,7 +29,7 @@ class ConditionalTransformerTest extends TestCase
             ]);
     }
 
-    public function testConditional()
+    public function testConditional(): void
     {
         $match = [
                 'FIRSTNAME' => 'BOB',
@@ -44,10 +44,10 @@ class ConditionalTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals('Smithers', $result->data['LASTNAME']);
+        $this->assertEquals('Smithers', $result->getData()['LASTNAME']);
     }
 
-    public function testMultipleConditional()
+    public function testMultipleConditional(): void
     {
         $match = [
             'FIRSTNAME' => 'BOB',
@@ -64,12 +64,12 @@ class ConditionalTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals('Smithers', $result->data['LASTNAME']);
+        $this->assertEquals('Smithers', $result->getData()['LASTNAME']);
 
-        $this->assertEquals('10/13/71', $result->data['DOB']);
+        $this->assertEquals('10/13/71', $result->getData()['DOB']);
     }
 
-    public function testMultipleMultipleConditional()
+    public function testMultipleMultipleConditional(): void
     {
         $match1 = [
             'FIRSTNAME' => 'BOB',
@@ -97,8 +97,8 @@ class ConditionalTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertEquals('Smitty', $result->data['LASTNAME']);
+        $this->assertEquals('Smitty', $result->getData()['LASTNAME']);
 
-        $this->assertEquals('10/13/74', $result->data['DOB']);
+        $this->assertEquals('10/13/74', $result->getData()['DOB']);
     }
 }

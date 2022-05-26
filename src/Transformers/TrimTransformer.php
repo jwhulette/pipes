@@ -6,6 +6,7 @@ namespace Jwhulette\Pipes\Transformers;
 
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\DataTransferObjects\TrimColumn;
 use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
@@ -16,66 +17,41 @@ class TrimTransformer implements TransformerInterface
 {
     protected Collection $columns;
 
-    protected bool $allcolumns = false;
+    protected bool $allColumns = false;
 
     protected string $type = 'trim';
 
     protected string $mask = " \t\n\r\0\x0B";
 
-    /**
-     * __construct.
-     */
     public function __construct()
     {
         $this->columns = new Collection();
     }
 
-    /**
-     * @param string|int $column name|index
-     * @param string|null $type trim|ltrim|rtrim
-     * @param string|null $mask
-     *
-     * @return TrimTransformer
-     */
-    public function transformColumn(string | int $column, ?string $type = null, ?string $mask = null): TrimTransformer
+    public function transformColumn(string | int $column, ?string $type = null, ?string $mask = null): self
     {
-        $this->columns->push((object) [
-            'column' => $column,
-            'type' => $type ?? $this->type,
-            'mask' => $mask ?? $this->mask,
-        ]);
+        $this->columns->push(new TrimColumn($column, $type ?? $this->type, $mask ?? $this->mask));
 
         return $this;
     }
 
     /**
      * @param string|null $type trim|ltrim|rtrim
-     * @param string|null $mask
-     *
-     * @return TrimTransformer
      */
-    public function transformAllColumns(?string $type = null, ?string $mask = null): TrimTransformer
+    public function transformAllColumns(?string $type = null, ?string $mask = null): self
     {
-        $this->columns->push((object) [
-            'type' => $type ?? $this->type,
-            'mask' => $mask ?? $this->mask,
-        ]);
+        $this->columns->push(new TrimColumn(0, $type ?? $this->type, $mask ?? $this->mask));
 
-        $this->allcolumns = true;
+        $this->allColumns = true;
 
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     *
-     * @return Frame
-     */
     public function __invoke(Frame $frame): Frame
     {
         // Apply to all columns
-        if ($this->allcolumns === true) {
-            $frame->data->transform(function ($item) {
+        if ($this->allColumns === true) {
+            $frame->getData()->transform(function ($item) {
                 return $this->trimColumnValue(
                     $item,
                     $this->columns->first()->type,
@@ -87,7 +63,7 @@ class TrimTransformer implements TransformerInterface
         }
 
         // Apply to only selected columns
-        $frame->data->transform(function ($item, $key) {
+        $frame->getData()->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
                 if ($column->column === $key) {
                     return $this->trimColumnValue(
@@ -105,14 +81,9 @@ class TrimTransformer implements TransformerInterface
     }
 
     /**
-     * @param string $value
-     * @param string $type
-     * @param string $mask
-     *
-     * @return string
-     * @throws \Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException
+     * @throws PipesInvalidArgumentException
      */
-    public function trimColumnValue(string $value, string $type, string $mask): string
+    protected function trimColumnValue(string $value, string $type, string $mask): string
     {
         if (! \is_callable($type)) {
             throw new PipesInvalidArgumentException("Invalid trim type: {$type}.");
