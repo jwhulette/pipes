@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\database\factories;
 
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 use SimpleXMLElement;
 use SplFileObject;
 
@@ -95,20 +96,20 @@ class DataFileFactory
     /**
      * Set the file as a text file.
      *
-     * @param string $delimeter
+     * @param string $delimiter
      * @param string $enclosure
      * @param string $escapeCharacter
      *
      * @return DataFileFactory
      */
     public function asText(
-        string $delimeter = ',',
+        string $delimiter = ',',
         string $enclosure = '"',
         string $escapeCharacter = '\\'
     ): self {
         $this->fileType = 'txt';
 
-        $this->delimiter = $delimeter;
+        $this->delimiter = $delimiter;
 
         $this->enclosure = $enclosure;
 
@@ -133,18 +134,18 @@ class DataFileFactory
 
     protected function createXlsxFile(): void
     {
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
 
         $writer->openToFile($this->file);
 
         if (! is_null($this->header)) {
-            $rowFromValues = WriterEntityFactory::createRowFromArray($this->header);
+            $rowFromValues = Row::fromValues($this->header);
 
             $writer->addRow($rowFromValues);
         }
 
         foreach ($this->data() as $items) {
-            $rowFromValues = WriterEntityFactory::createRowFromArray($items);
+            $rowFromValues =  Row::fromValues($items);
 
             $writer->addRow($rowFromValues);
         }

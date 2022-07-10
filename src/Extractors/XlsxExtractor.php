@@ -4,28 +4,33 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Extractors;
 
-use Box\Spout\Common\Entity\Cell;
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
-use Box\Spout\Reader\ReaderInterface;
-use Box\Spout\Reader\XLSX\RowIterator;
+use DateInterval;
+use DateTimeInterface;
 use Generator;
 use Jwhulette\Pipes\Contracts\Extractor;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Frame;
-use Jwhulette\Pipes\Traits\CsvOptions;
+use OpenSpout\Common\Entity\Cell;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Reader\XLSX\Options;
+use OpenSpout\Reader\XLSX\Reader;
+use OpenSpout\Reader\XLSX\RowIterator;
 
 class XlsxExtractor extends Extractor implements ExtractorInterface
 {
-    use CsvOptions;
+    protected Reader $reader;
 
-    protected ReaderInterface $reader;
+    protected bool $hasHeader = \true;
 
     protected int $sheetIndex = 0;
 
     public function __construct(string $file)
     {
-        $this->reader = ReaderEntityFactory::createXLSXReader();
-        $this->reader->setShouldFormatDates(true);
+        $options = new Options();
+        $options->SHOULD_FORMAT_DATES = \true;
+
+        $this->reader = new Reader($options);
+
         $this->reader->open($file);
 
         $this->frame = new Frame();
@@ -77,8 +82,13 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
                         continue;
                     }
 
+                    if (! $row instanceof Row) {
+                        return;
+                    }
+
+                    $cells = $row->getCells();
                     yield $this->frame->setData(
-                        $this->makeRow($row->getCells())
+                        $this->makeRow($cells)
                     );
                 }
             }
@@ -100,7 +110,7 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
 
         $row = $rowIterator->current();
 
-        if (\is_null($row)) {
+        if (! $row instanceof Row) {
             return;
         }
 
@@ -114,14 +124,14 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
     /**
      * @param array<Cell> $cells
      *
-     * @return array<string>
+     * @return array<int,bool|DateInterval|DateTimeInterface|float|int|string|null>
      */
     public function makeRow(array $cells): array
     {
         $array = [];
 
         foreach ($cells as $cell) {
-            $array[] = (string) $cell->getValue();
+            $array[] = $cell->getValue();
         }
 
         return $array;
