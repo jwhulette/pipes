@@ -145,7 +145,7 @@ class DataFileFactory
         }
 
         foreach ($this->data() as $items) {
-            $rowFromValues =  Row::fromValues($items);
+            $rowFromValues = Row::fromValues($items);
 
             $writer->addRow($rowFromValues);
         }
