@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes;
 
+use DateInterval;
+use DateTimeInterface;
 use Illuminate\Support\Collection;
 
 /**
@@ -21,7 +23,7 @@ class Frame
     protected bool $end = false;
 
     /**
-     * @param array<int|string> $data
+     * @param array<int,bool|DateInterval|DateTimeInterface|float|int|string|null> $data
      */
     public function setData(array $data): self
     {
@@ -40,7 +42,7 @@ class Frame
     }
 
     /**
-     * @param array<int|string> $header
+     * @param array<int,bool|DateInterval|DateTimeInterface|float|int|string|null> $header
      */
     public function setHeader(array $header): void
     {
