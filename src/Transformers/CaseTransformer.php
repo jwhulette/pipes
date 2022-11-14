@@ -5,56 +5,23 @@ declare(strict_types=1);
 namespace jwhulette\pipes\Transformers;
 
 use InvalidArgumentException;
+use jwhulette\pipes\Dto\CaseDto;
 use jwhulette\pipes\Frame;
 
 class CaseTransformer implements TransformerInterface
 {
     /**
-     * @var array<string,object>
+     * @var array<int,\jwhulette\pipes\Dto\CaseDto>
      */
     protected array $transformers;
 
-    /**
-     * @param string $column
-     * @param string $mode upper|lower|title
-     * @param string $encoding
-     *
-     * @return CaseTransformer
-     */
-    public function transformColumn(string $column, string $mode, string $encoding = 'utf-8'): self
+    public function transformColumn(string|int $column, string $mode, string $encoding = 'utf-8'): self
     {
-        $this->transformers[] = (object) [
-            'column' =>  $column,
-            'mode' => $this->getMode($mode),
-            'encoding' => $encoding,
-        ];
+        $this->transformers[] = new CaseDto($column, $this->getMode($mode), $encoding);
 
         return $this;
     }
 
-    /**
-     * @param int $column
-     * @param string $mode upper|lower|title
-     * @param string $encoding
-     *
-     * @return CaseTransformer
-     */
-    public function transformColumnByIndex(int $column, string $mode, string $encoding = 'utf-8'): self
-    {
-        $this->transformers[] = (object) [
-            'column' => $column,
-            'mode' => $this->getMode($mode),
-            'encoding' => $encoding,
-        ];
-
-        return $this;
-    }
-
-    /**
-     * @param Frame $frame
-     *
-     * @return Frame
-     */
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {

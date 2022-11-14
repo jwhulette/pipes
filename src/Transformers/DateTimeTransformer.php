@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace jwhulette\pipes\Transformers;
 
 use DateTime;
+use jwhulette\pipes\Dto\DateTimeDto;
 use jwhulette\pipes\Frame;
 
 class DateTimeTransformer implements TransformerInterface
 {
     /**
-     * @var array<int,array<string,int|string>>
+     * @var array<int,\jwhulette\pipes\Dto\DateTimeDto>
      */
     protected array $columns;
 
@@ -18,24 +19,12 @@ class DateTimeTransformer implements TransformerInterface
 
     protected string $inputFormat = '';
 
-    public function transformColumn(string $column, ?string $outputFormat = null, ?string $inputFormat = null): self
+    public function transformColumn(string|int $column, ?string $outputFormat = null, ?string $inputFormat = null): self
     {
-        $this->columns[] = [
-            'column' => $column,
-            'outputFormat' => $outputFormat ?? $this->outputFormat,
-            'inputFormat' => $inputFormat ?? $this->inputFormat,
-        ];
+        $lineOutputFormat = $outputFormat ?? $this->outputFormat;
+        $lineInputFormat = $inputFormat ?? $this->inputFormat;
 
-        return $this;
-    }
-
-    public function transformColumnByIndex(int $column, ?string $outputFormat = null, ?string $inputFormat = null): self
-    {
-        $this->columns[] = [
-            'column' => $column,
-            'outputFormat' => $outputFormat ?? $this->outputFormat,
-            'inputFormat' => $inputFormat ?? $this->inputFormat,
-        ];
+        $this->columns[] = new DateTimeDto($column, $lineOutputFormat, $lineInputFormat);
 
         return $this;
     }
@@ -43,10 +32,9 @@ class DateTimeTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
-            foreach ($this->columns as $column) {
-                /** @var string $key */
-                if ($column['column'] === $key) {
-                    return $this->transformDateTime($item, $column);
+            foreach ($this->columns as $dto) {
+                if ($dto->column === $key) {
+                    return $this->transformDateTime($item, $dto);
                 }
             }
 
@@ -58,20 +46,24 @@ class DateTimeTransformer implements TransformerInterface
 
     /**
      * @param string $datetime
-     * @param array<int|string,int|string> $transform
+     * @param DateTimeDto $dateTimeDto
      *
      * @return string
      */
-    private function transformDateTime(string $datetime, array $transform): string
+    private function transformDateTime(string $datetime, DateTimeDto $dateTimeDto): string
     {
-        if ($transform['inputFormat'] === '') {
+        if ($dateTimeDto->inputFormat === '') {
             $date = new DateTime($datetime);
 
-            return $date->format($transform['outputFormat']);
+            return $date->format($dateTimeDto->outputFormat);
         }
 
-        $dateObject = DateTime::createFromFormat($transform['inputFormat'], $datetime);
+        $dateObject = DateTime::createFromFormat($dateTimeDto->inputFormat, $datetime);
 
-        return $dateObject->format($transform['outputFormat']);
+        if ($dateObject === \false) {
+            throw new \Exception('Unable to create date object from string', 1);
+        }
+
+        return $dateObject->format($dateTimeDto->outputFormat);
     }
 }

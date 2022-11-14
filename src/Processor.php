@@ -56,6 +56,7 @@ class Processor
         $pipelineBuilder = (new PipelineBuilder());
 
         foreach ($transformers as $transformer) {
+            // @phpstan-ignore-next-line
             $pipelineBuilder->add($transformer);
         }
 

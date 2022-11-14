@@ -70,7 +70,7 @@ class FixedWithExtractor implements ExtractorInterface
         if ($this->hasHeader) {
             $this->frame->setHeader(
                 $this->makeFrame(
-                    trim($file->fgets())
+                    trim(strval($file->fgets()))
                 )
             );
 
@@ -86,7 +86,7 @@ class FixedWithExtractor implements ExtractorInterface
         while (! $file->eof()) {
             yield $this->frame->setData(
                 $this->makeFrame(
-                    trim($file->fgets())
+                    trim(strval($file->fgets()))
                 )
             );
         }

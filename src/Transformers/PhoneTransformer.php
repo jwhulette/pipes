@@ -4,33 +4,23 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Transformers;
 
+use jwhulette\pipes\Dto\PhoneDto;
 use jwhulette\pipes\Frame;
 
 class PhoneTransformer implements TransformerInterface
 {
     /**
-     * @var array<int|string,string|array<int|string,string>>
+     * @var array<int,\jwhulette\pipes\Dto\PhoneDto>
      */
     protected array $columns;
 
     protected int $maxlength = 10;
 
-    public function transformColumn(string $column, int $maxlength = null): self
+    public function transformColumn(string|int $column, int $maxlength = null): self
     {
-        $this->columns[] = [
-            'column' => $column,
-            'maxlength' => $maxlength ?? $this->maxlength,
-        ];
+        $phoneMaxLength = $maxlength ?? $this->maxlength;
 
-        return $this;
-    }
-
-    public function transformColumnByIndex(int $column, int $maxlength = null): self
-    {
-        $this->columns[] = [
-            'column' => $column,
-            'maxlength' => $maxlength ?? $this->maxlength,
-        ];
+        $this->columns[] = new PhoneDto($column, $phoneMaxLength);
 
         return $this;
     }
@@ -38,10 +28,9 @@ class PhoneTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
-            foreach ($this->columns as $column) {
-                /** @var string $key */
-                if ($column['column'] === $key) {
-                    return $this->tranformPhone($item, $column);
+            foreach ($this->columns as $dto) {
+                if ($dto->column === $key) {
+                    return $this->tranformPhone($item, $dto);
                 }
             }
 
@@ -53,17 +42,17 @@ class PhoneTransformer implements TransformerInterface
 
     /**
      * @param string $item
-     * @param array<int|string,int|string> $transform
+     * @param PhoneDto $phoneDto $transform
      *
      * @return string
      */
-    private function tranformPhone(string $item, array $transform): string
+    private function tranformPhone(string $item, PhoneDto $phoneDto): string
     {
         // Remove all non numeric characters
         $transformed = \preg_replace('/\D+/', '', $item);
 
-        if ($transform['maxlength'] > 0) {
-            $transformed = \substr($transformed, 0, $transform['maxlength']);
+        if ($phoneDto->maxlength > 0) {
+            $transformed = \substr($transformed, 0, $phoneDto->maxlength);
         }
 
         return $transformed;

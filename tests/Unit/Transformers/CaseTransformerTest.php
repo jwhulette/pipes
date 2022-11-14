@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Tests\Unit\Transformers;
 
-use Tests\TestCase;
 use jwhulette\pipes\Frame;
 use jwhulette\pipes\Transformers\CaseTransformer;
+use Tests\TestCase;
 
 class CaseTransformerTest extends TestCase
 {
@@ -28,7 +28,7 @@ class CaseTransformerTest extends TestCase
         ]);
     }
 
-    public function testConvertColumnsLower()
+    public function testConvertColumnsLower(): void
     {
         $transformer = (new CaseTransformer())
             ->transformColumn('LASTNAME', 'lower')
@@ -45,11 +45,11 @@ class CaseTransformerTest extends TestCase
         $this->assertEquals($expected, $result->data->toArray());
     }
 
-    public function testConvertColumnsLowerKeyIsInt()
+    public function testConvertColumnsLowerKeyIsInt(): void
     {
         $transformer = (new CaseTransformer())
-            ->transformColumnByIndex(0, 'lower')
-            ->transformColumnByIndex(1, 'lower');
+            ->transformColumn(0, 'lower')
+            ->transformColumn(1, 'lower');
 
         $this->frame = new Frame();
 
@@ -70,7 +70,7 @@ class CaseTransformerTest extends TestCase
         $this->assertEquals($expected, $result->data->toArray());
     }
 
-    public function testConvertColumnsUpper()
+    public function testConvertColumnsUpper(): void
     {
         $transformer = (new CaseTransformer())
             ->transformColumn('LASTNAME', 'Upper');
@@ -86,7 +86,7 @@ class CaseTransformerTest extends TestCase
         $this->assertEquals($expected, $result->data->toArray());
     }
 
-    public function testConvertColumnsTitle()
+    public function testConvertColumnsTitle(): void
     {
         $transformer = (new CaseTransformer())
             ->transformColumn('LASTNAME', 'TITLE');

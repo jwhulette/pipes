@@ -19,7 +19,7 @@ class Frame
     public Collection $data;
 
     /**
-     * @var array<int,string>
+     * @var array<int|string,string>
      */
     public array $attribute;
 

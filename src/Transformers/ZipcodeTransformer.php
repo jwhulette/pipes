@@ -4,58 +4,26 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Transformers;
 
+use jwhulette\pipes\Dto\ZipcodeDto;
 use jwhulette\pipes\Frame;
 
 class ZipcodeTransformer implements TransformerInterface
 {
     /**
-     * @var array<int,array<string,int|string>>
+     * @var array<int,\jwhulette\pipes\Dto\ZipcodeDto>
      */
     protected array $columns;
 
     protected int $maxlength = 5;
 
-    /**
-     * @param string $column
-     * @param string|null $pad padleft|padright
-     * @param int|null $maxlength
-     *
-     * @return ZipcodeTransformer
-     */
-    public function tranformColumn(string $column, ?string $pad = null, ?int $maxlength = null): self
+    public function tranformColumn(string|int $column, ?string $pad = null, ?int $maxlength = null): self
     {
-        $this->columns[] = [
-            'column' => $column,
-            'maxlength' => $maxlength ?? $this->maxlength,
-            'option' => $this->setOption($pad),
-        ];
+        $length = $maxlength ?? $this->maxlength;
+        $this->columns[] = new ZipcodeDto($column, $length, $this->setOption($pad));
 
         return $this;
     }
 
-    /**
-     * @param int $column
-     * @param string|null $pad padleft|padright
-     * @param int|null $maxlength
-     *
-     * @return ZipcodeTransformer
-     */
-    public function tranformColumnByIndex(int $column, ?string $pad = null, ?int $maxlength = null): self
-    {
-        $this->columns[] = [
-            'column' => $column,
-            'maxlength' => $maxlength ?? $this->maxlength,
-            'option' => $this->setOption($pad),
-        ];
-
-        return $this;
-    }
-
-    /**
-     * @param string|null $option
-     *
-     * @return int|null
-     */
     private function setOption(?string $option): ?int
     {
         if (! \is_null($option)) {
@@ -79,9 +47,9 @@ class ZipcodeTransformer implements TransformerInterface
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
-            foreach ($this->columns as $column) {
-                if ($column['column'] === $key) {
-                    return $this->transformZipcode($item, $column['option'], $column['maxlength']);
+            foreach ($this->columns as $dto) {
+                if ($dto->column === $key) {
+                    return $this->transformZipcode($item, $dto->option, $dto->maxlength);
                 }
             }
 

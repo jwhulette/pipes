@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Tests\Unit\Transformers;
 
-use Tests\TestCase;
 use jwhulette\pipes\Frame;
 use jwhulette\pipes\Transformers\DateTimeTransformer;
+use Tests\TestCase;
 
 class DateTimeTransformerTest extends TestCase
 {
@@ -31,7 +31,7 @@ class DateTimeTransformerTest extends TestCase
         ]);
     }
 
-    public function testDateGuess()
+    public function testDateGuess(): void
     {
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB')
@@ -44,7 +44,7 @@ class DateTimeTransformerTest extends TestCase
         $this->assertEquals('2000-01-11', $result->data->get('DOB2'));
     }
 
-    public function testDateGuessColumnIndex()
+    public function testDateGuessColumnIndex(): void
     {
         $frame = new Frame;
 
@@ -56,8 +56,8 @@ class DateTimeTransformerTest extends TestCase
         ]);
 
         $transformer = (new DateTimeTransformer())
-            ->transformColumnByIndex(2)
-            ->transformColumnByIndex(3);
+            ->transformColumn(2)
+            ->transformColumn(3);
 
         $result = $transformer->__invoke($frame);
 
@@ -66,7 +66,7 @@ class DateTimeTransformerTest extends TestCase
         $this->assertEquals('2000-01-11', $result->data->slice(3, 1)->first());
     }
 
-    public function testDateInputFormat()
+    public function testDateInputFormat(): void
     {
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB', 'Y-m-d', 'm/d/Y')
@@ -79,7 +79,7 @@ class DateTimeTransformerTest extends TestCase
         $this->assertEquals('2000-01-11', $result->data->get('DOB2'));
     }
 
-    public function testDateInputFormatColumnIndex()
+    public function testDateInputFormatColumnIndex(): void
     {
         $frame = new Frame;
 
@@ -91,8 +91,8 @@ class DateTimeTransformerTest extends TestCase
         ]);
 
         $transformer = (new DateTimeTransformer())
-            ->transformColumnByIndex(2, 'Y-m-d', 'm/d/Y')
-            ->transformColumnByIndex(3, null, 'm/d/Y');
+            ->transformColumn(2, 'Y-m-d', 'm/d/Y')
+            ->transformColumn(3, null, 'm/d/Y');
 
         $result = $transformer->__invoke($frame);
 
@@ -107,7 +107,7 @@ class DateTimeTransformerTest extends TestCase
      *
      * @dataProvider dateTimeProvider
      */
-    public function testDateFormats($date, $expected)
+    public function testDateFormats($date, $expected): void
     {
         $frame = $this->frame->data->map(function ($item, $key) use ($date) {
             if ($key === 'DOB') {
