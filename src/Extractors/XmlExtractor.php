@@ -5,26 +5,25 @@ declare(strict_types=1);
 namespace jwhulette\pipes\Extractors;
 
 use Generator;
-use XMLReader;
-use SimpleXMLElement;
 use jwhulette\pipes\Frame;
+use SimpleXMLElement;
+use XMLReader;
 
 class XmlExtractor implements ExtractorInterface
 {
     protected string $file;
-    protected string $nodename;
+
+    protected string $nodeName;
+
     protected Frame $frame;
+
     protected bool $isGZipped = false;
 
-    /**
-     * @param string $file
-     * @param string $nodename
-     */
-    public function __construct(string $file, string $nodename)
+    public function __construct(string $file, string $nodeName)
     {
         $this->file = $file;
 
-        $this->nodename = $nodename;
+        $this->nodeName = $nodeName;
 
         $this->frame = new Frame();
     }
@@ -32,7 +31,7 @@ class XmlExtractor implements ExtractorInterface
     /**
      * @return  XmlExtractor
      */
-    public function setIsGZipped(): XmlExtractor
+    public function setIsGZipped(): self
     {
         $this->isGZipped = true;
 
@@ -46,13 +45,13 @@ class XmlExtractor implements ExtractorInterface
     {
         $reader = new XMLReader();
         if ($this->isGZipped) {
-            $reader->open('compress.zlib://'.$this->file);
+            $reader->open('compress.zlib://' . $this->file);
         } else {
             $reader->open($this->file);
         }
 
         while ($reader->read()) {
-            if ($reader->nodeType == XMLReader::ELEMENT and $reader->name === $this->nodename) {
+            if ($reader->nodeType == XMLReader::ELEMENT and $reader->name === $this->nodeName) {
                 $element = new SimpleXMLElement($reader->readOuterXML());
 
                 $xmlRecord = $this->loopXml($element);
@@ -69,11 +68,11 @@ class XmlExtractor implements ExtractorInterface
     }
 
     /**
-     * Flatten the multidimentional array.
+     * Flatten the multidimensional array.
      *
-     * @param array $array
+     * @param array<int|string,int|string|array<int,string>> $array
      *
-     * @return array
+     * @return array<int|string,int|string>
      */
     private function arrayFlatten(array $array): array
     {
@@ -93,9 +92,9 @@ class XmlExtractor implements ExtractorInterface
      * Get all the xml nodes as an array.
      *
      * @param SimpleXMLElement $element
-     * @param array $record
+     * @param array<string,string> $record
      *
-     * @return array
+     * @return array<string,string>
      */
     private function loopXml(SimpleXMLElement $element, $record = []): array
     {

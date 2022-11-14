@@ -5,67 +5,51 @@ declare(strict_types=1);
 namespace jwhulette\pipes\Extractors;
 
 use Generator;
-use SplFileObject;
 use jwhulette\pipes\Frame;
+use SplFileObject;
 
 class CsvExtractor implements ExtractorInterface
 {
     protected Frame $frame;
+
     protected string $file;
+
     protected string $delimiter = ',';
+
     protected string $enclosure = '\'';
+
     protected int $skipLines = 0;
+
     protected bool $hasHeader = true;
 
-    /**
-     * @param string $file
-     */
     public function __construct(string $file)
     {
         $this->file = $file;
         $this->frame = new Frame();
     }
 
-    /**
-     * @param string $delimiter
-     *
-     * @return  CsvExtractor
-     */
-    public function setDelimiter(string $delimiter): CsvExtractor
+    public function setDelimiter(string $delimiter): self
     {
         $this->delimiter = $delimiter;
 
         return $this;
     }
 
-    /**
-     * @param string $enclosure
-     *
-     * @return  CsvExtractor
-     */
-    public function setEnclosure(string $enclosure): CsvExtractor
+    public function setEnclosure(string $enclosure): self
     {
         $this->enclosure = $enclosure;
 
         return $this;
     }
 
-    /**
-     * @param int $skipLines
-     *
-     * @return  CsvExtractor
-     */
-    public function setskipLines(int $skipLines): CsvExtractor
+    public function setSkipLines(int $skipLines): self
     {
         $this->skipLines = $skipLines;
 
         return $this;
     }
 
-    /**
-     * @return  CsvExtractor
-     */
-    public function setNoHeader(): CsvExtractor
+    public function setNoHeader(): self
     {
         $this->hasHeader = false;
 
@@ -87,7 +71,7 @@ class CsvExtractor implements ExtractorInterface
                 $file->fgetcsv($this->delimiter, $this->enclosure)
             );
 
-            // Go back to the begining of the file
+            // Go back to the beginning of the file
             $file->rewind();
         }
 
@@ -99,7 +83,7 @@ class CsvExtractor implements ExtractorInterface
         while (! $file->eof()) {
             $line = $file->fgetcsv($this->delimiter, $this->enclosure);
 
-            if (! is_null($line)) {
+            if (! is_null($line) && $line !== \false) {
                 yield $this->frame->setData($line);
             }
         }

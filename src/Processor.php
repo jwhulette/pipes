@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes;
 
+use jwhulette\pipes\Extractors\ExtractorInterface;
+use jwhulette\pipes\Loaders\LoaderInterface;
 use League\Pipeline\PipelineBuilder;
 use League\Pipeline\PipelineInterface;
-use jwhulette\pipes\Loaders\LoaderInterface;
-use jwhulette\pipes\Extractors\ExtractorInterface;
 
 class Processor
 {
     protected ExtractorInterface $extractor;
+
     protected LoaderInterface $loader;
-    protected PipelineInterface $pipline;
+
+    protected PipelineInterface $pipeline;
 
     /**
      * Build the pipeline.
      *
      * @param ExtractorInterface $extractor
-     * @param array<object> $transformers
+     * @param array<int,\jwhulette\pipes\Transformers\TransformerInterface> $transformers
      * @param LoaderInterface $loader
      */
     public function __construct(ExtractorInterface $extractor, array $transformers, LoaderInterface $loader)
@@ -28,7 +30,7 @@ class Processor
 
         $this->loader = $loader;
 
-        $this->buildTransformerPipline($transformers);
+        $this->buildTransformerPipeline($transformers);
     }
 
     /**
@@ -39,23 +41,24 @@ class Processor
         $line = $this->extractor->extract();
 
         foreach ($line as $collection) {
-            $transformed = $this->pipline->process($collection);
+            // @phpstan-ignore-next-line
+            $transformed = $this->pipeline->process($collection);
 
             $this->loader->load($transformed);
         }
     }
 
     /**
-     * @param array $transformers
+     * @param array<int,object> $transformers
      */
-    private function buildTransformerPipline(array $transformers): void
+    private function buildTransformerPipeline(array $transformers): void
     {
-        $piplineBuilder = (new PipelineBuilder());
+        $pipelineBuilder = (new PipelineBuilder());
 
         foreach ($transformers as $transformer) {
-            $piplineBuilder->add($transformer);
+            $pipelineBuilder->add($transformer);
         }
 
-        $this->pipline = $piplineBuilder->build();
+        $this->pipeline = $pipelineBuilder->build();
     }
 }

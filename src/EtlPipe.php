@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes;
 
-use jwhulette\pipes\Loaders\LoaderInterface;
 use jwhulette\pipes\Extractors\ExtractorInterface;
+use jwhulette\pipes\Loaders\LoaderInterface;
 
 class EtlPipe
 {
     protected ExtractorInterface $extractor;
+
     protected LoaderInterface $loader;
-    protected array $transformers = [];
+
+    /**
+     * @var array<int,\jwhulette\pipes\Transformers\TransformerInterface>
+     */
+    protected array $transformers;
 
     /**
      * Set the type of extractor to use.
@@ -20,7 +25,7 @@ class EtlPipe
      *
      * @return EtlPipe
      */
-    public function extract(ExtractorInterface $extractor): EtlPipe
+    public function extract(ExtractorInterface $extractor): self
     {
         $this->extractor = $extractor;
 
@@ -30,11 +35,11 @@ class EtlPipe
     /**
      * Set the transforms to use.
      *
-     * @param array<object> $transformers
+     * @param array<int,\jwhulette\pipes\Transformers\TransformerInterface> $transformers
      *
      * @return EtlPipe
      */
-    public function transformers(array $transformers): EtlPipe
+    public function transformers(array $transformers): self
     {
         $this->transformers = $transformers;
 
@@ -48,7 +53,7 @@ class EtlPipe
      *
      * @return EtlPipe
      */
-    public function load(LoaderInterface $loader): EtlPipe
+    public function load(LoaderInterface $loader): self
     {
         $this->loader = $loader;
 

@@ -9,18 +9,16 @@ use jwhulette\pipes\Frame;
 
 class DateTimeTransformer implements TransformerInterface
 {
-    protected array $columns = [];
+    /**
+     * @var array<int,array<string,int|string>>
+     */
+    protected array $columns;
+
     protected string $outputFormat = 'Y-m-d';
+
     protected string $inputFormat = '';
 
-    /**
-     * @param string $column
-     * @param string $outputFormat
-     * @param string $inputFormat
-     *
-     * @return DateTimeTransformer
-     */
-    public function transformColumn(string $column, ?string $outputFormat = null, ?string $inputFormat = null): DateTimeTransformer
+    public function transformColumn(string $column, ?string $outputFormat = null, ?string $inputFormat = null): self
     {
         $this->columns[] = [
             'column' => $column,
@@ -31,14 +29,7 @@ class DateTimeTransformer implements TransformerInterface
         return $this;
     }
 
-    /**
-     * @param int $column
-     * @param string $outputFormat
-     * @param string $inputFormat
-     *
-     * @return DateTimeTransformer
-     */
-    public function transformColumnByIndex(int $column, ?string $outputFormat = null, ?string $inputFormat = null): DateTimeTransformer
+    public function transformColumnByIndex(int $column, ?string $outputFormat = null, ?string $inputFormat = null): self
     {
         $this->columns[] = [
             'column' => $column,
@@ -49,15 +40,11 @@ class DateTimeTransformer implements TransformerInterface
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     *
-     * @return Frame
-     */
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
+                /** @var string $key */
                 if ($column['column'] === $key) {
                     return $this->transformDateTime($item, $column);
                 }
@@ -71,7 +58,7 @@ class DateTimeTransformer implements TransformerInterface
 
     /**
      * @param string $datetime
-     * @param array $transform
+     * @param array<int|string,int|string> $transform
      *
      * @return string
      */

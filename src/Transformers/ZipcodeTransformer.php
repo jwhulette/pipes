@@ -8,7 +8,11 @@ use jwhulette\pipes\Frame;
 
 class ZipcodeTransformer implements TransformerInterface
 {
-    protected array $columns = [];
+    /**
+     * @var array<int,array<string,int|string>>
+     */
+    protected array $columns;
+
     protected int $maxlength = 5;
 
     /**
@@ -18,7 +22,7 @@ class ZipcodeTransformer implements TransformerInterface
      *
      * @return ZipcodeTransformer
      */
-    public function tranformColumn(string $column, ?string $pad = null, ?int $maxlength = null): ZipcodeTransformer
+    public function tranformColumn(string $column, ?string $pad = null, ?int $maxlength = null): self
     {
         $this->columns[] = [
             'column' => $column,
@@ -36,7 +40,7 @@ class ZipcodeTransformer implements TransformerInterface
      *
      * @return ZipcodeTransformer
      */
-    public function tranformColumnByIndex(int $column, ?string $pad = null, ?int $maxlength = null): ZipcodeTransformer
+    public function tranformColumnByIndex(int $column, ?string $pad = null, ?int $maxlength = null): self
     {
         $this->columns[] = [
             'column' => $column,

@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Transformers;
 
-use jwhulette\pipes\Frame;
 use InvalidArgumentException;
+use jwhulette\pipes\Frame;
 
 class CaseTransformer implements TransformerInterface
 {
-    protected array $transformers = [];
+    /**
+     * @var array<string,object>
+     */
+    protected array $transformers;
 
     /**
      * @param string $column
@@ -18,7 +21,7 @@ class CaseTransformer implements TransformerInterface
      *
      * @return CaseTransformer
      */
-    public function transformColumn(string $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
+    public function transformColumn(string $column, string $mode, string $encoding = 'utf-8'): self
     {
         $this->transformers[] = (object) [
             'column' =>  $column,
@@ -36,7 +39,7 @@ class CaseTransformer implements TransformerInterface
      *
      * @return CaseTransformer
      */
-    public function transformColumnByIndex(int $column, string $mode, string $encoding = 'utf-8'): CaseTransformer
+    public function transformColumnByIndex(int $column, string $mode, string $encoding = 'utf-8'): self
     {
         $this->transformers[] = (object) [
             'column' => $column,

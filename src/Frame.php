@@ -8,21 +8,34 @@ use Illuminate\Support\Collection;
 
 class Frame
 {
+    /**
+     * @var \Illuminate\Support\Collection<int,string>
+     */
     public Collection $header;
+
+    /**
+     * @var \Illuminate\Support\Collection<string|int,mixed|string>
+     */
     public Collection $data;
-    public array $attribute = [];
+
+    /**
+     * @var array<int,string>
+     */
+    public array $attribute;
+
     public bool $end = false;
 
     /**
-     * @param array $data
+     * @param array<string|int,mixed|string>  $data
      *
      * @return Frame
      */
-    public function setData(array $data): Frame
+    public function setData(array $data): self
     {
         $this->data = collect($data);
 
         if (isset($this->header) && $this->header->isNotEmpty()) {
+            // @phpstan-ignore-next-line
             $this->data = $this->header->combine($this->data);
         }
 
@@ -30,7 +43,7 @@ class Frame
     }
 
     /**
-     * @param array $header
+     * @param array<int,string> $header
      */
     public function setHeader(array $header): void
     {
@@ -38,7 +51,7 @@ class Frame
     }
 
     /**
-     * @param array $attribute
+     * @param array<int,string> $attribute
      */
     public function setAttribute(array $attribute): void
     {

@@ -4,25 +4,32 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Loaders;
 
-use jwhulette\pipes\Frame;
-use InvalidArgumentException;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\Builder;
+use InvalidArgumentException;
+use jwhulette\pipes\Frame;
 
 class SqlLoader implements LoaderInterface
 {
     protected Builder $db;
-    protected Collection $columns;
-    protected int $count = 0;
-    protected int $batchSize = 500;
-    protected array $insert = [];
-    protected bool $useColumns = false;
 
     /**
-     * @param string $table
-     * @param string $connection
+     * @var \Illuminate\Support\Collection<int,string>
      */
+    protected Collection $columns;
+
+    protected int $count = 0;
+
+    protected int $batchSize = 500;
+
+    /**
+     * @var array<int,string>
+     */
+    protected array $insert;
+
+    protected bool $useColumns = false;
+
     public function __construct(string $table, string $connection = null)
     {
         $this->db = DB::table($table);
@@ -32,12 +39,7 @@ class SqlLoader implements LoaderInterface
         }
     }
 
-    /**
-     * @param int $batchSize
-     *
-     * @return SqlLoader
-     */
-    public function setBatchSize(int $batchSize): SqlLoader
+    public function setBatchSize(int $batchSize): self
     {
         $this->batchSize = $batchSize;
 
@@ -45,13 +47,13 @@ class SqlLoader implements LoaderInterface
     }
 
     /**
-     * @param array $columns
+     * @param array<int,string> $columns
      *
      * @return SqlLoader
      *
      * @throws InvalidArgumentException
      */
-    public function setSqlColumnNames(array $columns = []): SqlLoader
+    public function setSqlColumnNames(array $columns = []): self
     {
         $this->columns = collect($columns);
 
@@ -82,9 +84,6 @@ class SqlLoader implements LoaderInterface
         }
     }
 
-    /**
-     * @param Frame $frame
-     */
     private function buildInsert(Frame $frame): void
     {
         if ($this->useColumns) {
@@ -94,9 +93,6 @@ class SqlLoader implements LoaderInterface
         }
     }
 
-    /**
-     * Bulk insert the data.
-     */
     private function bulkInsert(): void
     {
         $this->db->insert($this->insert);

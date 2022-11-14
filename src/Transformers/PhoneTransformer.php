@@ -8,16 +8,14 @@ use jwhulette\pipes\Frame;
 
 class PhoneTransformer implements TransformerInterface
 {
-    protected array $columns = [];
+    /**
+     * @var array<int|string,string|array<int|string,string>>
+     */
+    protected array $columns;
+
     protected int $maxlength = 10;
 
-    /**
-     * @param string $column
-     * @param int $maxlength
-     *
-     * @return PhoneTransformer
-     */
-    public function transformColumn(string $column, int $maxlength = null): PhoneTransformer
+    public function transformColumn(string $column, int $maxlength = null): self
     {
         $this->columns[] = [
             'column' => $column,
@@ -27,13 +25,7 @@ class PhoneTransformer implements TransformerInterface
         return $this;
     }
 
-    /**
-     * @param int $column
-     * @param int $maxlength
-     *
-     * @return PhoneTransformer
-     */
-    public function transformColumnByIndex(int $column, int $maxlength = null): PhoneTransformer
+    public function transformColumnByIndex(int $column, int $maxlength = null): self
     {
         $this->columns[] = [
             'column' => $column,
@@ -43,15 +35,11 @@ class PhoneTransformer implements TransformerInterface
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     *
-     * @return Frame
-     */
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $column) {
+                /** @var string $key */
                 if ($column['column'] === $key) {
                     return $this->tranformPhone($item, $column);
                 }
@@ -65,7 +53,7 @@ class PhoneTransformer implements TransformerInterface
 
     /**
      * @param string $item
-     * @param array $transform
+     * @param array<int|string,int|string> $transform
      *
      * @return string
      */

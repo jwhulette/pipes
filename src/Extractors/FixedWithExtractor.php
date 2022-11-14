@@ -5,22 +5,31 @@ declare(strict_types=1);
 namespace jwhulette\pipes\Extractors;
 
 use Generator;
-use SplFileObject;
 use jwhulette\pipes\Frame;
+use SplFileObject;
 
 class FixedWithExtractor implements ExtractorInterface
 {
     protected string $file;
+
     protected int $skipLines = 0;
-    protected array $columnWidths = [];
+
+    /**
+     * @var array<int,int>
+     */
+    protected array $columnWidths;
+
     protected bool $allColumns = false;
+
     protected int $width;
+
     protected Frame $frame;
+
     protected bool $hasHeader = true;
 
     /**
      * @param string $file
-     * @param array  $columnWidths
+     * @param array<int,int>  $columnWidths
      */
     public function __construct(string $file, array $columnWidths = [])
     {
@@ -31,24 +40,14 @@ class FixedWithExtractor implements ExtractorInterface
         $this->columnWidths = $columnWidths;
     }
 
-    /**
-     * @param int $skipLines
-     *
-     * @return FixedWithExtractor
-     */
-    public function setskipLines(int $skipLines): FixedWithExtractor
+    public function setSkipLines(int $skipLines): self
     {
         $this->skipLines = $skipLines;
 
         return $this;
     }
 
-    /**
-     * @param int $width
-     *
-     * @return FixedWithExtractor
-     */
-    public function setAllColumns(int $width): FixedWithExtractor
+    public function setAllColumns(int $width): self
     {
         $this->allColumns = true;
 
@@ -57,19 +56,13 @@ class FixedWithExtractor implements ExtractorInterface
         return $this;
     }
 
-    /**
-     * @return  FixedWithExtractor
-     */
-    public function setNoHeader(): FixedWithExtractor
+    public function setNoHeader(): self
     {
         $this->hasHeader = false;
 
         return $this;
     }
 
-    /**
-     * @return Generator
-     */
     public function extract(): Generator
     {
         $file = new SplFileObject($this->file);
@@ -81,13 +74,13 @@ class FixedWithExtractor implements ExtractorInterface
                 )
             );
 
-            // Go back to the begining of the file
+            // Go back to the beginning of the file
             $file->rewind();
         }
 
         // Skip the number of lines minus one as it's a zero based index
         if ($this->skipLines > 0) {
-            $file->seek($this->skipLines - 1);
+            $file->seek($this->skipLines);
         }
 
         while (! $file->eof()) {
@@ -106,7 +99,7 @@ class FixedWithExtractor implements ExtractorInterface
     /**
      * @param string $row
      *
-     * @return array
+     * @return array<int,string>
      */
     private function makeFrame(string $row): array
     {
@@ -124,7 +117,7 @@ class FixedWithExtractor implements ExtractorInterface
      *
      * @param string $row
      *
-     * @return array
+     * @return array<int,string>
      */
     private function columnSizes(string $row): array
     {
@@ -151,7 +144,7 @@ class FixedWithExtractor implements ExtractorInterface
      *
      * @param string $row
      *
-     * @return array
+     * @return array<int,string>
      */
     private function allColumnsEqual(string $row): array
     {

@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Extractors;
 
-use Generator;
-use jwhulette\pipes\Frame;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Box\Spout\Reader\ReaderInterface;
 use Box\Spout\Reader\XLSX\RowIterator;
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use Generator;
+use jwhulette\pipes\Frame;
 
 class XlsxExtractor implements ExtractorInterface
 {
     protected ReaderInterface $reader;
+
     protected int $skipLines = 0;
+
     protected bool $hasHeader = true;
+
     protected Frame $frame;
+
     protected int $sheetIndex = 0;
 
-    /**
-     * @param string $file
-     */
     public function __construct(string $file)
     {
         $this->reader = ReaderEntityFactory::createXLSXReader();
@@ -32,43 +33,27 @@ class XlsxExtractor implements ExtractorInterface
         $this->frame = new Frame();
     }
 
-    /**
-     * @return  XlsxExtractor
-     */
-    public function setNoHeader(): XlsxExtractor
+    public function setNoHeader(): self
     {
         $this->hasHeader = false;
 
         return $this;
     }
 
-    /**
-     * @param int $skipLines
-     *
-     * @return XlsxExtractor
-     */
-    public function setskipLines(int $skipLines): XlsxExtractor
+    public function setSkipLines(int $skipLines): self
     {
         $this->skipLines = $skipLines;
 
         return $this;
     }
 
-    /**
-     * @param int $sheetIndex
-     *
-     * @return XlsxExtractor
-     */
-    public function setSheetIndex(int $sheetIndex): XlsxExtractor
+    public function setSheetIndex(int $sheetIndex): self
     {
         $this->sheetIndex = $sheetIndex;
 
         return $this;
     }
 
-    /**
-     * @return Generator
-     */
     public function extract(): Generator
     {
         $skip = 0;
@@ -110,8 +95,6 @@ class XlsxExtractor implements ExtractorInterface
      * The use of rewind is needed when using current.
      *
      * @see https://github.com/box/spout/pull/606#issuecomment-443745187
-     *
-     * @param RowIterator  $rowIterator
      */
     private function setHeader(RowIterator $rowIterator): void
     {
@@ -127,9 +110,9 @@ class XlsxExtractor implements ExtractorInterface
     }
 
     /**
-     * @param array $cells
+     * @param array<int,\Box\Spout\Common\Entity\Cell> $cells
      *
-     * @return array
+     * @return array<int,string>
      */
     public function makeRow(array $cells): array
     {
