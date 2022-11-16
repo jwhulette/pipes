@@ -30,7 +30,7 @@ class PhoneTransformer implements TransformerInterface
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $dto) {
                 if ($dto->column === $key) {
-                    return $this->tranformPhone($item, $dto);
+                    return $this->tranformPhone(\strval($item), $dto);
                 }
             }
 

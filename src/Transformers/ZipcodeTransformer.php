@@ -49,7 +49,7 @@ class ZipcodeTransformer implements TransformerInterface
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $dto) {
                 if ($dto->column === $key) {
-                    return $this->transformZipcode($item, $dto->option, $dto->maxlength);
+                    return $this->transformZipcode(\strval($item), $dto->option, $dto->maxlength);
                 }
             }
 

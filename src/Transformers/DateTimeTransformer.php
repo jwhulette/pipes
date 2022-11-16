@@ -34,7 +34,7 @@ class DateTimeTransformer implements TransformerInterface
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $dto) {
                 if ($dto->column === $key) {
-                    return $this->transformDateTime($item, $dto);
+                    return $this->transformDateTime(\strval($item), $dto);
                 }
             }
 

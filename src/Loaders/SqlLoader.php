@@ -24,7 +24,7 @@ class SqlLoader implements LoaderInterface
     protected int $batchSize = 500;
 
     /**
-     * @var array<int,string|array<string,string>>
+     * @var array<int,mixed>
      */
     protected array $insert;
 

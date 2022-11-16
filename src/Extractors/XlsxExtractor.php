@@ -60,7 +60,9 @@ class XlsxExtractor implements ExtractorInterface
 
         foreach ($this->reader->getSheetIterator() as $sheet) {
             // Read the selected sheet
+            // @phpstan-ignore-next-line
             if ($sheet->getIndex() === $this->sheetIndex) {
+                // @phpstan-ignore-next-line
                 $rowIterator = $sheet->getRowIterator();
 
                 if ($this->hasHeader) {
@@ -123,7 +125,8 @@ class XlsxExtractor implements ExtractorInterface
         $collection = [];
 
         foreach ($cells as $cell) {
-            $collection[] = (string) $cell->getValue();
+            $cellValue = $cell->getValue();
+            $collection[] = \strval($cellValue);
         }
 
         return $collection;

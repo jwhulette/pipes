@@ -48,7 +48,7 @@ class TrimTransformer implements TransformerInterface
         if ($this->allColumns) {
             $frame->data->transform(
                 fn ($item) => $this->trimColumnValue(
-                    $item,
+                    \strval($item),
                     $this->columns[0]->type,
                     $this->columns[0]->mask
                 )
@@ -61,7 +61,7 @@ class TrimTransformer implements TransformerInterface
         $frame->data->transform(function ($item, $key) {
             foreach ($this->columns as $dto) {
                 if ($dto->column === $key) {
-                    return $this->trimColumnValue($item, $dto->type, $dto->mask);
+                    return $this->trimColumnValue(\strval($item), $dto->type, $dto->mask);
                 }
             }
 
@@ -88,6 +88,8 @@ class TrimTransformer implements TransformerInterface
             $mask = $this->mask;
         }
 
-        return \call_user_func($type, $value, $mask);
+        $result = \call_user_func($type, $value, $mask);
+
+        return \strval($result);
     }
 }
