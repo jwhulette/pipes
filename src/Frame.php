@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class Frame
 {
     /**
-     * @var \Illuminate\Support\Collection<int,string>
+     * @var \Illuminate\Support\Collection<int,string|int>
      */
     public Collection $header;
 
@@ -35,7 +35,6 @@ class Frame
         $this->data = collect($data);
 
         if (isset($this->header) && $this->header->isNotEmpty()) {
-            // @phpstan-ignore-next-line
             $this->data = $this->header->combine($this->data);
         }
 
@@ -43,7 +42,7 @@ class Frame
     }
 
     /**
-     * @param array<int,string> $header
+     * @param array<int,string|int> $header
      */
     public function setHeader(array $header): void
     {

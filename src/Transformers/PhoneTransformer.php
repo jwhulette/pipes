@@ -46,10 +46,14 @@ class PhoneTransformer implements TransformerInterface
      *
      * @return string
      */
-    private function tranformPhone(string $item, PhoneDto $phoneDto): string
+    private function tranformPhone(?string $item, PhoneDto $phoneDto): string
     {
+        if (\is_null($item)) {
+            return '';
+        }
+
         // Remove all non numeric characters
-        $transformed = \preg_replace('/\D+/', '', $item);
+        $transformed = \strval(\preg_replace('/\D+/', '', $item));
 
         if ($phoneDto->maxlength > 0) {
             $transformed = \substr($transformed, 0, $phoneDto->maxlength);

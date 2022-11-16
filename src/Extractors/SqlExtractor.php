@@ -5,17 +5,21 @@ declare(strict_types=1);
 namespace jwhulette\pipes\Extractors;
 
 use Generator;
-use jwhulette\pipes\Frame;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 use jwhulette\pipes\Extractors\ExtractorInterface;
+use jwhulette\pipes\Frame;
 
 class SqlExtractor implements ExtractorInterface
 {
     protected DB $db;
+
     protected Frame $frame;
+
     protected ?string $connection = null;
+
     protected ?string $table = null;
+
     protected ?string $select = null;
 
     public function __construct()
@@ -28,7 +32,7 @@ class SqlExtractor implements ExtractorInterface
      *
      * @return SqlExtractor
      */
-    public function setSelect(string $select): SqlExtractor
+    public function setSelect(string $select): self
     {
         $this->select = $select;
 
@@ -40,7 +44,7 @@ class SqlExtractor implements ExtractorInterface
      *
      * @return SqlExtractor
      */
-    public function setTable(string $table):SqlExtractor
+    public function setTable(string $table):self
     {
         $this->table = $table;
 
@@ -52,7 +56,7 @@ class SqlExtractor implements ExtractorInterface
      *
      * @return SqlExtractor
      */
-    public function setConnection(string $connection): SqlExtractor
+    public function setConnection(string $connection): self
     {
         $this->connection = $connection;
 
@@ -65,6 +69,10 @@ class SqlExtractor implements ExtractorInterface
     public function extract(): Generator
     {
         $db = $this->getConnection();
+
+        if (\is_null($db)) {
+            throw new \Exception('Database connection unavailable', 1);
+        }
 
         foreach ($db->cursor() as $item) {
             yield $this->frame->setData((array) $item);
@@ -82,7 +90,7 @@ class SqlExtractor implements ExtractorInterface
             DB::setDefaultConnection($this->connection);
         }
 
-        if (! is_null($this->select)) {
+        if (! is_null($this->select) && ! is_null($this->table)) {
             return DB::table($this->table)->selectRaw($this->select);
         }
 

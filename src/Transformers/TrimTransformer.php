@@ -74,10 +74,18 @@ class TrimTransformer implements TransformerInterface
     /**
      * @throws InvalidArgumentException
      */
-    public function trimColumnValue(string $value, string $type, string $mask): string
+    public function trimColumnValue(?string $value, ?string $type, ?string $mask): string
     {
         if (! \is_callable($type)) {
             throw new InvalidArgumentException("Invalid trim type: {$type}.");
+        }
+
+        if (\is_null($value)) {
+            return '';
+        }
+
+        if (\is_null($mask)) {
+            $mask = $this->mask;
         }
 
         return \call_user_func($type, $value, $mask);

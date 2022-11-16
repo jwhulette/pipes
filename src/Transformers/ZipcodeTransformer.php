@@ -68,7 +68,7 @@ class ZipcodeTransformer implements TransformerInterface
      */
     private function transformZipcode(string $zipcode, ?int $type, int $maxlength): string
     {
-        $transformed = \preg_replace('/\D+/', '', $zipcode);
+        $transformed = \strval(\preg_replace('/\D+/', '', $zipcode));
 
         $zipLength = \strlen($transformed);
 

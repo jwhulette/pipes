@@ -67,9 +67,10 @@ class CsvExtractor implements ExtractorInterface
         $file->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
 
         if ($this->hasHeader) {
+            /** @var array<int,string>|false $header */
             $header = $file->fgetcsv($this->delimiter, $this->enclosure);
 
-            if ($header !== \false) {
+            if ($header !== \false && ! empty($header)) {
                 $this->frame->setHeader($header);
 
                 // Go back to the beginning of the file
