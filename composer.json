@@ -14,7 +14,7 @@
     "require": {
         "php": "^8.1",
         "league/pipeline": "^1.0",
-        "box/spout": "^3.3"
+        "openspout/openspout": "^4.8"
     },
     "autoload": {
         "psr-4": {
@@ -28,7 +28,7 @@
     },
     "scripts": {
         "test": "phpunit",
-        "phpstan": "phpstan analyse --memory-limit 1G",
+        "phpstan": "phpstan analyse --memory-limit 2G",
         "test-all": [
             "phpstan analyse",
             "phpunit"

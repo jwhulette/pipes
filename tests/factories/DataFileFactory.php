@@ -1,18 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\factories;
 
-use SplFileObject;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 use SimpleXMLElement;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use SplFileObject;
 
 class DataFileFactory
 {
     protected string $delimiter;
+
     protected string $enclosure;
+
     protected string $escapeCharacter;
+
     protected int $width;
+
     protected ?array $header = null;
+
     protected string $file;
 
     public function __construct(string $file)
@@ -46,7 +53,7 @@ class DataFileFactory
      *
      * @return DataFileFactory
      */
-    public function asXml(): DataFileFactory
+    public function asXml(): self
     {
         $this->fileType = 'xml';
 
@@ -58,7 +65,7 @@ class DataFileFactory
      *
      * @return DataFileFactory
      */
-    public function asXlsx(): DataFileFactory
+    public function asXlsx(): self
     {
         $this->fileType = 'xlsx';
 
@@ -72,7 +79,7 @@ class DataFileFactory
      *
      * @return DataFileFactory
      */
-    public function asFixedWidth(int $width): DataFileFactory
+    public function asFixedWidth(int $width): self
     {
         $this->fileType = 'fw';
         $this->width = $width;
@@ -89,7 +96,7 @@ class DataFileFactory
      *
      * @return DataFileFactory
      */
-    public function asText(string $delimeter = ',', string $enclosure = '"', string $escapeCharacter = '\\'): DataFileFactory
+    public function asText(string $delimeter = ',', string $enclosure = '"', string $escapeCharacter = '\\'): self
     {
         $this->fileType = 'txt';
 
@@ -109,7 +116,7 @@ class DataFileFactory
      *
      * @return DataFileFactory
      */
-    public function setHeader(array $header): DataFileFactory
+    public function setHeader(array $header): self
     {
         $this->header = $header;
 

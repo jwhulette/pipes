@@ -4,83 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae935a3be43aea13ada885657c286fc2",
+    "content-hash": "22d8fad56b7f795d46995c26610c5416",
     "packages": [
-        {
-            "name": "box/spout",
-            "version": "v3.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/box/spout.git",
-                "reference": "9bdb027d312b732515b884a341c0ad70372c6295"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/box/spout/zipball/9bdb027d312b732515b884a341c0ad70372c6295",
-                "reference": "9bdb027d312b732515b884a341c0ad70372c6295",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-xmlreader": "*",
-                "ext-zip": "*",
-                "php": ">=7.2.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2",
-                "phpunit/phpunit": "^8"
-            },
-            "suggest": {
-                "ext-iconv": "To handle non UTF-8 CSV files (if \"php-intl\" is not already installed or is too limited)",
-                "ext-intl": "To handle non UTF-8 CSV files (if \"iconv\" is not already installed)"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Box\\Spout\\": "src/Spout"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Adrien Loison",
-                    "email": "adrien@box.com"
-                }
-            ],
-            "description": "PHP Library to read and write spreadsheet files (CSV, XLSX and ODS), in a fast and scalable way",
-            "homepage": "https://www.github.com/box/spout",
-            "keywords": [
-                "OOXML",
-                "csv",
-                "excel",
-                "memory",
-                "odf",
-                "ods",
-                "office",
-                "open",
-                "php",
-                "read",
-                "scale",
-                "spreadsheet",
-                "stream",
-                "write",
-                "xlsx"
-            ],
-            "support": {
-                "issues": "https://github.com/box/spout/issues",
-                "source": "https://github.com/box/spout/tree/v3.3.0"
-            },
-            "abandoned": true,
-            "time": "2021-05-14T21:18:09+00:00"
-        },
         {
             "name": "league/pipeline",
             "version": "1.0.0",
@@ -137,6 +62,99 @@
                 "source": "https://github.com/thephpleague/pipeline/tree/master"
             },
             "time": "2018-06-05T21:06:51+00:00"
+        },
+        {
+            "name": "openspout/openspout",
+            "version": "v4.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/openspout/openspout.git",
+                "reference": "e0a70a10ba497ce0bfb4c6f0e9e99ab61b595e90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/openspout/openspout/zipball/e0a70a10ba497ce0bfb4c6f0e9e99ab61b595e90",
+                "reference": "e0a70a10ba497ce0bfb4c6f0e9e99ab61b595e90",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-fileinfo": "*",
+                "ext-filter": "*",
+                "ext-libxml": "*",
+                "ext-xmlreader": "*",
+                "ext-zip": "*",
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0"
+            },
+            "require-dev": {
+                "ext-zlib": "*",
+                "friendsofphp/php-cs-fixer": "^3.8.0",
+                "infection/infection": "^0.26.10",
+                "phpbench/phpbench": "^1.2.5",
+                "phpstan/phpstan": "^1.6.8",
+                "phpstan/phpstan-phpunit": "^1.1.1",
+                "phpstan/phpstan-strict-rules": "^1.2.3",
+                "phpunit/phpunit": "^9.5.20"
+            },
+            "suggest": {
+                "ext-iconv": "To handle non UTF-8 CSV files (if \"php-intl\" is not already installed or is too limited)",
+                "ext-intl": "To handle non UTF-8 CSV files (if \"iconv\" is not already installed)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "OpenSpout\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrien Loison",
+                    "email": "adrien@box.com"
+                }
+            ],
+            "description": "PHP Library to read and write spreadsheet files (CSV, XLSX and ODS), in a fast and scalable way",
+            "homepage": "https://github.com/openspout/openspout",
+            "keywords": [
+                "OOXML",
+                "csv",
+                "excel",
+                "memory",
+                "odf",
+                "ods",
+                "office",
+                "open",
+                "php",
+                "read",
+                "scale",
+                "spreadsheet",
+                "stream",
+                "write",
+                "xlsx"
+            ],
+            "support": {
+                "issues": "https://github.com/openspout/openspout/issues",
+                "source": "https://github.com/openspout/openspout/tree/v4.8.1"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/filippotessarotto",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/Slamdunk",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-11-10T15:20:29+00:00"
         }
     ],
     "packages-dev": [
@@ -1389,16 +1407,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v9.39.0",
+            "version": "v9.40.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "67e674709e1e7db14f304a871481f310822d68c5"
+                "reference": "9611fdaf2db5759b8299802d7185bcdbee0340bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/67e674709e1e7db14f304a871481f310822d68c5",
-                "reference": "67e674709e1e7db14f304a871481f310822d68c5",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/9611fdaf2db5759b8299802d7185bcdbee0340bb",
+                "reference": "9611fdaf2db5759b8299802d7185bcdbee0340bb",
                 "shasum": ""
             },
             "require": {
@@ -1571,7 +1589,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-11-08T14:47:39+00:00"
+            "time": "2022-11-15T16:13:22+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -1823,16 +1841,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.10.2",
+            "version": "3.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "b9bd194b016114d6ff6765c09d40c7d427e4e3f6"
+                "reference": "8013fb046c6a244b2b1b75cc95d732ed6bcdeb8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/b9bd194b016114d6ff6765c09d40c7d427e4e3f6",
-                "reference": "b9bd194b016114d6ff6765c09d40c7d427e4e3f6",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/8013fb046c6a244b2b1b75cc95d732ed6bcdeb8a",
+                "reference": "8013fb046c6a244b2b1b75cc95d732ed6bcdeb8a",
                 "shasum": ""
             },
             "require": {
@@ -1894,7 +1912,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.10.2"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.10.3"
             },
             "funding": [
                 {
@@ -1910,7 +1928,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-25T07:01:47+00:00"
+            "time": "2022-11-14T10:42:43+00:00"
         },
         {
             "name": "league/mime-type-detection",
@@ -2742,23 +2760,23 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v7.12.1",
+            "version": "v7.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "575053e4c36d1445d04b3c48618f58d0a7e6f286"
+                "reference": "b87d7c70eb80cf4fd36c57d4f52fb66575be9ab8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/575053e4c36d1445d04b3c48618f58d0a7e6f286",
-                "reference": "575053e4c36d1445d04b3c48618f58d0a7e6f286",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/b87d7c70eb80cf4fd36c57d4f52fb66575be9ab8",
+                "reference": "b87d7c70eb80cf4fd36c57d4f52fb66575be9ab8",
                 "shasum": ""
             },
             "require": {
                 "fakerphp/faker": "^1.9.2",
                 "laravel/framework": "^9.36",
                 "mockery/mockery": "^1.5.1",
-                "orchestra/testbench-core": "^7.12.1",
+                "orchestra/testbench-core": "^7.13",
                 "php": "^8.0",
                 "phpunit/phpunit": "^9.5.10",
                 "spatie/laravel-ray": "^1.28",
@@ -2795,7 +2813,7 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v7.12.1"
+                "source": "https://github.com/orchestral/testbench/tree/v7.13.0"
             },
             "funding": [
                 {
@@ -2807,20 +2825,20 @@
                     "type": "liberapay"
                 }
             ],
-            "time": "2022-11-12T11:59:49+00:00"
+            "time": "2022-11-14T02:34:08+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v7.12.1",
+            "version": "v7.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "0bad7911de0af7e06ce4d030e84508ddad2b499c"
+                "reference": "9faea2c774e2f7f60277f531ca4852661c1172a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/0bad7911de0af7e06ce4d030e84508ddad2b499c",
-                "reference": "0bad7911de0af7e06ce4d030e84508ddad2b499c",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/9faea2c774e2f7f60277f531ca4852661c1172a7",
+                "reference": "9faea2c774e2f7f60277f531ca4852661c1172a7",
                 "shasum": ""
             },
             "require": {
@@ -2835,6 +2853,7 @@
                 "orchestra/canvas": "^7.0",
                 "phpstan/phpstan": "^1.8",
                 "phpunit/phpunit": "^9.5.10",
+                "spatie/laravel-ray": "^1.28",
                 "symfony/process": "^6.0.9",
                 "symfony/yaml": "^6.0.9",
                 "vlucas/phpdotenv": "^5.4.1"
@@ -2903,7 +2922,7 @@
                     "type": "liberapay"
                 }
             ],
-            "time": "2022-11-12T11:49:22+00:00"
+            "time": "2022-11-14T02:26:50+00:00"
         },
         {
             "name": "phar-io/manifest",

@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Extractors;
 
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
-use Box\Spout\Reader\ReaderInterface;
-use Box\Spout\Reader\XLSX\RowIterator;
 use Generator;
 use jwhulette\pipes\Frame;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Reader\Common\Creator\ReaderFactory;
+use OpenSpout\Reader\ReaderInterface;
+use OpenSpout\Reader\XLSX\RowIterator;
 
 class XlsxExtractor implements ExtractorInterface
 {
     protected ReaderInterface $reader;
+
+    protected string $file;
 
     protected int $skipLines = 0;
 
@@ -24,11 +27,7 @@ class XlsxExtractor implements ExtractorInterface
 
     public function __construct(string $file)
     {
-        $this->reader = ReaderEntityFactory::createXLSXReader();
-
-        $this->reader->setShouldFormatDates(true);
-
-        $this->reader->open($file);
+        $this->reader = ReaderFactory::createFromFile($file);
 
         $this->frame = new Frame();
     }
@@ -59,10 +58,8 @@ class XlsxExtractor implements ExtractorInterface
         $skip = 0;
 
         foreach ($this->reader->getSheetIterator() as $sheet) {
-            // Read the selected sheet
-            // @phpstan-ignore-next-line
+            /** @var \OpenSpout\Reader\XLSX\Sheet $sheet */
             if ($sheet->getIndex() === $this->sheetIndex) {
-                // @phpstan-ignore-next-line
                 $rowIterator = $sheet->getRowIterator();
 
                 if ($this->hasHeader) {
@@ -89,14 +86,10 @@ class XlsxExtractor implements ExtractorInterface
         }
 
         $this->frame->setEnd();
-
-        $this->reader->close();
     }
 
     /**
      * The use of rewind is needed when using current.
-     *
-     * @see https://github.com/box/spout/pull/606#issuecomment-443745187
      */
     private function setHeader(RowIterator $rowIterator): void
     {
@@ -104,7 +97,7 @@ class XlsxExtractor implements ExtractorInterface
 
         $row = $rowIterator->current();
 
-        if (\is_null($row)) {
+        if (! $row instanceof Row) {
             return;
         }
 
@@ -116,7 +109,7 @@ class XlsxExtractor implements ExtractorInterface
     }
 
     /**
-     * @param array<int,\Box\Spout\Common\Entity\Cell> $cells
+     * @param array<int,\OpenSpout\Common\Entity\Cell> $cells
      *
      * @return array<int,string>
      */
