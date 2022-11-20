@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
+use DateTimeImmutable;
 use Jwhulette\Pipes\Extractors\XlsxExtractor;
 use Tests\TestCase;
 
@@ -26,9 +27,9 @@ class XlsxExtractorTest extends TestCase
 
         $expectedData = [
             'FIRSTNAME' => 'BOB',
-            'LASTNAME' => 'SMITH',
-            'DOB' => '01/03/1970 19:00:25',
-            'AMOUNT' => 24.22,
+            'LASTNAME' => 'SMITHL',
+            'DOB' => new DateTimeImmutable('01/03/1970 19:00:25'),
+            'AMOUNT' => 25.22,
         ];
 
         $this->assertEquals($expectedData, $frame->data->toArray());
@@ -53,7 +54,7 @@ class XlsxExtractorTest extends TestCase
         $expectedData = [
             'FIRSTNAME' => 'BOB',
             'LASTNAME' => 'SMITH',
-            'DOB' => '12/31/1969',
+            'DOB' => '12/31/69',
             'AMOUNT' => 22.22,
         ];
 
@@ -80,7 +81,7 @@ class XlsxExtractorTest extends TestCase
         $expectedData = [
             'FIRSTNAME' => 'BOB',
             'LASTNAME' => 'SMITH',
-            'DOB' => '1969-12-31 19:00:25',
+            'DOB' => new DateTimeImmutable('1969-12-31 19:00:25'),
             'AMOUNT' => 22.22,
         ];
 
@@ -102,7 +103,7 @@ class XlsxExtractorTest extends TestCase
         $expected = [
             'Pete',
             'Dragon',
-            '1969-12-31 19:00:29',
+            new DateTimeImmutable('1969-12-31 19:00:29'),
             50.50,
         ];
 
@@ -121,7 +122,7 @@ class XlsxExtractorTest extends TestCase
         $expected = [
             'FIRSTNAME' => 'Tom',
             'LASTNAME' => 'Collins',
-            'DOB' => '1980-04-11 00:00:00',
+            'DOB' => new DateTimeImmutable('1980-04-11 00:00:00'),
             'AMOUNT' => 50.50,
         ];
 

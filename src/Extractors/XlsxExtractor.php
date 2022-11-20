@@ -103,7 +103,6 @@ class XlsxExtractor implements ExtractorInterface
 
     private function readSheet(Sheet $sheet): Generator
     {
-        $skip = 0;
         $rowIterator = $sheet->getRowIterator();
 
         if ($this->hasHeader) {
@@ -115,6 +114,7 @@ class XlsxExtractor implements ExtractorInterface
             $this->skipLines = $this->skipLines + 1;
         }
 
+        $skip = 0;
         foreach ($rowIterator as $row) {
             if ($skip < $this->skipLines) {
                 $skip++;
