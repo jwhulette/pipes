@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Extractors;
 
+use Exception;
 use Generator;
 use Jwhulette\Pipes\Extractors\ExtractorInterface;
 use Jwhulette\Pipes\Frame;
@@ -26,10 +27,6 @@ class XlsxExtractor implements ExtractorInterface
     protected Frame $frame;
 
     protected int $sheetIndex = 0;
-
-    protected string $dateFormat = 'Y-m-d H:i:s';
-
-    protected bool $shouldFormatDate = \false;
 
     public function __construct(string $file)
     {
@@ -86,6 +83,7 @@ class XlsxExtractor implements ExtractorInterface
     {
         $reader = new Reader($this->options);
         $reader->open($this->file);
+        $selectedSheet = \null;
 
         foreach ($reader->getSheetIterator() as $sheet) {
             /* @var \OpenSpout\Reader\XLSX\Sheet $sheet */
@@ -93,16 +91,18 @@ class XlsxExtractor implements ExtractorInterface
                 continue;
             }
 
-            return $this->readSheet($sheet);
+            $selectedSheet = $sheet;
         }
 
-        $this->frame->setEnd();
-
-        $reader->close();
+        return $this->readSheet($reader, $selectedSheet);
     }
 
-    private function readSheet(Sheet $sheet): Generator
+    private function readSheet(Reader $reader, ?Sheet $sheet): Generator
     {
+        if (\is_null($sheet)) {
+            throw new Exception('Unable to find selected sheet', 1);
+        }
+
         $rowIterator = $sheet->getRowIterator();
 
         if ($this->hasHeader) {
@@ -126,6 +126,10 @@ class XlsxExtractor implements ExtractorInterface
                 $this->makeRow($row->getCells())
             );
         }
+
+        $this->frame->setEnd();
+
+        $reader->close();
     }
 
     /**

@@ -10,9 +10,6 @@ parameters:
     level: 9
 
     ignoreErrors:
-        -
-            message: '#Property jwhulette\\pipes\\Extractors\\XlsxExtractor::\$reader with generic interface OpenSpout\\Reader\\ReaderInterface does not specify its types: T$#'
-            path: src/Extractors/XlsxExtractor.php
 #
 #    excludePaths:
 #        - ./*/*/FileToBeExcluded.php

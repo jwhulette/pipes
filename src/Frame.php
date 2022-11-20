@@ -9,12 +9,12 @@ use Illuminate\Support\Collection;
 class Frame
 {
     /**
-     * @var \Illuminate\Support\Collection<int,string|int>
+     * @var \Illuminate\Support\Collection<int,mixed>
      */
     public Collection $header;
 
     /**
-     * @var \Illuminate\Support\Collection<string|int,mixed|string>
+     * @var \Illuminate\Support\Collection<int,mixed>
      */
     public Collection $data;
 
@@ -26,7 +26,7 @@ class Frame
     public bool $end = false;
 
     /**
-     * @param array<string|int,mixed|string>  $data
+     * @param array<int,mixed>  $data
      *
      * @return Frame
      */
@@ -35,6 +35,7 @@ class Frame
         $this->data = collect($data);
 
         if (isset($this->header) && $this->header->isNotEmpty()) {
+            // @phpstan-ignore-next-line
             $this->data = $this->header->combine($this->data);
         }
 
@@ -42,7 +43,7 @@ class Frame
     }
 
     /**
-     * @param array<int,string|int> $header
+     * @param array<int,mixed> $header
      */
     public function setHeader(array $header): void
     {

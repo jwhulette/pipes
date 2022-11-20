@@ -85,14 +85,10 @@ class CsvExtractor implements ExtractorInterface
 
         $sheet = $reader->getSheetIterator()->current();
 
-        return $this->readSheet($sheet);
-
-        $this->frame->setEnd();
-
-        $reader->close();
+        return $this->readSheet($reader, $sheet);
     }
 
-    private function readSheet(Sheet $sheet): Generator
+    private function readSheet(Reader $reader, Sheet $sheet): Generator
     {
         $skip = 0;
         $rowIterator = $sheet->getRowIterator();
@@ -117,6 +113,10 @@ class CsvExtractor implements ExtractorInterface
                 $this->makeRow($row->getCells())
             );
         }
+
+        $this->frame->setEnd();
+
+        $reader->close();
     }
 
     /**
