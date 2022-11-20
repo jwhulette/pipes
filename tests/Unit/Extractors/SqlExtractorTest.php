@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Extractors;
 
-use Tests\TestCase;
-use jwhulette\pipes\Frame;
 use Illuminate\Support\Collection;
-use jwhulette\pipes\Extractors\SqlExtractor;
+use Jwhulette\Pipes\Extractors\SqlExtractor;
+use Jwhulette\Pipes\Frame;
 use Tests\factories\SalesDataDatabaseFactory;
+use Tests\TestCase;
 
 class SqlExtractorTest extends TestCase
 {
@@ -19,7 +21,7 @@ class SqlExtractorTest extends TestCase
     }
 
     /** @test */
-    public function testTableConnection()
+    public function testTableConnection(): void
     {
         $sql = (new SqlExtractor())
             ->setTable($this->table);
@@ -31,7 +33,7 @@ class SqlExtractorTest extends TestCase
     }
 
     /** @test */
-    public function testQueryConnection()
+    public function testQueryConnection(): void
     {
         $sql = (new SqlExtractor())
             ->setTable($this->table)

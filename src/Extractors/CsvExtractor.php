@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Extractors;
+namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use jwhulette\pipes\Frame;
-// use SplFileObject;
+use Jwhulette\Pipes\Frame;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Reader\CSV\Options;
 use OpenSpout\Reader\CSV\Reader;

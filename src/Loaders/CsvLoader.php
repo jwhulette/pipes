@@ -2,16 +2,19 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Loaders;
+namespace Jwhulette\Pipes\Loaders;
 
+use Jwhulette\Pipes\Frame;
 use SplFileObject;
-use jwhulette\pipes\Frame;
 
 class CsvLoader implements LoaderInterface
 {
     protected string $delimiter = ',';
+
     protected string $enclosure = '"';
+
     protected string $escapeCharacter = '\\';
+
     protected SplFileObject $file;
 
     /**
@@ -27,7 +30,7 @@ class CsvLoader implements LoaderInterface
      *
      * @return CsvLoader
      */
-    public function setDelimiter(string $delimiter): CsvLoader
+    public function setDelimiter(string $delimiter): self
     {
         $this->delimiter = $delimiter;
 
@@ -39,7 +42,7 @@ class CsvLoader implements LoaderInterface
      *
      * @return CsvLoader
      */
-    public function setEnclosure(string $enclosure): CsvLoader
+    public function setEnclosure(string $enclosure): self
     {
         $this->enclosure = $enclosure;
 
@@ -51,7 +54,7 @@ class CsvLoader implements LoaderInterface
      *
      * @return CsvLoader
      */
-    public function setEscapeCharacter(string $escapeCharacter): CsvLoader
+    public function setEscapeCharacter(string $escapeCharacter): self
     {
         $this->escapeCharacter = $escapeCharacter;
 

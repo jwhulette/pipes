@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Loaders;
+namespace Jwhulette\Pipes\Loaders;
 
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
 
 class SqlLoader implements LoaderInterface
 {

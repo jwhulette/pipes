@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes;
+namespace Jwhulette\Pipes;
 
-use jwhulette\pipes\Extractors\ExtractorInterface;
-use jwhulette\pipes\Loaders\LoaderInterface;
+use Jwhulette\Pipes\Extractors\ExtractorInterface;
+use Jwhulette\Pipes\Loaders\LoaderInterface;
 
 class EtlPipe
 {
@@ -14,7 +14,7 @@ class EtlPipe
     protected LoaderInterface $loader;
 
     /**
-     * @var array<int,\jwhulette\pipes\Transformers\TransformerInterface>
+     * @var array<int,\Jwhulette\Pipes\Transformers\TransformerInterface>
      */
     protected array $transformers;
 
@@ -35,7 +35,7 @@ class EtlPipe
     /**
      * Set the transforms to use.
      *
-     * @param array<int,\jwhulette\pipes\Transformers\TransformerInterface> $transformers
+     * @param array<int,\Jwhulette\Pipes\Transformers\TransformerInterface> $transformers
      *
      * @return EtlPipe
      */

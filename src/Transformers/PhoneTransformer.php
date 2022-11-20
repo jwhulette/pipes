@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Transformers;
+namespace Jwhulette\Pipes\Transformers;
 
-use jwhulette\pipes\Dto\PhoneDto;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Dto\PhoneDto;
+use Jwhulette\Pipes\Frame;
 
 class PhoneTransformer implements TransformerInterface
 {
     /**
-     * @var array<int,\jwhulette\pipes\Dto\PhoneDto>
+     * @var array<int,\Jwhulette\Pipes\Dto\PhoneDto>
      */
     protected array $columns;
 

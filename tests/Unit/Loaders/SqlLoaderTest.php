@@ -1,16 +1,19 @@
 <?php
 
-namespace jwhulette\pipes\Tests\Unit\Loaders;
+declare(strict_types=1);
 
-use Tests\TestCase;
-use jwhulette\pipes\Frame;
+namespace Jwhulette\Pipes\Tests\Unit\Loaders;
+
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use jwhulette\pipes\Loaders\SqlLoader;
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Loaders\SqlLoader;
+use Tests\TestCase;
 
 class SqlLoaderTest extends TestCase
 {
     protected Frame $frame;
+
     protected Collection $data;
 
     protected function setUp(): void
@@ -26,7 +29,7 @@ class SqlLoaderTest extends TestCase
             ]);
     }
 
-    public function testSqlLoaderInstance()
+    public function testSqlLoaderInstance(): void
     {
         $loader = new SqlLoader('test');
 
@@ -41,7 +44,7 @@ class SqlLoaderTest extends TestCase
         $this->assertInstanceOf(SqlLoader::class, $loader);
     }
 
-    public function testWillLoadByBatch()
+    public function testWillLoadByBatch(): void
     {
         $loader = new SqlLoader('test');
 
@@ -66,7 +69,7 @@ class SqlLoaderTest extends TestCase
         $this->assertEquals(5, $count);
     }
 
-    public function testUseCustomColumnNames()
+    public function testUseCustomColumnNames(): void
     {
         $columns = ['first_name', 'last_name', 'dob'];
 

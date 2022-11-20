@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Extractors;
+namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
-use jwhulette\pipes\Extractors\ExtractorInterface;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Extractors\ExtractorInterface;
+use Jwhulette\Pipes\Frame;
 
 class SqlExtractor implements ExtractorInterface
 {

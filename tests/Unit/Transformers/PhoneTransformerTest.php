@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Transformers;
 
-use jwhulette\pipes\Frame;
-use jwhulette\pipes\Transformers\PhoneTransformer;
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Transformers\PhoneTransformer;
 use Tests\TestCase;
 
 class PhoneTransformerTest extends TestCase

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit\Transformers;
+namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Transformers\ConditionalTransformer;
 use Orchestra\Testbench\TestCase;
-use jwhulette\pipes\Transformers\ConditionalTransformer;
 
 class ConditionalTransformerTest extends TestCase
 {
@@ -29,7 +29,7 @@ class ConditionalTransformerTest extends TestCase
             ]);
     }
 
-    public function testConditional()
+    public function testConditional(): void
     {
         $match = [
                 'FIRSTNAME' => 'BOB',
@@ -47,7 +47,7 @@ class ConditionalTransformerTest extends TestCase
         $this->assertEquals('Smithers', $result->data['LASTNAME']);
     }
 
-    public function testMultipleConditional()
+    public function testMultipleConditional(): void
     {
         $match = [
             'FIRSTNAME' => 'BOB',
@@ -69,7 +69,7 @@ class ConditionalTransformerTest extends TestCase
         $this->assertEquals('10/13/71', $result->data['DOB']);
     }
 
-    public function testMultipleMultipleConditional()
+    public function testMultipleMultipleConditional(): void
     {
         $match1 = [
             'FIRSTNAME' => 'BOB',

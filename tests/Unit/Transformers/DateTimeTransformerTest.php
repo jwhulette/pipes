@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit\Transformers;
+namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
-use jwhulette\pipes\Frame;
-use jwhulette\pipes\Transformers\DateTimeTransformer;
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Transformers\DateTimeTransformer;
 use Tests\TestCase;
 
 class DateTimeTransformerTest extends TestCase

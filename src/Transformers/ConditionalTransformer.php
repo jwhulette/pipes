@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Transformers;
+namespace Jwhulette\Pipes\Transformers;
 
 use Illuminate\Support\Collection;
-use jwhulette\pipes\Dto\ConditionalDto;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Dto\ConditionalDto;
+use Jwhulette\Pipes\Frame;
 
 class ConditionalTransformer implements TransformerInterface
 {

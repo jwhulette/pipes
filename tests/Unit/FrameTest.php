@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit;
+namespace Jwhulette\Pipes\Tests\Unit;
 
+use Jwhulette\Pipes\Frame;
 use Tests\TestCase;
-use jwhulette\pipes\Frame;
 
 class FrameTest extends TestCase
 {
     protected $frame;
+
     protected $testHeader;
+
     protected $testData;
 
     protected function setUp(): void
@@ -24,28 +26,28 @@ class FrameTest extends TestCase
         ];
     }
 
-    public function testFrameEnd()
+    public function testFrameEnd(): void
     {
         $this->frame->setEnd();
 
         $this->assertTrue($this->frame->end);
     }
 
-    public function testFrameHeader()
+    public function testFrameHeader(): void
     {
         $this->frame->setHeader($this->testHeader);
 
         $this->assertEquals($this->testHeader, $this->frame->header->toArray());
     }
 
-    public function testFrameData()
+    public function testFrameData(): void
     {
         $this->frame->setData($this->testData);
 
         $this->assertEquals($this->testData, $this->frame->data->toArray());
     }
 
-    public function testFrameHeaderData()
+    public function testFrameHeaderData(): void
     {
         $this->frame->setHeader($this->testHeader);
 
@@ -54,14 +56,14 @@ class FrameTest extends TestCase
         $this->assertEquals($this->testHeaderData, $this->frame->data->toArray());
     }
 
-    public function testFrameAttribute()
+    public function testFrameAttribute(): void
     {
         $this->frame->setAttribute(['valid'=>'no']);
 
         $this->assertEquals('no', $this->frame->attribute['valid']);
     }
 
-    public function testFrameAttributes()
+    public function testFrameAttributes(): void
     {
         $this->frame->setAttribute(['valid'=>'no']);
 

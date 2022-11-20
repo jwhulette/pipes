@@ -2,19 +2,22 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Extractors;
+namespace Jwhulette\Pipes\Extractors;
 
-use DateTimeImmutable;
 use Generator;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Extractors\ExtractorInterface;
+use Jwhulette\Pipes\Frame;
 use OpenSpout\Common\Entity\Row;
-use OpenSpout\Reader\Common\Creator\ReaderFactory;
+use OpenSpout\Reader\XLSX\Options;
+use OpenSpout\Reader\XLSX\Reader;
 use OpenSpout\Reader\XLSX\RowIterator;
 use OpenSpout\Reader\XLSX\Sheet;
 
 class XlsxExtractor implements ExtractorInterface
 {
     protected string $file;
+
+    protected Options $options;
 
     protected int $skipLines = 0;
 
@@ -33,13 +36,27 @@ class XlsxExtractor implements ExtractorInterface
         $this->file = $file;
 
         $this->frame = new Frame();
+
+        $this->options = new Options();
     }
 
-    public function setDateFormat(string $format): self
+    public function formatDates(): self
     {
-        $this->dateFormat = $format;
+        $this->options->SHOULD_FORMAT_DATES = \true;
 
-        $this->shouldFormatDate = \true;
+        return $this;
+    }
+
+    public function preserveEmptyRows(): self
+    {
+        $this->options->SHOULD_PRESERVE_EMPTY_ROWS = \true;
+
+        return $this;
+    }
+
+    public function use19O4Dates(): self
+    {
+        $this->options->SHOULD_USE_1904_DATES = \true;
 
         return $this;
     }
@@ -67,7 +84,7 @@ class XlsxExtractor implements ExtractorInterface
 
     public function extract(): Generator
     {
-        $reader = ReaderFactory::createFromFile($this->file);
+        $reader = new Reader($this->options);
         $reader->open($this->file);
 
         foreach ($reader->getSheetIterator() as $sheet) {
@@ -99,7 +116,7 @@ class XlsxExtractor implements ExtractorInterface
         }
 
         foreach ($rowIterator as $row) {
-            if ($skip <= $this->skipLines) {
+            if ($skip < $this->skipLines) {
                 $skip++;
 
                 continue;
@@ -141,11 +158,7 @@ class XlsxExtractor implements ExtractorInterface
         $collection = [];
 
         foreach ($cells as $cell) {
-            $cellValue = $cell->getValue();
-            if ($this->shouldFormatDate && $cellValue instanceof DateTimeImmutable) {
-                $cellValue = $cellValue->format($this->dateFormat);
-            }
-            $collection[] = $cellValue;
+            $collection[] = $cell->getValue();
         }
 
         return $collection;

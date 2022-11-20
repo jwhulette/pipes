@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Transformers;
+namespace Jwhulette\Pipes\Transformers;
 
 use InvalidArgumentException;
-use jwhulette\pipes\Dto\TrimDto;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Dto\TrimDto;
+use Jwhulette\Pipes\Frame;
 
 class TrimTransformer implements TransformerInterface
 {
     /**
-     * @var array<int,\jwhulette\pipes\Dto\TrimDto>
+     * @var array<int,\Jwhulette\Pipes\Dto\TrimDto>
      */
     protected array $columns;
 

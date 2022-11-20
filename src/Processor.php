@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes;
+namespace Jwhulette\Pipes;
 
-use jwhulette\pipes\Extractors\ExtractorInterface;
-use jwhulette\pipes\Loaders\LoaderInterface;
+use Jwhulette\Pipes\Extractors\ExtractorInterface;
+use Jwhulette\Pipes\Loaders\LoaderInterface;
 use League\Pipeline\PipelineBuilder;
 use League\Pipeline\PipelineInterface;
 
@@ -21,7 +21,7 @@ class Processor
      * Build the pipeline.
      *
      * @param ExtractorInterface $extractor
-     * @param array<int,\jwhulette\pipes\Transformers\TransformerInterface> $transformers
+     * @param array<int,\Jwhulette\Pipes\Transformers\TransformerInterface> $transformers
      * @param LoaderInterface $loader
      */
     public function __construct(ExtractorInterface $extractor, array $transformers, LoaderInterface $loader)

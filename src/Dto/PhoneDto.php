@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Dto;
+namespace Jwhulette\Pipes\Dto;
 
 class PhoneDto
 {

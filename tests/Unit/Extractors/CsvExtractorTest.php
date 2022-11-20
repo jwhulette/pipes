@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit\Extractors;
+namespace Jwhulette\Pipes\Tests\Unit\Extractors;
 
-use jwhulette\pipes\Extractors\CsvExtractor;
+use Jwhulette\Pipes\Extractors\CsvExtractor;
 use Tests\TestCase;
 
 class CsvExtractorTest extends TestCase

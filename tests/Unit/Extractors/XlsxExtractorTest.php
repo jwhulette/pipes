@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Tests\Unit\Transformers;
+namespace Jwhulette\Pipes\Tests\Unit\Transformers;
 
-use jwhulette\pipes\Extractors\XlsxExtractor;
+use Jwhulette\Pipes\Extractors\XlsxExtractor;
 use Tests\TestCase;
 
 class XlsxExtractorTest extends TestCase
@@ -38,7 +38,7 @@ class XlsxExtractorTest extends TestCase
     public function it_formats_date_data_from_xlsx_file(): void
     {
         $frameData = (new XlsxExtractor('tests/artifacts/test_file.xlsx'))
-            ->setDateFormat('m/d/Y')
+            ->formatDates()
             ->extract();
 
         $frame = $frameData->current();

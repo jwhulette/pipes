@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Transformers;
 
-use jwhulette\pipes\Frame;
-use jwhulette\pipes\Transformers\ZipcodeTransformer;
+use Jwhulette\Pipes\Frame;
+use Jwhulette\Pipes\Transformers\ZipcodeTransformer;
 use Tests\TestCase;
 
 class ZipcodeTransformerTest extends TestCase

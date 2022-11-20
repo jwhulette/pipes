@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Transformers;
+namespace Jwhulette\Pipes\Transformers;
 
-use jwhulette\pipes\Dto\ZipcodeDto;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Dto\ZipcodeDto;
+use Jwhulette\Pipes\Frame;
 
 class ZipcodeTransformer implements TransformerInterface
 {
     /**
-     * @var array<int,\jwhulette\pipes\Dto\ZipcodeDto>
+     * @var array<int,\Jwhulette\Pipes\Dto\ZipcodeDto>
      */
     protected array $columns;
 

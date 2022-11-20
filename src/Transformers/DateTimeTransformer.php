@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace jwhulette\pipes\Transformers;
+namespace Jwhulette\Pipes\Transformers;
 
 use DateTime;
-use jwhulette\pipes\Dto\DateTimeDto;
-use jwhulette\pipes\Frame;
+use Jwhulette\Pipes\Dto\DateTimeDto;
+use Jwhulette\Pipes\Frame;
 
 class DateTimeTransformer implements TransformerInterface
 {
     /**
-     * @var array<int,\jwhulette\pipes\Dto\DateTimeDto>
+     * @var array<int,\Jwhulette\Pipes\Dto\DateTimeDto>
      */
     protected array $columns;
 
