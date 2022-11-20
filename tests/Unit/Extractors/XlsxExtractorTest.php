@@ -4,57 +4,41 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Tests\Unit\Transformers;
 
-use Tests\TestCase;
-use Illuminate\Support\Facades\File;
-use Tests\factories\DataFileFactory;
 use jwhulette\pipes\Extractors\XlsxExtractor;
+use Tests\TestCase;
 
 class XlsxExtractorTest extends TestCase
 {
-    protected string $extract;
-    protected string $extractNoHeader;
-
     public function setUp(): void
     {
         parent::setUp();
+    }
 
-        $header = [
-            'FIRSTNAME',
-            'LASTNAME',
-            'DOB',
-            'AMOUNT',
+    /** @test */
+    public function it_skips_lines_from_xlsx_file(): void
+    {
+        $frameData = (new XlsxExtractor('tests/artifacts/test_file.xlsx'))
+            ->setSheetIndex(3)
+            ->setSkipLines(3)
+            ->extract();
+
+        $frame = $frameData->current();
+
+        $expectedData = [
+            'FIRSTNAME' => 'BOB',
+            'LASTNAME' => 'SMITH',
+            'DOB' => '01/03/1970 19:00:25',
+            'AMOUNT' => 24.22,
         ];
 
-        /*
-         * Need to create a temp file as Spout Box is not able
-         * to read from the vfStream file stream
-         */
-        File::makeDirectory($this->testFilesDirectory, 0777, true);
-
-        $this->extract = $this->testFilesDirectory.'/extractor.xlsx';
-
-        $this->extractNoHeader = $this->testFilesDirectory.'/no_header_extractor.xlsx';
-
-        (new DataFileFactory($this->extract))
-            ->asXlsx()
-            ->setHeader($header)
-            ->create();
-
-        (new DataFileFactory($this->extractNoHeader))
-            ->asXlsx()
-            ->create();
+        $this->assertEquals($expectedData, $frame->data->toArray());
     }
 
-    public function tearDown(): void
+    /** @test */
+    public function it_formats_date_data_from_xlsx_file(): void
     {
-        File::cleanDirectory($this->testFilesDirectory);
-
-        File::deleteDirectory($this->testFilesDirectory);
-    }
-
-    public function testFrameHasHeader()
-    {
-        $frameData = (new XlsxExtractor($this->extract))
+        $frameData = (new XlsxExtractor('tests/artifacts/test_file.xlsx'))
+            ->setDateFormat('m/d/Y')
             ->extract();
 
         $frame = $frameData->current();
@@ -69,8 +53,8 @@ class XlsxExtractorTest extends TestCase
         $expectedData = [
             'FIRSTNAME' => 'BOB',
             'LASTNAME' => 'SMITH',
-            'DOB' => '02/11/1969',
-            'AMOUNT' => '$22.00',
+            'DOB' => '12/31/1969',
+            'AMOUNT' => 22.22,
         ];
 
         $this->assertEquals($expected, $frame->header->values()->toArray());
@@ -78,37 +62,67 @@ class XlsxExtractorTest extends TestCase
         $this->assertEquals($expectedData, $frame->data->toArray());
     }
 
-    public function testHasNoHeader()
+    /** @test */
+    public function it_extracts_data_from_xlsx_file_with_header(): void
     {
-        $frameData = (new XlsxExtractor($this->extractNoHeader))
+        $frameData = (new XlsxExtractor('tests/artifacts/test_file.xlsx'))
+            ->extract();
+
+        $frame = $frameData->current();
+
+        $expected = [
+            'FIRSTNAME',
+            'LASTNAME',
+            'DOB',
+            'AMOUNT',
+        ];
+
+        $expectedData = [
+            'FIRSTNAME' => 'BOB',
+            'LASTNAME' => 'SMITH',
+            'DOB' => '1969-12-31 19:00:25',
+            'AMOUNT' => 22.22,
+        ];
+
+        $this->assertEquals($expected, $frame->header->values()->toArray());
+
+        $this->assertEquals($expectedData, $frame->data->toArray());
+    }
+
+    /** @test */
+    public function it_extracts_data_from_xlsx_file_with_no_header(): void
+    {
+        $frameData = (new XlsxExtractor('tests/artifacts/test_file.xlsx'))
+            ->setSheetIndex(2)
             ->setNoHeader()
             ->extract();
 
         $frame = $frameData->current();
 
         $expected = [
-            'BOB',
-            'SMITH',
-            '02/11/1969',
-            '$22.00',
+            'Pete',
+            'Dragon',
+            '1969-12-31 19:00:29',
+            50.50,
         ];
 
         $this->assertEquals($expected, $frame->data->toArray());
     }
 
-    public function testSetSheetIndex()
+    /** @test */
+    public function it_extracts_data_from_the_selected_sheet(): void
     {
-        $frameData = (new XlsxExtractor($this->extract))
-            ->setSheetIndex(0)
+        $frameData = (new XlsxExtractor('tests/artifacts/test_file.xlsx'))
+            ->setSheetIndex(1)
             ->extract();
 
         $frame = $frameData->current();
 
         $expected = [
-            'FIRSTNAME' => 'BOB',
-            'LASTNAME' => 'SMITH',
-            'DOB' => '02/11/1969',
-            'AMOUNT' => '$22.00',
+            'FIRSTNAME' => 'Tom',
+            'LASTNAME' => 'Collins',
+            'DOB' => '1980-04-11 00:00:00',
+            'AMOUNT' => 50.50,
         ];
 
         $this->assertEquals($expected, $frame->data->toArray());

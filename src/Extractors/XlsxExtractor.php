@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace jwhulette\pipes\Extractors;
 
+use DateTimeImmutable;
 use Generator;
 use jwhulette\pipes\Frame;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Reader\Common\Creator\ReaderFactory;
-use OpenSpout\Reader\ReaderInterface;
 use OpenSpout\Reader\XLSX\RowIterator;
+use OpenSpout\Reader\XLSX\Sheet;
 
 class XlsxExtractor implements ExtractorInterface
 {
-    protected ReaderInterface $reader;
-
     protected string $file;
 
     protected int $skipLines = 0;
@@ -25,11 +24,24 @@ class XlsxExtractor implements ExtractorInterface
 
     protected int $sheetIndex = 0;
 
+    protected string $dateFormat = 'Y-m-d H:i:s';
+
+    protected bool $shouldFormatDate = \false;
+
     public function __construct(string $file)
     {
-        $this->reader = ReaderFactory::createFromFile($file);
+        $this->file = $file;
 
         $this->frame = new Frame();
+    }
+
+    public function setDateFormat(string $format): self
+    {
+        $this->dateFormat = $format;
+
+        $this->shouldFormatDate = \true;
+
+        return $this;
     }
 
     public function setNoHeader(): self
@@ -55,37 +67,48 @@ class XlsxExtractor implements ExtractorInterface
 
     public function extract(): Generator
     {
-        $skip = 0;
+        $reader = ReaderFactory::createFromFile($this->file);
+        $reader->open($this->file);
 
-        foreach ($this->reader->getSheetIterator() as $sheet) {
-            /** @var \OpenSpout\Reader\XLSX\Sheet $sheet */
-            if ($sheet->getIndex() === $this->sheetIndex) {
-                $rowIterator = $sheet->getRowIterator();
-
-                if ($this->hasHeader) {
-                    $this->setHeader($rowIterator);
-                    /*
-                     * Since foreach resets the point to the beginning
-                     * skip the header when looping the rows
-                     */
-                    $this->skipLines = $this->skipLines + 1;
-                }
-
-                foreach ($rowIterator as $row) {
-                    if ($skip < $this->skipLines) {
-                        $skip++;
-
-                        continue;
-                    }
-
-                    yield $this->frame->setData(
-                        $this->makeRow($row->getCells())
-                    );
-                }
+        foreach ($reader->getSheetIterator() as $sheet) {
+            /* @var \OpenSpout\Reader\XLSX\Sheet $sheet */
+            if ($sheet->getIndex() !== $this->sheetIndex) {
+                continue;
             }
+
+            return $this->readSheet($sheet);
         }
 
         $this->frame->setEnd();
+
+        $reader->close();
+    }
+
+    private function readSheet(Sheet $sheet): Generator
+    {
+        $skip = 0;
+        $rowIterator = $sheet->getRowIterator();
+
+        if ($this->hasHeader) {
+            $this->setHeader($rowIterator);
+            /*
+             * Since foreach resets the point to the beginning
+             * skip the header when looping the rows
+             */
+            $this->skipLines = $this->skipLines + 1;
+        }
+
+        foreach ($rowIterator as $row) {
+            if ($skip <= $this->skipLines) {
+                $skip++;
+
+                continue;
+            }
+
+            yield $this->frame->setData(
+                $this->makeRow($row->getCells())
+            );
+        }
     }
 
     /**
@@ -111,7 +134,7 @@ class XlsxExtractor implements ExtractorInterface
     /**
      * @param array<int,\OpenSpout\Common\Entity\Cell> $cells
      *
-     * @return array<int,string>
+     * @return array<int,mixed>
      */
     public function makeRow(array $cells): array
     {
@@ -119,7 +142,10 @@ class XlsxExtractor implements ExtractorInterface
 
         foreach ($cells as $cell) {
             $cellValue = $cell->getValue();
-            $collection[] = \strval($cellValue);
+            if ($this->shouldFormatDate && $cellValue instanceof DateTimeImmutable) {
+                $cellValue = $cellValue->format($this->dateFormat);
+            }
+            $collection[] = $cellValue;
         }
 
         return $collection;
