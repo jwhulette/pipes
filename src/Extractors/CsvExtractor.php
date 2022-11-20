@@ -6,7 +6,12 @@ namespace jwhulette\pipes\Extractors;
 
 use Generator;
 use jwhulette\pipes\Frame;
-use SplFileObject;
+// use SplFileObject;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Reader\CSV\Options;
+use OpenSpout\Reader\CSV\Reader;
+use OpenSpout\Reader\CSV\RowIterator;
+use OpenSpout\Reader\CSV\Sheet;
 
 class CsvExtractor implements ExtractorInterface
 {
@@ -14,9 +19,7 @@ class CsvExtractor implements ExtractorInterface
 
     protected string $file;
 
-    protected string $delimiter = ',';
-
-    protected string $enclosure = '\'';
+    protected Options $options;
 
     protected int $skipLines = 0;
 
@@ -26,18 +29,19 @@ class CsvExtractor implements ExtractorInterface
     {
         $this->file = $file;
         $this->frame = new Frame();
+        $this->options = new Options();
     }
 
     public function setDelimiter(string $delimiter): self
     {
-        $this->delimiter = $delimiter;
+        $this->options->FIELD_DELIMITER = $delimiter;
 
         return $this;
     }
 
     public function setEnclosure(string $enclosure): self
     {
-        $this->enclosure = $enclosure;
+        $this->options->FIELD_ENCLOSURE = $enclosure;
 
         return $this;
     }
@@ -63,36 +67,78 @@ class CsvExtractor implements ExtractorInterface
      */
     public function extract(): Generator
     {
-        $file = new SplFileObject($this->file);
-        $file->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
+        $reader = new Reader($this->options);
+        $reader->open($this->file);
 
-        if ($this->hasHeader) {
-            /** @var array<int,string>|false $header */
-            $header = $file->fgetcsv($this->delimiter, $this->enclosure);
+        $sheet = $reader->getSheetIterator()->current();
 
-            if ($header !== \false && ! empty($header)) {
-                $this->frame->setHeader($header);
-
-                // Go back to the beginning of the file
-                $file->rewind();
-            }
-        }
-
-        // Skip the number of lines minus one as it's a zero based index
-        if ($this->skipLines > 0) {
-            $file->seek($this->skipLines - 1);
-        }
-
-        while (! $file->eof()) {
-            $line = $file->fgetcsv($this->delimiter, $this->enclosure);
-
-            if (! is_null($line) && $line !== \false) {
-                yield $this->frame->setData($line);
-            }
-        }
+        return $this->readSheet($sheet);
 
         $this->frame->setEnd();
 
-        $file = null;
+        $reader->close();
+    }
+
+    private function readSheet(Sheet $sheet): Generator
+    {
+        $skip = 0;
+        $rowIterator = $sheet->getRowIterator();
+
+        if ($this->hasHeader) {
+            $this->setHeader($rowIterator);
+            /*
+             * Since foreach resets the point to the beginning
+             * skip the header when looping the rows
+             */
+            $this->skipLines = $this->skipLines + 1;
+        }
+
+        foreach ($rowIterator as $row) {
+            if ($skip < $this->skipLines) {
+                $skip++;
+
+                continue;
+            }
+
+            yield $this->frame->setData(
+                $this->makeRow($row->getCells())
+            );
+        }
+    }
+
+    /**
+     * The use of rewind is needed when using current.
+     */
+    private function setHeader(RowIterator $rowIterator): void
+    {
+        $rowIterator->rewind();
+
+        $row = $rowIterator->current();
+
+        if (! $row instanceof Row) {
+            return;
+        }
+
+        $this->frame->setHeader(
+            $this->makeRow(
+                $row->getCells()
+            )
+        );
+    }
+
+    /**
+     * @param array<int,\OpenSpout\Common\Entity\Cell> $cells
+     *
+     * @return array<int,mixed>
+     */
+    public function makeRow(array $cells): array
+    {
+        $collection = [];
+
+        foreach ($cells as $cell) {
+            $collection[] = $cell->getValue();
+        }
+
+        return $collection;
     }
 }
