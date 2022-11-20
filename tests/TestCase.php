@@ -8,23 +8,12 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
-    protected string $testDirectory;
-
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->loadMigrationsFrom(getcwd().'/tests/database');
-
-        $this->testFilesDirectory = getcwd().'/tests/files';
     }
 
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-    }
-
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');

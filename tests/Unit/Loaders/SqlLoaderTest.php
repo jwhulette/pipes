@@ -20,6 +20,8 @@ class SqlLoaderTest extends TestCase
     {
         parent::setUp();
 
+        $this->loadMigrationsFrom(getcwd() . '/tests/migrations');
+
         $this->frame = new Frame();
 
         $this->frame->setHeader([

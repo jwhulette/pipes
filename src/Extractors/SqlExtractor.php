@@ -28,9 +28,9 @@ class SqlExtractor implements ExtractorInterface
     }
 
     /**
+     * Set the database select statement.
      * @param string $select
-     *
-     * @return SqlExtractor
+     * @return \Jwhulette\Pipes\Extractors\SqlExtractor
      */
     public function setSelect(string $select): self
     {
@@ -40,9 +40,9 @@ class SqlExtractor implements ExtractorInterface
     }
 
     /**
+     * Set the table name to query data from.
      * @param string $table
-     *
-     * @return SqlExtractor
+     * @return \Jwhulette\Pipes\Extractors\SqlExtractor
      */
     public function setTable(string $table):self
     {
@@ -52,9 +52,9 @@ class SqlExtractor implements ExtractorInterface
     }
 
     /**
+     * Set the database connection name.
      * @param string $connection
-     *
-     * @return SqlExtractor
+     * @return \Jwhulette\Pipes\Extractors\SqlExtractor
      */
     public function setConnection(string $connection): self
     {
@@ -63,9 +63,6 @@ class SqlExtractor implements ExtractorInterface
         return $this;
     }
 
-    /**
-     * @return Generator
-     */
     public function extract(): Generator
     {
         $db = $this->getConnection();

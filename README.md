@@ -10,17 +10,9 @@ This a currently a work in progress, my idea was to have it as a "plug-in" for L
 
 ## Installation
 
-Add the following to your composer.json file.
-
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/jwhulette/pipes"
-        }
-    ],
-    "require": {
-        "jwhulette/pipes": "master",
-    }
+```bash
+composer require jwhulette/pipes
+```
 
 ## Usage
 

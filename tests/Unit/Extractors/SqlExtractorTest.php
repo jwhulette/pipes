@@ -7,7 +7,7 @@ namespace Tests\Unit\Extractors;
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Extractors\SqlExtractor;
 use Jwhulette\Pipes\Frame;
-use Tests\factories\SalesDataDatabaseFactory;
+use Tests\factories\DatabaseFactory;
 use Tests\TestCase;
 
 class SqlExtractorTest extends TestCase
@@ -17,7 +17,10 @@ class SqlExtractorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        (new SalesDataDatabaseFactory($this->table))->create(10);
+
+        $this->loadMigrationsFrom(getcwd() . '/tests/migrations');
+
+        (new DatabaseFactory($this->table))->create(20);
     }
 
     /** @test */
