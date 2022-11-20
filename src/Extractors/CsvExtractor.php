@@ -32,6 +32,20 @@ class CsvExtractor implements ExtractorInterface
         $this->options = new Options();
     }
 
+    public function preserveEmptyRows(bool $preserve): self
+    {
+        $this->options->SHOULD_PRESERVE_EMPTY_ROWS = $preserve;
+
+        return $this;
+    }
+
+    public function setEncoding(string $encoding): self
+    {
+        $this->options->ENCODING = $encoding;
+
+        return $this;
+    }
+
     public function setDelimiter(string $delimiter): self
     {
         $this->options->FIELD_DELIMITER = $delimiter;
