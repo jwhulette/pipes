@@ -9,7 +9,7 @@ use Jwhulette\Pipes\Loaders\LoaderInterface;
 use League\Pipeline\PipelineBuilder;
 use League\Pipeline\PipelineInterface;
 
-class Processor
+final class Processor
 {
     protected ExtractorInterface $extractor;
 

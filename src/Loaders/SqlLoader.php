@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
-class SqlLoader implements LoaderInterface
+final class SqlLoader implements LoaderInterface
 {
     protected Builder $db;
 

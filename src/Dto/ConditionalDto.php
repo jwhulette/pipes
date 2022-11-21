@@ -6,7 +6,10 @@ namespace Jwhulette\Pipes\Dto;
 
 use Illuminate\Support\Collection;
 
-class ConditionalDto
+/**
+ * @internal
+ */
+final class ConditionalDto
 {
     /**
      * @var \Illuminate\Support\Collection<string,string>

@@ -7,7 +7,7 @@ namespace Jwhulette\Pipes\Transformers;
 use Jwhulette\Pipes\Dto\PhoneDto;
 use Jwhulette\Pipes\Frame;
 
-class PhoneTransformer implements TransformerInterface
+final class PhoneTransformer implements TransformerInterface
 {
     /**
      * @var array<int,\Jwhulette\Pipes\Dto\PhoneDto>

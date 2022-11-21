@@ -7,7 +7,7 @@ namespace Jwhulette\Pipes\Transformers;
 use Jwhulette\Pipes\Dto\ZipcodeDto;
 use Jwhulette\Pipes\Frame;
 
-class ZipcodeTransformer implements TransformerInterface
+final class ZipcodeTransformer implements TransformerInterface
 {
     /**
      * @var array<int,\Jwhulette\Pipes\Dto\ZipcodeDto>

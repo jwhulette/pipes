@@ -7,7 +7,7 @@ namespace Jwhulette\Pipes;
 use Jwhulette\Pipes\Extractors\ExtractorInterface;
 use Jwhulette\Pipes\Loaders\LoaderInterface;
 
-class EtlPipe
+final class EtlPipe
 {
     protected ExtractorInterface $extractor;
 

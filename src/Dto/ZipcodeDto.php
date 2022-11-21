@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Dto;
 
-class ZipcodeDto
+/**
+ * @internal
+ */
+final class ZipcodeDto
 {
     public function __construct(
         public readonly int|string $column,

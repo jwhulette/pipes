@@ -8,7 +8,7 @@ use InvalidArgumentException;
 use Jwhulette\Pipes\Dto\CaseDto;
 use Jwhulette\Pipes\Frame;
 
-class CaseTransformer implements TransformerInterface
+final class CaseTransformer implements TransformerInterface
 {
     /**
      * @var array<int,\Jwhulette\Pipes\Dto\CaseDto>

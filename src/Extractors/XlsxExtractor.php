@@ -14,7 +14,7 @@ use OpenSpout\Reader\XLSX\Reader;
 use OpenSpout\Reader\XLSX\RowIterator;
 use OpenSpout\Reader\XLSX\Sheet;
 
-class XlsxExtractor implements ExtractorInterface
+final class XlsxExtractor implements ExtractorInterface
 {
     protected string $file;
 

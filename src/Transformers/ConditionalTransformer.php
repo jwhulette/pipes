@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Dto\ConditionalDto;
 use Jwhulette\Pipes\Frame;
 
-class ConditionalTransformer implements TransformerInterface
+final class ConditionalTransformer implements TransformerInterface
 {
     /**
      * @var \Illuminate\Support\Collection<int,ConditionalDto>

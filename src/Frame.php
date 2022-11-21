@@ -6,7 +6,7 @@ namespace Jwhulette\Pipes;
 
 use Illuminate\Support\Collection;
 
-class Frame
+final class Frame
 {
     /**
      * @var \Illuminate\Support\Collection<int,mixed>

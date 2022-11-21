@@ -8,7 +8,7 @@ use InvalidArgumentException;
 use Jwhulette\Pipes\Dto\TrimDto;
 use Jwhulette\Pipes\Frame;
 
-class TrimTransformer implements TransformerInterface
+final class TrimTransformer implements TransformerInterface
 {
     /**
      * @var array<int,\Jwhulette\Pipes\Dto\TrimDto>

@@ -12,7 +12,7 @@ use OpenSpout\Reader\CSV\Reader;
 use OpenSpout\Reader\CSV\RowIterator;
 use OpenSpout\Reader\CSV\Sheet;
 
-class CsvExtractor implements ExtractorInterface
+final class CsvExtractor implements ExtractorInterface
 {
     protected Frame $frame;
 

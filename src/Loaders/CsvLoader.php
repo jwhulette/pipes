@@ -9,9 +9,7 @@ use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\CSV\Options;
 use OpenSpout\Writer\CSV\Writer;
 
-// use SplFileObject;
-
-class CsvLoader implements LoaderInterface
+final class CsvLoader implements LoaderInterface
 {
     private static Writer $instance;
 

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Dto;
 
-class CaseDto
+/**
+ * @internal
+ */
+final class CaseDto
 {
     public function __construct(
         public readonly string|int $column,

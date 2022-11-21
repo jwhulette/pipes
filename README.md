@@ -18,26 +18,40 @@ composer require jwhulette/pipes
 
 Create a new EtlPipe object.
 
-Add an extractor to the object to read the file
+Add an extractor to the object to read a file or database.
 
 You can add as many transformers as you want.
 
 Add a loader to save the data
 
 ### Notes
+**Built-in extractors:**
+* CsvExtractor
+* XlsxExtractor
+* SqlExtractor
 
-Data is passed line by line from the loader using the generator function `yeild`
+**Built-in loaders:**
+* CsvLoader
+* SqlLoader
 
-Data is passed to the transfomers in the order they are defined
+**Built-in transformers:**
+*CaseTransformer - Change the case of a string
+*DateTimeTransformer - Change the format of a date string
+*PhoneTransformer - Transform a US phone, removing all non numeric characters, and limiting the length to the first 10 digits
+*TrimTransformer - Trim a string
+*ZipcodeTransformer - Transform a US zip code, removing all non numeric characters, and left pad zeros for zip codes less than 5 digits
+*ConditionalTransformer - Transform a column, based on the values of another column
+
+*Data is passed to the transformers in the order they are defined*
 
 ```php
-$etl = new EtlPipe();
-$etl->extract(new CsvExtractor($this->csvFile));
-$etl->transforms([
+(new EtlPipe())
+->extract(new CsvExtractor($this->csvFile));
+->transforms([
     new CaseTransformer([], 'lower'),
     new TrimTransformer(),
-]);
-$etl->load(new CsvLoader('saved-file.csv'));
+])
+->load(new CsvLoader('saved-file.csv'));
 ```
 
 ## Contributing

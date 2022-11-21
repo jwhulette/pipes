@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Jwhulette\Pipes\Extractors\ExtractorInterface;
 use Jwhulette\Pipes\Frame;
 
-class SqlExtractor implements ExtractorInterface
+final class SqlExtractor implements ExtractorInterface
 {
     protected DB $db;
 

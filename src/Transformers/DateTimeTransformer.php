@@ -8,7 +8,7 @@ use DateTime;
 use Jwhulette\Pipes\Dto\DateTimeDto;
 use Jwhulette\Pipes\Frame;
 
-class DateTimeTransformer implements TransformerInterface
+final class DateTimeTransformer implements TransformerInterface
 {
     /**
      * @var array<int,\Jwhulette\Pipes\Dto\DateTimeDto>
