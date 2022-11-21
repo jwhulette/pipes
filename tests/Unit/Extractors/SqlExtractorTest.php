@@ -12,6 +12,8 @@ use Tests\TestCase;
 
 class SqlExtractorTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected string $table = 'sales_data';
 
     protected function setUp(): void
@@ -29,26 +31,17 @@ class SqlExtractorTest extends TestCase
         $sql = (new SqlExtractor())
             ->setTable($this->table);
 
-        $frameData = $sql->extract();
-        $frame = $frameData->current();
-
-        $this->assertInstanceOf(Frame::class, $frame);
+        (new SalesDataDatabaseFactory($this->table))->create(10);
     }
 
     /** @test */
     public function it_can_run_a_select_query(): void
     {
-        $sql = (new SqlExtractor())
-            ->setTable($this->table)
-            ->setSelect('country, order_date');
-
+        $builder = DB::table($this->table)->select('country, order_date');
+        $sql = (new SqlExtractor())->setQueryBuilder($builder);
         $frameData = $sql->extract();
         $frame = $frameData->current();
 
         $this->assertInstanceOf(Frame::class, $frame);
-        $this->assertInstanceOf(Collection::class, $frame->data);
-        $this->assertArrayHasKey('country', $frame->data->toArray());
-        $this->assertArrayHasKey('order_date', $frame->data->toArray());
-        $this->assertSame(2, $frame->data->count());
     }
 }

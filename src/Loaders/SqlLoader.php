@@ -7,8 +7,8 @@ namespace Jwhulette\Pipes\Loaders;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use InvalidArgumentException;
 use Jwhulette\Pipes\Frame;
+use PipesInvalidArgumentException;
 
 final class SqlLoader implements LoaderInterface
 {
@@ -32,11 +32,11 @@ final class SqlLoader implements LoaderInterface
 
     public function __construct(string $table, string $connection = null)
     {
-        $this->db = DB::table($table);
-
         if (! is_null($connection)) {
             $this->db = DB::connection($connection)->table($table);
         }
+
+        $this->db = DB::table($table);
     }
 
     public function setBatchSize(int $batchSize): self
@@ -51,14 +51,14 @@ final class SqlLoader implements LoaderInterface
      *
      * @return SqlLoader
      *
-     * @throws InvalidArgumentException
+     * @throws PipesInvalidArgumentException
      */
     public function setSqlColumnNames(array $columns = []): self
     {
         $this->columns = collect($columns);
 
         if ($this->columns->count() === 0) {
-            throw new InvalidArgumentException('SQL Columns name cannot be empty');
+            throw new PipesInvalidArgumentException('SQL Columns name cannot be empty');
         }
 
         $this->useColumns = true;
@@ -66,16 +66,13 @@ final class SqlLoader implements LoaderInterface
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     */
     public function load(Frame $frame): void
     {
         $this->count++;
 
         $this->buildInsert($frame);
 
-        if (($this->count >= $this->batchSize) || $frame->end === true) {
+        if (($this->count >= $this->batchSize) || $frame->getEnd() === true) {
             $this->bulkInsert();
 
             $this->count = 0;
@@ -87,9 +84,9 @@ final class SqlLoader implements LoaderInterface
     private function buildInsert(Frame $frame): void
     {
         if ($this->useColumns) {
-            $this->insert[] = $this->columns->combine($frame->data)->toArray();
+            $this->insert[] = $this->columns->combine($frame->getData())->toArray();
         } else {
-            $this->insert[] = $frame->data->toArray();
+            $this->insert[] = $frame->getData()->toArray();
         }
     }
 

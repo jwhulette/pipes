@@ -24,7 +24,7 @@ final class SqlExtractor implements ExtractorInterface
 
     public function __construct()
     {
-        $this->frame = new Frame;
+        $this->frame = new Frame();
     }
 
     /**
@@ -58,7 +58,7 @@ final class SqlExtractor implements ExtractorInterface
      */
     public function setConnection(string $connection): self
     {
-        $this->connection = $connection;
+        $this->queryBuilder = $queryBuilder;
 
         return $this;
     }

@@ -4,52 +4,65 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use Jwhulette\Pipes\Dto\ZipcodeDto;
+use Illuminate\Support\Collection;
+use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\DataTransferObjects\ZipcodeColumn;
+use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
-final class ZipcodeTransformer implements TransformerInterface
+/**
+ * Clean the zip code.
+ */
+class ZipcodeTransformer implements TransformerInterface
 {
-    /**
-     * @var array<int,\Jwhulette\Pipes\Dto\ZipcodeDto>
-     */
-    protected array $columns;
+    protected Collection $columns;
 
     protected int $maxlength = 5;
 
-    public function tranformColumn(string|int $column, ?string $pad = null, ?int $maxlength = null): self
+    public function __construct()
     {
-        $length = $maxlength ?? $this->maxlength;
-        $this->columns[] = new ZipcodeDto($column, $length, $this->setOption($pad));
+        $this->columns = new Collection();
+    }
+
+    public function tranformColumn(int|string $column, ?string $pad = null, ?int $maxlength = null): self
+    {
+        $this->columns->push(new ZipcodeColumn(
+            $column,
+            $maxlength ?? $this->maxlength,
+            (is_null($pad) ? $pad : $this->setOption($pad)),
+        ));
 
         return $this;
     }
 
-    private function setOption(?string $option): ?int
+    /**
+     * @param string $option padleft|padright
+     *
+     * @throws PipesInvalidArgumentException
+     */
+    protected function setOption(string $option): int
     {
-        if (! \is_null($option)) {
-            if (strtolower($option) === 'padleft') {
-                return STR_PAD_LEFT;
-            }
-
-            if (strtolower($option) === 'padright') {
-                return STR_PAD_RIGHT;
-            }
+        if (strtolower($option) === 'padleft') {
+            return STR_PAD_LEFT;
         }
 
-        return null;
+        if (strtolower($option) === 'padright') {
+            return STR_PAD_RIGHT;
+        }
+
+        throw new PipesInvalidArgumentException('Invalid zipcode option!');
     }
 
-    /**
-     * @param Frame $frame
-     *
-     * @return Frame
-     */
     public function __invoke(Frame $frame): Frame
     {
-        $frame->data->transform(function ($item, $key) {
-            foreach ($this->columns as $dto) {
-                if ($dto->column === $key) {
-                    return $this->transformZipcode(\strval($item), $dto->option, $dto->maxlength);
+        $frame->getData()->transform(function ($item, $key) {
+            foreach ($this->columns as $column) {
+                if ($column->column === $key) {
+                    return $this->transformZipcode(
+                        $item,
+                        $column->option,
+                        $column->maxlength
+                    );
                 }
             }
 
@@ -59,16 +72,9 @@ final class ZipcodeTransformer implements TransformerInterface
         return $frame;
     }
 
-    /**
-     * @param string $zipcode
-     * @param int|null $type
-     * @param int $maxlength
-     *
-     * @return string
-     */
     private function transformZipcode(string $zipcode, ?int $type, int $maxlength): string
     {
-        $transformed = \strval(\preg_replace('/\D+/', '', $zipcode));
+        $transformed = (string) \preg_replace('/\D+/', '', $zipcode);
 
         $zipLength = \strlen($transformed);
 

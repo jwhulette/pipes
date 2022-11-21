@@ -1,0 +1,29 @@
+name: Static Analysis
+
+on: [push]
+
+jobs:
+  phpstan:
+    name: phpstan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, intl, fileinfo          
+          coverage: none
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Run composer install
+        run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader
+
+      - name: Run phpstan
+        run: ./vendor/bin/phpstan analyse --memory-limit=2G

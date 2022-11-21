@@ -17,7 +17,7 @@ class ProcessorTest extends TestCase
     {
         $extractor = new CsvExtractor('test');
         $transforms = [
-            (new TrimTransformer),
+            (new TrimTransformer()),
         ];
         $loader = new CsvLoader('test');
         $processor = new Processor($extractor, $transforms, $loader);

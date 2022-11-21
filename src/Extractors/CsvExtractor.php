@@ -73,11 +73,6 @@ final class CsvExtractor implements ExtractorInterface
         return $this;
     }
 
-    /**
-     * Extract the data from the source file.
-     *
-     * @return Generator
-     */
     public function extract(): Generator
     {
         $reader = new Reader($this->options);

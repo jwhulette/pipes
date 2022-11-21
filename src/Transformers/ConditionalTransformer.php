@@ -35,11 +35,6 @@ final class ConditionalTransformer implements TransformerInterface
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     *
-     * @return Frame
-     */
     public function __invoke(Frame $frame): Frame
     {
         // @phpstan-ignore-next-line

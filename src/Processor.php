@@ -24,11 +24,14 @@ final class Processor
      * @param array<int,\Jwhulette\Pipes\Transformers\TransformerInterface> $transformers
      * @param LoaderInterface $loader
      */
-    public function __construct(ExtractorInterface $extractor, array $transformers, LoaderInterface $loader)
-    {
+    public function __construct(
+        ExtractorInterface $extractor,
+        array $transformers,
+        LoaderInterface $loader
+    ) {
         $this->extractor = $extractor;
-
         $this->loader = $loader;
+        $pipelineBuilder = new PipelineBuilder();
 
         $this->buildTransformerPipeline($transformers);
     }

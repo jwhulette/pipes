@@ -43,9 +43,6 @@ final class CsvLoader implements LoaderInterface
         return $this;
     }
 
-    /**
-     * @param Frame $frame
-     */
     public function load(Frame $frame): void
     {
         $writer = self::getWriter($this->options);

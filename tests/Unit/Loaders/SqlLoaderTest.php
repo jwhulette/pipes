@@ -12,6 +12,8 @@ use Tests\TestCase;
 
 class SqlLoaderTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected Frame $frame;
 
     protected Collection $data;
@@ -25,10 +27,10 @@ class SqlLoaderTest extends TestCase
         $this->frame = new Frame();
 
         $this->frame->setHeader([
-                'first_name',
-                'last_name',
-                'dob',
-            ]);
+            'first_name',
+            'last_name',
+            'dob',
+        ]);
     }
 
     /** @test */
@@ -36,13 +38,13 @@ class SqlLoaderTest extends TestCase
     {
         $loader = new SqlLoader('test');
 
-        $data = $this->frame->setData([
+        $this->frame->setData([
             'BOB',
             'SMITH',
             '02/11/1969',
         ]);
 
-        $loader->load($data);
+        $loader->load($this->frame);
 
         $this->assertInstanceOf(SqlLoader::class, $loader);
     }
@@ -55,7 +57,7 @@ class SqlLoaderTest extends TestCase
         $loader->setBatchSize(3);
 
         for ($x = 0; $x < 5; $x++) {
-            $data = $this->frame->setData([
+            $this->frame->setData([
                 'BOB',
                 'SMITH',
                 '02/11/1969',
@@ -65,7 +67,7 @@ class SqlLoaderTest extends TestCase
                 $this->frame->setEnd();
             }
 
-            $loader->load($data);
+            $loader->load($this->frame);
         }
 
         $count = DB::table('test')->count();
@@ -84,10 +86,10 @@ class SqlLoaderTest extends TestCase
             ->setSqlColumnNames($columns);
 
         $data = $this->frame->setData([
-                'BOBBO',
-                'SMITH',
-                '02/11/1969',
-            ]);
+            'BOBBO',
+            'SMITH',
+            '02/11/1969',
+        ]);
 
         $loader->load($data);
 

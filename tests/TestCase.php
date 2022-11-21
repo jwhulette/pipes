@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Jwhulette\Pipes\PipesServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase

@@ -1,12 +1,15 @@
-![Banner](.github/images/pipes_banner.png)
+![Banner](.github/images/Pipes.png)
 
-![Build](https://github.com/jwhulette/pipes/workflows/Tests/badge.svg)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.0-8892BF.svg?style=flat-square)](https://php.net/) 
+![Laravel](https://img.shields.io/badge/Laravel-8%2B-red)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/jwhulette/pipes/run-tests?label=tests)](https://github.com/jwhulette/pipes/actions?query=workflow%3Arun-tests+branch%3Amain) 
+[![Total Downloads](https://img.shields.io/packagist/dt/jwhulette/pipes.svg?style=flat-square)](https://packagist.org/packages/jwhulette/pipes)
 
 # Pipes
 
-Pipes is a PHP Extract Transform Load [ETL] package for Laravel or Laravel Zero
+Pipes is a PHP Extract Transform Load [ETL] package for Laravel 8+
 
-This a currently a work in progress, my idea was to have it as a "plug-in" for Laravel Zero
+View documentation at https://jwhulette.github.io/pipes/
 
 ## Installation
 
@@ -16,13 +19,15 @@ composer require jwhulette/pipes
 
 ## Usage
 
-Create a new EtlPipe object.
+1. Create a new EtlPipe object.
+
+1. Add an extractor to the object to read the input file
 
 Add an extractor to the object to read a file or database.
 
-You can add as many transformers as you want.
+    - You can add as many transformers as you want.
 
-Add a loader to save the data
+    - Data is passed to the transfomers in the order they are defined
 
 ### Notes
 **Built-in extractors:**
@@ -54,12 +59,23 @@ Add a loader to save the data
 ->load(new CsvLoader('saved-file.csv'));
 ```
 
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
-Please make sure to update tests as appropriate.
+## Security Vulnerabilities
+
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+
+## Credits
+
+- [Wes Hulette](https://github.com/jwhulette)
+- [All Contributors](../../contributors)
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

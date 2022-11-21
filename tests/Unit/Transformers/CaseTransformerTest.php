@@ -43,7 +43,7 @@ class CaseTransformerTest extends TestCase
             'DOB'       => '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->data->toArray());
+        $this->assertEquals($expected, $result->getData()->toArray());
     }
 
     /** @test */
@@ -69,7 +69,7 @@ class CaseTransformerTest extends TestCase
             '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->data->toArray());
+        $this->assertEquals($expected, $result->getData()->toArray());
     }
 
     /** @test */
@@ -86,7 +86,7 @@ class CaseTransformerTest extends TestCase
             'DOB'       => '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->data->toArray());
+        $this->assertEquals($expected, $result->getData()->toArray());
     }
 
     /** @test */
@@ -103,6 +103,6 @@ class CaseTransformerTest extends TestCase
             'DOB'       => '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->data->toArray());
+        $this->assertEquals($expected, $result->getData()->toArray());
     }
 }

@@ -77,7 +77,7 @@ final class TrimTransformer implements TransformerInterface
     public function trimColumnValue(?string $value, ?string $type, ?string $mask): string
     {
         if (! \is_callable($type)) {
-            throw new InvalidArgumentException("Invalid trim type: {$type}.");
+            throw new PipesInvalidArgumentException("Invalid trim type: {$type}.");
         }
 
         if (\is_null($value)) {

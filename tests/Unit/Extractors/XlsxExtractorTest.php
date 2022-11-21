@@ -85,9 +85,9 @@ class XlsxExtractorTest extends TestCase
             'AMOUNT' => 22.22,
         ];
 
-        $this->assertEquals($expected, $frame->header->values()->toArray());
+        $this->assertEquals($expected, $frame->getHeader()->values()->toArray());
 
-        $this->assertEquals($expectedData, $frame->data->toArray());
+        $this->assertEquals($expectedData, $frame->getData()->toArray());
     }
 
     /** @test */
@@ -107,7 +107,7 @@ class XlsxExtractorTest extends TestCase
             50.50,
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 
     /** @test */
@@ -126,6 +126,6 @@ class XlsxExtractorTest extends TestCase
             'AMOUNT' => 50.50,
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 }

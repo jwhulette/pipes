@@ -31,7 +31,7 @@ class FrameTest extends TestCase
     {
         $this->frame->setEnd();
 
-        $this->assertTrue($this->frame->end);
+        $this->assertTrue($this->frame->getEnd());
     }
 
     /** @test */
@@ -39,7 +39,7 @@ class FrameTest extends TestCase
     {
         $this->frame->setHeader($this->testHeader);
 
-        $this->assertEquals($this->testHeader, $this->frame->header->toArray());
+        $this->assertSame($this->testHeader, $this->frame->getHeader()->toArray());
     }
 
     /** @test */
@@ -47,7 +47,7 @@ class FrameTest extends TestCase
     {
         $this->frame->setData($this->testData);
 
-        $this->assertEquals($this->testData, $this->frame->data->toArray());
+        $this->assertSame($this->testData, $this->frame->getData()->toArray());
     }
 
     /** @test */
@@ -57,7 +57,7 @@ class FrameTest extends TestCase
 
         $this->frame->setData($this->testData);
 
-        $this->assertEquals($this->testHeaderData, $this->frame->data->toArray());
+        $this->assertSame($this->testHeaderData, $this->frame->getData()->toArray());
     }
 
     /** @test */
@@ -65,7 +65,7 @@ class FrameTest extends TestCase
     {
         $this->frame->setAttribute(['valid'=>'no']);
 
-        $this->assertEquals('no', $this->frame->attribute['valid']);
+        $this->assertSame('no', $this->frame->getAttribute('valid'));
     }
 
     /** @test */
@@ -75,8 +75,8 @@ class FrameTest extends TestCase
 
         $this->frame->setAttribute(['test'=>'yes']);
 
-        $this->assertEquals('no', $this->frame->attribute['valid']);
+        $this->assertSame('no', $this->frame->getAttribute('valid'));
 
-        $this->assertEquals('yes', $this->frame->attribute['test']);
+        $this->assertSame('yes', $this->frame->getAttribute('test'));
     }
 }

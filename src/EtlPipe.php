@@ -62,6 +62,10 @@ final class EtlPipe
 
     public function run(): void
     {
-        (new Processor($this->extractor, $this->transformers, $this->loader))->process();
+        (new Processor(
+            $this->extractor,
+            $this->transformers,
+            $this->loader
+        ))->process();
     }
 }

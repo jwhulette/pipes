@@ -159,12 +159,12 @@ final class XlsxExtractor implements ExtractorInterface
      */
     public function makeRow(array $cells): array
     {
-        $collection = [];
+        $array = [];
 
         foreach ($cells as $cell) {
             $collection[] = $cell->getValue();
         }
 
-        return $collection;
+        return $array;
     }
 }

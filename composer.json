@@ -48,6 +48,7 @@
     "extra": {
         "laravel": {
             "providers": [
+                "jwhulette\\Pipes\\PipesServiceProvider"
             ]
         }
     },

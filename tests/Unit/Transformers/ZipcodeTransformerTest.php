@@ -33,7 +33,7 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertSame($expected, $result->data->first());
+        $this->assertSame($expected, $result->getData()->first());
     }
 
     /**
@@ -42,7 +42,7 @@ class ZipcodeTransformerTest extends TestCase
      */
     public function it_can_transform_postal_codes_by_index(string $zip, string $expected): void
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData([$zip]);
 
@@ -50,7 +50,7 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame($expected, $result->data->first());
+        $this->assertSame($expected, $result->getData()->first());
     }
 
     /** @test */
@@ -62,13 +62,13 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertSame('00000', $result->data->first());
+        $this->assertSame('00000', $result->getData()->first());
     }
 
     /** @test */
     public function it_will_left_pad_a_zip_code_with_zeros_by_index(): void
     {
-        $frame = new Frame;
+        $frame = new Frame();
 
         $frame->setData(['']);
 
@@ -76,7 +76,7 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame('00000', $result->data->first());
+        $this->assertSame('00000', $result->getData()->first());
     }
 
     public function it_will_left_pad_a_zip_code_with_zeros_with_length(): void
@@ -87,17 +87,17 @@ class ZipcodeTransformerTest extends TestCase
 
         $result = $transformer->__invoke($this->frame);
 
-        $this->assertSame('0000000000', $result->data->first());
+        $this->assertSame('0000000000', $result->getData()->first());
     }
 
     public function it_will_left_pad_a_zip_code_with_zeros_with_length_by_index(): void
     {
-        $frame = new Frame;
+        $frame = new Frame();
         $frame->setData(['']);
         $transformer = (new ZipcodeTransformer())->tranformColumn(0, 'padleft', 10);
         $result = $transformer->__invoke($frame);
 
-        $this->assertSame('0000000000', $result->data->first());
+        $this->assertSame('0000000000', $result->getData()->first());
     }
 
     /**

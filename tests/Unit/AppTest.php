@@ -25,9 +25,9 @@ class AppTest extends TestCase
      */
     public function testAppBoots(): void
     {
-        $EtlPipe = new EtlPipe;
+        $pipe = new EtlPipe();
 
-        $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
+        $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
     /**
@@ -37,11 +37,11 @@ class AppTest extends TestCase
      */
     public function testExtractorAdd(): void
     {
-        $EtlPipe = new EtlPipe;
+        $pipe = new EtlPipe();
 
         $EtlPipe->extract(new CsvExtractor($this->testFile));
 
-        $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
+        $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
     /**
@@ -51,29 +51,29 @@ class AppTest extends TestCase
      */
     public function testTransformsAdd(): void
     {
-        $EtlPipe = new EtlPipe;
+        $pipe = new EtlPipe();
 
         $EtlPipe->extract(new CsvExtractor($this->testFile));
 
-        $EtlPipe->transformers([
+        $pipe->transformers([
             (new CaseTransformer())->transformColumn('test', 'lower'),
         ]);
 
-        $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
+        $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
     public function testLoader(): void
     {
-        $EtlPipe = new EtlPipe;
+        $pipe = new EtlPipe();
 
         $EtlPipe->extract(new CsvExtractor($this->testFile));
 
-        $EtlPipe->transformers([
+        $pipe->transformers([
             (new CaseTransformer())->transformColumn('test', 'lower'),
         ]);
 
-        $EtlPipe->load(new CsvLoader('test'));
+        $pipe->load(new CsvLoader('test'));
 
-        $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
+        $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 }

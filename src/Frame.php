@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes;
 
+use DateInterval;
+use DateTimeInterface;
 use Illuminate\Support\Collection;
 
 final class Frame
@@ -42,6 +44,11 @@ final class Frame
         return $this;
     }
 
+    public function getData(): Collection
+    {
+        return $this->data;
+    }
+
     /**
      * @param array<int,mixed> $header
      */
@@ -50,12 +57,30 @@ final class Frame
         $this->header = collect($header);
     }
 
+    public function getHeader(): Collection
+    {
+        return $this->header;
+    }
+
     /**
      * @param array<int,string> $attribute
      */
     public function setAttribute(array $attribute): void
     {
-        $this->attribute[key($attribute)] = $attribute[key($attribute)];
+        $this->attributes[key($attribute)] = $attribute[key($attribute)];
+    }
+
+    /**
+     * @return array<array|int|string>
+     */
+    public function getAllAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    public function getAttribute(string $key): mixed
+    {
+        return $this->attributes[$key];
     }
 
     /**
@@ -64,5 +89,10 @@ final class Frame
     public function setEnd(): void
     {
         $this->end = true;
+    }
+
+    public function getEnd(): bool
+    {
+        return $this->end;
     }
 }

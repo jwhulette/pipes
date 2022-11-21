@@ -30,7 +30,7 @@ class CsvExtractorTest extends TestCase
             'AMOUNT',
         ];
 
-        $this->assertEquals($expected, $frame->header->values()->toArray());
+        $this->assertEquals($expected, $frame->getHeader()->values()->toArray());
     }
 
     /** @test */
@@ -72,6 +72,6 @@ class CsvExtractorTest extends TestCase
             'AMOUNT'    => '$50.00',
         ];
 
-        $this->assertEquals($expected, $frame->data->toArray());
+        $this->assertEquals($expected, $frame->getData()->toArray());
     }
 }
