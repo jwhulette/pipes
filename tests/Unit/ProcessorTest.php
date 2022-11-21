@@ -12,7 +12,8 @@ use Tests\TestCase;
 
 class ProcessorTest extends TestCase
 {
-    public function testProcessorConstruction(): void
+    /** @test */
+    public function it_can_create_a_new_processor(): void
     {
         $extractor = new CsvExtractor('test');
         $transforms = [

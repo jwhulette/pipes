@@ -5,58 +5,42 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Loaders;
 
 use Jwhulette\Pipes\Frame;
-use SplFileObject;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\CSV\Options;
+use OpenSpout\Writer\CSV\Writer;
+
+// use SplFileObject;
 
 class CsvLoader implements LoaderInterface
 {
-    protected string $delimiter = ',';
+    private static Writer $instance;
 
-    protected string $enclosure = '"';
+    protected Options $options;
 
-    protected string $escapeCharacter = '\\';
-
-    protected SplFileObject $file;
-
-    /**
-     * @param string $ouputfile
-     */
     public function __construct(string $ouputfile)
     {
-        $this->file = new SplFileObject($ouputfile, 'w');
+        $this->options = new Options();
+
+        $this->file = $ouputfile;
     }
 
-    /**
-     * @param string $delimiter
-     *
-     * @return CsvLoader
-     */
     public function setDelimiter(string $delimiter): self
     {
-        $this->delimiter = $delimiter;
+        $this->options->FIELD_DELIMITER = $delimiter;
 
         return $this;
     }
 
-    /**
-     * @param string $enclosure
-     *
-     * @return CsvLoader
-     */
     public function setEnclosure(string $enclosure): self
     {
-        $this->enclosure = $enclosure;
+        $this->options->FIELD_ENCLOSURE = $enclosure;
 
         return $this;
     }
 
-    /**
-     * @param string $escapeCharacter
-     *
-     * @return CsvLoader
-     */
-    public function setEscapeCharacter(string $escapeCharacter): self
+    public function noBom(): self
     {
-        $this->escapeCharacter = $escapeCharacter;
+        $this->options->SHOULD_ADD_BOM = \false;
 
         return $this;
     }
@@ -66,16 +50,28 @@ class CsvLoader implements LoaderInterface
      */
     public function load(Frame $frame): void
     {
-        $this->file->fputcsv(
-            $frame->data->values()->toArray(),
-            $this->delimiter,
-            $this->enclosure,
-            $this->escapeCharacter
-        );
+        $writer = self::getWriter($this->options);
+
+        $writer->openToFile($this->file);
+
+        $writer->addRow(Row::fromValues($frame->data->values()->toArray()));
 
         // Close the file
         if ($frame->end === true) {
-            unset($this->file);
+            // unset($this->file);
+            $writer->close();
         }
+    }
+
+    private static function getWriter(Options $options): Writer
+    {
+        // Check is $_instance has been set
+        if (! isset(self::$instance)) {
+            // Creates sets object to instance
+            self::$instance = new Writer($options);
+        }
+
+        // Returns the instance
+        return self::$instance;
     }
 }

@@ -24,7 +24,7 @@ class SqlExtractorTest extends TestCase
     }
 
     /** @test */
-    public function testTableConnection(): void
+    public function it_sets_the_database_table_name(): void
     {
         $sql = (new SqlExtractor())
             ->setTable($this->table);
@@ -36,7 +36,7 @@ class SqlExtractorTest extends TestCase
     }
 
     /** @test */
-    public function testQueryConnection(): void
+    public function it_can_run_a_select_query(): void
     {
         $sql = (new SqlExtractor())
             ->setTable($this->table)

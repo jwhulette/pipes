@@ -8,22 +8,14 @@ use Jwhulette\Pipes\EtlPipe;
 use Jwhulette\Pipes\Extractors\CsvExtractor;
 use Jwhulette\Pipes\Loaders\CsvLoader;
 use Jwhulette\Pipes\Transformers\CaseTransformer;
-use org\bovigo\vfs\vfsStream;
 use Tests\TestCase;
 
 class AppTest extends TestCase
 {
-    protected string $testfile;
+    protected string $testFile = 'tests/artifacts/test_file_with_header.csv';
 
     public function setUp(): void
     {
-        $directory = [
-            'csv_extractor.csv',
-        ];
-
-        $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
-
-        $this->testfile = $this->vfs->url() . '/csv_extractor.csv';
     }
 
     /**
@@ -47,7 +39,7 @@ class AppTest extends TestCase
     {
         $EtlPipe = new EtlPipe;
 
-        $EtlPipe->extract(new CsvExtractor($this->testfile));
+        $EtlPipe->extract(new CsvExtractor($this->testFile));
 
         $this->assertInstanceOf(EtlPipe::class, $EtlPipe);
     }
@@ -61,7 +53,7 @@ class AppTest extends TestCase
     {
         $EtlPipe = new EtlPipe;
 
-        $EtlPipe->extract(new CsvExtractor($this->testfile));
+        $EtlPipe->extract(new CsvExtractor($this->testFile));
 
         $EtlPipe->transformers([
             (new CaseTransformer())->transformColumn('test', 'lower'),
@@ -74,7 +66,7 @@ class AppTest extends TestCase
     {
         $EtlPipe = new EtlPipe;
 
-        $EtlPipe->extract(new CsvExtractor($this->testfile));
+        $EtlPipe->extract(new CsvExtractor($this->testFile));
 
         $EtlPipe->transformers([
             (new CaseTransformer())->transformColumn('test', 'lower'),

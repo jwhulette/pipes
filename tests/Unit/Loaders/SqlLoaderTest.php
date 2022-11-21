@@ -31,7 +31,8 @@ class SqlLoaderTest extends TestCase
             ]);
     }
 
-    public function testSqlLoaderInstance(): void
+    /** @test */
+    public function it_will_return_sql_loader_interface(): void
     {
         $loader = new SqlLoader('test');
 
@@ -46,7 +47,8 @@ class SqlLoaderTest extends TestCase
         $this->assertInstanceOf(SqlLoader::class, $loader);
     }
 
-    public function testWillLoadByBatch(): void
+    /** @test */
+    public function it_will_load_records_in_a_batch(): void
     {
         $loader = new SqlLoader('test');
 
@@ -71,7 +73,8 @@ class SqlLoaderTest extends TestCase
         $this->assertEquals(5, $count);
     }
 
-    public function testUseCustomColumnNames(): void
+    /** @test */
+    public function it_will_insert_data_with_custom_column_names(): void
     {
         $columns = ['first_name', 'last_name', 'dob'];
 

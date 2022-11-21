@@ -18,6 +18,14 @@
         "illuminate/support" : "^8.0|^9.0",
         "illuminate/database" : "^8.0|^9.0"
     },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^v3.13.0",
+        "phpunit/phpunit": "^9.5.26",
+        "phpstan/phpstan": "^1.9.2",
+        "ramsey/uuid": "^4.6.0",
+        "orchestra/testbench": "^7.12.1",
+        "nunomaduro/larastan": "^2.0"
+    },
     "autoload": {
         "psr-4": {
             "Jwhulette\\Pipes\\": "src/"
@@ -42,15 +50,6 @@
             "providers": [
             ]
         }
-    },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^v3.13.0",
-        "phpunit/phpunit": "^9.5.26",
-        "phpstan/phpstan": "^1.9.2",
-        "ramsey/uuid": "^4.6.0",
-        "orchestra/testbench": "^7.12.1",
-        "mikey179/vfsstream": "^1.6.11",
-        "nunomaduro/larastan": "^2.0"
     },
     "config": {
         "allow-plugins": {
