@@ -23,7 +23,8 @@ class TrimTransformerTest extends TestCase
             ]);
     }
 
-    public function testTrimAllColumns(): void
+    /** @test */
+    public function it_can_trim_all_columns(): void
     {
         $transformer = (new TrimTransformer())->transformAllColumns();
 
@@ -38,7 +39,8 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
-    public function testThrowsExeception(): void
+    /** @test */
+    public function it_will_throw_exception_on_invalid_trim_type(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -53,7 +55,8 @@ class TrimTransformerTest extends TestCase
         $transformer->__invoke($this->frame);
     }
 
-    public function testLtrimAllColumns(): void
+    /** @test */
+    public function it_can_ltrim_all_columns(): void
     {
         $transformer = (new TrimTransformer())->transformAllColumns('ltrim');
 
@@ -68,7 +71,8 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
-    public function testRtrimAllColumns(): void
+    /** @test */
+    public function it_can_rtrim_all_columns(): void
     {
         $transformer = (new TrimTransformer())->transformAllColumns('rtrim');
 
@@ -83,7 +87,8 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
-    public function testTrimColumns(): void
+    /** @test */
+    public function it_can_trim_a_specific_column(): void
     {
         $transformer = (new TrimTransformer())->transformColumn('LASTNAME');
 
@@ -98,7 +103,8 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB  ', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
-    public function testTrimColumnsByIndex(): void
+    /** @test  */
+    public function it_can_trim_a_specific_column_by_index(): void
     {
         $transformer = (new TrimTransformer())->transformColumn(1);
 
@@ -115,7 +121,8 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB  ', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
-    public function testLtrimColumns(): void
+    /** @test */
+    public function it_can_ltrim_a_specific_column(): void
     {
         $transformer = (new TrimTransformer())->transformColumn('LASTNAME', 'ltrim');
 
@@ -130,7 +137,8 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
-    public function testLtrimColumnsByIndex(): void
+    /** @test */
+    public function it_can_ltrim_a_specific_column_by_index(): void
     {
         $transformer = (new TrimTransformer())->transformColumn(1, 'ltrim');
 
@@ -147,7 +155,8 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
-    public function testRtrimColumns(): void
+    /** @test */
+    public function it_can_rtrim_a_specific_column(): void
     {
         $transformer = (new TrimTransformer())->transformAllColumns('rtrim');
 
@@ -162,7 +171,8 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
-    public function testTrimAllColumnsWithMask(): void
+    /** @test */
+    public function it_can_trim_all_columns_with_a_supplied_mask(): void
     {
         $transformer = (new TrimTransformer())->transformAllColumns('trim', '$');
 
@@ -177,7 +187,8 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
-    public function testTrimColumnsWithMask(): void
+    /** @test */
+    public function it_can_trim_a_specific_columns_with_a_supplied_mask(): void
     {
         $transformer = (new TrimTransformer())->transformColumn('FIRSTNAME', 'trim', '$');
 
@@ -192,7 +203,8 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB', 'SMITH', '02/11/1969'], $result->data->values()->toArray());
     }
 
-    public function testLtrimColumnsWithMask(): void
+    /** @test */
+    public function it_can_ltrim_a_specific_columns_with_a_supplied_mask(): void
     {
         $transformer = (new TrimTransformer())->transformColumn('FIRSTNAME', 'ltrim', '$');
 
@@ -207,7 +219,8 @@ class TrimTransformerTest extends TestCase
         $this->assertEquals(['BOB$', '$SMITH', '$02/11/1969'], $result->data->values()->toArray());
     }
 
-    public function testRtrimColumnsWithMask(): void
+    /** @test */
+    public function it_can_rtrim_a_specific_columns_with_a_supplied_mask(): void
     {
         $transformer = (new TrimTransformer())->transformColumn('FIRSTNAME', 'rtrim', '$');
 

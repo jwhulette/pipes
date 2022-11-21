@@ -31,7 +31,8 @@ class DateTimeTransformerTest extends TestCase
         ]);
     }
 
-    public function testDateGuess(): void
+    /** @test */
+    public function it_can_guess_a_date_string(): void
     {
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB')
@@ -44,7 +45,8 @@ class DateTimeTransformerTest extends TestCase
         $this->assertEquals('2000-01-11', $result->data->get('DOB2'));
     }
 
-    public function testDateGuessColumnIndex(): void
+    /** @test */
+    public function it_can_guess_a_date_string_by_index(): void
     {
         $frame = new Frame;
 
@@ -66,7 +68,8 @@ class DateTimeTransformerTest extends TestCase
         $this->assertEquals('2000-01-11', $result->data->slice(3, 1)->first());
     }
 
-    public function testDateInputFormat(): void
+    /** @test */
+    public function it_can_format_a_date_with_a_provided_format(): void
     {
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB', 'Y-m-d', 'm/d/Y')
@@ -79,7 +82,8 @@ class DateTimeTransformerTest extends TestCase
         $this->assertEquals('2000-01-11', $result->data->get('DOB2'));
     }
 
-    public function testDateInputFormatColumnIndex(): void
+    /** @test */
+    public function it_can_format_a_date_with_a_provided_format_by_index(): void
     {
         $frame = new Frame;
 
@@ -102,12 +106,10 @@ class DateTimeTransformerTest extends TestCase
     }
 
     /**
-     * @param string $date
-     * @param string $expected
-     *
+     * @test
      * @dataProvider dateTimeProvider
      */
-    public function testDateFormats($date, $expected): void
+    public function it_can_format_a_range_of_dates(string $date, string $expected): void
     {
         $frame = $this->frame->data->map(function ($item, $key) use ($date) {
             if ($key === 'DOB') {
@@ -128,7 +130,7 @@ class DateTimeTransformerTest extends TestCase
     }
 
     /**
-     * Data providor for testDateFormats.
+     * Data provider for testDateFormats.
      */
     public static function dateTimeProvider()
     {

@@ -11,12 +11,10 @@ use Tests\TestCase;
 class PhoneTransformerTest extends TestCase
 {
     /**
-     * @param string $phone
-     * @param string $expected
-     *
+     * @test
      * @dataProvider phoneProvider
      */
-    public function testPhoneTransformation($phone, $expected): void
+    public function it_can_transform_a_phone_number(string $phone, string $expected): void
     {
         $frame = new Frame();
 
@@ -32,12 +30,10 @@ class PhoneTransformerTest extends TestCase
     }
 
     /**
-     * @param string $phone
-     * @param string $expected
-     *
+     * @test
      * @dataProvider phoneProvider
      */
-    public function testPhoneTransformationByIndex($phone, $expected): void
+    public function it_can_transform_a_phone_number_by_index($phone, $expected): void
     {
         $frame = new Frame();
 
@@ -56,11 +52,11 @@ class PhoneTransformerTest extends TestCase
     public static function phoneProvider()
     {
         return [
-            // ['555-555-5555', '5555555555'],
-            // ['555 555 5555', '5555555555'],
-            // ['(555) 555-5555', '5555555555'],
-            // ['(555) 555 5555', '5555555555'],
-            // ['555.555.5555', '5555555555'],
+            ['555-555-5555', '5555555555'],
+            ['555 555 5555', '5555555555'],
+            ['(555) 555-5555', '5555555555'],
+            ['(555) 555 5555', '5555555555'],
+            ['555.555.5555', '5555555555'],
             ['555.555.5555 ext 555', '5555555555'],
         ];
     }
