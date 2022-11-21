@@ -5,22 +5,24 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\DB;
-use Jwhulette\Pipes\Extractors\ExtractorInterface;
+use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Frame;
 
 final class SqlExtractor implements ExtractorInterface
 {
-    protected DB $db;
-
     protected Frame $frame;
 
-    protected ?string $connection = null;
+    protected QueryBuilder|Builder|null $builder = \null;
 
-    protected ?string $table = null;
+    protected ?string $connection = \null;
 
-    protected ?string $select = null;
+    protected ?string $table = \null;
+
+    /** @var array<int,string> */
+    protected ?array $select = null;
 
     public function __construct()
     {
@@ -28,11 +30,27 @@ final class SqlExtractor implements ExtractorInterface
     }
 
     /**
-     * Set the database select statement.
-     * @param string $select
+     * Set a Laravel builder instance.
+     *
+     * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $builder
+     *
+     * @return self
+     */
+    public function setBuilder(QueryBuilder|Builder $builder): self
+    {
+        $this->builder = $builder;
+
+        return $this;
+    }
+
+    /**
+     * Set the database columns to query.
+     *
+     * @param array<int,string> $select
+     *
      * @return \Jwhulette\Pipes\Extractors\SqlExtractor
      */
-    public function setSelect(string $select): self
+    public function setColumns(array $select): self
     {
         $this->select = $select;
 
@@ -41,7 +59,9 @@ final class SqlExtractor implements ExtractorInterface
 
     /**
      * Set the table name to query data from.
+     *
      * @param string $table
+     *
      * @return \Jwhulette\Pipes\Extractors\SqlExtractor
      */
     public function setTable(string $table):self
@@ -53,16 +73,23 @@ final class SqlExtractor implements ExtractorInterface
 
     /**
      * Set the database connection name.
+     *
      * @param string $connection
+     *
      * @return \Jwhulette\Pipes\Extractors\SqlExtractor
      */
     public function setConnection(string $connection): self
     {
-        $this->queryBuilder = $queryBuilder;
+        $this->connection = $connection;
 
         return $this;
     }
 
+    /**
+     * Extract the data from the database.
+     *
+     * @return \Generator
+     */
     public function extract(): Generator
     {
         $db = $this->getConnection();
@@ -79,22 +106,24 @@ final class SqlExtractor implements ExtractorInterface
     }
 
     /**
-     * @return \Illuminate\Database\Query\Builder|null
+     * @return \Illuminate\Contracts\Database\Query\Builder|\Illuminate\Contracts\Database\Eloquent\Builder
      */
-    protected function getConnection(): ?Builder
+    protected function getConnection(): QueryBuilder|Builder
     {
-        if (! is_null($this->connection)) {
-            DB::setDefaultConnection($this->connection);
+        if (! \is_null($this->builder)) {
+            return $this->builder;
         }
 
-        if (! is_null($this->select) && ! is_null($this->table)) {
-            return DB::table($this->table)->selectRaw($this->select);
+        if (! \is_null($this->select) && ! \is_null($this->table)) {
+            return DB::connection($this->connection)
+                ->table($this->table)
+                ->select($this->select);
         }
 
-        if (! is_null($this->table)) {
-            return DB::table($this->table);
+        if (\is_null($this->table)) {
+            throw new \Exception('A table name has not been set', 1);
         }
 
-        return null;
+        return DB::connection($this->connection)->table($this->table);
     }
 }

@@ -6,7 +6,7 @@ namespace Jwhulette\Pipes\Extractors;
 
 use Exception;
 use Generator;
-use Jwhulette\Pipes\Extractors\ExtractorInterface;
+use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Frame;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Reader\XLSX\Options;
@@ -162,7 +162,7 @@ final class XlsxExtractor implements ExtractorInterface
         $array = [];
 
         foreach ($cells as $cell) {
-            $collection[] = $cell->getValue();
+            $array[] = $cell->getValue();
         }
 
         return $array;

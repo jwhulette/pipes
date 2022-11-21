@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use InvalidArgumentException;
-use Jwhulette\Pipes\Dto\CaseDto;
+use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\DataTransferObjects\CaseDto;
+use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
 final class CaseTransformer implements TransformerInterface
 {
     /**
-     * @var array<int,\Jwhulette\Pipes\Dto\CaseDto>
+     * @var array<int,CaseDto>
      */
     protected array $transformers;
 

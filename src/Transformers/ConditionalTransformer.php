@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Transformers;
 
 use Illuminate\Support\Collection;
-use Jwhulette\Pipes\Dto\ConditionalDto;
+use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\DataTransferObjects\ConditionalDto;
 use Jwhulette\Pipes\Frame;
 
 final class ConditionalTransformer implements TransformerInterface

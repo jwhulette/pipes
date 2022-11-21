@@ -4,27 +4,21 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use DateTime;
-use Jwhulette\Pipes\Dto\DateTimeDto;
+use Carbon\Carbon;
+use Jwhulette\Pipes\Contracts\TransformerInterface;
+use Jwhulette\Pipes\DataTransferObjects\DateTimeDto;
 use Jwhulette\Pipes\Frame;
 
 final class DateTimeTransformer implements TransformerInterface
 {
     /**
-     * @var array<int,\Jwhulette\Pipes\Dto\DateTimeDto>
+     * @var array<int,DateTimeDto>
      */
     protected array $columns;
 
-    protected string $outputFormat = 'Y-m-d';
-
-    protected string $inputFormat = '';
-
     public function transformColumn(string|int $column, ?string $outputFormat = null, ?string $inputFormat = null): self
     {
-        $lineOutputFormat = $outputFormat ?? $this->outputFormat;
-        $lineInputFormat = $inputFormat ?? $this->inputFormat;
-
-        $this->columns[] = new DateTimeDto($column, $lineOutputFormat, $lineInputFormat);
+        $this->columns[] = new DateTimeDto($column, $outputFormat, $inputFormat);
 
         return $this;
     }
@@ -44,26 +38,33 @@ final class DateTimeTransformer implements TransformerInterface
         return $frame;
     }
 
-    /**
-     * @param string $datetime
-     * @param DateTimeDto $dateTimeDto
-     *
-     * @return string
-     */
     private function transformDateTime(string $datetime, DateTimeDto $dateTimeDto): string
     {
-        if ($dateTimeDto->inputFormat === '') {
-            $date = new DateTime($datetime);
+        if (is_null($dateTimeDto->inputFormat)) {
+            $dateTime = new Carbon($datetime);
 
-            return $date->format($dateTimeDto->outputFormat);
+            return $this->format($dateTime, $dateTimeDto);
         }
 
-        $dateObject = DateTime::createFromFormat($dateTimeDto->inputFormat, $datetime);
+        try {
+            $dateTime = Carbon::createFromFormat($dateTimeDto->inputFormat, $datetime);
+        } catch (\Throwable $th) {
+            throw new \Exception('Unable to create date object, error: ' . $th->getMessage(), 1);
+        }
 
-        if ($dateObject === \false) {
+        if ($dateTime === \false) {
             throw new \Exception('Unable to create date object from string', 1);
         }
 
-        return $dateObject->format($dateTimeDto->outputFormat);
+        return $this->format($dateTime, $dateTimeDto);
+    }
+
+    private function format(Carbon $dateTime, DateTimeDto $dateTimeDto): string
+    {
+        if (! is_null($dateTimeDto->outputFormat)) {
+            return $dateTime->format($dateTimeDto->outputFormat);
+        }
+
+        return $dateTime->toDateTimeString();
     }
 }

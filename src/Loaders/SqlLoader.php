@@ -7,8 +7,9 @@ namespace Jwhulette\Pipes\Loaders;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Jwhulette\Pipes\Contracts\LoaderInterface;
+use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
-use PipesInvalidArgumentException;
 
 final class SqlLoader implements LoaderInterface
 {

@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Extractors;
 
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Jwhulette\Pipes\Extractors\SqlExtractor;
 use Jwhulette\Pipes\Frame;
+use Tests\artifacts\SalesData;
 use Tests\factories\DatabaseFactory;
 use Tests\TestCase;
 
 class SqlExtractorTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected string $table = 'sales_data';
 
     protected function setUp(): void
@@ -22,23 +21,54 @@ class SqlExtractorTest extends TestCase
 
         $this->loadMigrationsFrom(getcwd() . '/tests/migrations');
 
-        (new DatabaseFactory($this->table))->create(20);
+        (new DatabaseFactory($this->table))->create(10);
     }
 
     /** @test */
-    public function it_sets_the_database_table_name(): void
+    public function it_can_run_a_select_with_eloquent_builder(): void
+    {
+        $builder = SalesData::query()
+            ->select(['country', 'order_date']);
+
+        $sql = (new SqlExtractor())->setBuilder($builder);
+        $frameData = $sql->extract();
+        $frame = $frameData->current();
+
+        $this->assertInstanceOf(Frame::class, $frame);
+    }
+
+    /** @test */
+    public function it_can_run_a_select_with_query_builder(): void
+    {
+        $builder = DB::connection('testbench')
+            ->table($this->table)
+            ->select(['country', 'order_date']);
+
+        $sql = (new SqlExtractor())->setBuilder($builder);
+        $frameData = $sql->extract();
+        $frame = $frameData->current();
+
+        $this->assertInstanceOf(Frame::class, $frame);
+    }
+
+    /** @test */
+    public function it_can_run_a_select_query_without_connection_set(): void
     {
         $sql = (new SqlExtractor())
-            ->setTable($this->table);
+            ->setTable('sales_data')
+            ->setColumns(['country', 'order_date']);
+        $frameData = $sql->extract();
+        $frame = $frameData->current();
 
-        (new SalesDataDatabaseFactory($this->table))->create(10);
+        $this->assertInstanceOf(Frame::class, $frame);
     }
 
     /** @test */
-    public function it_can_run_a_select_query(): void
+    public function it_can_run_a_select_query_with_connection_set(): void
     {
-        $builder = DB::table($this->table)->select('country, order_date');
-        $sql = (new SqlExtractor())->setQueryBuilder($builder);
+        $sql = (new SqlExtractor())->setConnection('testbench')
+            ->setTable('sales_data')
+            ->setColumns(['country', 'order_date']);
         $frameData = $sql->extract();
         $frame = $frameData->current();
 

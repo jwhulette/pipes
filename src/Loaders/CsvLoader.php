@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Loaders;
 
+use DateInterval;
+use DateTimeInterface;
+use Jwhulette\Pipes\Contracts\LoaderInterface;
 use Jwhulette\Pipes\Frame;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\CSV\Options;
@@ -14,6 +17,8 @@ final class CsvLoader implements LoaderInterface
     private static Writer $instance;
 
     protected Options $options;
+
+    protected string $file;
 
     public function __construct(string $ouputfile)
     {
@@ -49,11 +54,13 @@ final class CsvLoader implements LoaderInterface
 
         $writer->openToFile($this->file);
 
-        $writer->addRow(Row::fromValues($frame->data->values()->toArray()));
+        /** @var array<int,bool|DateInterval|DateTimeInterface|float|int|string|null> $values */
+        $values = $frame->data->values()->toArray();
+
+        $writer->addRow(Row::fromValues($values));
 
         // Close the file
         if ($frame->end === true) {
-            // unset($this->file);
             $writer->close();
         }
     }

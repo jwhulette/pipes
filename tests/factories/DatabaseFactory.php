@@ -2,11 +2,7 @@
 
 declare(strict_types=1);
 
-<<<<<<< HEAD:tests/factories/DatabaseFactory.php
 namespace Tests\factories;
-=======
-namespace Tests\database\factories;
->>>>>>> develop:tests/migrations/factories/SalesDataDatabaseFactory.php
 
 use Faker\Factory;
 use Faker\Generator;

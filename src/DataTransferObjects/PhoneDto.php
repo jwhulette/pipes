@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jwhulette\Pipes\Dto;
+namespace Jwhulette\Pipes\DataTransferObjects;
 
 /**
  * @internal

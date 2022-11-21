@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jwhulette\Pipes\Transformers;
+namespace Jwhulette\Pipes\Contracts;
 
 use Jwhulette\Pipes\Frame;
 

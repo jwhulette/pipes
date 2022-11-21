@@ -16,7 +16,8 @@
         "league/pipeline": "^1.0",
         "openspout/openspout": "^4.8",
         "illuminate/support" : "^8.0|^9.0",
-        "illuminate/database" : "^8.0|^9.0"
+        "illuminate/database" : "^8.0|^9.0",
+        "nesbot/carbon": "^2.63"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^v3.13.0",

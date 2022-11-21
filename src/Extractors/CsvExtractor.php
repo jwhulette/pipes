@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
+use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Frame;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Reader\CSV\Options;

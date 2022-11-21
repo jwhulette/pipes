@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes;
 
-use DateInterval;
-use DateTimeInterface;
 use Illuminate\Support\Collection;
 
 final class Frame
@@ -23,7 +21,7 @@ final class Frame
     /**
      * @var array<int|string,string>
      */
-    public array $attribute;
+    public array $attributes;
 
     public bool $end = false;
 
@@ -44,6 +42,9 @@ final class Frame
         return $this;
     }
 
+    /**
+     * @return \Illuminate\Support\Collection<int,mixed>
+     */
     public function getData(): Collection
     {
         return $this->data;
@@ -57,6 +58,9 @@ final class Frame
         $this->header = collect($header);
     }
 
+    /**
+     * @return \Illuminate\Support\Collection<int,mixed>
+     */
     public function getHeader(): Collection
     {
         return $this->header;
@@ -71,7 +75,7 @@ final class Frame
     }
 
     /**
-     * @return array<array|int|string>
+     * @return array<int|string,string>
      */
     public function getAllAttributes(): array
     {

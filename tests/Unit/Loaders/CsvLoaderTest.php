@@ -47,6 +47,8 @@ class CsvLoaderTest extends TestCase
         $csv->load($this->frame);
 
         $this->assertTrue(true);
+
+        \unlink($this->output);
     }
 
     /** @test */

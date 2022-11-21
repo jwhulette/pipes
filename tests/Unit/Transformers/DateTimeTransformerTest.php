@@ -8,9 +8,6 @@ use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Transformers\DateTimeTransformer;
 use Tests\TestCase;
 
-/**
- * @group date
- */
 class DateTimeTransformerTest extends TestCase
 {
     protected Frame $frame;
@@ -30,7 +27,7 @@ class DateTimeTransformerTest extends TestCase
             'BOB',
             'SMITH',
             '02/11/1969',
-            '01/11/2000  00:00:00',
+            '01/11/2000 19:20:00',
         ]);
     }
 
@@ -45,11 +42,11 @@ class DateTimeTransformerTest extends TestCase
 
         $this->assertEquals('1969-02-11 00:00:00', $result->getData()->get('DOB'));
 
-        $this->assertEquals('2000-01-11 00:00:00', $result->getData()->get('DOB2'));
+        $this->assertEquals('2000-01-11 19:20:00', $result->getData()->get('DOB2'));
     }
 
     /** @test */
-    public function it_can_guess_a_date_string_by_index(): void
+    public function it_can_guess_a_date_by_index(): void
     {
         $frame = new Frame();
 
@@ -82,7 +79,7 @@ class DateTimeTransformerTest extends TestCase
 
         $this->assertEquals('1969-02-11', $result->getData()->get('DOB'));
 
-        $this->assertEquals('2000-01-11 00:00:00', $result->getData()->get('DOB2'));
+        $this->assertEquals('2000-01-11 19:20:00', $result->getData()->get('DOB2'));
     }
 
     /** @test */
@@ -99,7 +96,7 @@ class DateTimeTransformerTest extends TestCase
 
         $transformer = (new DateTimeTransformer())
             ->transformColumn(2, 'Y-m-d', 'm/d/Y')
-            ->transformColumn(3, null, 'm/d/Y');
+            ->transformColumn(3, null, 'm/d/Y h:i:s');
 
         $result = $transformer->__invoke($frame);
 

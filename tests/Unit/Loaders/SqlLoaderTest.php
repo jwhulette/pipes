@@ -12,8 +12,6 @@ use Tests\TestCase;
 
 class SqlLoaderTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected Frame $frame;
 
     protected Collection $data;
