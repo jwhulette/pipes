@@ -94,10 +94,6 @@ final class SqlExtractor implements ExtractorInterface
     {
         $db = $this->getConnection();
 
-        if (\is_null($db)) {
-            throw new \Exception('Database connection unavailable', 1);
-        }
-
         foreach ($db->cursor() as $item) {
             yield $this->frame->setData((array) $item);
         }
@@ -106,7 +102,7 @@ final class SqlExtractor implements ExtractorInterface
     }
 
     /**
-     * @return \Illuminate\Contracts\Database\Query\Builder|\Illuminate\Contracts\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder
      */
     protected function getConnection(): QueryBuilder|Builder
     {
