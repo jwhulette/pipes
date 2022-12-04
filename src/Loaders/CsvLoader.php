@@ -27,6 +27,13 @@ final class CsvLoader implements LoaderInterface
         $this->file = $ouputfile;
     }
 
+    /**
+     * Set the file field delimiter.
+     *
+     * @param string $delimiter
+     *
+     * @return self
+     */
     public function setDelimiter(string $delimiter): self
     {
         $this->options->FIELD_DELIMITER = $delimiter;
@@ -34,6 +41,13 @@ final class CsvLoader implements LoaderInterface
         return $this;
     }
 
+    /**
+     * Set the text field enclosure.
+     *
+     * @param string $enclosure
+     *
+     * @return self
+     */
     public function setEnclosure(string $enclosure): self
     {
         $this->options->FIELD_ENCLOSURE = $enclosure;
@@ -41,6 +55,12 @@ final class CsvLoader implements LoaderInterface
         return $this;
     }
 
+    /**
+     * Do not set a BOM on the file.
+     * @see https://en.wikipedia.org/wiki/Byte_order_mark
+     *
+     * @return self
+     */
     public function noBom(): self
     {
         $this->options->SHOULD_ADD_BOM = \false;
@@ -48,6 +68,13 @@ final class CsvLoader implements LoaderInterface
         return $this;
     }
 
+    /**
+     * Write a data frame to the file.
+     *
+     * @param \Jwhulette\Pipes\Frame $frame
+     *
+     * @return void
+     */
     public function load(Frame $frame): void
     {
         $writer = self::getWriter($this->options);

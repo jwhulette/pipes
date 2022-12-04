@@ -15,18 +15,14 @@ final class SqlLoader implements LoaderInterface
 {
     protected Builder $db;
 
-    /**
-     * @var \Illuminate\Support\Collection<int,string>
-     */
+    /** @var \Illuminate\Support\Collection<int,string> */
     protected Collection $columns;
 
     protected int $count = 0;
 
     protected int $batchSize = 500;
 
-    /**
-     * @var array<int,mixed>
-     */
+    /** @var array<int,mixed> */
     protected array $insert;
 
     protected bool $useColumns = false;
@@ -40,6 +36,13 @@ final class SqlLoader implements LoaderInterface
         $this->db = DB::table($table);
     }
 
+    /**
+     * Set the size of the batch of records to insert at once.
+     *
+     * @param int $batchSize [Default: 500]
+     *
+     * @return self
+     */
     public function setBatchSize(int $batchSize): self
     {
         $this->batchSize = $batchSize;
@@ -48,6 +51,8 @@ final class SqlLoader implements LoaderInterface
     }
 
     /**
+     * Set the table column names.
+     *
      * @param array<int,string> $columns
      *
      * @return SqlLoader
@@ -58,7 +63,7 @@ final class SqlLoader implements LoaderInterface
     {
         $this->columns = collect($columns);
 
-        if ($this->columns->count() === 0) {
+        if ($this->columns->isEmpty()) {
             throw new PipesInvalidArgumentException('SQL Columns name cannot be empty');
         }
 
@@ -67,6 +72,13 @@ final class SqlLoader implements LoaderInterface
         return $this;
     }
 
+    /**
+     * Write a data frame to the database.
+     *
+     * @param \Jwhulette\Pipes\Frame $frame
+     *
+     * @return void
+     */
     public function load(Frame $frame): void
     {
         $this->count++;

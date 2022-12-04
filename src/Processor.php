@@ -33,7 +33,7 @@ final class Processor
         $this->loader = $loader;
         $pipelineBuilder = new PipelineBuilder();
 
-        $this->buildTransformerPipeline($transformers);
+        $this->buildTransformerPipeline($pipelineBuilder, $transformers);
     }
 
     /**
@@ -52,12 +52,11 @@ final class Processor
     }
 
     /**
+     * @param PipelineBuilder $pipelineBuilder
      * @param array<int,object> $transformers
      */
-    private function buildTransformerPipeline(array $transformers): void
+    private function buildTransformerPipeline(PipelineBuilder $pipelineBuilder, array $transformers): void
     {
-        $pipelineBuilder = (new PipelineBuilder());
-
         foreach ($transformers as $transformer) {
             // @phpstan-ignore-next-line
             $pipelineBuilder->add($transformer);

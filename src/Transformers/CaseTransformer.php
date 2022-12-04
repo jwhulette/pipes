@@ -16,6 +16,15 @@ final class CaseTransformer implements TransformerInterface
      */
     protected array $transformers;
 
+    /**
+     * Set the columns and transformation.
+     *
+     * @param string|int $column
+     * @param string $mode [upper, lower, title ]
+     * @param string $encoding
+     *
+     * @return self
+     */
     public function transformColumn(string|int $column, string $mode, string $encoding = 'utf-8'): self
     {
         $this->transformers[] = new CaseDto($column, $this->getMode($mode), $encoding);

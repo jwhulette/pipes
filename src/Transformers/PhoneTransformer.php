@@ -10,13 +10,19 @@ use Jwhulette\Pipes\Frame;
 
 final class PhoneTransformer implements TransformerInterface
 {
-    /**
-     * @var array<int,PhoneDto>
-     */
+    /** @var array<int,PhoneDto> */
     protected array $columns;
 
     protected int $maxlength = 10;
 
+    /**
+     * Set the columns and transformation.
+     *
+     * @param string|int $column
+     * @param int|null $maxlength [Default: 10]
+     *
+     * @return self
+     */
     public function transformColumn(string|int $column, int $maxlength = null): self
     {
         $phoneMaxLength = $maxlength ?? $this->maxlength;

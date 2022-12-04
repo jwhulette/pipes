@@ -43,6 +43,8 @@ final class Frame
     }
 
     /**
+     * Get the frame data.
+     *
      * @return \Illuminate\Support\Collection<int,mixed>
      */
     public function getData(): Collection
@@ -51,6 +53,8 @@ final class Frame
     }
 
     /**
+     * Set the frame header data.
+     *
      * @param array<int,mixed> $header
      */
     public function setHeader(array $header): void
@@ -59,6 +63,8 @@ final class Frame
     }
 
     /**
+     * Get the frame header.
+     *
      * @return \Illuminate\Support\Collection<int,mixed>
      */
     public function getHeader(): Collection
@@ -67,6 +73,8 @@ final class Frame
     }
 
     /**
+     * Set a frame attribute.
+     *
      * @param array<int,string> $attribute
      */
     public function setAttribute(array $attribute): void
@@ -75,6 +83,8 @@ final class Frame
     }
 
     /**
+     * Get all the frame attributes.
+     *
      * @return array<int|string,string>
      */
     public function getAllAttributes(): array
@@ -82,6 +92,13 @@ final class Frame
         return $this->attributes;
     }
 
+    /**
+     * Get single frame attribute.
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
     public function getAttribute(string $key): mixed
     {
         return $this->attributes[$key];
@@ -95,6 +112,11 @@ final class Frame
         $this->end = true;
     }
 
+    /**
+     * Get the frame the end frame value.
+     *
+     * @return bool
+     */
     public function getEnd(): bool
     {
         return $this->end;

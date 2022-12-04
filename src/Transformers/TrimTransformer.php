@@ -11,9 +11,7 @@ use Jwhulette\Pipes\Frame;
 
 final class TrimTransformer implements TransformerInterface
 {
-    /**
-     * @var array<int,TrimDto>
-     */
+    /** @var array<int,TrimDto> */
     protected array $columns;
 
     protected bool $allColumns = false;
@@ -22,6 +20,16 @@ final class TrimTransformer implements TransformerInterface
 
     protected string $mask = " \t\n\r\0\x0B";
 
+    /**
+     * Set the columns and transformation.
+     *
+     * @param string|int $column
+     * @param string|null $type [Default: trim][Options: trim, ltrim, rtrim]
+     * @param string|null $mask [Default: \t\n\r\0\x0B]
+     * @see https://www.php.net/manual/en/function.trim.php
+     *
+     * @return self
+     */
     public function transformColumn(string|int $column, ?string $type = null, ?string $mask = null): self
     {
         $columnType = $type ?? $this->type;

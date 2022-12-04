@@ -32,6 +32,13 @@ final class CsvExtractor implements ExtractorInterface
         $this->options = new Options();
     }
 
+    /**
+     * Skips empty rows and only return rows containing data.
+     *
+     * @param bool $preserve [Default: false]
+     *
+     * @return self
+     */
     public function preserveEmptyRows(bool $preserve): self
     {
         $this->options->SHOULD_PRESERVE_EMPTY_ROWS = $preserve;
@@ -39,6 +46,13 @@ final class CsvExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * Set the file encoding.
+     *
+     * @param string $encoding [Default: UTF-8]
+     *
+     * @return self
+     */
     public function setEncoding(string $encoding): self
     {
         $this->options->ENCODING = $encoding;
@@ -46,6 +60,13 @@ final class CsvExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * Set the file delimiter.
+     *
+     * @param string $delimiter [Default: comma]
+     *
+     * @return self
+     */
     public function setDelimiter(string $delimiter): self
     {
         $this->options->FIELD_DELIMITER = $delimiter;
@@ -53,6 +74,13 @@ final class CsvExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * Set the text string enclosure [Default: double-quote].
+     *
+     * @param string $enclosure
+     *
+     * @return self
+     */
     public function setEnclosure(string $enclosure): self
     {
         $this->options->FIELD_ENCLOSURE = $enclosure;
@@ -60,6 +88,13 @@ final class CsvExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * The number of lines to skip at the beginning of the file.
+     *
+     * @param int $skipLines
+     *
+     * @return self
+     */
     public function setSkipLines(int $skipLines): self
     {
         $this->skipLines = $skipLines;
@@ -67,6 +102,11 @@ final class CsvExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * The file does not have a header row.
+     *
+     * @return self
+     */
     public function setNoHeader(): self
     {
         $this->hasHeader = false;
@@ -74,6 +114,11 @@ final class CsvExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * Extract the data from the file.
+     *
+     * @return \Generator
+     */
     public function extract(): Generator
     {
         $reader = new Reader($this->options);

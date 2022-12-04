@@ -30,7 +30,7 @@ final class EtlPipe
     }
 
     /**
-     * Set the transforms to use.
+     * Set the transformers to use.
      *
      * @param array<int,TransformerInterface> $transformers
      *

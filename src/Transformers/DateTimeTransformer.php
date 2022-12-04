@@ -16,6 +16,15 @@ final class DateTimeTransformer implements TransformerInterface
      */
     protected array $columns;
 
+    /**
+     * Set the columns and transformation.
+     *
+     * @param string|int $column
+     * @param string|null $outputFormat
+     * @param string|null $inputFormat
+     *
+     * @return self
+     */
     public function transformColumn(string|int $column, ?string $outputFormat = null, ?string $inputFormat = null): self
     {
         $this->columns[] = new DateTimeDto($column, $outputFormat, $inputFormat);

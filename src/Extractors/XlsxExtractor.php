@@ -37,6 +37,11 @@ final class XlsxExtractor implements ExtractorInterface
         $this->options = new Options();
     }
 
+    /**
+     * Will return formatted dates.
+     *
+     * @return self
+     */
     public function formatDates(): self
     {
         $this->options->SHOULD_FORMAT_DATES = \true;
@@ -44,6 +49,11 @@ final class XlsxExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * Skips empty rows and only return rows containing data.
+     *
+     * @return self
+     */
     public function preserveEmptyRows(): self
     {
         $this->options->SHOULD_PRESERVE_EMPTY_ROWS = \true;
@@ -51,6 +61,12 @@ final class XlsxExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * Set to use 1904 dates.
+     * @see https://learn.microsoft.com/en-us/office/troubleshoot/excel/1900-and-1904-date-system
+     *
+     * @return self
+     */
     public function use19O4Dates(): self
     {
         $this->options->SHOULD_USE_1904_DATES = \true;
@@ -58,6 +74,11 @@ final class XlsxExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * The file does not have a header row.
+     *
+     * @return self
+     */
     public function setNoHeader(): self
     {
         $this->hasHeader = false;
@@ -65,6 +86,13 @@ final class XlsxExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * The number of lines to skip at the beginning of the file.
+     *
+     * @param int $skipLines
+     *
+     * @return self
+     */
     public function setSkipLines(int $skipLines): self
     {
         $this->skipLines = $skipLines;
@@ -72,6 +100,14 @@ final class XlsxExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * Set the sheet to read
+     * Zero based index, ie. first sheet is 0.
+     *
+     * @param int $sheetIndex
+     *
+     * @return self
+     */
     public function setSheetIndex(int $sheetIndex): self
     {
         $this->sheetIndex = $sheetIndex;
@@ -79,6 +115,11 @@ final class XlsxExtractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * Extract the data from the file.
+     *
+     * @return \Generator
+     */
     public function extract(): Generator
     {
         $reader = new Reader($this->options);

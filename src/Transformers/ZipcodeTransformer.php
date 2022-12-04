@@ -15,9 +15,7 @@ use Jwhulette\Pipes\Frame;
  */
 class ZipcodeTransformer implements TransformerInterface
 {
-    /**
-     * @var \Illuminate\Support\Collection<int,ZipcodeDto>
-     */
+    /** @var \Illuminate\Support\Collection<int,ZipcodeDto> */
     protected Collection $columns;
 
     protected int $maxlength = 5;
@@ -27,6 +25,15 @@ class ZipcodeTransformer implements TransformerInterface
         $this->columns = new Collection();
     }
 
+    /**
+     * Set the columns and transformation.
+     *
+     * @param int|string $column
+     * @param string|null $pad [Options: padleft, padright]
+     * @param int|null $maxlength [Default: 5]
+     *
+     * @return self
+     */
     public function tranformColumn(int|string $column, ?string $pad = null, ?int $maxlength = null): self
     {
         $this->columns->push(new ZipcodeDto(

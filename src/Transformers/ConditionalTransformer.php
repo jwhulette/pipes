@@ -22,6 +22,8 @@ final class ConditionalTransformer implements TransformerInterface
     }
 
     /**
+     * Add a conditional.
+     *
      * @param array<string,string> $match Any associative array of keys to values to match against
      * @param array<string,string> $replace An associative array of keys to values to replace
      *
