@@ -1,18 +1,14 @@
 ![Banner](.github/images/Pipes.png)
 
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.0-8892BF.svg?style=flat-square)](https://php.net/) 
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg?style=flat-square)](https://php.net/) 
 ![Laravel](https://img.shields.io/badge/Laravel-8%2B-red)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/jwhulette/pipes/run-tests?label=tests)](https://github.com/jwhulette/pipes/actions?query=workflow%3Arun-tests+branch%3Amain) 
 [![Total Downloads](https://img.shields.io/packagist/dt/jwhulette/pipes.svg?style=flat-square)](https://packagist.org/packages/jwhulette/pipes)
 
 # Pipes
-
 Pipes is a PHP Extract Transform Load [ETL] package for Laravel 8+
 
-View documentation at https://jwhulette.github.io/pipes/
-
 ## Installation
-
 ```bash
 composer require jwhulette/pipes
 ```
@@ -22,14 +18,31 @@ composer require jwhulette/pipes
 1. Create a new EtlPipe object.
 
 1. Add an extractor to the object to read the input file
+    - You can create your own extractor by implementing the ExtractorInterface.php
 
-Add an extractor to the object to read a file or database.
+1. Add transformers to transform the data
 
     - You can add as many transformers as you want.
 
-    - Data is passed to the transfomers in the order they are defined
+    - You can create your own transformers by implementing the TransformerInterface.php
 
-### Notes
+    - Data is passed to the transformers in the order they are defined
+
+1. Add a loader to write out the transformed data.
+
+    - You can create your own loader by implementing the LoaderInterface.php
+
+```php
+(new EtlPipe())
+->extract(new CsvExtractor($this->csvFile));
+->transforms([
+    new CaseTransformer([], 'lower'),
+    new TrimTransformer(),
+])
+->load(new CsvLoader('saved-file.csv'));
+```
+
+##### Notes:
 **Built-in extractors:**
 * CsvExtractor
 * XlsxExtractor
@@ -48,17 +61,6 @@ Add an extractor to the object to read a file or database.
 *ConditionalTransformer - Transform a column, based on the values of another column
 
 *Data is passed to the transformers in the order they are defined*
-
-```php
-(new EtlPipe())
-->extract(new CsvExtractor($this->csvFile));
-->transforms([
-    new CaseTransformer([], 'lower'),
-    new TrimTransformer(),
-])
-->load(new CsvLoader('saved-file.csv'));
-```
-
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
