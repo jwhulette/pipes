@@ -5,47 +5,96 @@ declare(strict_types=1);
 namespace Jwhulette\Pipes\Extractors;
 
 use Generator;
-use Jwhulette\Pipes\Contracts\Extractor;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
-use Jwhulette\Pipes\Exceptions\PipesException;
 use Jwhulette\Pipes\Frame;
-use Jwhulette\Pipes\Traits\CsvOptions;
-use League\Csv\Reader;
-use League\Csv\SyntaxError;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Reader\CSV\Options;
+use OpenSpout\Reader\CSV\Reader;
+use OpenSpout\Reader\CSV\RowIterator;
+use OpenSpout\Reader\CSV\Sheet;
 
-class CsvExtractor extends Extractor implements ExtractorInterface
+final class CsvExtractor implements ExtractorInterface
 {
-    use CsvOptions;
+    protected Frame $frame;
 
     protected string $file;
+
+    protected Options $options;
+
+    protected int $skipLines = 0;
+
+    protected bool $hasHeader = true;
 
     public function __construct(string $file)
     {
         $this->file = $file;
         $this->frame = new Frame();
+        $this->options = new Options();
     }
 
+    /**
+     * Skips empty rows and only return rows containing data.
+     *
+     * @param bool $preserve [Default: false]
+     *
+     * @return self
+     */
+    public function preserveEmptyRows(bool $preserve): self
+    {
+        $this->options->SHOULD_PRESERVE_EMPTY_ROWS = $preserve;
+
+        return $this;
+    }
+
+    /**
+     * Set the file encoding.
+     *
+     * @param string $encoding [Default: UTF-8]
+     *
+     * @return self
+     */
+    public function setEncoding(string $encoding): self
+    {
+        $this->options->ENCODING = $encoding;
+
+        return $this;
+    }
+
+    /**
+     * Set the file delimiter.
+     *
+     * @param string $delimiter [Default: comma]
+     *
+     * @return self
+     */
     public function setDelimiter(string $delimiter): self
     {
-        $this->delimiter = $delimiter;
+        $this->options->FIELD_DELIMITER = $delimiter;
 
         return $this;
     }
 
+    /**
+     * Set the text string enclosure [Default: double-quote].
+     *
+     * @param string $enclosure
+     *
+     * @return self
+     */
     public function setEnclosure(string $enclosure): self
     {
-        $this->enclosure = $enclosure;
+        $this->options->FIELD_ENCLOSURE = $enclosure;
 
         return $this;
     }
 
-    public function setEscape(string $escape): self
-    {
-        $this->escape = $escape;
-
-        return $this;
-    }
-
+    /**
+     * The number of lines to skip at the beginning of the file.
+     *
+     * @param int $skipLines
+     *
+     * @return self
+     */
     public function setSkipLines(int $skipLines): self
     {
         $this->skipLines = $skipLines;
@@ -53,6 +102,11 @@ class CsvExtractor extends Extractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * The file does not have a header row.
+     *
+     * @return self
+     */
     public function setNoHeader(): self
     {
         $this->hasHeader = false;
@@ -60,36 +114,85 @@ class CsvExtractor extends Extractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * Extract the data from the file.
+     *
+     * @return \Generator
+     */
     public function extract(): Generator
     {
-        $reader = Reader::createFromPath($this->file, 'r');
-        $reader->setDelimiter($this->delimiter)
-            ->setEnclosure($this->enclosure)
-            ->setEscape($this->escape);
+        $reader = new Reader($this->options);
+        $reader->open($this->file);
 
-        if ($this->hasHeader === \true) {
-            $reader->setHeaderOffset(0);
-            try {
-                $header = $reader->getHeader();
+        $sheet = $reader->getSheetIterator()->current();
 
-                $this->frame->setHeader($header);
-            } catch (SyntaxError $exception) {
-                $duplicateColumns = collect($exception->duplicateColumnNames())->implode(',');
+        return $this->readSheet($reader, $sheet);
+    }
 
-                throw new PipesException('Duplicate column names ' . $duplicateColumns, 1);
-            }
+    private function readSheet(Reader $reader, Sheet $sheet): Generator
+    {
+        $skip = 0;
+        $rowIterator = $sheet->getRowIterator();
+
+        if ($this->hasHeader) {
+            $this->setHeader($rowIterator);
+            /*
+             * Since foreach resets the point to the beginning
+             * skip the header when looping the rows
+             */
+            $this->skipLines = $this->skipLines + 1;
         }
 
-        foreach ($reader->getRecords() as $offset => $record) {
-            if ($offset < $this->skipLines) {
+        foreach ($rowIterator as $row) {
+            if ($skip < $this->skipLines) {
+                $skip++;
+
                 continue;
             }
 
-            yield $this->frame->setData($record);
+            yield $this->frame->setData(
+                $this->makeRow($row->getCells())
+            );
         }
 
         $this->frame->setEnd();
 
-        yield $this->frame;
+        $reader->close();
+    }
+
+    /**
+     * The use of rewind is needed when using current.
+     */
+    private function setHeader(RowIterator $rowIterator): void
+    {
+        $rowIterator->rewind();
+
+        $row = $rowIterator->current();
+
+        if (! $row instanceof Row) {
+            return;
+        }
+
+        $this->frame->setHeader(
+            $this->makeRow(
+                $row->getCells()
+            )
+        );
+    }
+
+    /**
+     * @param array<int,\OpenSpout\Common\Entity\Cell> $cells
+     *
+     * @return array<int,mixed>
+     */
+    public function makeRow(array $cells): array
+    {
+        $collection = [];
+
+        foreach ($cells as $cell) {
+            $collection[] = $cell->getValue();
+        }
+
+        return $collection;
     }
 }

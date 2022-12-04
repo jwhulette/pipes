@@ -6,14 +6,14 @@ namespace Jwhulette\Pipes\Transformers;
 
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
-use Jwhulette\Pipes\DataTransferObjects\ConditionalColumn;
+use Jwhulette\Pipes\DataTransferObjects\ConditionalDto;
 use Jwhulette\Pipes\Frame;
 
-/**
- * Change a value of an item of based on a conditional.
- */
-class ConditionalTransformer implements TransformerInterface
+final class ConditionalTransformer implements TransformerInterface
 {
+    /**
+     * @var \Illuminate\Support\Collection<int,ConditionalDto>
+     */
     protected Collection $conditionals;
 
     public function __construct()
@@ -22,14 +22,16 @@ class ConditionalTransformer implements TransformerInterface
     }
 
     /**
-     * @param array<string> $match Any associative array of keys to values to match against
-     * @param array<string> $replace An associative array of keys to values to replace
+     * Add a conditional.
+     *
+     * @param array<string,string> $match Any associative array of keys to values to match against
+     * @param array<string,string> $replace An associative array of keys to values to replace
      *
      * @return ConditionalTransformer
      */
     public function addConditional(array $match, array $replace): self
     {
-        $condition = new ConditionalColumn($match, $replace);
+        $condition = new ConditionalDto($match, $replace);
 
         $this->conditionals->push($condition);
 
@@ -38,11 +40,12 @@ class ConditionalTransformer implements TransformerInterface
 
     public function __invoke(Frame $frame): Frame
     {
-        $this->conditionals->transform(function ($item) use ($frame): void {
-            $diff = $item->match->diffAssoc($frame->getData());
+        // @phpstan-ignore-next-line
+        $this->conditionals->transform(function (ConditionalDto $item) use ($frame): void {
+            $diff = $item->match->diffAssoc($frame->data);
 
             if ($diff->count() === 0) {
-                $frame->setData($frame->getData()->replace($item->replace)->toArray());
+                $frame->data = $frame->data->replace($item->replace);
             }
         });
 

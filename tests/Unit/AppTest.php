@@ -8,34 +8,34 @@ use Jwhulette\Pipes\EtlPipe;
 use Jwhulette\Pipes\Extractors\CsvExtractor;
 use Jwhulette\Pipes\Loaders\CsvLoader;
 use Jwhulette\Pipes\Transformers\CaseTransformer;
-use org\bovigo\vfs\vfsStream;
 use Tests\TestCase;
 
 class AppTest extends TestCase
 {
-    protected string $testFile;
+    protected string $testFile = 'tests/artifacts/test_file_with_header.csv';
 
     public function setUp(): void
     {
-        $directory = [
-            'csv_extractor.csv',
-        ];
-
-        $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
-
-        $this->testFile = $this->vfs->url() . '/csv_extractor.csv';
     }
 
-    /** @test */
-    public function the_app_successfully_boots(): void
+    /**
+     * Test the EtlPipe object gets created.
+     *
+     * @return void
+     */
+    public function testAppBoots(): void
     {
         $pipe = new EtlPipe();
 
         $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
-    /** @test */
-    public function it_can_add_an_extractor(): void
+    /**
+     * Test extractors adding to app.
+     *
+     * @return void
+     */
+    public function testExtractorAdd(): void
     {
         $pipe = new EtlPipe();
 
@@ -44,8 +44,12 @@ class AppTest extends TestCase
         $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
-    /** @test */
-    public function it_can_add_a_transformer(): void
+    /**
+     * Test extractors adding to app.
+     *
+     * @return void
+     */
+    public function testTransformsAdd(): void
     {
         $pipe = new EtlPipe();
 
@@ -58,8 +62,7 @@ class AppTest extends TestCase
         $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
-    /** @test */
-    public function it_can_add_a_loader(): void
+    public function testLoader(): void
     {
         $pipe = new EtlPipe();
 

@@ -4,38 +4,81 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Extractors;
 
-use DateInterval;
-use DateTimeInterface;
+use Exception;
 use Generator;
-use Jwhulette\Pipes\Contracts\Extractor;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Frame;
-use OpenSpout\Common\Entity\Cell;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Reader\XLSX\Options;
 use OpenSpout\Reader\XLSX\Reader;
 use OpenSpout\Reader\XLSX\RowIterator;
+use OpenSpout\Reader\XLSX\Sheet;
 
-class XlsxExtractor extends Extractor implements ExtractorInterface
+final class XlsxExtractor implements ExtractorInterface
 {
-    protected Reader $reader;
+    protected string $file;
 
-    protected bool $hasHeader = \true;
+    protected Options $options;
+
+    protected int $skipLines = 0;
+
+    protected bool $hasHeader = true;
+
+    protected Frame $frame;
 
     protected int $sheetIndex = 0;
 
     public function __construct(string $file)
     {
-        $options = new Options();
-        $options->SHOULD_FORMAT_DATES = \true;
-
-        $this->reader = new Reader($options);
-
-        $this->reader->open($file);
+        $this->file = $file;
 
         $this->frame = new Frame();
+
+        $this->options = new Options();
     }
 
+    /**
+     * Will return formatted dates.
+     *
+     * @return self
+     */
+    public function formatDates(): self
+    {
+        $this->options->SHOULD_FORMAT_DATES = \true;
+
+        return $this;
+    }
+
+    /**
+     * Skips empty rows and only return rows containing data.
+     *
+     * @return self
+     */
+    public function preserveEmptyRows(): self
+    {
+        $this->options->SHOULD_PRESERVE_EMPTY_ROWS = \true;
+
+        return $this;
+    }
+
+    /**
+     * Set to use 1904 dates.
+     * @see https://learn.microsoft.com/en-us/office/troubleshoot/excel/1900-and-1904-date-system
+     *
+     * @return self
+     */
+    public function use19O4Dates(): self
+    {
+        $this->options->SHOULD_USE_1904_DATES = \true;
+
+        return $this;
+    }
+
+    /**
+     * The file does not have a header row.
+     *
+     * @return self
+     */
     public function setNoHeader(): self
     {
         $this->hasHeader = false;
@@ -43,6 +86,13 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * The number of lines to skip at the beginning of the file.
+     *
+     * @param int $skipLines
+     *
+     * @return self
+     */
     public function setSkipLines(int $skipLines): self
     {
         $this->skipLines = $skipLines;
@@ -50,6 +100,14 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * Set the sheet to read
+     * Zero based index, ie. first sheet is 0.
+     *
+     * @param int $sheetIndex
+     *
+     * @return self
+     */
     public function setSheetIndex(int $sheetIndex): self
     {
         $this->sheetIndex = $sheetIndex;
@@ -57,52 +115,66 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
         return $this;
     }
 
+    /**
+     * Extract the data from the file.
+     *
+     * @return \Generator
+     */
     public function extract(): Generator
     {
-        $skip = 0;
+        $reader = new Reader($this->options);
+        $reader->open($this->file);
+        $selectedSheet = \null;
 
-        foreach ($this->reader->getSheetIterator() as $sheet) {
-            // Read the selected sheet
-            if ($sheet->getIndex() === $this->sheetIndex) {
-                $rowIterator = $sheet->getRowIterator();
-
-                if ($this->hasHeader) {
-                    $this->setHeader($rowIterator);
-                    /*
-                     * Since foreach resets the point to the beginning
-                     * skip the header when looping the rows
-                     */
-                    $this->skipLines += 1;
-                }
-
-                foreach ($rowIterator as $row) {
-                    if ($skip < $this->skipLines) {
-                        $skip++;
-
-                        continue;
-                    }
-
-                    if (! $row instanceof Row) {
-                        return;
-                    }
-
-                    $cells = $row->getCells();
-                    yield $this->frame->setData(
-                        $this->makeRow($cells)
-                    );
-                }
+        foreach ($reader->getSheetIterator() as $sheet) {
+            /* @var \OpenSpout\Reader\XLSX\Sheet $sheet */
+            if ($sheet->getIndex() !== $this->sheetIndex) {
+                continue;
             }
+
+            $selectedSheet = $sheet;
+        }
+
+        return $this->readSheet($reader, $selectedSheet);
+    }
+
+    private function readSheet(Reader $reader, ?Sheet $sheet): Generator
+    {
+        if (\is_null($sheet)) {
+            throw new Exception('Unable to find selected sheet', 1);
+        }
+
+        $rowIterator = $sheet->getRowIterator();
+
+        if ($this->hasHeader) {
+            $this->setHeader($rowIterator);
+            /*
+             * Since foreach resets the point to the beginning
+             * skip the header when looping the rows
+             */
+            $this->skipLines = $this->skipLines + 1;
+        }
+
+        $skip = 0;
+        foreach ($rowIterator as $row) {
+            if ($skip < $this->skipLines) {
+                $skip++;
+
+                continue;
+            }
+
+            yield $this->frame->setData(
+                $this->makeRow($row->getCells())
+            );
         }
 
         $this->frame->setEnd();
 
-        $this->reader->close();
+        $reader->close();
     }
 
     /**
      * The use of rewind is needed when using current.
-     *
-     * @see https://github.com/box/spout/pull/606#issuecomment-443745187
      */
     private function setHeader(RowIterator $rowIterator): void
     {
@@ -122,9 +194,9 @@ class XlsxExtractor extends Extractor implements ExtractorInterface
     }
 
     /**
-     * @param array<Cell> $cells
+     * @param array<int,\OpenSpout\Common\Entity\Cell> $cells
      *
-     * @return array<int,bool|DateInterval|DateTimeInterface|float|int|string|null>
+     * @return array<int,mixed>
      */
     public function makeRow(array $cells): array
     {

@@ -4,38 +4,40 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
-use Jwhulette\Pipes\DataTransferObjects\PhoneColumn;
+use Jwhulette\Pipes\DataTransferObjects\PhoneDto;
 use Jwhulette\Pipes\Frame;
 
-/**
- * Clean phone numbers to include only digits.
- */
-class PhoneTransformer implements TransformerInterface
+final class PhoneTransformer implements TransformerInterface
 {
-    protected Collection $columns;
+    /** @var array<int,PhoneDto> */
+    protected array $columns;
 
     protected int $maxlength = 10;
 
-    public function __construct()
+    /**
+     * Set the columns and transformation.
+     *
+     * @param string|int $column
+     * @param int|null $maxlength [Default: 10]
+     *
+     * @return self
+     */
+    public function transformColumn(string|int $column, int $maxlength = null): self
     {
-        $this->columns = new Collection();
-    }
+        $phoneMaxLength = $maxlength ?? $this->maxlength;
 
-    public function transformColumn(int|string $column, ?int $maxlength = null): self
-    {
-        $this->columns->push(new PhoneColumn($column, $maxlength ?? $this->maxlength));
+        $this->columns[] = new PhoneDto($column, $phoneMaxLength);
 
         return $this;
     }
 
     public function __invoke(Frame $frame): Frame
     {
-        $frame->getData()->transform(function ($item, $key) {
-            foreach ($this->columns as $column) {
-                if ($column->column === $key) {
-                    return $this->tranformPhone($item, $column);
+        $frame->data->transform(function ($item, $key) {
+            foreach ($this->columns as $dto) {
+                if ($dto->column === $key) {
+                    return $this->tranformPhone(\strval($item), $dto);
                 }
             }
 
@@ -45,13 +47,23 @@ class PhoneTransformer implements TransformerInterface
         return $frame;
     }
 
-    private function tranformPhone(string $item, PhoneColumn $transform): string
+    /**
+     * @param string $item
+     * @param PhoneDto $phoneDto $transform
+     *
+     * @return string
+     */
+    private function tranformPhone(?string $item, PhoneDto $phoneDto): string
     {
-        // Remove all non numeric characters
-        $transformed = (string) \preg_replace('/\D+/', '', $item);
+        if (\is_null($item)) {
+            return '';
+        }
 
-        if ($transform->maxLength > 0) {
-            $transformed = \substr($transformed, 0, $transform->maxLength);
+        // Remove all non numeric characters
+        $transformed = \strval(\preg_replace('/\D+/', '', $item));
+
+        if ($phoneDto->maxlength > 0) {
+            $transformed = \substr($transformed, 0, $phoneDto->maxlength);
         }
 
         return $transformed;

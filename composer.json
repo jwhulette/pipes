@@ -12,25 +12,20 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^8.0|^8.1",
+        "php": "^8.1",
         "league/pipeline": "^1.0",
-        "spatie/laravel-package-tools": "^1.9",
-        "league/csv": "^9.0",
-        "spatie/data-transfer-object": "^3.0",
-        "illuminate/container": "^8.0|^9.0",
-        "illuminate/database": "^8.0|^9.0",
-        "openspout/openspout": "^4.6"
+        "openspout/openspout": "^4.8",
+        "illuminate/support" : "^8.0|^9.0",
+        "illuminate/database" : "^8.0|^9.0",
+        "nesbot/carbon": "^2.63"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.18|^3.0",
-        "phpunit/phpunit": "^9.5",
-        "phpstan/phpstan": "^0.12|^1.5",
-        "ramsey/uuid": "^4.1",
-        "orchestra/testbench": "^6.0|^7.0",
-        "mikey179/vfsstream": "^1.6",
-        "nunomaduro/larastan": "^0.7|^2.0",
-        "spatie/temporary-directory": "^2.0",
-        "nunomaduro/phpinsights": "^2.2"
+        "friendsofphp/php-cs-fixer": "^v3.13.0",
+        "phpunit/phpunit": "^9.5.26",
+        "phpstan/phpstan": "^1.9.2",
+        "ramsey/uuid": "^4.6.0",
+        "orchestra/testbench": "^7.12.1",
+        "nunomaduro/larastan": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -43,18 +38,17 @@
         }
     },
     "scripts": {
-        "test": "phpunit --colors=always",
-        "phpstan": "vendor/bin/phpstan analyse --memory-limit=2G",
-        "ts": [
-            "vendor/bin/phpstan analyse --memory-limit=2G",
-            "phpunit --colors=always"
-        ],
-        "insights": "./vendor/bin/phpinsights --no-interaction --min-quality=90 --min-complexity=80 --min-architecture=90 --min-style=95n"
+        "test": "phpunit",
+        "tf" : "./vendor/bin/phpunit --filter ",
+        "phpstan": "phpstan analyse --memory-limit 2G",
+        "test-all": [
+            "phpstan analyse",
+            "phpunit"
+        ]
     },
     "extra": {
         "laravel": {
             "providers": [
-                "jwhulette\\Pipes\\PipesServiceProvider"
             ]
         }
     },

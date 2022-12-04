@@ -11,22 +11,23 @@ use Jwhulette\Pipes\Contracts\LoaderInterface;
 use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
-class SqlLoader implements LoaderInterface
+final class SqlLoader implements LoaderInterface
 {
     protected Builder $db;
 
+    /** @var \Illuminate\Support\Collection<int,string> */
     protected Collection $columns;
 
     protected int $count = 0;
 
     protected int $batchSize = 500;
 
-    /** @var array<array|int|string> */
-    protected array $insert = [];
+    /** @var array<int,mixed> */
+    protected array $insert;
 
     protected bool $useColumns = false;
 
-    public function __construct(string $table, ?string $connection = null)
+    public function __construct(string $table, string $connection = null)
     {
         if (! is_null($connection)) {
             $this->db = DB::connection($connection)->table($table);
@@ -35,6 +36,13 @@ class SqlLoader implements LoaderInterface
         $this->db = DB::table($table);
     }
 
+    /**
+     * Set the size of the batch of records to insert at once.
+     *
+     * @param int $batchSize [Default: 500]
+     *
+     * @return self
+     */
     public function setBatchSize(int $batchSize): self
     {
         $this->batchSize = $batchSize;
@@ -43,7 +51,11 @@ class SqlLoader implements LoaderInterface
     }
 
     /**
-     * @param array<array|int|string> $columns
+     * Set the table column names.
+     *
+     * @param array<int,string> $columns
+     *
+     * @return SqlLoader
      *
      * @throws PipesInvalidArgumentException
      */
@@ -51,7 +63,7 @@ class SqlLoader implements LoaderInterface
     {
         $this->columns = collect($columns);
 
-        if ($this->columns->count() === 0) {
+        if ($this->columns->isEmpty()) {
             throw new PipesInvalidArgumentException('SQL Columns name cannot be empty');
         }
 
@@ -60,6 +72,13 @@ class SqlLoader implements LoaderInterface
         return $this;
     }
 
+    /**
+     * Write a data frame to the database.
+     *
+     * @param \Jwhulette\Pipes\Frame $frame
+     *
+     * @return void
+     */
     public function load(Frame $frame): void
     {
         $this->count++;

@@ -6,17 +6,13 @@ namespace Jwhulette\Pipes\Tests\Unit\Loaders;
 
 use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Loaders\CsvLoader;
-use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamDirectory;
 use Tests\TestCase;
 
 class CsvLoaderTest extends TestCase
 {
     protected Frame $frame;
 
-    protected string $testFile;
-
-    protected vfsStreamDirectory $vfs;
+    protected string $output = 'tests/artifacts/output.csv';
 
     protected function setUp(): void
     {
@@ -29,44 +25,41 @@ class CsvLoaderTest extends TestCase
         ]);
 
         $this->frame->setHeader([
-            'FIRSTNAME',
-            'LASTNAME',
-            'DOB',
-        ]);
-
-        $directory = [
-            'csv_extractor.csv',
-        ];
-
-        $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
-
-        $this->testFile = $this->vfs->url() . '/csv_extractor.csv';
+                'FIRSTNAME',
+                'LASTNAME',
+                'DOB',
+            ]);
     }
 
     /** @test */
-    public function it_can_create_an_instance(): void
+    public function it_returns_a_csv_loader_instance(): void
     {
-        $csv = new CsvLoader($this->testFile);
+        $csv = new CsvLoader($this->output);
 
         $this->assertInstanceOf(CsvLoader::class, $csv);
     }
 
     /** @test */
-    public function it_can_load_a_frame(): void
+    public function it_can_load_a_csv_file(): void
     {
-        $csv = new CsvLoader($this->testFile);
+        $csv = new CsvLoader($this->output);
 
         $csv->load($this->frame);
 
         $this->assertTrue(true);
+
+        \unlink($this->output);
     }
 
-    public function testFileWrite(): void
+    /** @test */
+    public function it_can_write_a_csv_file(): void
     {
-        $csv = new CsvLoader($this->testFile);
+        $csv = new CsvLoader($this->output);
 
         $csv->load($this->frame);
 
-        $this->assertTrue(file_exists($this->testFile));
+        $this->assertTrue(file_exists($this->output));
+
+        \unlink($this->output);
     }
 }

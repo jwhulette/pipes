@@ -4,56 +4,20 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Tests\Unit\Extractors;
 
-use Illuminate\Support\Facades\File;
 use Jwhulette\Pipes\Extractors\CsvExtractor;
-use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamDirectory;
-use Tests\database\factories\DataFileFactory;
 use Tests\TestCase;
 
 class CsvExtractorTest extends TestCase
 {
-    protected string $extract;
-
-    protected string $extractNoHeader;
-
-    protected vfsStreamDirectory $vfs;
-
     public function setUp(): void
     {
         parent::setUp();
-
-        $directory = [
-            'csv_extractor.csv',
-            'csv_no_header_extractor.csv',
-        ];
-
-        $this->vfs = vfsStream::setup(sys_get_temp_dir(), null, $directory);
-
-        $header = [
-            'FIRSTNAME',
-            'LASTNAME',
-            'DOB',
-            'AMOUNT',
-        ];
-        $this->extract = $this->vfs->url() . '/csv_extractor.txt';
-
-        $this->extractNoHeader = $this->vfs->url() . '/csv_no_header_extractor.csv';
-
-        (new DataFileFactory($this->extract))
-            ->asText()
-            ->setHeader($header)
-            ->create();
-
-        (new DataFileFactory($this->extractNoHeader))
-            ->asText()
-            ->create();
     }
 
     /** @test */
-    public function it_has_header(): void
+    public function csv_file_has_header(): void
     {
-        $csv = new CsvExtractor($this->extract);
+        $csv = new CsvExtractor('tests/artifacts/test_file_with_header.csv');
 
         $frameData = $csv->extract();
 
@@ -70,9 +34,9 @@ class CsvExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_has_no_header(): void
+    public function csv_file_has_no_header(): void
     {
-        $csv = new CsvExtractor($this->extractNoHeader);
+        $csv = new CsvExtractor('tests/artifacts/test_file_with_no_header.csv');
 
         $csv->setNoHeader();
 
@@ -82,22 +46,20 @@ class CsvExtractorTest extends TestCase
 
         $expected = [
             'BOB',
-            'SMITH',
-            '02/11/1969',
-            '$22.00',
+            'SMITHY',
+            '12/31/69',
+            '$22.22',
         ];
 
-        $this->assertEquals($expected, $frame->getData()->toArray());
-
-        File::delete($this->extract);
+        $this->assertEquals($expected, $frame->data->toArray());
     }
 
     /** @test */
-    public function it_can_skip_lines(): void
+    public function csv_can_skip_lines(): void
     {
-        $csv = new CsvExtractor($this->extract);
+        $csv = new CsvExtractor('tests/artifacts/test_file_with_header.csv');
 
-        $csv->setSkipLines(3);
+        $csv->setSkipLines(2);
 
         $frameData = $csv->extract();
 

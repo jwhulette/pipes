@@ -22,24 +22,10 @@ class ZipcodeTransformerTest extends TestCase
     }
 
     /**
-     * Data providor for zipcodes.
-     */
-    public static function zipcodeProvider()
-    {
-        return [
-            ['12345', '12345'],
-            ['12345+678', '12345'],
-            ['123', '123'],
-        ];
-    }
-
-    /**
-     * @param string $zip
-     * @param string $expected
-     *
+     * @test
      * @dataProvider zipcodeProvider
      */
-    public function testZipcodeTransfromation($zip, $expected): void
+    public function it_can_transform_postal_codes(string $zip, string $expected): void
     {
         $this->frame->setData([$zip]);
 
@@ -51,12 +37,10 @@ class ZipcodeTransformerTest extends TestCase
     }
 
     /**
-     * @param string $zip
-     * @param string $expected
-     *
+     * @test
      * @dataProvider zipcodeProvider
      */
-    public function testZipcodeTransfromationByIndex($zip, $expected): void
+    public function it_can_transform_postal_codes_by_index(string $zip, string $expected): void
     {
         $frame = new Frame();
 
@@ -69,7 +53,8 @@ class ZipcodeTransformerTest extends TestCase
         $this->assertSame($expected, $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationWithFillLimit5(): void
+    /** @test */
+    public function it_will_left_pad_a_zip_code_with_zeros(): void
     {
         $this->frame->setData(['']);
 
@@ -80,7 +65,8 @@ class ZipcodeTransformerTest extends TestCase
         $this->assertSame('00000', $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationByIndexWithFillLimit5(): void
+    /** @test */
+    public function it_will_left_pad_a_zip_code_with_zeros_by_index(): void
     {
         $frame = new Frame();
 
@@ -93,7 +79,7 @@ class ZipcodeTransformerTest extends TestCase
         $this->assertSame('00000', $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationWithFillLimitOther(): void
+    public function it_will_left_pad_a_zip_code_with_zeros_with_length(): void
     {
         $this->frame->setData(['']);
 
@@ -104,7 +90,7 @@ class ZipcodeTransformerTest extends TestCase
         $this->assertSame('0000000000', $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationByIndexWithFillLimitOther(): void
+    public function it_will_left_pad_a_zip_code_with_zeros_with_length_by_index(): void
     {
         $frame = new Frame();
         $frame->setData(['']);
@@ -114,51 +100,15 @@ class ZipcodeTransformerTest extends TestCase
         $this->assertSame('0000000000', $result->getData()->first());
     }
 
-    public function testZipcodeTransfromationWithPadLeft(): void
+    /**
+     * Data provider.
+     */
+    public static function zipcodeProvider()
     {
-        $this->frame->setData(['122']);
-
-        $transformer = (new ZipcodeTransformer())->tranformColumn('zip', 'padleft');
-
-        $result = $transformer->__invoke($this->frame);
-
-        $this->assertSame('00122', $result->getData()->first());
-    }
-
-    public function testZipcodeTransfromationByIndexWithPadLeft(): void
-    {
-        $frame = new Frame();
-
-        $frame->setData(['122']);
-
-        $transformer = (new ZipcodeTransformer())->tranformColumn(0, 'padleft');
-
-        $result = $transformer->__invoke($frame);
-
-        $this->assertSame('00122', $result->getData()->first());
-    }
-
-    public function testZipcodeTransfromationWithPadRight(): void
-    {
-        $this->frame->setData(['122']);
-
-        $transformer = (new ZipcodeTransformer())->tranformColumn('zip', 'padright');
-
-        $result = $transformer->__invoke($this->frame);
-
-        $this->assertSame('12200', $result->getData()->first());
-    }
-
-    public function testZipcodeTransfromationByIndexWithPadRight(): void
-    {
-        $frame = new Frame();
-
-        $frame->setData(['122']);
-
-        $transformer = (new ZipcodeTransformer())->tranformColumn(0, 'padright');
-
-        $result = $transformer->__invoke($frame);
-
-        $this->assertSame('12200', $result->getData()->first());
+        return [
+            ['12345', '12345'],
+            ['12345+678', '12345'],
+            ['123', '123'],
+        ];
     }
 }

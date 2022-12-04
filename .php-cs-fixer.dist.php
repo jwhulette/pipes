@@ -1,11 +1,13 @@
 <?php
+
+declare(strict_types=1);
 /**
-  * -----------------------------------------------------
-  * Enforce the Laravel Code Style using PHP CS Fixer 3.x
-  * -----------------------------------------------------
-  * Credits go to Laravel Shift & Andreas Elia.
-  * https://gist.github.com/laravel-shift/cab527923ed2a109dda047b97d53c200.
-**/
+ * -----------------------------------------------------
+ * Enforce the Laravel Code Style using PHP CS Fixer 3.x
+ * -----------------------------------------------------
+ * Credits go to Laravel Shift & Andreas Elia.
+ * https://gist.github.com/laravel-shift/cab527923ed2a109dda047b97d53c200.
+ **/
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 

@@ -8,9 +8,6 @@ use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Transformers\DateTimeTransformer;
 use Tests\TestCase;
 
-/**
- * @group date
- */
 class DateTimeTransformerTest extends TestCase
 {
     protected Frame $frame;
@@ -30,11 +27,12 @@ class DateTimeTransformerTest extends TestCase
             'BOB',
             'SMITH',
             '02/11/1969',
-            '01/11/2000  00:00:00',
+            '01/11/2000 19:20:00',
         ]);
     }
 
-    public function testDateGuess(): void
+    /** @test */
+    public function it_can_guess_a_date_string(): void
     {
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB')
@@ -44,10 +42,11 @@ class DateTimeTransformerTest extends TestCase
 
         $this->assertEquals('1969-02-11 00:00:00', $result->getData()->get('DOB'));
 
-        $this->assertEquals('2000-01-11 00:00:00', $result->getData()->get('DOB2'));
+        $this->assertEquals('2000-01-11 19:20:00', $result->getData()->get('DOB2'));
     }
 
-    public function testDateGuessColumnIndex(): void
+    /** @test */
+    public function it_can_guess_a_date_by_index(): void
     {
         $frame = new Frame();
 
@@ -69,7 +68,8 @@ class DateTimeTransformerTest extends TestCase
         $this->assertEquals('2000-01-11 00:00:00', $result->getData()->slice(3, 1)->first());
     }
 
-    public function testDateInputFormat(): void
+    /** @test */
+    public function it_can_format_a_date_with_a_provided_format(): void
     {
         $transformer = (new DateTimeTransformer())
             ->transformColumn('DOB', 'Y-m-d', 'm/d/Y')
@@ -79,10 +79,11 @@ class DateTimeTransformerTest extends TestCase
 
         $this->assertEquals('1969-02-11', $result->getData()->get('DOB'));
 
-        $this->assertEquals('2000-01-11 00:00:00', $result->getData()->get('DOB2'));
+        $this->assertEquals('2000-01-11 19:20:00', $result->getData()->get('DOB2'));
     }
 
-    public function testDateInputFormatColumnIndex(): void
+    /** @test */
+    public function it_can_format_a_date_with_a_provided_format_by_index(): void
     {
         $frame = new Frame();
 
@@ -95,7 +96,7 @@ class DateTimeTransformerTest extends TestCase
 
         $transformer = (new DateTimeTransformer())
             ->transformColumn(2, 'Y-m-d', 'm/d/Y')
-            ->transformColumn(3, null, 'm/d/Y H:i:s');
+            ->transformColumn(3, null, 'm/d/Y h:i:s');
 
         $result = $transformer->__invoke($frame);
 
@@ -105,12 +106,10 @@ class DateTimeTransformerTest extends TestCase
     }
 
     /**
-     * @param string $date
-     * @param string $expected
-     *
+     * @test
      * @dataProvider dateTimeProvider
      */
-    public function testDateFormats($date, $expected): void
+    public function it_can_format_a_range_of_dates(string $date, string $expected): void
     {
         $frame = $this->frame->getData()->map(function ($item, $key) use ($date) {
             if ($key === 'DOB') {
@@ -131,7 +130,7 @@ class DateTimeTransformerTest extends TestCase
     }
 
     /**
-     * Data providor for testDateFormats.
+     * Data provider for testDateFormats.
      */
     public static function dateTimeProvider()
     {

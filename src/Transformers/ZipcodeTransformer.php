@@ -6,7 +6,7 @@ namespace Jwhulette\Pipes\Transformers;
 
 use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
-use Jwhulette\Pipes\DataTransferObjects\ZipcodeColumn;
+use Jwhulette\Pipes\DataTransferObjects\ZipcodeDto;
 use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
@@ -15,6 +15,7 @@ use Jwhulette\Pipes\Frame;
  */
 class ZipcodeTransformer implements TransformerInterface
 {
+    /** @var \Illuminate\Support\Collection<int,ZipcodeDto> */
     protected Collection $columns;
 
     protected int $maxlength = 5;
@@ -24,9 +25,18 @@ class ZipcodeTransformer implements TransformerInterface
         $this->columns = new Collection();
     }
 
+    /**
+     * Set the columns and transformation.
+     *
+     * @param int|string $column
+     * @param string|null $pad [Options: padleft, padright]
+     * @param int|null $maxlength [Default: 5]
+     *
+     * @return self
+     */
     public function tranformColumn(int|string $column, ?string $pad = null, ?int $maxlength = null): self
     {
-        $this->columns->push(new ZipcodeColumn(
+        $this->columns->push(new ZipcodeDto(
             $column,
             $maxlength ?? $this->maxlength,
             (is_null($pad) ? $pad : $this->setOption($pad)),
@@ -59,7 +69,7 @@ class ZipcodeTransformer implements TransformerInterface
             foreach ($this->columns as $column) {
                 if ($column->column === $key) {
                     return $this->transformZipcode(
-                        $item,
+                        strval($item),
                         $column->option,
                         $column->maxlength
                     );

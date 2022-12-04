@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\database\factories;
+namespace Tests\factories;
 
 use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Support\Facades\DB;
 
-class SalesDataDatabaseFactory
+class DatabaseFactory
 {
     protected Generator $faker;
 
