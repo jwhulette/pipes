@@ -10,6 +10,7 @@ parameters:
     level: 9
 
     ignoreErrors:
+
 #
 #    excludePaths:
 #        - ./*/*/FileToBeExcluded.php
