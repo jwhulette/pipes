@@ -15,23 +15,6 @@ final class PhoneTransformer implements TransformerInterface
 
     protected int $maxlength = 10;
 
-    /**
-     * Set the columns and transformation.
-     *
-     * @param string|int $column
-     * @param int|null $maxlength [Default: 10]
-     *
-     * @return self
-     */
-    public function transformColumn(string|int $column, int $maxlength = null): self
-    {
-        $phoneMaxLength = $maxlength ?? $this->maxlength;
-
-        $this->columns[] = new PhoneDto($column, $phoneMaxLength);
-
-        return $this;
-    }
-
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
@@ -48,10 +31,21 @@ final class PhoneTransformer implements TransformerInterface
     }
 
     /**
-     * @param string $item
-     * @param PhoneDto $phoneDto $transform
+     * Set the columns and transformation.
      *
-     * @return string
+     * @param int|null $maxlength [Default: 10]
+     */
+    public function transformColumn(string|int $column, ?int $maxlength = null): self
+    {
+        $phoneMaxLength = $maxlength ?? $this->maxlength;
+
+        $this->columns[] = new PhoneDto($column, $phoneMaxLength);
+
+        return $this;
+    }
+
+    /**
+     * @param PhoneDto $phoneDto $transform
      */
     private function tranformPhone(?string $item, PhoneDto $phoneDto): string
     {

@@ -31,10 +31,6 @@ final class SqlExtractor implements ExtractorInterface
 
     /**
      * Set a Laravel builder instance.
-     *
-     * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $builder
-     *
-     * @return self
      */
     public function setBuilder(QueryBuilder|Builder $builder): self
     {
@@ -60,11 +56,9 @@ final class SqlExtractor implements ExtractorInterface
     /**
      * Set the table name to query data from.
      *
-     * @param string $table
-     *
      * @return \Jwhulette\Pipes\Extractors\SqlExtractor
      */
-    public function setTable(string $table):self
+    public function setTable(string $table): self
     {
         $this->table = $table;
 
@@ -73,8 +67,6 @@ final class SqlExtractor implements ExtractorInterface
 
     /**
      * Set the database connection name.
-     *
-     * @param string $connection
      *
      * @return \Jwhulette\Pipes\Extractors\SqlExtractor
      */
@@ -87,8 +79,6 @@ final class SqlExtractor implements ExtractorInterface
 
     /**
      * Extract the data from the database.
-     *
-     * @return \Generator
      */
     public function extract(): Generator
     {
@@ -101,9 +91,6 @@ final class SqlExtractor implements ExtractorInterface
         $this->frame->setEnd();
     }
 
-    /**
-     * @return \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder
-     */
     protected function getConnection(): QueryBuilder|Builder
     {
         if (! \is_null($this->builder)) {

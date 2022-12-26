@@ -93,10 +93,6 @@ final class Frame
 
     /**
      * Get single frame attribute.
-     *
-     * @param string $key
-     *
-     * @return mixed
      */
     public function getAttribute(string $key): mixed
     {
@@ -113,8 +109,6 @@ final class Frame
 
     /**
      * Get the frame the end frame value.
-     *
-     * @return bool
      */
     public function getEnd(): bool
     {

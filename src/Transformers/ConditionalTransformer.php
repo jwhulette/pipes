@@ -21,6 +21,20 @@ final class ConditionalTransformer implements TransformerInterface
         $this->conditionals = new Collection();
     }
 
+    public function __invoke(Frame $frame): Frame
+    {
+        // @phpstan-ignore-next-line
+        $this->conditionals->transform(function (ConditionalDto $item) use ($frame): void {
+            $diff = $item->match->diffAssoc($frame->data);
+
+            if ($diff->count() === 0) {
+                $frame->data = $frame->data->replace($item->replace);
+            }
+        });
+
+        return $frame;
+    }
+
     /**
      * Add a conditional.
      *
@@ -36,19 +50,5 @@ final class ConditionalTransformer implements TransformerInterface
         $this->conditionals->push($condition);
 
         return $this;
-    }
-
-    public function __invoke(Frame $frame): Frame
-    {
-        // @phpstan-ignore-next-line
-        $this->conditionals->transform(function (ConditionalDto $item) use ($frame): void {
-            $diff = $item->match->diffAssoc($frame->data);
-
-            if ($diff->count() === 0) {
-                $frame->data = $frame->data->replace($item->replace);
-            }
-        });
-
-        return $frame;
     }
 }

@@ -20,9 +20,7 @@ final class Processor
     /**
      * Build the pipeline.
      *
-     * @param ExtractorInterface $extractor
      * @param array<int,\Jwhulette\Pipes\Contracts\TransformerInterface> $transformers
-     * @param LoaderInterface $loader
      */
     public function __construct(
         ExtractorInterface $extractor,
@@ -52,7 +50,6 @@ final class Processor
     }
 
     /**
-     * @param PipelineBuilder $pipelineBuilder
      * @param array<int,object> $transformers
      */
     private function buildTransformerPipeline(PipelineBuilder $pipelineBuilder, array $transformers): void

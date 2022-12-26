@@ -39,8 +39,6 @@ final class XlsxExtractor implements ExtractorInterface
 
     /**
      * Will return formatted dates.
-     *
-     * @return self
      */
     public function formatDates(): self
     {
@@ -51,8 +49,6 @@ final class XlsxExtractor implements ExtractorInterface
 
     /**
      * Skips empty rows and only return rows containing data.
-     *
-     * @return self
      */
     public function preserveEmptyRows(): self
     {
@@ -63,9 +59,8 @@ final class XlsxExtractor implements ExtractorInterface
 
     /**
      * Set to use 1904 dates.
-     * @see https://learn.microsoft.com/en-us/office/troubleshoot/excel/1900-and-1904-date-system
      *
-     * @return self
+     * @see https://learn.microsoft.com/en-us/office/troubleshoot/excel/1900-and-1904-date-system
      */
     public function use19O4Dates(): self
     {
@@ -76,8 +71,6 @@ final class XlsxExtractor implements ExtractorInterface
 
     /**
      * The file does not have a header row.
-     *
-     * @return self
      */
     public function setNoHeader(): self
     {
@@ -88,10 +81,6 @@ final class XlsxExtractor implements ExtractorInterface
 
     /**
      * The number of lines to skip at the beginning of the file.
-     *
-     * @param int $skipLines
-     *
-     * @return self
      */
     public function setSkipLines(int $skipLines): self
     {
@@ -103,10 +92,6 @@ final class XlsxExtractor implements ExtractorInterface
     /**
      * Set the sheet to read
      * Zero based index, ie. first sheet is 0.
-     *
-     * @param int $sheetIndex
-     *
-     * @return self
      */
     public function setSheetIndex(int $sheetIndex): self
     {
@@ -117,8 +102,6 @@ final class XlsxExtractor implements ExtractorInterface
 
     /**
      * Extract the data from the file.
-     *
-     * @return \Generator
      */
     public function extract(): Generator
     {
@@ -127,7 +110,7 @@ final class XlsxExtractor implements ExtractorInterface
         $selectedSheet = \null;
 
         foreach ($reader->getSheetIterator() as $sheet) {
-            /* @var \OpenSpout\Reader\XLSX\Sheet $sheet */
+            /** @var \OpenSpout\Reader\XLSX\Sheet $sheet */
             if ($sheet->getIndex() !== $this->sheetIndex) {
                 continue;
             }
@@ -136,6 +119,22 @@ final class XlsxExtractor implements ExtractorInterface
         }
 
         return $this->readSheet($reader, $selectedSheet);
+    }
+
+    /**
+     * @param array<int,\OpenSpout\Common\Entity\Cell> $cells
+     *
+     * @return array<int,mixed>
+     */
+    public function makeRow(array $cells): array
+    {
+        $array = [];
+
+        foreach ($cells as $cell) {
+            $array[] = $cell->getValue();
+        }
+
+        return $array;
     }
 
     private function readSheet(Reader $reader, ?Sheet $sheet): Generator
@@ -152,7 +151,7 @@ final class XlsxExtractor implements ExtractorInterface
              * Since foreach resets the point to the beginning
              * skip the header when looping the rows
              */
-            $this->skipLines = $this->skipLines + 1;
+            $this->skipLines += 1;
         }
 
         $skip = 0;
@@ -191,21 +190,5 @@ final class XlsxExtractor implements ExtractorInterface
                 $row->getCells()
             )
         );
-    }
-
-    /**
-     * @param array<int,\OpenSpout\Common\Entity\Cell> $cells
-     *
-     * @return array<int,mixed>
-     */
-    public function makeRow(array $cells): array
-    {
-        $array = [];
-
-        foreach ($cells as $cell) {
-            $array[] = $cell->getValue();
-        }
-
-        return $array;
     }
 }

@@ -13,7 +13,7 @@ use Jwhulette\Pipes\Frame;
 /**
  * Clean the zip code.
  */
-class ZipcodeTransformer implements TransformerInterface
+final class ZipcodeTransformer implements TransformerInterface
 {
     /** @var \Illuminate\Support\Collection<int,ZipcodeDto> */
     protected Collection $columns;
@@ -25,14 +25,30 @@ class ZipcodeTransformer implements TransformerInterface
         $this->columns = new Collection();
     }
 
+    public function __invoke(Frame $frame): Frame
+    {
+        $frame->getData()->transform(function ($item, $key) {
+            foreach ($this->columns as $column) {
+                if ($column->column === $key) {
+                    return $this->transformZipcode(
+                        strval($item),
+                        $column->option,
+                        $column->maxlength
+                    );
+                }
+            }
+
+            return $item;
+        });
+
+        return $frame;
+    }
+
     /**
      * Set the columns and transformation.
      *
-     * @param int|string $column
      * @param string|null $pad [Options: padleft, padright]
      * @param int|null $maxlength [Default: 5]
-     *
-     * @return self
      */
     public function tranformColumn(int|string $column, ?string $pad = null, ?int $maxlength = null): self
     {
@@ -61,25 +77,6 @@ class ZipcodeTransformer implements TransformerInterface
         }
 
         throw new PipesInvalidArgumentException('Invalid zipcode option!');
-    }
-
-    public function __invoke(Frame $frame): Frame
-    {
-        $frame->getData()->transform(function ($item, $key) {
-            foreach ($this->columns as $column) {
-                if ($column->column === $key) {
-                    return $this->transformZipcode(
-                        strval($item),
-                        $column->option,
-                        $column->maxlength
-                    );
-                }
-            }
-
-            return $item;
-        });
-
-        return $frame;
     }
 
     private function transformZipcode(string $zipcode, ?int $type, int $maxlength): string

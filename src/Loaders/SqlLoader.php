@@ -27,7 +27,7 @@ final class SqlLoader implements LoaderInterface
 
     protected bool $useColumns = false;
 
-    public function __construct(string $table, string $connection = null)
+    public function __construct(string $table, ?string $connection = null)
     {
         if (! is_null($connection)) {
             $this->db = DB::connection($connection)->table($table);
@@ -40,8 +40,6 @@ final class SqlLoader implements LoaderInterface
      * Set the size of the batch of records to insert at once.
      *
      * @param int $batchSize [Default: 500]
-     *
-     * @return self
      */
     public function setBatchSize(int $batchSize): self
     {
@@ -74,10 +72,6 @@ final class SqlLoader implements LoaderInterface
 
     /**
      * Write a data frame to the database.
-     *
-     * @param \Jwhulette\Pipes\Frame $frame
-     *
-     * @return void
      */
     public function load(Frame $frame): void
     {

@@ -14,11 +14,10 @@ use OpenSpout\Writer\CSV\Writer;
 
 final class CsvLoader implements LoaderInterface
 {
-    private static Writer $instance;
-
     protected Options $options;
 
     protected string $file;
+    private static Writer $instance;
 
     public function __construct(string $ouputfile)
     {
@@ -29,10 +28,6 @@ final class CsvLoader implements LoaderInterface
 
     /**
      * Set the file field delimiter.
-     *
-     * @param string $delimiter
-     *
-     * @return self
      */
     public function setDelimiter(string $delimiter): self
     {
@@ -43,10 +38,6 @@ final class CsvLoader implements LoaderInterface
 
     /**
      * Set the text field enclosure.
-     *
-     * @param string $enclosure
-     *
-     * @return self
      */
     public function setEnclosure(string $enclosure): self
     {
@@ -57,9 +48,8 @@ final class CsvLoader implements LoaderInterface
 
     /**
      * Do not set a BOM on the file.
-     * @see https://en.wikipedia.org/wiki/Byte_order_mark
      *
-     * @return self
+     * @see https://en.wikipedia.org/wiki/Byte_order_mark
      */
     public function noBom(): self
     {
@@ -70,10 +60,6 @@ final class CsvLoader implements LoaderInterface
 
     /**
      * Write a data frame to the file.
-     *
-     * @param \Jwhulette\Pipes\Frame $frame
-     *
-     * @return void
      */
     public function load(Frame $frame): void
     {

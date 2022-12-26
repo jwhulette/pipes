@@ -25,7 +25,8 @@
         "phpstan/phpstan": "^1.9.2",
         "ramsey/uuid": "^4.6.0",
         "orchestra/testbench": "^7.12.1",
-        "nunomaduro/larastan": "^2.0"
+        "nunomaduro/larastan": "^2.0",
+        "nunomaduro/phpinsights": "^2.6"
     },
     "autoload": {
         "psr-4": {

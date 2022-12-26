@@ -16,22 +16,6 @@ final class DateTimeTransformer implements TransformerInterface
      */
     protected array $columns;
 
-    /**
-     * Set the columns and transformation.
-     *
-     * @param string|int $column
-     * @param string|null $outputFormat
-     * @param string|null $inputFormat
-     *
-     * @return self
-     */
-    public function transformColumn(string|int $column, ?string $outputFormat = null, ?string $inputFormat = null): self
-    {
-        $this->columns[] = new DateTimeDto($column, $outputFormat, $inputFormat);
-
-        return $this;
-    }
-
     public function __invoke(Frame $frame): Frame
     {
         $frame->data->transform(function ($item, $key) {
@@ -45,6 +29,16 @@ final class DateTimeTransformer implements TransformerInterface
         });
 
         return $frame;
+    }
+
+    /**
+     * Set the columns and transformation.
+     */
+    public function transformColumn(string|int $column, ?string $outputFormat = null, ?string $inputFormat = null): self
+    {
+        $this->columns[] = new DateTimeDto($column, $outputFormat, $inputFormat);
+
+        return $this;
     }
 
     private function transformDateTime(string $datetime, DateTimeDto $dateTimeDto): string

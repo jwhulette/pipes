@@ -46,8 +46,6 @@ final class EtlPipe
     /**
      * Set the loader to use.
      *
-     * @param LoaderInterface $loader
-     *
      * @return EtlPipe
      */
     public function load(LoaderInterface $loader): self

@@ -36,8 +36,6 @@ final class CsvExtractor implements ExtractorInterface
      * Skips empty rows and only return rows containing data.
      *
      * @param bool $preserve [Default: false]
-     *
-     * @return self
      */
     public function preserveEmptyRows(bool $preserve): self
     {
@@ -50,8 +48,6 @@ final class CsvExtractor implements ExtractorInterface
      * Set the file encoding.
      *
      * @param string $encoding [Default: UTF-8]
-     *
-     * @return self
      */
     public function setEncoding(string $encoding): self
     {
@@ -64,8 +60,6 @@ final class CsvExtractor implements ExtractorInterface
      * Set the file delimiter.
      *
      * @param string $delimiter [Default: comma]
-     *
-     * @return self
      */
     public function setDelimiter(string $delimiter): self
     {
@@ -76,10 +70,6 @@ final class CsvExtractor implements ExtractorInterface
 
     /**
      * Set the text string enclosure [Default: double-quote].
-     *
-     * @param string $enclosure
-     *
-     * @return self
      */
     public function setEnclosure(string $enclosure): self
     {
@@ -90,10 +80,6 @@ final class CsvExtractor implements ExtractorInterface
 
     /**
      * The number of lines to skip at the beginning of the file.
-     *
-     * @param int $skipLines
-     *
-     * @return self
      */
     public function setSkipLines(int $skipLines): self
     {
@@ -104,8 +90,6 @@ final class CsvExtractor implements ExtractorInterface
 
     /**
      * The file does not have a header row.
-     *
-     * @return self
      */
     public function setNoHeader(): self
     {
@@ -116,8 +100,6 @@ final class CsvExtractor implements ExtractorInterface
 
     /**
      * Extract the data from the file.
-     *
-     * @return \Generator
      */
     public function extract(): Generator
     {
@@ -127,6 +109,22 @@ final class CsvExtractor implements ExtractorInterface
         $sheet = $reader->getSheetIterator()->current();
 
         return $this->readSheet($reader, $sheet);
+    }
+
+    /**
+     * @param array<int,\OpenSpout\Common\Entity\Cell> $cells
+     *
+     * @return array<int,mixed>
+     */
+    public function makeRow(array $cells): array
+    {
+        $collection = [];
+
+        foreach ($cells as $cell) {
+            $collection[] = $cell->getValue();
+        }
+
+        return $collection;
     }
 
     private function readSheet(Reader $reader, Sheet $sheet): Generator
@@ -140,7 +138,7 @@ final class CsvExtractor implements ExtractorInterface
              * Since foreach resets the point to the beginning
              * skip the header when looping the rows
              */
-            $this->skipLines = $this->skipLines + 1;
+            $this->skipLines += 1;
         }
 
         foreach ($rowIterator as $row) {
@@ -178,21 +176,5 @@ final class CsvExtractor implements ExtractorInterface
                 $row->getCells()
             )
         );
-    }
-
-    /**
-     * @param array<int,\OpenSpout\Common\Entity\Cell> $cells
-     *
-     * @return array<int,mixed>
-     */
-    public function makeRow(array $cells): array
-    {
-        $collection = [];
-
-        foreach ($cells as $cell) {
-            $collection[] = $cell->getValue();
-        }
-
-        return $collection;
     }
 }
