@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Tests\Unit\Loaders;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Jwhulette\Pipes\Frame;
@@ -13,8 +12,6 @@ use Tests\TestCase;
 
 class SqlLoaderTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected Frame $frame;
 
     protected Collection $data;
@@ -22,6 +19,8 @@ class SqlLoaderTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->loadMigrationsFrom(getcwd() . '/tests/migrations');
 
         $this->frame = new Frame();
 
@@ -32,7 +31,8 @@ class SqlLoaderTest extends TestCase
         ]);
     }
 
-    public function testSqlLoaderInstance(): void
+    /** @test */
+    public function it_will_return_sql_loader_interface(): void
     {
         $loader = new SqlLoader('test');
 
@@ -47,7 +47,8 @@ class SqlLoaderTest extends TestCase
         $this->assertInstanceOf(SqlLoader::class, $loader);
     }
 
-    public function testWillLoadByBatch(): void
+    /** @test */
+    public function it_will_load_records_in_a_batch(): void
     {
         $loader = new SqlLoader('test');
 
@@ -72,7 +73,8 @@ class SqlLoaderTest extends TestCase
         $this->assertEquals(5, $count);
     }
 
-    public function testUseCustomColumnNames(): void
+    /** @test */
+    public function it_will_insert_data_with_custom_column_names(): void
     {
         $columns = ['first_name', 'last_name', 'dob'];
 

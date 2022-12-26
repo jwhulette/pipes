@@ -4,43 +4,24 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
-use Jwhulette\Pipes\DataTransferObjects\CaseColumn;
+use Jwhulette\Pipes\DataTransferObjects\CaseDto;
 use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
-/**
- * Change the case of the item.
- */
-class CaseTransformer implements TransformerInterface
+final class CaseTransformer implements TransformerInterface
 {
-    protected Collection $transformers;
-
-    public function __construct()
-    {
-        $this->transformers = new Collection();
-    }
-
-    public function transformColumn(int|string $column, string $mode, string $encoding = 'utf-8'): self
-    {
-        $transformer = new CaseColumn(
-            $column,
-            $this->getMode($mode),
-            $encoding,
-        );
-
-        $this->transformers->push($transformer);
-
-        return $this;
-    }
+    /**
+     * @var array<int,CaseDto>
+     */
+    protected array $transformers;
 
     public function __invoke(Frame $frame): Frame
     {
         $frame->getData()->transform(function ($item, $key) {
             foreach ($this->transformers as $transformer) {
                 if ($transformer->column === $key) {
-                    return \mb_convert_case($item, $transformer->mode, $transformer->encoding);
+                    return \mb_convert_case(\strval($item), $transformer->mode, $transformer->encoding);
                 }
             }
 
@@ -48,6 +29,18 @@ class CaseTransformer implements TransformerInterface
         });
 
         return $frame;
+    }
+
+    /**
+     * Set the columns and transformation.
+     *
+     * @param string $mode [upper, lower, title ]
+     */
+    public function transformColumn(string|int $column, string $mode, string $encoding = 'utf-8'): self
+    {
+        $this->transformers[] = new CaseDto($column, $this->getMode($mode), $encoding);
+
+        return $this;
     }
 
     /**

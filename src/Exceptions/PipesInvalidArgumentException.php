@@ -6,6 +6,6 @@ namespace Jwhulette\Pipes\Exceptions;
 
 use Exception;
 
-class PipesInvalidArgumentException extends Exception
+final class PipesInvalidArgumentException extends Exception
 {
 }

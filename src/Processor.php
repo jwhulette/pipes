@@ -6,14 +6,10 @@ namespace Jwhulette\Pipes;
 
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
-use Jwhulette\Pipes\Contracts\TransformerInterface;
 use League\Pipeline\PipelineBuilder;
 use League\Pipeline\PipelineInterface;
 
-/**
- * Processor.
- */
-class Processor
+final class Processor
 {
     protected ExtractorInterface $extractor;
 
@@ -21,10 +17,10 @@ class Processor
 
     protected PipelineInterface $pipeline;
 
-    protected PipelineBuilder $pipelineBuilder;
-
     /**
-     * @param array<TransformerInterface> $transformers
+     * Build the pipeline.
+     *
+     * @param array<int,\Jwhulette\Pipes\Contracts\TransformerInterface> $transformers
      */
     public function __construct(
         ExtractorInterface $extractor,
@@ -46,6 +42,7 @@ class Processor
         $line = $this->extractor->extract();
 
         foreach ($line as $collection) {
+            // @phpstan-ignore-next-line
             $transformed = $this->pipeline->process($collection);
 
             $this->loader->load($transformed);
@@ -53,11 +50,12 @@ class Processor
     }
 
     /**
-     * @param array<TransformerInterface> $transformers
+     * @param array<int,object> $transformers
      */
     private function buildTransformerPipeline(PipelineBuilder $pipelineBuilder, array $transformers): void
     {
         foreach ($transformers as $transformer) {
+            // @phpstan-ignore-next-line
             $pipelineBuilder->add($transformer);
         }
 

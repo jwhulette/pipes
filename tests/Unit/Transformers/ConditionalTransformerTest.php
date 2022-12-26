@@ -29,7 +29,8 @@ class ConditionalTransformerTest extends TestCase
             ]);
     }
 
-    public function testConditional(): void
+    /** @test */
+    public function it_can_transform_a_conditional(): void
     {
         $match = [
                 'FIRSTNAME' => 'BOB',
@@ -47,7 +48,8 @@ class ConditionalTransformerTest extends TestCase
         $this->assertEquals('Smithers', $result->getData()['LASTNAME']);
     }
 
-    public function testMultipleConditional(): void
+    /** @test */
+    public function it_can_transform_multiple_match_conditional(): void
     {
         $match = [
             'FIRSTNAME' => 'BOB',
@@ -69,7 +71,8 @@ class ConditionalTransformerTest extends TestCase
         $this->assertEquals('10/13/71', $result->getData()['DOB']);
     }
 
-    public function testMultipleMultipleConditional(): void
+    /** @test */
+    public function it_can_transform_multiple_match_and_multiple_replacements_conditional(): void
     {
         $match1 = [
             'FIRSTNAME' => 'BOB',

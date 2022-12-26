@@ -4,60 +4,90 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Loaders;
 
+use DateInterval;
+use DateTimeInterface;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
 use Jwhulette\Pipes\Frame;
-use Jwhulette\Pipes\Traits\CsvOptions;
-use League\Csv\Writer;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\CSV\Options;
+use OpenSpout\Writer\CSV\Writer;
 
-/**
- * Write a csv file.
- */
-class CsvLoader implements LoaderInterface
+final class CsvLoader implements LoaderInterface
 {
-    use CsvOptions;
+    protected Options $options;
 
-    protected Writer $writer;
+    protected string $file;
+
+    private static Writer $instance;
 
     public function __construct(string $ouputfile)
     {
-        $this->writer = Writer::createFromPath($ouputfile, 'w+');
+        $this->options = new Options();
+
+        $this->file = $ouputfile;
     }
 
+    /**
+     * Set the file field delimiter.
+     */
     public function setDelimiter(string $delimiter): self
     {
-        $this->delimiter = $delimiter;
+        $this->options->FIELD_DELIMITER = $delimiter;
 
         return $this;
     }
 
+    /**
+     * Set the text field enclosure.
+     */
     public function setEnclosure(string $enclosure): self
     {
-        $this->enclosure = $enclosure;
+        $this->options->FIELD_ENCLOSURE = $enclosure;
 
         return $this;
     }
 
-    public function setEscape(string $escape): self
+    /**
+     * Do not set a BOM on the file.
+     *
+     * @see https://en.wikipedia.org/wiki/Byte_order_mark
+     */
+    public function noBom(): self
     {
-        $this->escape = $escape;
+        $this->options->SHOULD_ADD_BOM = \false;
 
         return $this;
     }
 
-    public function setNewline(string $newline): self
-    {
-        $this->newline = $newline;
-
-        return $this;
-    }
-
+    /**
+     * Write a data frame to the file.
+     */
     public function load(Frame $frame): void
     {
-        $this->writer->setEscape($this->escape);
-        $this->writer->setEnclosure($this->enclosure);
-        $this->writer->setDelimiter($this->delimiter);
-        $this->writer->setNewline($this->newline);
+        $writer = self::getWriter($this->options);
 
-        $this->writer->insertOne($frame->getData()->values()->toArray());
+        $writer->openToFile($this->file);
+
+        /** @var array<int,bool|DateInterval|DateTimeInterface|float|int|string|null> $values */
+        $values = $frame->data->values()->toArray();
+
+        $writer->addRow(Row::fromValues($values));
+
+        // Close the file
+        if ($frame->end === true) {
+            $writer->close();
+        }
+    }
+
+    private static function getWriter(Options $options): Writer
+    {
+        // Check is $_instance has been set
+        if (! isset(self::$instance)) {
+            // Creates sets object to instance
+            self::$instance = new Writer($options);
+        }
+
+        // Returns the instance
+        return self::$instance;
     }
 }

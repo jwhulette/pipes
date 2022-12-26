@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
-use Illuminate\Support\Collection;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
-use Jwhulette\Pipes\DataTransferObjects\TrimColumn;
+use Jwhulette\Pipes\DataTransferObjects\TrimDto;
 use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
 
-/**
- * Trim the item.
- */
-class TrimTransformer implements TransformerInterface
+final class TrimTransformer implements TransformerInterface
 {
-    protected Collection $columns;
+    /** @var array<int,TrimDto> */
+    protected array $columns;
 
     protected bool $allColumns = false;
 
@@ -23,54 +20,26 @@ class TrimTransformer implements TransformerInterface
 
     protected string $mask = " \t\n\r\0\x0B";
 
-    public function __construct()
-    {
-        $this->columns = new Collection();
-    }
-
-    public function transformColumn(string | int $column, ?string $type = null, ?string $mask = null): self
-    {
-        $this->columns->push(new TrimColumn($column, $type ?? $this->type, $mask ?? $this->mask));
-
-        return $this;
-    }
-
-    /**
-     * @param string|null $type trim|ltrim|rtrim
-     */
-    public function transformAllColumns(?string $type = null, ?string $mask = null): self
-    {
-        $this->columns->push(new TrimColumn(0, $type ?? $this->type, $mask ?? $this->mask));
-
-        $this->allColumns = true;
-
-        return $this;
-    }
-
     public function __invoke(Frame $frame): Frame
     {
         // Apply to all columns
-        if ($this->allColumns === true) {
-            $frame->getData()->transform(function ($item) {
-                return $this->trimColumnValue(
-                    $item,
-                    $this->columns->first()->type,
-                    $this->columns->first()->mask
-                );
-            });
+        if ($this->allColumns) {
+            $frame->data->transform(
+                fn ($item) => $this->trimColumnValue(
+                    \strval($item),
+                    $this->columns[0]->type,
+                    $this->columns[0]->mask
+                )
+            );
 
             return $frame;
         }
 
         // Apply to only selected columns
-        $frame->getData()->transform(function ($item, $key) {
-            foreach ($this->columns as $column) {
-                if ($column->column === $key) {
-                    return $this->trimColumnValue(
-                        $item,
-                        $column->type,
-                        $column->mask
-                    );
+        $frame->data->transform(function ($item, $key) {
+            foreach ($this->columns as $dto) {
+                if ($dto->column === $key) {
+                    return $this->trimColumnValue(\strval($item), $dto->type, $dto->mask);
                 }
             }
 
@@ -81,14 +50,53 @@ class TrimTransformer implements TransformerInterface
     }
 
     /**
-     * @throws PipesInvalidArgumentException
+     * Set the columns and transformation.
+     *
+     * @param string|null $type [Default: trim][Options: trim, ltrim, rtrim]
+     * @param string|null $mask [Default: \t\n\r\0\x0B]
+     *
+     * @see https://www.php.net/manual/en/function.trim.php
      */
-    protected function trimColumnValue(string $value, string $type, string $mask): string
+    public function transformColumn(string|int $column, ?string $type = null, ?string $mask = null): self
+    {
+        $columnType = $type ?? $this->type;
+        $columnMask = $mask ?? $this->mask;
+        $this->columns[] = new TrimDto($column, $columnType, $columnMask);
+
+        return $this;
+    }
+
+    public function transformAllColumns(?string $type = null, ?string $mask = null): self
+    {
+        $columnType = $type ?? $this->type;
+        $columnMask = $mask ?? $this->mask;
+
+        $this->columns[] = new TrimDto(null, $columnType, $columnMask);
+
+        $this->allColumns = true;
+
+        return $this;
+    }
+
+    /**
+     * @throws \Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException
+     */
+    public function trimColumnValue(?string $value, ?string $type, ?string $mask): string
     {
         if (! \is_callable($type)) {
             throw new PipesInvalidArgumentException("Invalid trim type: {$type}.");
         }
 
-        return \call_user_func($type, $value, $mask);
+        if (\is_null($value)) {
+            return '';
+        }
+
+        if (\is_null($mask)) {
+            $mask = $this->mask;
+        }
+
+        $result = \call_user_func($type, $value, $mask);
+
+        return \strval($result);
     }
 }

@@ -6,6 +6,6 @@ namespace Jwhulette\Pipes\Exceptions;
 
 use Exception;
 
-class PipesSqlException extends Exception
+final class PipesSqlException extends Exception
 {
 }
