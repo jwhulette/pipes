@@ -35,7 +35,6 @@ final class Frame
         $this->data = collect($data);
 
         if (isset($this->header) && $this->header->isNotEmpty()) {
-            // @phpstan-ignore-next-line
             $this->data = $this->header->combine($this->data);
         }
 

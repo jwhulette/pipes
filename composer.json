@@ -41,9 +41,9 @@
         "test": "phpunit",
         "tf" : "./vendor/bin/phpunit --filter ",
         "phpstan": "phpstan analyse --memory-limit 2G",
-        "test-all": [
-            "phpstan analyse",
-            "phpunit"
+        "ts": [
+            "composer phpstan",
+            "composer test"
         ]
     },
     "extra": {

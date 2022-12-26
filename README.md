@@ -1,8 +1,13 @@
 ![Banner](.github/images/Pipes.png)
 
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg?style=flat-square)](https://php.net/) 
-![Laravel](https://img.shields.io/badge/Laravel-8%2B-red)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/jwhulette/pipes/run-tests?label=tests)](https://github.com/jwhulette/pipes/actions?query=workflow%3Arun-tests+branch%3Amain) 
+![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/jwhulette/pipes/php)
+
+![Laravel](https://img.shields.io/badge/Laravel-9%2B-blue)
+
+![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/jwhulette/pipes/tests.yml?branch=main)
+
+![Packagist Version](https://img.shields.io/packagist/v/jwhulette/pipes)
+
 [![Total Downloads](https://img.shields.io/packagist/dt/jwhulette/pipes.svg?style=flat-square)](https://packagist.org/packages/jwhulette/pipes)
 
 # Pipes
