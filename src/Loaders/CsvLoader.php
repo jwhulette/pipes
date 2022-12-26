@@ -17,6 +17,7 @@ final class CsvLoader implements LoaderInterface
     protected Options $options;
 
     protected string $file;
+
     private static Writer $instance;
 
     public function __construct(string $ouputfile)
