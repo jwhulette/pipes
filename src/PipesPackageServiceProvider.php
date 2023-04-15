@@ -6,7 +6,7 @@ namespace Jwhulette\Pipes;
 
 use Illuminate\Support\ServiceProvider;
 
-class PipesServiceProvider extends ServiceProvider
+class PipesPackageServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
