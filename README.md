@@ -58,12 +58,12 @@ composer require jwhulette/pipes
 * SqlLoader
 
 **Built-in transformers:**
-* CaseTransformer - Change the case of a string
-* DateTimeTransformer - Change the format of a date string
-* PhoneTransformer - Transform a US phone, removing all non numeric characters, and limiting the length to the first 10 digits
-* TrimTransformer - Trim a string
-* ZipcodeTransformer - Transform a US zip code, removing all non numeric characters, and left pad zeros for zip codes less than 5 digits
-* ConditionalTransformer - Transform a column, based on the values of another column
+*CaseTransformer - Change the case of a string
+*DateTimeTransformer - Change the format of a date string
+*PhoneTransformer - Transform a US phone, removing all non numeric characters, and limiting the length to the first 10 digits
+*TrimTransformer - Trim a string
+*ZipcodeTransformer - Transform a US zip code, removing all non numeric characters, and left pad zeros for zip codes less than 5 digits
+*ConditionalTransformer - Transform a column, based on the values of another column
 
 *Data is passed to the transformers in the order they are defined*
 ## Changelog
