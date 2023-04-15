@@ -9,11 +9,13 @@ use Tests\TestCase;
 
 class FrameTest extends TestCase
 {
-    protected $frame;
+    protected Frame $frame;
 
-    protected $testHeader;
+    protected array $testHeader;
 
-    protected $testData;
+    protected array $testData;
+
+    protected array $testHeaderData;
 
     protected function setUp(): void
     {
