@@ -1,10 +1,10 @@
 ![Banner](.github/images/Pipes.png)
 
+[![Tests](https://github.com/jwhulette/pipes/actions/workflows/tests.yml/badge.svg)](https://github.com/jwhulette/pipes/actions/workflows/tests.yml)
+
 ![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/jwhulette/pipes/php)
 
 ![Laravel](https://img.shields.io/badge/Laravel-9%2B-blue)
-
-![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/jwhulette/pipes/tests.yml?branch=main)
 
 ![Packagist Version](https://img.shields.io/packagist/v/jwhulette/pipes)
 
