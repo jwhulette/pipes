@@ -15,6 +15,8 @@ class FrameTest extends TestCase
 
     protected $testData;
 
+    protected array $testHeaderData;
+
     protected function setUp(): void
     {
         $this->frame = new Frame();
