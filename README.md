@@ -4,16 +4,18 @@
 
 ![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/jwhulette/pipes/php)
 
-![Laravel](https://img.shields.io/badge/Laravel-9%2B-blue)
+![Laravel](https://img.shields.io/badge/Laravel-11%2B-blue)
 
 ![Packagist Version](https://img.shields.io/packagist/v/jwhulette/pipes)
 
 [![Total Downloads](https://img.shields.io/packagist/dt/jwhulette/pipes.svg?style=flat-square)](https://packagist.org/packages/jwhulette/pipes)
 
 # Pipes
-Pipes is a PHP Extract Transform Load [ETL] package for Laravel 8+
+
+Pipes is a PHP Extract Transform Load [ETL] package for Laravel 11+
 
 ## Installation
+
 ```bash
 composer require jwhulette/pipes
 ```
@@ -48,16 +50,20 @@ composer require jwhulette/pipes
 ```
 
 ##### Notes:
+
 **Built-in extractors:**
+
 * CsvExtractor
 * XlsxExtractor
 * SqlExtractor
 
 **Built-in loaders:**
+
 * CsvLoader
 * SqlLoader
 
 **Built-in transformers:**
+
 * CaseTransformer - Change the case of a string
 * DateTimeTransformer - Change the format of a date string
 * PhoneTransformer - Transform a US phone, removing all non numeric characters, and limiting the length to the first 10 digits
@@ -66,6 +72,7 @@ composer require jwhulette/pipes
 * ConditionalTransformer - Transform a column, based on the values of another column
 
 *Data is passed to the transformers in the order they are defined*
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.

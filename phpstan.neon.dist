@@ -1,5 +1,4 @@
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
 
 parameters:
 
@@ -14,7 +13,4 @@ parameters:
 #
 #    excludePaths:
 #        - ./*/*/FileToBeExcluded.php
-#
-#    checkMissingIterableValueType: false
 
-    checkGenericClassInNonGenericObjectType: false

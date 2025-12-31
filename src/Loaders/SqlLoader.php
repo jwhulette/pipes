@@ -15,7 +15,7 @@ final class SqlLoader implements LoaderInterface
 {
     protected Builder $db;
 
-    /** @var \Illuminate\Support\Collection<int,string> */
+    /** @var Collection<int, string> */
     protected Collection $columns;
 
     protected int $count = 0;
@@ -61,9 +61,7 @@ final class SqlLoader implements LoaderInterface
     {
         $this->columns = collect($columns);
 
-        if ($this->columns->isEmpty()) {
-            throw new PipesInvalidArgumentException('SQL Columns name cannot be empty');
-        }
+        throw_if($this->columns->isEmpty(), PipesInvalidArgumentException::class, 'SQL Columns name cannot be empty');
 
         $this->useColumns = true;
 
@@ -91,9 +89,9 @@ final class SqlLoader implements LoaderInterface
     private function buildInsert(Frame $frame): void
     {
         if ($this->useColumns) {
-            $this->insert[] = $this->columns->combine($frame->getData())->toArray();
+            $this->insert[] = $this->columns->combine($frame->getData())->all();
         } else {
-            $this->insert[] = $frame->getData()->toArray();
+            $this->insert[] = $frame->getData()->all();
         }
     }
 

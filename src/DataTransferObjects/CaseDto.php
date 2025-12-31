@@ -7,12 +7,12 @@ namespace Jwhulette\Pipes\DataTransferObjects;
 /**
  * @internal
  */
-final class CaseDto
+final readonly class CaseDto
 {
     public function __construct(
-        public readonly string|int $column,
-        public readonly int $mode,
-        public readonly string $encoding
+        public string|int $column,
+        public int $mode,
+        public string $encoding,
     ) {
         // code...
     }

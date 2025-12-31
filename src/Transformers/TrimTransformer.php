@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Transformers;
 
+use function call_user_func;
+use function is_callable;
+use function is_null;
 use Jwhulette\Pipes\Contracts\TransformerInterface;
 use Jwhulette\Pipes\DataTransferObjects\TrimDto;
 use Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException;
 use Jwhulette\Pipes\Frame;
+use function strval;
 
 final class TrimTransformer implements TransformerInterface
 {
@@ -25,8 +29,9 @@ final class TrimTransformer implements TransformerInterface
         // Apply to all columns
         if ($this->allColumns) {
             $frame->data->transform(
-                fn ($item) => $this->trimColumnValue(
-                    \strval($item),
+                /** @phpstan-ignore-next-line */
+                fn (string|int $item): string => $this->trimColumnValue(
+                    strval($item),
                     $this->columns[0]->type,
                     $this->columns[0]->mask
                 )
@@ -36,10 +41,15 @@ final class TrimTransformer implements TransformerInterface
         }
 
         // Apply to only selected columns
-        $frame->data->transform(function ($item, $key) {
+        /* @phpstan-ignore-next-line */
+        $frame->data->transform(function (string|int $item, string|int $key) {
             foreach ($this->columns as $dto) {
                 if ($dto->column === $key) {
-                    return $this->trimColumnValue(\strval($item), $dto->type, $dto->mask);
+                    return $this->trimColumnValue(
+                        strval($item),
+                        $dto->type,
+                        $dto->mask
+                    );
                 }
             }
 
@@ -50,10 +60,30 @@ final class TrimTransformer implements TransformerInterface
     }
 
     /**
+     * @throws PipesInvalidArgumentException
+     */
+    public function trimColumnValue(?string $value, ?string $type, ?string $mask): string
+    {
+        throw_unless(is_callable($type), PipesInvalidArgumentException::class, "Invalid trim type: {$type}.");
+
+        if (is_null($value)) {
+            return '';
+        }
+
+        if (is_null($mask)) {
+            $mask = $this->mask;
+        }
+
+        $result = call_user_func($type, $value, $mask);
+
+        return strval($result);
+    }
+
+    /**
      * Set the columns and transformation.
      *
-     * @param string|null $type [Default: trim][Options: trim, ltrim, rtrim]
-     * @param string|null $mask [Default: \t\n\r\0\x0B]
+     * @param  string|null  $type  [Default: trim][Options: trim, ltrim, rtrim]
+     * @param  string|null  $mask  [Default: \t\n\r\0\x0B]
      *
      * @see https://www.php.net/manual/en/function.trim.php
      */
@@ -76,27 +106,5 @@ final class TrimTransformer implements TransformerInterface
         $this->allColumns = true;
 
         return $this;
-    }
-
-    /**
-     * @throws \Jwhulette\Pipes\Exceptions\PipesInvalidArgumentException
-     */
-    public function trimColumnValue(?string $value, ?string $type, ?string $mask): string
-    {
-        if (! \is_callable($type)) {
-            throw new PipesInvalidArgumentException("Invalid trim type: {$type}.");
-        }
-
-        if (\is_null($value)) {
-            return '';
-        }
-
-        if (\is_null($mask)) {
-            $mask = $this->mask;
-        }
-
-        $result = \call_user_func($type, $value, $mask);
-
-        return \strval($result);
     }
 }

@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Jwhulette\Pipes\Tests\Unit\Loaders;
+namespace Tests\Unit\Loaders;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Loaders\SqlLoader;
+use Override;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class SqlLoaderTest extends TestCase
@@ -16,22 +18,7 @@ class SqlLoaderTest extends TestCase
 
     protected Collection $data;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->loadMigrationsFrom(getcwd() . '/tests/migrations');
-
-        $this->frame = new Frame();
-
-        $this->frame->setHeader([
-            'first_name',
-            'last_name',
-            'dob',
-        ]);
-    }
-
-    /** @test */
+    #[Test]
     public function it_will_return_sql_loader_interface(): void
     {
         $loader = new SqlLoader('test');
@@ -47,7 +34,7 @@ class SqlLoaderTest extends TestCase
         $this->assertInstanceOf(SqlLoader::class, $loader);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_load_records_in_a_batch(): void
     {
         $loader = new SqlLoader('test');
@@ -73,7 +60,7 @@ class SqlLoaderTest extends TestCase
         $this->assertEquals(5, $count);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_insert_data_with_custom_column_names(): void
     {
         $columns = ['first_name', 'last_name', 'dob'];
@@ -94,5 +81,21 @@ class SqlLoaderTest extends TestCase
         $count = DB::table('test')->count();
 
         $this->assertEquals(1, $count);
+    }
+
+    #[Override]
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->loadMigrationsFrom(getcwd() . '/tests/migrations');
+
+        $this->frame = new Frame();
+
+        $this->frame->setHeader([
+            'first_name',
+            'last_name',
+            'dob',
+        ]);
     }
 }

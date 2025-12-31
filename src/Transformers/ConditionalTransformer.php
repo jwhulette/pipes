@@ -12,7 +12,7 @@ use Jwhulette\Pipes\Frame;
 final class ConditionalTransformer implements TransformerInterface
 {
     /**
-     * @var \Illuminate\Support\Collection<int,ConditionalDto>
+     * @var Collection<int, ConditionalDto>
      */
     protected Collection $conditionals;
 
@@ -23,11 +23,12 @@ final class ConditionalTransformer implements TransformerInterface
 
     public function __invoke(Frame $frame): Frame
     {
-        // @phpstan-ignore-next-line
         $this->conditionals->transform(function (ConditionalDto $item) use ($frame): void {
+            /** @phpstan-ignore-next-line */
             $diff = $item->match->diffAssoc($frame->data);
 
             if ($diff->count() === 0) {
+                /* @phpstan-ignore-next-line */
                 $frame->data = $frame->data->replace($item->replace);
             }
         });

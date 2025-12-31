@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Jwhulette\Pipes\Tests\Unit;
+namespace Tests\Unit;
 
 use Jwhulette\Pipes\Extractors\CsvExtractor;
 use Jwhulette\Pipes\Loaders\CsvLoader;
 use Jwhulette\Pipes\Processor;
 use Jwhulette\Pipes\Transformers\TrimTransformer;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ProcessorTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_a_new_processor(): void
     {
         $extractor = new CsvExtractor('test');

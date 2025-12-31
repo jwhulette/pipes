@@ -12,21 +12,23 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^8.1",
+        "php": "^8.3",
         "league/pipeline": "^1.0",
         "openspout/openspout": "^4.13.1",
-        "illuminate/support" : "^8.0|^9.0|^10.0",
-        "illuminate/database" : "^8.0|^9.0|^10.0",
-        "nesbot/carbon": "^2.66"
+        "nesbot/carbon": "^3.11.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^v3.13.0",
-        "phpunit/phpunit": "^9.6.7",
-        "phpstan/phpstan": "^1.10.13",
+        "friendsofphp/php-cs-fixer": "^3.13.0",
+        "phpunit/phpunit": "^12.0",
         "ramsey/uuid": "^4.7.3",
-        "orchestra/testbench": "^8.4",
-        "nunomaduro/larastan": "^2.5.1",
-        "nunomaduro/phpinsights": "^2.8"
+        "orchestra/testbench": "^9.0 || ^10.0",
+        "larastan/larastan": "^3.0",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan-mockery": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "rector/rector": "^2.3",
+        "driftingly/rector-laravel": "^2.1",
+        "phpstan/phpstan-deprecation-rules": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -39,10 +41,18 @@
         }
     },
     "scripts": {
+        "rector": [
+            "./vendor/bin/rector"
+        ],
+        "cs-fix": [
+            "./vendor/bin/php-cs-fixer fix"
+        ],
         "test": "phpunit",
-        "tf" : "./vendor/bin/phpunit --filter ",
+        "tf": "./vendor/bin/phpunit --filter ",
         "phpstan": "phpstan analyse --memory-limit 2G",
         "ts": [
+            "composer rector",
+            "composer cs-fix",
             "composer phpstan",
             "composer test"
         ]
@@ -56,7 +66,8 @@
     },
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
         }
     }
 }
