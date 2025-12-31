@@ -8,3 +8,17 @@
 test
 /tests/performance/files/*
 .php-cs-fixer.cache
+/.vscode/
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/.gitignore
+/.idea/blade.xml
+/.idea/cfnlintPlugin.xml
+/.idea/copilot.data.migration.agent.xml
+/.idea/copilot.data.migration.ask2agent.xml
+/.idea/laravel-idea.xml
+/.idea/laravel-idea-personal.xml
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/phpunit.xml
+/.idea/pipes.iml
+/.idea/vcs.xml

@@ -21,7 +21,11 @@ final class CaseTransformer implements TransformerInterface
         $frame->getData()->transform(function ($item, $key) {
             foreach ($this->transformers as $transformer) {
                 if ($transformer->column === $key) {
-                    return \mb_convert_case(\strval($item), $transformer->mode, $transformer->encoding);
+                    return mb_convert_case(
+                        strval($item),
+                        $transformer->mode,
+                        $transformer->encoding
+                    );
                 }
             }
 
@@ -48,15 +52,11 @@ final class CaseTransformer implements TransformerInterface
      */
     private function getMode(string $mode): int
     {
-        switch (strtolower($mode)) {
-            case 'upper':
-                return MB_CASE_UPPER;
-            case 'lower':
-                return MB_CASE_LOWER;
-            case 'title':
-                return MB_CASE_TITLE;
-        }
-
-        throw new PipesInvalidArgumentException("Invalid conversion mode {$mode}.");
+        return match (strtolower($mode)) {
+            'upper' => MB_CASE_UPPER,
+            'lower' => MB_CASE_LOWER,
+            'title' => MB_CASE_TITLE,
+            default => throw new PipesInvalidArgumentException("Invalid conversion mode {$mode}."),
+        };
     }
 }

@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Extractors;
 
+use DateInterval;
+use DateTimeInterface;
 use Generator;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Frame;
+use OpenSpout\Common\Entity\Cell;
 use OpenSpout\Common\Entity\Row;
+use OpenSpout\Common\Exception\IOException;
 use OpenSpout\Reader\CSV\Options;
 use OpenSpout\Reader\CSV\Reader;
 use OpenSpout\Reader\CSV\RowIterator;
 use OpenSpout\Reader\CSV\Sheet;
+use OpenSpout\Reader\Exception\ReaderNotOpenedException;
 
 final class CsvExtractor implements ExtractorInterface
 {
     protected Frame $frame;
-
-    protected string $file;
 
     protected Options $options;
 
@@ -25,9 +28,8 @@ final class CsvExtractor implements ExtractorInterface
 
     protected bool $hasHeader = true;
 
-    public function __construct(string $file)
+    public function __construct(protected string $file)
     {
-        $this->file = $file;
         $this->frame = new Frame();
         $this->options = new Options();
     }
@@ -100,31 +102,18 @@ final class CsvExtractor implements ExtractorInterface
 
     /**
      * Extract the data from the file.
+     *
+     * @throws IOException|ReaderNotOpenedException
      */
     public function extract(): Generator
     {
         $reader = new Reader($this->options);
+
         $reader->open($this->file);
 
         $sheet = $reader->getSheetIterator()->current();
 
         return $this->readSheet($reader, $sheet);
-    }
-
-    /**
-     * @param array<int,\OpenSpout\Common\Entity\Cell> $cells
-     *
-     * @return array<int,mixed>
-     */
-    public function makeRow(array $cells): array
-    {
-        $collection = [];
-
-        foreach ($cells as $cell) {
-            $collection[] = $cell->getValue();
-        }
-
-        return $collection;
     }
 
     private function readSheet(Reader $reader, Sheet $sheet): Generator
@@ -148,8 +137,11 @@ final class CsvExtractor implements ExtractorInterface
                 continue;
             }
 
+            /** @var list<Cell> $cells */
+            $cells = $row->getCells();
+
             yield $this->frame->setData(
-                $this->makeRow($row->getCells())
+                $this->makeRow($cells)
             );
         }
 
@@ -171,10 +163,39 @@ final class CsvExtractor implements ExtractorInterface
             return;
         }
 
+        /** @var list<Cell> $cells */
+        $cells = $row->getCells();
+
         $this->frame->setHeader(
             $this->makeRow(
-                $row->getCells()
+                $cells
             )
         );
+    }
+
+    /**
+     * @param  list<Cell>  $cells
+     *
+     * @return list<bool|float|int|string|null>
+     */
+    public function makeRow(array $cells): array
+    {
+        $collection = [];
+
+        foreach ($cells as $cell) {
+            $cellValue = $cell->getValue();
+
+            if ($cellValue instanceof DateTimeInterface) {
+                $cellValue = $cellValue->format('Y-m-d H:i:s');
+            }
+
+            if ($cellValue instanceof DateInterval) {
+                $cellValue = $cellValue->format('Y-m-d H:i:s');
+            }
+
+            $collection[] = $cellValue;
+        }
+
+        return $collection;
     }
 }

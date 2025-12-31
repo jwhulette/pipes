@@ -2,40 +2,35 @@
 
 declare(strict_types=1);
 
-namespace Jwhulette\Pipes\Tests\Unit;
+namespace Tests\Unit;
 
 use Jwhulette\Pipes\EtlPipe;
 use Jwhulette\Pipes\Extractors\CsvExtractor;
 use Jwhulette\Pipes\Loaders\CsvLoader;
 use Jwhulette\Pipes\Transformers\CaseTransformer;
+use Override;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class AppTest extends TestCase
 {
     protected string $testFile = 'tests/artifacts/test_file_with_header.csv';
 
+    #[Override]
     public function setUp(): void
     {
     }
 
-    /**
-     * Test the EtlPipe object gets created.
-     *
-     * @return void
-     */
-    public function testAppBoots(): void
+    #[Test]
+    public function appBoots(): void
     {
         $pipe = new EtlPipe();
 
         $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
-    /**
-     * Test extractors adding to app.
-     *
-     * @return void
-     */
-    public function testExtractorAdd(): void
+    #[Test]
+    public function extractorAdd(): void
     {
         $pipe = new EtlPipe();
 
@@ -44,12 +39,8 @@ class AppTest extends TestCase
         $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
-    /**
-     * Test extractors adding to app.
-     *
-     * @return void
-     */
-    public function testTransformsAdd(): void
+    #[Test]
+    public function transformsAdd(): void
     {
         $pipe = new EtlPipe();
 
@@ -62,7 +53,8 @@ class AppTest extends TestCase
         $this->assertInstanceOf(EtlPipe::class, $pipe);
     }
 
-    public function testLoader(): void
+    #[Test]
+    public function loader(): void
     {
         $pipe = new EtlPipe();
 

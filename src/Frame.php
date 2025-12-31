@@ -9,24 +9,34 @@ use Illuminate\Support\Collection;
 final class Frame
 {
     /**
-     * @var \Illuminate\Support\Collection<int,mixed>
+     * @var Collection<int,string|int|float|bool|null>
      */
     public Collection $header;
 
     /**
-     * @var \Illuminate\Support\Collection<int,mixed>
+     * @var Collection<int,string|int|float|bool|null>
      */
     public Collection $data;
 
     /**
-     * @var array<int|string,string>
+     * @var array<int,string|int|float|bool|null>
      */
     public array $attributes;
 
     public bool $end = false;
 
     /**
-     * @param array<int,mixed>  $data
+     * Get the frame data.
+     *
+     * @return Collection<int,string|int|float|bool|null>
+     */
+    public function getData(): Collection
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param  list<string|int|float|bool|null>  $data
      *
      * @return Frame
      */
@@ -42,29 +52,9 @@ final class Frame
     }
 
     /**
-     * Get the frame data.
-     *
-     * @return \Illuminate\Support\Collection<int,mixed>
-     */
-    public function getData(): Collection
-    {
-        return $this->data;
-    }
-
-    /**
-     * Set the frame header data.
-     *
-     * @param array<int,mixed> $header
-     */
-    public function setHeader(array $header): void
-    {
-        $this->header = collect($header);
-    }
-
-    /**
      * Get the frame header.
      *
-     * @return \Illuminate\Support\Collection<int,mixed>
+     * @return Collection<int,string|int|float|bool|null>
      */
     public function getHeader(): Collection
     {
@@ -72,19 +62,35 @@ final class Frame
     }
 
     /**
+     * Set the frame header data.
+     *
+     * @param  list<string|int|float|bool|null>  $header
+     */
+    public function setHeader(array $header): void
+    {
+        $this->header = collect($header);
+    }
+
+    /**
      * Set a frame attribute.
      *
-     * @param array<int,string> $attribute
+     * @param  array<int,string|int|float|bool|null>  $attribute
      */
     public function setAttribute(array $attribute): void
     {
-        $this->attributes[key($attribute)] = $attribute[key($attribute)];
+        $key = key($attribute);
+
+        if (is_null($key)) {
+            return;
+        }
+
+        $this->attributes[$key] = $attribute[$key];
     }
 
     /**
      * Get all the frame attributes.
      *
-     * @return array<int|string,string>
+     * @return array<int,string|int|float|bool|null>
      */
     public function getAllAttributes(): array
     {
@@ -94,17 +100,9 @@ final class Frame
     /**
      * Get single frame attribute.
      */
-    public function getAttribute(string $key): mixed
+    public function getAttribute(string $key): string|int|float|bool|null
     {
         return $this->attributes[$key];
-    }
-
-    /**
-     * Set the frame as the last data element.
-     */
-    public function setEnd(): void
-    {
-        $this->end = true;
     }
 
     /**
@@ -113,5 +111,13 @@ final class Frame
     public function getEnd(): bool
     {
         return $this->end;
+    }
+
+    /**
+     * Set the frame as the last data element.
+     */
+    public function setEnd(): void
+    {
+        $this->end = true;
     }
 }

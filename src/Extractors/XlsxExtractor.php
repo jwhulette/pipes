@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\Extractors;
 
+use DateInterval;
+use DateTimeInterface;
 use Exception;
 use Generator;
+use function is_null;
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Frame;
-use OpenSpout\Common\Entity\Row;
+use OpenSpout\Common\Entity\Cell;
+use OpenSpout\Common\Exception\IOException;
+use OpenSpout\Reader\Exception\ReaderNotOpenedException;
 use OpenSpout\Reader\XLSX\Options;
 use OpenSpout\Reader\XLSX\Reader;
 use OpenSpout\Reader\XLSX\RowIterator;
 use OpenSpout\Reader\XLSX\Sheet;
+use Throwable;
 
 final class XlsxExtractor implements ExtractorInterface
 {
-    protected string $file;
-
     protected Options $options;
 
     protected int $skipLines = 0;
@@ -28,10 +32,8 @@ final class XlsxExtractor implements ExtractorInterface
 
     protected int $sheetIndex = 0;
 
-    public function __construct(string $file)
+    public function __construct(protected string $file)
     {
-        $this->file = $file;
-
         $this->frame = new Frame();
 
         $this->options = new Options();
@@ -42,7 +44,7 @@ final class XlsxExtractor implements ExtractorInterface
      */
     public function formatDates(): self
     {
-        $this->options->SHOULD_FORMAT_DATES = \true;
+        $this->options->SHOULD_FORMAT_DATES = true;
 
         return $this;
     }
@@ -52,7 +54,7 @@ final class XlsxExtractor implements ExtractorInterface
      */
     public function preserveEmptyRows(): self
     {
-        $this->options->SHOULD_PRESERVE_EMPTY_ROWS = \true;
+        $this->options->SHOULD_PRESERVE_EMPTY_ROWS = true;
 
         return $this;
     }
@@ -64,7 +66,7 @@ final class XlsxExtractor implements ExtractorInterface
      */
     public function use19O4Dates(): self
     {
-        $this->options->SHOULD_USE_1904_DATES = \true;
+        $this->options->SHOULD_USE_1904_DATES = true;
 
         return $this;
     }
@@ -102,15 +104,19 @@ final class XlsxExtractor implements ExtractorInterface
 
     /**
      * Extract the data from the file.
+     *
+     * @throws IOException|ReaderNotOpenedException
      */
     public function extract(): Generator
     {
         $reader = new Reader($this->options);
+
         $reader->open($this->file);
-        $selectedSheet = \null;
+
+        $selectedSheet = null;
 
         foreach ($reader->getSheetIterator() as $sheet) {
-            /** @var \OpenSpout\Reader\XLSX\Sheet $sheet */
+            /** @var Sheet $sheet */
             if ($sheet->getIndex() !== $this->sheetIndex) {
                 continue;
             }
@@ -122,26 +128,15 @@ final class XlsxExtractor implements ExtractorInterface
     }
 
     /**
-     * @param array<int,\OpenSpout\Common\Entity\Cell> $cells
-     *
-     * @return array<int,mixed>
+     * @throws Throwable
      */
-    public function makeRow(array $cells): array
-    {
-        $array = [];
-
-        foreach ($cells as $cell) {
-            $array[] = $cell->getValue();
-        }
-
-        return $array;
-    }
-
     private function readSheet(Reader $reader, ?Sheet $sheet): Generator
     {
-        if (\is_null($sheet)) {
-            throw new Exception('Unable to find selected sheet', 1);
-        }
+        throw_if(
+            is_null($sheet),
+            Exception::class,
+            'Unable to find selected sheet'
+        );
 
         $rowIterator = $sheet->getRowIterator();
 
@@ -162,8 +157,11 @@ final class XlsxExtractor implements ExtractorInterface
                 continue;
             }
 
+            /** @var list<Cell> $cells */
+            $cells = $row->getCells();
+
             yield $this->frame->setData(
-                $this->makeRow($row->getCells())
+                $this->makeRow($cells)
             );
         }
 
@@ -174,6 +172,8 @@ final class XlsxExtractor implements ExtractorInterface
 
     /**
      * The use of rewind is needed when using current.
+     *
+     * @throws IOException
      */
     private function setHeader(RowIterator $rowIterator): void
     {
@@ -181,14 +181,39 @@ final class XlsxExtractor implements ExtractorInterface
 
         $row = $rowIterator->current();
 
-        if (! $row instanceof Row) {
-            return;
-        }
+        /** @var list<Cell> $cells */
+        $cells = $row->getCells();
 
         $this->frame->setHeader(
             $this->makeRow(
-                $row->getCells()
+                $cells
             )
         );
+    }
+
+    /**
+     * @param  list<Cell>  $cells
+     *
+     * @return list<bool|float|int|string|null>
+     */
+    public function makeRow(array $cells): array
+    {
+        $array = [];
+
+        foreach ($cells as $cell) {
+            $cellValue = $cell->getValue();
+
+            if ($cellValue instanceof DateTimeInterface) {
+                $cellValue = $cellValue->format('Y-m-d H:i:s');
+            }
+
+            if ($cellValue instanceof DateInterval) {
+                $cellValue = $cellValue->format('Y-m-d H:i:s');
+            }
+
+            $array[] = $cellValue;
+        }
+
+        return $array;
     }
 }

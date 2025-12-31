@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Jwhulette\Pipes\DataTransferObjects;
 
+use function collect;
 use Illuminate\Support\Collection;
 
 /**
  * @internal
  */
-final class ConditionalDto
+final readonly class ConditionalDto
 {
     /**
-     * @var \Illuminate\Support\Collection<string,string>
+     * @var Collection<string, string>
      */
-    public readonly Collection $match;
+    public Collection $match;
 
     /**
-     * @var \Illuminate\Support\Collection<string,string>
+     * @var Collection<string, string>
      */
-    public readonly Collection $replace;
+    public Collection $replace;
 
     /**
      * @param array<string,string> $match
@@ -27,7 +28,7 @@ final class ConditionalDto
      */
     public function __construct(array $match, array $replace)
     {
-        $this->match = \collect($match);
-        $this->replace = \collect($replace);
+        $this->match = collect($match);
+        $this->replace = collect($replace);
     }
 }

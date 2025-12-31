@@ -2,33 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Jwhulette\Pipes\Tests\Unit\Transformers;
+namespace Tests\Unit\Transformers;
 
 use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Transformers\CaseTransformer;
+use Override;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CaseTransformerTest extends TestCase
 {
     protected Frame $frame;
 
-    protected function setUp(): void
-    {
-        $this->frame = new Frame();
-
-        $this->frame->setHeader([
-            'FIRSTNAME',
-            'LASTNAME',
-            'DOB',
-        ]);
-        $this->frame->setData([
-            'BOB',
-            'SMITH',
-            '02/11/1969',
-        ]);
-    }
-
-    /** @test */
+    #[Test]
     public function it_can_convert_a_value_to_lower_case(): void
     {
         $transformer = (new CaseTransformer())
@@ -43,10 +29,10 @@ class CaseTransformerTest extends TestCase
             'DOB'       => '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->getData()->toArray());
+        $this->assertEquals($expected, $result->getData()->all());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_convert_a_value_to_lower_case_by_index(): void
     {
         $transformer = (new CaseTransformer())
@@ -69,10 +55,10 @@ class CaseTransformerTest extends TestCase
             '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->getData()->toArray());
+        $this->assertEquals($expected, $result->getData()->all());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_convert_a_value_to_upper_case(): void
     {
         $transformer = (new CaseTransformer())
@@ -86,10 +72,10 @@ class CaseTransformerTest extends TestCase
             'DOB'       => '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->getData()->toArray());
+        $this->assertEquals($expected, $result->getData()->all());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_convert_a_value_to_title_case(): void
     {
         $transformer = (new CaseTransformer())
@@ -103,6 +89,23 @@ class CaseTransformerTest extends TestCase
             'DOB'       => '02/11/1969',
         ];
 
-        $this->assertEquals($expected, $result->getData()->toArray());
+        $this->assertEquals($expected, $result->getData()->all());
+    }
+
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->frame = new Frame();
+
+        $this->frame->setHeader([
+            'FIRSTNAME',
+            'LASTNAME',
+            'DOB',
+        ]);
+        $this->frame->setData([
+            'BOB',
+            'SMITH',
+            '02/11/1969',
+        ]);
     }
 }

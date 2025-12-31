@@ -2,19 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Jwhulette\Pipes\Tests\Unit\Extractors;
+namespace Tests\Unit\Extractors;
 
 use Jwhulette\Pipes\Extractors\CsvExtractor;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CsvExtractorTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
-    /** @test */
+    #[Test]
     public function csv_file_has_header(): void
     {
         $csv = new CsvExtractor('tests/artifacts/test_file_with_header.csv');
@@ -33,7 +29,7 @@ class CsvExtractorTest extends TestCase
         $this->assertEquals($expected, $frame->getHeader()->values()->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function csv_file_has_no_header(): void
     {
         $csv = new CsvExtractor('tests/artifacts/test_file_with_no_header.csv');
@@ -54,7 +50,7 @@ class CsvExtractorTest extends TestCase
         $this->assertEquals($expected, $frame->data->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function csv_can_skip_lines(): void
     {
         $csv = new CsvExtractor('tests/artifacts/test_file_with_header.csv');

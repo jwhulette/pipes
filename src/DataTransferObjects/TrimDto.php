@@ -7,12 +7,12 @@ namespace Jwhulette\Pipes\DataTransferObjects;
 /**
  * @internal
  */
-final class TrimDto
+final readonly class TrimDto
 {
     public function __construct(
-        public readonly int|string|null $column,
-        public readonly ?string $type,
-        public readonly ?string $mask
+        public int|string|null $column,
+        public ?string $type,
+        public ?string $mask,
     ) {
     }
 }

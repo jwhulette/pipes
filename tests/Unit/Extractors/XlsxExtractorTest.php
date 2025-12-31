@@ -2,20 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Jwhulette\Pipes\Tests\Unit\Transformers;
+namespace Tests\Unit\Extractors;
 
-use DateTimeImmutable;
 use Jwhulette\Pipes\Extractors\XlsxExtractor;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class XlsxExtractorTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
-    /** @test */
+    #[Test]
     public function it_skips_lines_from_xlsx_file(): void
     {
         $frameData = (new XlsxExtractor('tests/artifacts/test_file.xlsx'))
@@ -28,14 +23,14 @@ class XlsxExtractorTest extends TestCase
         $expectedData = [
             'FIRSTNAME' => 'BOB',
             'LASTNAME' => 'SMITHL',
-            'DOB' => new DateTimeImmutable('01/03/1970 19:00:25'),
+            'DOB' => '1970-01-03 19:00:25',
             'AMOUNT' => 25.22,
         ];
 
         $this->assertEquals($expectedData, $frame->data->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_formats_date_data_from_xlsx_file(): void
     {
         $frameData = (new XlsxExtractor('tests/artifacts/test_file.xlsx'))
@@ -63,7 +58,7 @@ class XlsxExtractorTest extends TestCase
         $this->assertEquals($expectedData, $frame->data->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_extracts_data_from_xlsx_file_with_header(): void
     {
         $frameData = (new XlsxExtractor('tests/artifacts/test_file.xlsx'))
@@ -81,7 +76,7 @@ class XlsxExtractorTest extends TestCase
         $expectedData = [
             'FIRSTNAME' => 'BOB',
             'LASTNAME' => 'SMITH',
-            'DOB' => new DateTimeImmutable('1969-12-31 19:00:25'),
+            'DOB' => '1969-12-31 19:00:25',
             'AMOUNT' => 22.22,
         ];
 
@@ -90,7 +85,7 @@ class XlsxExtractorTest extends TestCase
         $this->assertEquals($expectedData, $frame->getData()->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_extracts_data_from_xlsx_file_with_no_header(): void
     {
         $frameData = (new XlsxExtractor('tests/artifacts/test_file.xlsx'))
@@ -103,14 +98,14 @@ class XlsxExtractorTest extends TestCase
         $expected = [
             'Pete',
             'Dragon',
-            new DateTimeImmutable('1969-12-31 19:00:29'),
+            '1969-12-31 19:00:29',
             50.50,
         ];
 
         $this->assertEquals($expected, $frame->getData()->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_extracts_data_from_the_selected_sheet(): void
     {
         $frameData = (new XlsxExtractor('tests/artifacts/test_file.xlsx'))
@@ -122,7 +117,7 @@ class XlsxExtractorTest extends TestCase
         $expected = [
             'FIRSTNAME' => 'Tom',
             'LASTNAME' => 'Collins',
-            'DOB' => new DateTimeImmutable('1980-04-11 00:00:00'),
+            'DOB' => '1980-04-11 00:00:00',
             'AMOUNT' => 50.50,
         ];
 

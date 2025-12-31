@@ -2,34 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Jwhulette\Pipes\Tests\Unit\Transformers;
+namespace Tests\Unit\Transformers;
 
 use Jwhulette\Pipes\Frame;
 use Jwhulette\Pipes\Transformers\ConditionalTransformer;
 use Orchestra\Testbench\TestCase;
+use Override;
+use PHPUnit\Framework\Attributes\Test;
 
 class ConditionalTransformerTest extends TestCase
 {
     protected Frame $frame;
 
-    protected function setUp(): void
-    {
-        $this->frame = new Frame();
-
-        $this->frame->setHeader([
-                'FIRSTNAME',
-                'LASTNAME',
-                'DOB',
-            ]);
-
-        $this->frame->setData([
-                'BOB',
-                'SMITH',
-                '02/11/1969',
-            ]);
-    }
-
-    /** @test */
+    #[Test]
     public function it_can_transform_a_conditional(): void
     {
         $match = [
@@ -48,7 +33,7 @@ class ConditionalTransformerTest extends TestCase
         $this->assertEquals('Smithers', $result->getData()['LASTNAME']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_transform_multiple_match_conditional(): void
     {
         $match = [
@@ -71,7 +56,7 @@ class ConditionalTransformerTest extends TestCase
         $this->assertEquals('10/13/71', $result->getData()['DOB']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_transform_multiple_match_and_multiple_replacements_conditional(): void
     {
         $match1 = [
@@ -103,5 +88,23 @@ class ConditionalTransformerTest extends TestCase
         $this->assertEquals('Smitty', $result->getData()['LASTNAME']);
 
         $this->assertEquals('10/13/74', $result->getData()['DOB']);
+    }
+
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->frame = new Frame();
+
+        $this->frame->setHeader([
+            'FIRSTNAME',
+            'LASTNAME',
+            'DOB',
+        ]);
+
+        $this->frame->setData([
+            'BOB',
+            'SMITH',
+            '02/11/1969',
+        ]);
     }
 }

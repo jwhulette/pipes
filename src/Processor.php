@@ -6,32 +6,40 @@ namespace Jwhulette\Pipes;
 
 use Jwhulette\Pipes\Contracts\ExtractorInterface;
 use Jwhulette\Pipes\Contracts\LoaderInterface;
+use Jwhulette\Pipes\Contracts\TransformerInterface;
 use League\Pipeline\PipelineBuilder;
 use League\Pipeline\PipelineInterface;
 
 final class Processor
 {
-    protected ExtractorInterface $extractor;
-
-    protected LoaderInterface $loader;
-
     protected PipelineInterface $pipeline;
 
     /**
      * Build the pipeline.
      *
-     * @param array<int,\Jwhulette\Pipes\Contracts\TransformerInterface> $transformers
+     * @param  array<int, TransformerInterface>  $transformers
      */
     public function __construct(
-        ExtractorInterface $extractor,
+        protected ExtractorInterface $extractor,
         array $transformers,
-        LoaderInterface $loader
+        protected LoaderInterface $loader,
     ) {
-        $this->extractor = $extractor;
-        $this->loader = $loader;
         $pipelineBuilder = new PipelineBuilder();
 
         $this->buildTransformerPipeline($pipelineBuilder, $transformers);
+    }
+
+    /**
+     * @param  array<int,object>  $transformers
+     */
+    private function buildTransformerPipeline(PipelineBuilder $pipelineBuilder, array $transformers): void
+    {
+        foreach ($transformers as $transformer) {
+            // @phpstan-ignore-next-line
+            $pipelineBuilder->add($transformer);
+        }
+
+        $this->pipeline = $pipelineBuilder->build();
     }
 
     /**
@@ -42,23 +50,10 @@ final class Processor
         $line = $this->extractor->extract();
 
         foreach ($line as $collection) {
-            // @phpstan-ignore-next-line
+            /** @var Frame $transformed */
             $transformed = $this->pipeline->process($collection);
 
             $this->loader->load($transformed);
         }
-    }
-
-    /**
-     * @param array<int,object> $transformers
-     */
-    private function buildTransformerPipeline(PipelineBuilder $pipelineBuilder, array $transformers): void
-    {
-        foreach ($transformers as $transformer) {
-            // @phpstan-ignore-next-line
-            $pipelineBuilder->add($transformer);
-        }
-
-        $this->pipeline = $pipelineBuilder->build();
     }
 }

@@ -14,17 +14,13 @@ use OpenSpout\Writer\CSV\Writer;
 
 final class CsvLoader implements LoaderInterface
 {
-    protected Options $options;
-
-    protected string $file;
-
     private static Writer $instance;
 
-    public function __construct(string $ouputfile)
+    protected Options $options;
+
+    public function __construct(protected string $file)
     {
         $this->options = new Options();
-
-        $this->file = $ouputfile;
     }
 
     /**
@@ -54,7 +50,7 @@ final class CsvLoader implements LoaderInterface
      */
     public function noBom(): self
     {
-        $this->options->SHOULD_ADD_BOM = \false;
+        $this->options->SHOULD_ADD_BOM = false;
 
         return $this;
     }
@@ -68,10 +64,12 @@ final class CsvLoader implements LoaderInterface
 
         $writer->openToFile($this->file);
 
-        /** @var array<int,bool|DateInterval|DateTimeInterface|float|int|string|null> $values */
-        $values = $frame->data->values()->toArray();
+        /** @var list<int|bool|DateInterval|DateTimeInterface|float|int|string|null> $values */
+        $values = $frame->data->values()->all();
 
-        $writer->addRow(Row::fromValues($values));
+        $writer->addRow(
+            Row::fromValues($values)
+        );
 
         // Close the file
         if ($frame->end === true) {

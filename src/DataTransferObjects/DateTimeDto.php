@@ -7,13 +7,12 @@ namespace Jwhulette\Pipes\DataTransferObjects;
 /**
  * @internal
  */
-final class DateTimeDto
+final readonly class DateTimeDto
 {
     public function __construct(
-        public readonly string|int $column,
-        public readonly ?string $outputFormat,
-        public readonly ?string $inputFormat
+        public string|int $column,
+        public ?string $outputFormat,
+        public ?string $inputFormat,
     ) {
-        // code...
     }
 }

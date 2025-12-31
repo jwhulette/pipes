@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Jwhulette\Pipes\Tests\Unit;
+namespace Tests\Unit;
 
 use Jwhulette\Pipes\Frame;
+use Override;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class FrameTest extends TestCase
@@ -17,18 +19,7 @@ class FrameTest extends TestCase
 
     protected array $testHeaderData;
 
-    protected function setUp(): void
-    {
-        $this->frame = new Frame();
-        $this->testHeader = ['first_name', 'last_name'];
-        $this->testData = ['bob', 'smith'];
-        $this->testHeaderData = [
-            'first_name' => 'bob',
-            'last_name'  => 'smith',
-        ];
-    }
-
-    /** @test */
+    #[Test]
     public function it_sets_the_frame_end(): void
     {
         $this->frame->setEnd();
@@ -36,7 +27,7 @@ class FrameTest extends TestCase
         $this->assertTrue($this->frame->getEnd());
     }
 
-    /** @test */
+    #[Test]
     public function it_sets_the_frame_header(): void
     {
         $this->frame->setHeader($this->testHeader);
@@ -44,7 +35,7 @@ class FrameTest extends TestCase
         $this->assertSame($this->testHeader, $this->frame->getHeader()->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_sets_the_frame_data(): void
     {
         $this->frame->setData($this->testData);
@@ -52,7 +43,7 @@ class FrameTest extends TestCase
         $this->assertSame($this->testData, $this->frame->getData()->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_combines_the_frame_header_and_data(): void
     {
         $this->frame->setHeader($this->testHeader);
@@ -62,7 +53,7 @@ class FrameTest extends TestCase
         $this->assertSame($this->testHeaderData, $this->frame->getData()->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_a_frame_attribute(): void
     {
         $this->frame->setAttribute(['valid'=>'no']);
@@ -70,7 +61,7 @@ class FrameTest extends TestCase
         $this->assertSame('no', $this->frame->getAttribute('valid'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_multiple_frame_attributes(): void
     {
         $this->frame->setAttribute(['valid'=>'no']);
@@ -80,5 +71,17 @@ class FrameTest extends TestCase
         $this->assertSame('no', $this->frame->getAttribute('valid'));
 
         $this->assertSame('yes', $this->frame->getAttribute('test'));
+    }
+
+    #[Override]
+    protected function setUp(): void
+    {
+        $this->frame = new Frame();
+        $this->testHeader = ['first_name', 'last_name'];
+        $this->testData = ['bob', 'smith'];
+        $this->testHeaderData = [
+            'first_name' => 'bob',
+            'last_name'  => 'smith',
+        ];
     }
 }

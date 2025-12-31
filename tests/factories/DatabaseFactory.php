@@ -12,12 +12,9 @@ class DatabaseFactory
 {
     protected Generator $faker;
 
-    protected string $table;
-
-    public function __construct(string $table)
+    public function __construct(protected string $table)
     {
         $this->faker = Factory::create();
-        $this->table = $table;
     }
 
     public function create(int $amount): void
