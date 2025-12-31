@@ -1,13 +1,9 @@
 ![Banner](.github/images/Pipes.png)
 
 [![Tests](https://github.com/jwhulette/pipes/actions/workflows/tests.yml/badge.svg)](https://github.com/jwhulette/pipes/actions/workflows/tests.yml)
-
 ![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/jwhulette/pipes/php)
-
 ![Laravel](https://img.shields.io/badge/Laravel-11%2B-blue)
-
 ![Packagist Version](https://img.shields.io/packagist/v/jwhulette/pipes)
-
 [![Total Downloads](https://img.shields.io/packagist/dt/jwhulette/pipes.svg?style=flat-square)](https://packagist.org/packages/jwhulette/pipes)
 
 # Pipes
